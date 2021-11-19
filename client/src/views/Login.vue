@@ -14,7 +14,7 @@
           @blur="$v.username.$touch()"
           :class="{ error: $v.username.$error }"
         />
-        
+
         <div v-if="$v.username.$error">
           <p v-if="!$v.username.required" class="error-message">
             Gib deinen Nutzernamen ein

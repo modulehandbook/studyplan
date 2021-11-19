@@ -399,9 +399,9 @@ h4 {
     align-items: flex-start;
     margin: 9px;
     transition: max-height 0.3s ease-in-out;
-     &:hover {
-        background: rgba(193, 193, 193, 0.7);
-      }
+    &:hover {
+      background: rgba(193, 193, 193, 0.7);
+    }
 
     @media screen and (max-width: 600px) {
       align-items: center;
@@ -410,7 +410,7 @@ h4 {
     &--booked {
       background: $belegtBackground;
       border: 1px solid $belegtFont;
-       &:hover {
+      &:hover {
         background-color: rgba(253, 177, 62, 0.7) !important;
       }
     }
