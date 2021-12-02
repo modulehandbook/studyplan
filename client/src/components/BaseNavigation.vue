@@ -48,28 +48,21 @@
           <router-link
             class="link"
             to="/my-studyplan"
-            @click.native="toggleMobileNavMenu"
+            @click="toggleMobileNavMenu"
             >Mein Studienplan</router-link
           >
 
           <router-link
             class="link"
             to="/example-studyplan"
-            @click.native="toggleMobileNavMenu"
+            @click="toggleMobileNavMenu"
             >Plan nach Studienordnung</router-link
           >
-          <router-link
-            class="link"
-            to="/hilfe"
-            @click.native="toggleMobileNavMenu"
-            >Hilfe</router-link
+          <router-link class="link" to="/hilfe" @click="toggleMobileNavMenu">
+            Hilfe</router-link
           >
 
-          <router-link
-            class="link"
-            to="/profile"
-            @click.native="toggleMobileNavMenu"
-          >
+          <router-link class="link" to="/profile" @click="toggleMobileNavMenu">
             Profil
           </router-link>
 

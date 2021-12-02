@@ -327,19 +327,19 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   align-items: center;
 }
 
-::v-deep .booked > label:first-of-type {
+:deep(.booked) > label:first-of-type {
   color: rgba(253, 177, 62, 1);
 }
 
-::v-deep .passed > label:first-of-type {
+:deep(.passed) > label:first-of-type {
   color: #76b900;
 }
 
-::v-deep .m-chckbox--group {
+:deep(.m-chckbox--group) {
   transition: all 0.1s ease;
 }
 
-::v-deep .m-chckbox--ripple {
+:deep(.m-chckbox--ripple) {
   width: 0;
   height: 0;
   transform: translate(0) !important;
