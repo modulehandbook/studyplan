@@ -1,4 +1,9 @@
-import Vue, { createApp } from "vue";
+import Vue, { createApp, configureCompat } from "vue";
+
+configureCompat({
+  MODE: 3,
+});
+
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";

@@ -84,7 +84,7 @@ export default {
     document.documentElement.style.overflow = "hidden";
   },
 
-  destroyed() {
+  unmounted() {
     document.documentElement.style.overflow = "auto";
   },
   methods: {
