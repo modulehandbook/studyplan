@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 const mongodbURI =
   process.env.MONGODB_URI || "mongodb://localhost:27017/studyplan";
 
-mongoose.connect(mongodbURI, { useNewUrlParser: true, useUnifiedTopology: true }).then(
+mongoose.connect(mongodbURI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then( //useCreateIndex: true because: ("https://github.com/Automattic/mongoose/issues/6890")
   () => {
     console.log("Database is connected");
   },
