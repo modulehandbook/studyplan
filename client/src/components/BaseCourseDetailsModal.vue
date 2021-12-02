@@ -78,7 +78,7 @@ export default {
     });
     this.pending = false;
   },
-  async beforeDestroy() {
+  async beforeUnmount() {
     document.documentElement.style.overflow = "auto";
   },
   computed: {
