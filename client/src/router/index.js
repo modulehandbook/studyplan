@@ -14,7 +14,7 @@ import BaseDeleteStudyplanModal from "../components/BaseDeleteStudyplanModal.vue
 import BaseChangePasswordModal from "../components/BaseChangePasswordModal.vue";
 import BaseResendVerification from "../components/BaseResendVerification.vue";
 import BaseResetPassword from "../components/BaseResetPassword.vue";
-import store from "../store";
+import { store } from "../store";
 import { AccessTokenValidation } from "../helper/accessTokenValidation.js";
 
 const routes = [
@@ -117,8 +117,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  base: "",
+  history: createWebHashHistory(""),
   routes,
 });
 
