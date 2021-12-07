@@ -97,9 +97,13 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import useVuelidate from '@vuelidate/core'
+import { required } from "@vuelidate/validators";
 
 export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       oldPassword: "",
@@ -107,14 +111,15 @@ export default {
       message: "",
     };
   },
-
-  validations: {
-    oldPassword: {
-      required,
-    },
-    newPassword: {
-      required,
-    },
+  validations(){
+    return{
+      oldPassword: {
+        required,
+      },
+      newPassword: {
+        required,
+      },
+    }
   },
   created() {
     document.documentElement.style.overflow = "hidden";

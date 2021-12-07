@@ -89,10 +89,14 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import useVuelidate from '@vuelidate/core'
+import { required } from "@vuelidate/validators";
 import { mapState } from "vuex";
 
 export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       selectedProgram: "",
@@ -100,7 +104,8 @@ export default {
       startOfStudy: "",
     };
   },
-  validations: {
+  validations() {
+    return {
     selectedProgram: {
       required,
     },
@@ -110,6 +115,7 @@ export default {
     startOfStudy: {
       required,
     },
+    }
   },
   async created() {
     if (this.$store.state.user.user.startOfStudy) {

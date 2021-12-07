@@ -76,10 +76,14 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import useVuelidate from '@vuelidate/core'
+import { required } from "@vuelidate/validators";
 import { mapState } from "vuex";
 
 export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       username: "",
@@ -87,13 +91,15 @@ export default {
       message: "",
     };
   },
-  validations: {
+  validations() {
+    return {
     username: {
       required,
     },
     password: {
       required,
     },
+    }
   },
 
   computed: {

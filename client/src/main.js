@@ -2,8 +2,6 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { store } from "./store";
-//import Vuelidate from "vuelidate";
-
 
 //hide migration error thrown by vue-router
 import { RouterLink,  RouterView } from 'vue-router';
@@ -16,8 +14,6 @@ RouterView.compatConfig = {
 //
 
 const app = createApp(App);
-
-//app.use(Vuelidate);
 
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 app.component("pulse-loader", PulseLoader);
@@ -65,7 +61,7 @@ requireComponent.keys().forEach((fileName) => {
 
   if(componentName != "BasFooter"){ 
 
-  console.log(componentName);
+  //console.log(componentName);
  //Register component globally
 app.component(
   componentName,

@@ -85,10 +85,14 @@
 </template>
 
 <script>
+import useVuelidate from '@vuelidate/core'
 import { mapState, mapMutations } from "vuex";
-import { required, email } from "vuelidate/lib/validators";
+import { required, email } from "@vuelidate/validators";
 
 export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       username: "",
@@ -99,7 +103,8 @@ export default {
       version: "",
     };
   },
-  validations: {
+  validations() {
+    return {
     username: {
       required,
     },
@@ -107,6 +112,7 @@ export default {
       required,
       email,
     },
+    }
   },
   created() {
     if (!this.user.startOfStudy) {
