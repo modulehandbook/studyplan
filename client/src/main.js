@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, configureCompat} from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { store } from "./store";
@@ -12,7 +12,9 @@ RouterView.compatConfig = {
   MODE: 3,
 };
 //
-
+configureCompat({
+  MODE: 3,
+})
 const app = createApp(App);
 
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
