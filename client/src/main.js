@@ -4,6 +4,17 @@ import router from "./router";
 import { store } from "./store";
 import Vuelidate from "vuelidate";
 
+
+//hide migration error thrown by vue-router
+import { RouterLink,  RouterView } from 'vue-router';
+RouterLink.compatConfig = {
+  MODE: 3,
+};
+RouterView.compatConfig = {
+  MODE: 3,
+};
+//
+
 const app = createApp(App);
 
 app.use(Vuelidate);
@@ -52,15 +63,18 @@ requireComponent.keys().forEach((fileName) => {
     )
   );
 
-  // Register component globally
-  app.component(
-    componentName,
-    // Look for the component options on `.default`, which will
-    // exist if the component was exported with `export default`,
-    // otherwise fall back to module's root.
+  if(componentName != "BasFooter"){ 
+
+  console.log(componentName);
+ //Register component globally
+app.component(
+  componentName,
+  // Look for the component options on `.default`, which will
+  // exist if the component was exported with `export default`,
+  // otherwise fall back to module's root.
     componentConfig.default || componentConfig
   );
-});
+}});
 
 store.subscribe((mutation, state) => {
   // Store the state object as a JSON string
@@ -69,4 +83,9 @@ store.subscribe((mutation, state) => {
 
 app.use(router);
 app.use(store);
-app.mount("#app");
+console.log("test-in");
+router.isReady().then(() => {
+  console.log("testo");
+  app.mount('#app')
+});
+console.log("test-out")
