@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { store } from "./store";
-import Vuelidate from "vuelidate";
+//import Vuelidate from "vuelidate";
 
 
 //hide migration error thrown by vue-router
@@ -17,7 +17,7 @@ RouterView.compatConfig = {
 
 const app = createApp(App);
 
-app.use(Vuelidate);
+//app.use(Vuelidate);
 
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 app.component("pulse-loader", PulseLoader);
