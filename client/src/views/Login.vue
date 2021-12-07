@@ -11,12 +11,12 @@
           v-model="username"
           type="text"
           name="username"
-          @blur="$v.username.$touch()"
-          :class="{ error: $v.username.$error }"
+          @blur="v$.username.$touch()"
+          :class="{ error: v$.username.$error }"
         />
 
-        <div v-if="$v.username.$error">
-          <p v-if="!$v.username.required" class="error-message">
+        <div v-if="v$.username.$error">
+          <p v-if="!v$.username.required" class="error-message">
             Gib deinen Nutzernamen ein
           </p>
         </div>
@@ -28,8 +28,8 @@
           type="password"
           name="password"
           id="password"
-          :class="{ error: $v.password.$error }"
-          @blur="$v.password.$touch()"
+          :class="{ error: v$.password.$error }"
+          @blur="v$.password.$touch()"
         />
         <div class="checkbox">
           <input
@@ -42,17 +42,17 @@
             >Passwort zeigen</label
           >
         </div>
-        <div v-if="$v.password.$error">
-          <p v-if="!$v.password.required" class="error-message">
+        <div v-if="v$.password.$error">
+          <p v-if="!v$.password.required" class="error-message">
             Gib dein Passwort ein
           </p>
         </div>
       </div>
       <div>
-        <button :disabled="$v.$invalid" :class="{ disabled: $v.$invalid }">
+        <button :disabled="v$.$invalid" :class="{ disabled: v$.$invalid }">
           <span>Login</span>
         </button>
-        <p v-if="$v.$anyError" class="error-message">
+        <p v-if="v$.$anyError" class="error-message">
           Bitte fülle alle Felder aus.
         </p>
         <a class="register-link" href="/register">zur Registrierung</a>
@@ -123,8 +123,8 @@ export default {
       }
     },
     handleLogin() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
         if (this.username && this.password) {
           this.$store
             .dispatch("user/login", {

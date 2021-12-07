@@ -25,12 +25,12 @@
             v-model="email"
             type="email"
             name="email"
-            @blur="$v.email.$touch()"
-            :class="{ error: $v.email.$error }"
+            @blur="v$.email.$touch()"
+            :class="{ error: v$.email.$error }"
           />
 
-          <div v-if="$v.email.$error">
-            <p v-if="!$v.email.required" class="message--error">
+          <div v-if="v$.email.$error">
+            <p v-if="!v$.email.required" class="message--error">
               Darf nicht leer sein
             </p>
             <p v-else class="message--error">Keine gültige Email</p>
@@ -51,9 +51,9 @@
 
       <template v-slot:footer>
         <button
-          :disabled="$v.$invalid"
+          :disabled="v$.$invalid"
           class="submit"
-          :class="{ disabled: $v.$invalid }"
+          :class="{ disabled: v$.$invalid }"
           @click.prevent="resendConfirmation"
         >
           Neue Verifizierungsmail beantragen
@@ -95,8 +95,8 @@ export default {
   },
   methods: {
     async resendConfirmation() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
         this.message = "";
 
         const response = await this.$store.dispatch(
@@ -115,7 +115,7 @@ export default {
           this.successful = true;
           this.email = "";
 
-          this.$v.$reset();
+          this.v$.$reset();
         }
       }
     },

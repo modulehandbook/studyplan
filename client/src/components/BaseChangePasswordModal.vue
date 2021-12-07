@@ -25,8 +25,8 @@
                 type="password"
                 name="oldPassword"
                 id="oldPassword"
-                @blur="$v.oldPassword.$touch()"
-                :class="{ error: $v.oldPassword.$error }"
+                @blur="v$.oldPassword.$touch()"
+                :class="{ error: v$.oldPassword.$error }"
               />
               <div>
                 <input
@@ -48,8 +48,8 @@
                 type="password"
                 name="newPassword"
                 id="newPassword"
-                @blur="$v.newPassword.$touch()"
-                :class="{ error: $v.newPassword.$error }"
+                @blur="v$.newPassword.$touch()"
+                :class="{ error: v$.newPassword.$error }"
               />
               <div>
                 <input
@@ -60,9 +60,9 @@
                 <label for="checkbox">Passwort zeigen</label>
               </div>
             </div>
-            <div v-if="$v.newPassword.$error">
+            <div v-if="v$.newPassword.$error">
               <p
-                v-if="!$v.newPassword.required || $v.oldPassword.required"
+                v-if="!v$.newPassword.required || v$.oldPassword.required"
                 class="message--error"
               >
                 Darf nicht leer sein
@@ -84,9 +84,9 @@
 
       <template v-slot:footer>
         <button
-          :disabled="$v.$invalid"
+          :disabled="v$.$invalid"
           class="submit"
-          :class="{ disabled: $v.$invalid }"
+          :class="{ disabled: v$.$invalid }"
           @click="handlePasswordUpdate"
         >
           Passwort ändern
@@ -139,8 +139,8 @@ export default {
       }
     },
     async handlePasswordUpdate() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
         const response = await this.$store.dispatch("user/changePassword", {
           oldPassword: this.oldPassword,
           newPassword: this.newPassword,
@@ -155,7 +155,7 @@ export default {
           this.successful = true;
           this.oldPassword = "";
           this.newPassword = "";
-          this.$v.$reset();
+          this.v$.$reset();
         }
       }
     },

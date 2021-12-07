@@ -11,10 +11,10 @@
           type="text"
           name="username"
           @blur="
-            $v.username.$touch();
+            v$.username.$touch();
             handleUpdate($event, 'username');
           "
-          :class="{ error: $v.username.$error }"
+          :class="{ error: v$.username.$error }"
         />
       </div>
       <div class="fieldgroup">
@@ -24,10 +24,10 @@
           type="email"
           name="email"
           @blur="
-            $v.email.$touch();
+            v$.email.$touch();
             handleUpdate($event, 'email');
           "
-          :class="{ error: $v.email.$error }"
+          :class="{ error: v$.email.$error }"
         />
       </div>
     </div>
@@ -40,16 +40,16 @@
         Passwort ändern
       </router-link>
     </div>
-    <div v-if="$v.username.$error">
-      <p v-if="!$v.username.required" class="error-message">
+    <div v-if="v$.username.$error">
+      <p v-if="!v$.username.required" class="error-message">
         Benutzername darf nicht leer sein.
       </p>
     </div>
-    <div v-if="$v.email.$error">
-      <p v-if="!$v.email.email" class="error-message">
+    <div v-if="v$.email.$error">
+      <p v-if="!v$.email.email" class="error-message">
         Bitte gib eine gülitge Emailadresse an
       </p>
-      <p v-if="!$v.email.required" class="error-message">
+      <p v-if="!v$.email.required" class="error-message">
         Gib eine Emailadresse an
       </p>
     </div>
@@ -132,8 +132,8 @@ export default {
     ...mapMutations("user", ["SET_USER"]),
 
     async handleUpdate(e, attribute) {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
         if (attribute == "username") {
           const newName = e.target.value;
           this.user.username = newName;
@@ -152,7 +152,7 @@ export default {
           } else {
             //everything went ok
             this.username = newName;
-            this.$v.$reset();
+            this.v$.$reset();
           }
         } else if (attribute == "email") {
           const newEmail = e.target.value;
@@ -172,7 +172,7 @@ export default {
           } else {
             //everything went ok
             this.email = newEmail;
-            this.$v.$reset();
+            this.v$.$reset();
           }
         }
       }
