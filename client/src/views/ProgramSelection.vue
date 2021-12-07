@@ -15,8 +15,8 @@
             v-model="selectedProgram"
             class="select"
             name="program"
-            @blur="$v.selectedProgram.$touch()"
-            :class="{ error: $v.selectedProgram.$error }"
+            @blur="v$.selectedProgram.$touch()"
+            :class="{ error: v$.selectedProgram.$error }"
           >
             <option
               v-for="program in this.$store.state.program.programs"
@@ -26,8 +26,8 @@
               {{ program.name }}
             </option>
           </select>
-          <div v-if="$v.selectedProgram.$error">
-            <p v-if="!$v.selectedProgram.required" class="error-message">
+          <div v-if="v$.selectedProgram.$error">
+            <p v-if="!v$.selectedProgram.required" class="error-message">
               Gib deinen Studiengang an
             </p>
           </div>
@@ -39,13 +39,13 @@
             v-model="stupo"
             class="select"
             name="stupo"
-            @blur="$v.stupo.$touch()"
-            :class="{ error: $v.stupo.$error }"
+            @blur="v$.stupo.$touch()"
+            :class="{ error: v$.stupo.$error }"
           >
             <option>StuPo 28/12</option>
           </select>
-          <div v-if="$v.stupo.$error">
-            <p v-if="!$v.stupo.required" class="error-message">
+          <div v-if="v$.stupo.$error">
+            <p v-if="!v$.stupo.required" class="error-message">
               Gib deine Studienordnung an
             </p>
           </div>
@@ -60,8 +60,8 @@
             v-model="startOfStudy"
             class="select select--small"
             name="startOfStudy"
-            @blur="$v.startOfStudy.$touch()"
-            :class="{ error: $v.startOfStudy.$error }"
+            @blur="v$.startOfStudy.$touch()"
+            :class="{ error: v$.startOfStudy.$error }"
           >
             <option
               v-for="semester in this.$store.state.semester.semesters"
@@ -71,17 +71,17 @@
               {{ semester.name }}
             </option>
           </select>
-          <div v-if="$v.startOfStudy.$error">
-            <p v-if="!$v.startOfStudy.required" class="error-message">
+          <div v-if="v$.startOfStudy.$error">
+            <p v-if="!v$.startOfStudy.required" class="error-message">
               Gib das Semester deines Studienbeginns an
             </p>
           </div>
         </div>
       </div>
-      <button :disabled="$v.$invalid" :class="{ disabled: $v.$invalid }">
+      <button :disabled="v$.$invalid" :class="{ disabled: v$.$invalid }">
         <span>Speichern</span>
       </button>
-      <p v-if="$v.$anyError" class="error-message">
+      <p v-if="v$.$anyError" class="error-message">
         Bitte fülle alle Felder aus.
       </p>
     </form>
@@ -89,10 +89,14 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import useVuelidate from '@vuelidate/core'
+import { required } from "@vuelidate/validators";
 import { mapState } from "vuex";
 
 export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       selectedProgram: "",
@@ -100,7 +104,8 @@ export default {
       startOfStudy: "",
     };
   },
-  validations: {
+  validations() {
+    return {
     selectedProgram: {
       required,
     },
@@ -110,6 +115,7 @@ export default {
     startOfStudy: {
       required,
     },
+    }
   },
   async created() {
     if (this.$store.state.user.user.startOfStudy) {
@@ -125,8 +131,8 @@ export default {
 
   methods: {
     saveProgramAndStartOfStudy() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
         if (this.selectedProgram && this.stupo && this.startOfStudy) {
           this.$store
             .dispatch("user/saveProgramAndStartOfStudy", {

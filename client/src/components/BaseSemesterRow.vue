@@ -17,7 +17,7 @@
           class="course"
           v-for="(course, $courseIndex) in semester.plannedCourses"
           :key="$courseIndex"
-          draggable="true"
+          draggable=true
           @dragstart="pickupCourse($event, $courseIndex, semesterIndex)"
           @drop.stop="moveCourse($event, semester.plannedCourses, $courseIndex)"
           :style="{
@@ -35,7 +35,7 @@
                 semester: semesterName.name,
               },
             }"
-            draggable="false"
+            draggable=false
           >
             <div
               class="course-content-container-content"

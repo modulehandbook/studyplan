@@ -13,6 +13,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.0.0-beta3",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "@vue/compat": "3.2.23",
+    "@vuelidate/core": "^2.0.0-alpha.32",
+    "@vuelidate/validators": "^2.0.0-alpha.25",
     "axios": "^0.21.1",
     "googleapis": "^81.0.0",
     "lodash": "^4.17.21",
@@ -22,7 +24,6 @@
     "vue-material-checkbox": "^2.2.0",
     "vue-router": "^4.0.12",
     "vue-spinner": "^1.0.4",
-    "vuelidate": "^0.7.6",
     "vuex": "4.0.2",
     "yaml": "2.0.0-6"
   },
