@@ -69,7 +69,7 @@ app.component(
   // otherwise fall back to module's root.
     componentConfig.default || componentConfig
   );
-}});
+});
 
 store.subscribe((mutation, state) => {
   // Store the state object as a JSON string
