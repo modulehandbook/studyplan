@@ -61,9 +61,6 @@ requireComponent.keys().forEach((fileName) => {
     )
   );
 
-  if(componentName != "BasFooter"){ 
-
-  //console.log(componentName);
  //Register component globally
 app.component(
   componentName,
@@ -81,9 +78,6 @@ store.subscribe((mutation, state) => {
 
 app.use(router);
 app.use(store);
-console.log("test-in");
 router.isReady().then(() => {
-  console.log("testo");
   app.mount('#app')
 });
-console.log("test-out")
