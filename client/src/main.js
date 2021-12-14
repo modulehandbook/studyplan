@@ -1,20 +1,8 @@
-import { createApp, configureCompat} from "vue";
+import { createApp} from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { store } from "./store";
 
-//hide migration error thrown by vue-router
-import { RouterLink,  RouterView } from 'vue-router';
-RouterLink.compatConfig = {
-  MODE: 3,
-};
-RouterView.compatConfig = {
-  MODE: 3,
-};
-//
-configureCompat({
-  MODE: 3,
-})
 const app = createApp(App);
 
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
@@ -61,12 +49,12 @@ requireComponent.keys().forEach((fileName) => {
     )
   );
 
- //Register component globally
-app.component(
-  componentName,
-  // Look for the component options on `.default`, which will
-  // exist if the component was exported with `export default`,
-  // otherwise fall back to module's root.
+  //Register component globally
+  app.component(
+    componentName,
+    // Look for the component options on `.default`, which will
+    // exist if the component was exported with `export default`,
+    // otherwise fall back to module's root.
     componentConfig.default || componentConfig
   );
 });
@@ -79,5 +67,5 @@ store.subscribe((mutation, state) => {
 app.use(router);
 app.use(store);
 router.isReady().then(() => {
-  app.mount('#app')
+  app.mount("#app");
 });
