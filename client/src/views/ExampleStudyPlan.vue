@@ -19,7 +19,7 @@ export default {
         default: "false",
       },
       color: "#76b900",
-      courses: [],
+      courses: {},
     };
   },
   async created() {
