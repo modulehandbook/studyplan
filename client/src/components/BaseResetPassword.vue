@@ -60,12 +60,12 @@
 </template>
 
 <script>
-import useVuelidate from '@vuelidate/core'
+import useVuelidate from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 
 export default {
-  setup () {
-    return { v$: useVuelidate() }
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -76,11 +76,11 @@ export default {
   },
   validations() {
     return {
-    email: {
-      required,
-      email,
-    },
-    }
+      email: {
+        required,
+        email,
+      },
+    };
   },
   created() {
     document.documentElement.style.overflow = "hidden";

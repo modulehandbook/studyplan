@@ -97,12 +97,12 @@
 </template>
 
 <script>
-import useVuelidate from '@vuelidate/core'
+import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 
 export default {
-  setup () {
-    return { v$: useVuelidate() }
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -111,15 +111,15 @@ export default {
       message: "",
     };
   },
-  validations(){
-    return{
+  validations() {
+    return {
       oldPassword: {
         required,
       },
       newPassword: {
         required,
       },
-    }
+    };
   },
   created() {
     document.documentElement.style.overflow = "hidden";

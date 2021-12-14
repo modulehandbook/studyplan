@@ -73,7 +73,7 @@ export default {
     },
   },
   computed: {
-    studyplan () {
+    studyplan() {
       return this.$store.state.user.user.studyPlan;
     },
     ...mapState(["course"]),
