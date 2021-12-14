@@ -51,7 +51,7 @@ export default {
     document.documentElement.style.overflow = "hidden";
   },
 
-  destroyed() {
+  unmounted() {
     document.documentElement.style.overflow = "auto";
   },
   computed: {
@@ -90,11 +90,11 @@ $errorRed: #f8153d;
   }
 }
 
-::v-deep .modal {
+:deep(.modal) {
   border: 4px solid $errorRed !important;
 }
 
-::v-deep .btn-close {
+:deep(.btn-close) {
   color: $errorRed !important;
 }
 

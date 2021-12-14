@@ -24,8 +24,8 @@
                 :to="{
                   name: 'exampleStudyplanBaseModalParentCourse',
                   params: {
-                    program: studyPlan.program.code,
-                    version: studyPlan.program.version,
+                    program: studyplan.program.code,
+                    version: studyplan.program.version,
                     code: course.code,
                   },
                 }"
@@ -58,7 +58,7 @@
 import { mapState } from "vuex";
 export default {
   props: {
-    coursesInSemester: [],
+    coursesInSemester: Object,
   },
   methods: {
     ects(semester) {
@@ -73,8 +73,13 @@ export default {
     },
   },
   computed: {
-    ...mapState("course", ["course"]),
-    ...mapState("studyplan", ["studyPlan"]),
+    studyplan() {
+      return this.$store.state.user.user.studyPlan;
+    },
+    ...mapState(["course"]),
+    //Julia's version below:  //Don't know why its not working -Ben
+    //...mapState("course", ["course"]),
+    //...mapState("studyplan", ["studyPlan"]),
   },
 };
 </script>

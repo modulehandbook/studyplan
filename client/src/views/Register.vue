@@ -12,11 +12,11 @@
             v-model="username"
             type="text"
             name="username"
-            :class="{ error: $v.username.$error }"
-            @blur="$v.username.$touch()"
+            :class="{ error: v$.username.$error }"
+            @blur="v$.username.$touch()"
           />
-          <div v-if="$v.username.$error">
-            <p v-if="!$v.username.required" class="message--error">
+          <div v-if="v$.username.$error">
+            <p v-if="!v$.username.required" class="message--error">
               Gib einen Nutzernamen an
             </p>
           </div>
@@ -27,14 +27,14 @@
             v-model="email"
             type="email"
             name="email"
-            :class="{ error: $v.email.$error }"
-            @blur="$v.email.$touch()"
+            :class="{ error: v$.email.$error }"
+            @blur="v$.email.$touch()"
           />
-          <div v-if="$v.email.$error">
-            <p v-if="!$v.email.email" class="message--error">
+          <div v-if="v$.email.$error">
+            <p v-if="!v$.email.email" class="message--error">
               Bitte gib eine gülitge Emailadresse an
             </p>
-            <p v-if="!$v.email.required" class="message--error">
+            <p v-if="!v$.email.required" class="message--error">
               Gib eine Emailadresse an
             </p>
           </div>
@@ -46,8 +46,8 @@
             type="password"
             name="password"
             id="password"
-            :class="{ error: $v.password.$error }"
-            @blur="$v.password.$touch()"
+            :class="{ error: v$.password.$error }"
+            @blur="v$.password.$touch()"
           />
           <div class="checkbox">
             <input
@@ -60,17 +60,17 @@
               >Passwort zeigen</label
             >
           </div>
-          <div v-if="$v.password.$error">
-            <p v-if="!$v.password.required" class="message--error">
+          <div v-if="v$.password.$error">
+            <p v-if="!v$.password.required" class="message--error">
               Gib ein Passwort an
             </p>
           </div>
         </div>
         <div>
-          <button :disabled="$v.$invalid" :class="{ disabled: $v.$invalid }">
+          <button :disabled="v$.$invalid" :class="{ disabled: v$.$invalid }">
             Registrieren
           </button>
-          <p v-if="$v.$anyError" class="message--error">
+          <p v-if="v$.$anyError" class="message--error">
             Bitte fülle alle Felder aus.
           </p>
           <a class="login-link" href="/login">zum Login</a>
@@ -102,9 +102,13 @@
 </template>
 
 <script>
-import { required, email } from "vuelidate/lib/validators";
+import useVuelidate from "@vuelidate/core";
+import { required, email } from "@vuelidate/validators";
 
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       username: "",
@@ -115,17 +119,19 @@ export default {
       message: "",
     };
   },
-  validations: {
-    email: {
-      required,
-      email,
-    },
-    username: {
-      required,
-    },
-    password: {
-      required,
-    },
+  validations() {
+    return {
+      email: {
+        required,
+        email,
+      },
+      username: {
+        required,
+      },
+      password: {
+        required,
+      },
+    };
   },
   computed: {
     loggedIn() {
@@ -147,9 +153,9 @@ export default {
       }
     },
     handleRegister() {
-      this.$v.$touch();
+      this.v$.$touch();
 
-      if (!this.$v.$invalid) {
+      if (!this.v$.$invalid) {
         this.message = "";
         this.submitted = true;
 

@@ -1,5 +1,5 @@
 import { AccessTokenValidation } from "../helper/accessTokenValidation.js";
-import store from "../store";
+import { store } from "../store";
 import router from "../router/index.js";
 
 export default function authHeader() {

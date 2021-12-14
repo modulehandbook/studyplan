@@ -1,13 +1,12 @@
-import Vue from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
-import Vuelidate from "vuelidate";
-Vue.use(Vuelidate);
-Vue.config.productionTip = false;
+import { store } from "./store";
+
+const app = createApp(App);
 
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-Vue.component("pulse-loader", PulseLoader);
+app.component("pulse-loader", PulseLoader);
 
 import upperFirst from "lodash/upperFirst";
 import camelCase from "lodash/camelCase";
@@ -23,7 +22,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faPlusCircle, faArrowLeft, faUser, faBars, faSignOutAlt);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
+app.component("font-awesome-icon", FontAwesomeIcon);
 
 //registering BaseComponents globall
 const requireComponent = require.context(
@@ -50,8 +49,8 @@ requireComponent.keys().forEach((fileName) => {
     )
   );
 
-  // Register component globally
-  Vue.component(
+  //Register component globally
+  app.component(
     componentName,
     // Look for the component options on `.default`, which will
     // exist if the component was exported with `export default`,
@@ -64,13 +63,9 @@ store.subscribe((mutation, state) => {
   // Store the state object as a JSON string
   localStorage.setItem("store", JSON.stringify(state));
 });
-new Vue({
-  router,
-  store,
-  beforeCreate() {
-    this.$store.commit("initialiseStore", { root: true });
-  },
-  render: function (h) {
-    return h(App);
-  },
-}).$mount("#app");
+
+app.use(router);
+app.use(store);
+router.isReady().then(() => {
+  app.mount("#app");
+});

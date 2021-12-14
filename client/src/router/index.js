@@ -1,5 +1,4 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import ExampleStudyPlan from "../views/ExampleStudyPlan.vue";
 import Login from "../views/Login.vue";
 import StudyPlan from "../views/StudyPlan.vue";
@@ -15,10 +14,8 @@ import BaseDeleteStudyplanModal from "../components/BaseDeleteStudyplanModal.vue
 import BaseChangePasswordModal from "../components/BaseChangePasswordModal.vue";
 import BaseResendVerification from "../components/BaseResendVerification.vue";
 import BaseResetPassword from "../components/BaseResetPassword.vue";
-import store from "../store";
+import { store } from "../store";
 import { AccessTokenValidation } from "../helper/accessTokenValidation.js";
-
-Vue.use(VueRouter);
 
 const routes = [
   { path: "/", redirect: { name: "StudyPlan" } },
@@ -119,9 +116,8 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: "",
+const router = createRouter({
+  history: createWebHashHistory(""),
   routes,
 });
 

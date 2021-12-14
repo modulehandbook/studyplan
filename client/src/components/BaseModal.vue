@@ -29,7 +29,7 @@ export default {
   mounted() {
     document.documentElement.style.overflow = "hidden";
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.documentElement.style.overflow = "auto";
   },
 };
