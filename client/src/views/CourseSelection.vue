@@ -1,5 +1,8 @@
 <template>
-  <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
+  <div>
+    <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
+    <div> <p> hier ist der inhalt der seite</p></div>
+  </div>
   </template>
 
   <script>
