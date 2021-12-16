@@ -1,0 +1,37 @@
+version: '3'
+services:
+  node-server:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports:
+      - 3000:3000
+    container_name: node-server
+    depends_on:
+      - mongo-db
+    volumes:
+      - .:/studyplan/api
+      - /studyplan/client
+      - /studyplan/api/node_modules
+
+  vue-app:
+    build:
+      context: client/
+      dockerfile: Dockerfile-dev
+    ports:
+      - 8080:8080
+    container_name: vue-app
+    depends_on:
+      - node-server
+    volumes:
+      - ./.eslintrc.js:/studyplan/app/.eslintrc.js
+      - ./client:/studyplan/app
+      - /studyplan/app/node_modules
+  
+  mongo-db:
+    image: mongo
+    ports: 
+      - 27017:27017
+    container_name: mongo-db
+    volumes:
+      - ./docker-dev-db:/data/db
