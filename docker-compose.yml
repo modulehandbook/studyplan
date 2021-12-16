@@ -1,12 +1,14 @@
 version: '3'
 services:
-  nodejs-server:
+  node-server:
     build:
       context: .
       dockerfile: Dockerfile-dev
     ports:
       - 3000:3000
-    container_name: node-api
+    container_name: node-server
+    depends_on:
+      - mongo-db
     volumes:
       - .:/studyplan/api
       - /studyplan/client
@@ -19,6 +21,8 @@ services:
     ports:
       - 8080:8080
     container_name: vue-app
+    depends_on:
+      - node-server
     volumes:
       - ./.eslintrc.js:/studyplan/app/.eslintrc.js
       - ./client:/studyplan/app

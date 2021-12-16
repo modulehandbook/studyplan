@@ -5,7 +5,7 @@ const User = require("../model/user"),
   bcrypt = require("bcryptjs");
 
 //connect mongoose
-const mongo = process.env.MONGODB_URI || "mongodb://localhost:27017/studyplan";
+const mongo = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
 mongoose
   .connect(mongo, { useNewUrlParser: true })
   .catch((err) => {
