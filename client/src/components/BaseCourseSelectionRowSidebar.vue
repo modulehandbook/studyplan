@@ -1,15 +1,14 @@
 <template>
   <div class="sidebar">
-    <p class="semesterName">{{ semesterName.name }}</p>
-    <p class="semesterCount">{{ semester.currentSemesterCount }}. Semester</p>
-    <p class="semesterECTS">{{ ects(semester) }} ECTS</p>
+    <p class="semesterCount">{{ semester.currentSemesterCount }}. Prioritaet</p>
+
 
     <button
       class="deleteSemester"
       v-if="semester.plannedCourses.length == 0"
       @click="deleteSemester(semesterIndex)"
     >
-      Freies Semester löschen
+      leere Prio loeschen
     </button>
   </div>
 </template>
