@@ -7,6 +7,9 @@ dist
 .env.local
 .env.*.local
 
+#local docker database dir
+docker-dev-db/
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
