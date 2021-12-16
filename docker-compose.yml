@@ -14,12 +14,13 @@ services:
 
   vue-app:
     build:
-      context: ./client
+      context: client/
       dockerfile: Dockerfile-dev
     ports:
       - 8080:8080
     container_name: vue-app
     volumes:
+      - ./.eslintrc.js:/studyplan/app/.eslintrc.js
       - ./client:/studyplan/app
       - /studyplan/app/node_modules
   
