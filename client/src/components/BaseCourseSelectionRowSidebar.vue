@@ -1,6 +1,15 @@
 <template>
   <div class="sidebar">
-    <p class="semesterCount">{{ semester.currentSemesterCount }}. Prioritaet</p>
+    <p
+    class="semesterCount"
+    v-if="semester.currentSemesterCount != 1"
+    >{{ semester.currentSemesterCount -1}}. Prioritaet
+    </p>
+    <p
+    class="semesterCount"
+    v-else
+    >alle kurse
+    </p>
 
 
     <button

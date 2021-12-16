@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="shadowBox">
+
       <BaseCourseSelectionRow
         v-for="(semester, $semesterIndex) in coursesInSemester"
         class="semester"
@@ -31,6 +32,7 @@ export default {
   },
   methods: {
     addSemester() {
+     
       this.$store.dispatch("studyplan/addSemester");
     },
   },
