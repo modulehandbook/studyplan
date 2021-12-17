@@ -1,6 +1,6 @@
 const mongoose = require("mongoose"),
   { Schema } = mongoose,
-  bookedCoursesSchema = new Schema(
+  courseSelection = new Schema(
     {
       semesterPlans: [
         {
@@ -16,10 +16,8 @@ const mongoose = require("mongoose"),
               code: String,
               name: String,
               ects: Number,
-              priority: Number,
             },
-          ]
-          ,
+          ],
           bookedCourses: [
             {
               code: String,
@@ -36,4 +34,4 @@ const mongoose = require("mongoose"),
     }
   );
 
-module.exports = mongoose.model("bookedCourses", bookedCoursesSchema);
+module.exports = mongoose.model("courseSelection", courseSelectionSchema);
