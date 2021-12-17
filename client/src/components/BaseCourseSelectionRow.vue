@@ -1,11 +1,6 @@
 <template>
   <div>
-  <div   class="semesterRow"
-    @drop.stop="moveCourse($event, semester.plannedCourses)"
-    @dragover.prevent
-    @dragenter.prevent
-    >
-    </div>
+
     <div
       class="semesterRow"
       @drop.stop="moveCourse($event, semester.plannedCourses)"
