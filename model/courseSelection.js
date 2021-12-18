@@ -2,6 +2,7 @@ const mongoose = require("mongoose"),
   { Schema } = mongoose,
   courseSelectionSchema = new Schema(
     {
+      testNumber: Number,
       semesterPlans: [
         {
           semester: {
@@ -34,4 +35,4 @@ const mongoose = require("mongoose"),
     }
   );
 
-module.exports = mongoose.model("courseSelection", courseSelectionSchema);
+module.exports = mongoose.model("CourseSelection", courseSelectionSchema);

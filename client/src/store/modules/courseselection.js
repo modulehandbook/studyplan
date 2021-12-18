@@ -69,32 +69,27 @@ export const actions = {
   async createCourseSelection(
     { state, commit, rootState, dispatch },
     { userId }
-  ) {
+    ) {
+      console.log(state);
+
     try {
       commit("SET_PENDING", true);
-
-//currentSemesterCount
       state.courseSelection = {
-          semesterPlans : [
-            {
-                currentSemesterCount: 55,
-              },
-          ],
+        testNumber: 55,
       };
+      state.courseSelection.testNumber = 55;
       const response = await CourseSelectionService.createCourseSelection(state.courseSelection);
       const courseSelection = response.data;
       console.log(courseSelection);
       commit("SET_COURSESELECTION", courseSelection);
       //await dispatch("fillEmptyCourseSelectionWithCourses", {  });
-      console.log(state.courseSelection)
+    //  console.log(state.courseSelection)
       const userResponse = await CourseSelectionService.saveToUser(
         state.courseSelection,
         userId
       );
       const user = userResponse.data;
-
       rootState.user.user = user;
-
       await dispatch("user/updateUser", {}, { root: true });
     } catch (error) {
       const notification = {
@@ -179,137 +174,10 @@ export const actions = {
     await dispatch("updateCourseSelection");
   },
 
-  async moveCourse(
-    { dispatch },
-    { fromCourses, fromCourseIndex, toCourses, toCourseIndex }
-  ) {
-    const courseToMove = fromCourses.splice(fromCourseIndex, 1)[0];
-    if (toCourseIndex == undefined) {
-      toCourses.push(courseToMove);
-      await dispatch("updateStudyPlan");
-      return;
-    }
-    toCourses.splice(toCourseIndex, 0, courseToMove);
-    await dispatch("updateStudyPlan");
-  },
 
-  async addSemester({ state, dispatch, rootGetters }) {
-    let semesterPlans = state.studyPlan.semesterPlans;
-    const semesters = rootGetters["semester/getSemesters"].slice();
-    let semesterToAdd;
 
-    //adding the semester name to semesterPlan
-    for (let i = 0; i < semesters.length; i++) {
-      if (
-        semesters[i].name ===
-        semesterPlans[semesterPlans.length - 1].semester.name
-      ) {
-        semesterToAdd = semesters.splice(i + 1, 1);
-        break;
-      }
-    }
-    semesterPlans.push({
-      currentSemesterCount:
-        semesterPlans[semesterPlans.length - 1].currentSemesterCount + 1,
-      semester: semesterToAdd[0],
-      plannedCourses: [],
-    });
-    await dispatch("updateStudyPlan");
-  },
 
-  async deleteSemester({ state, dispatch, commit }, { semesterIndex }) {
-    let semesterPlans = state.studyPlan.semesterPlans;
-    const removed = semesterPlans.splice(semesterIndex, 1);
-    //change semester names
-    var newSemesterName = removed[0].semester.name;
-    var newId = removed[0].semester._id;
 
-    for (let i = semesterIndex; i < semesterPlans.length; i++) {
-      semesterPlans[i].currentSemesterCount -= 1;
-      let oldSemesterName = semesterPlans[i].semester.name;
-      let oldId = semesterPlans[i].semester._id;
-      semesterPlans[i].semester.name = newSemesterName;
-      semesterPlans[i].semester._id = newId;
-
-      newSemesterName = oldSemesterName;
-      newId = oldId;
-    }
-    state.studyPlan.semesterPlans = semesterPlans;
-
-    commit("SET_STUDYPLAN", state.studyPlan);
-    await dispatch("updateStudyPlan");
-  },
-
-  async toggleBookedStateOfCourseInSemester(
-    { state, dispatch, getters },
-    { courseCode, parentCourseCode, semester, requiredCourses }
-  ) {
-    let semesterPlan = getters.getSemesterPlan(semester);
-
-    if (!parentCourseCode) {
-      let course = getCourseInPlannedCoursesOfSemester(
-        courseCode,
-        semesterPlan
-      );
-      course.booked = !course.booked;
-    } else {
-      let course = getCourseInPlannedCoursesOfSemester(
-        parentCourseCode,
-        semesterPlan
-      );
-      const index = course.bookedThrough.indexOf(courseCode);
-      if (index > -1) {
-        course.bookedThrough.splice(index, 1);
-        course.booked = false;
-      } else {
-        course.bookedThrough.push(courseCode);
-        if (
-          requiredCourses.length > 0 &&
-          requiredCourses.length != course.bookedThrough.length
-        ) {
-          course.booked = false;
-        } else {
-          course.booked = true;
-        }
-      }
-    }
-    await dispatch("updateStudyPlan");
-  },
-  async togglePassedStateOfCourseInSemester(
-    { state, dispatch, getters },
-    { courseCode, parentCourseCode, semester, requiredCourses }
-  ) {
-    let semesterPlan = getters.getSemesterPlan(semester);
-
-    if (!parentCourseCode) {
-      let course = getCourseInPlannedCoursesOfSemester(
-        courseCode,
-        semesterPlan
-      );
-      course.passed = !course.passed;
-    } else {
-      let course = getCourseInPlannedCoursesOfSemester(
-        parentCourseCode,
-        semesterPlan
-      );
-      const index = course.passedThrough.indexOf(courseCode);
-      if (index > -1) {
-        course.passedThrough.splice(index, 1);
-        course.passed = false;
-      } else {
-        course.passedThrough.push(courseCode);
-        if (
-          requiredCourses.length > 0 &&
-          requiredCourses.length != course.passedThrough.length
-        ) {
-          course.passed = false;
-        } else {
-          course.passed = true;
-        }
-      }
-    }
-    await dispatch("updateStudyPlan");
-  },
 };
 
 export const getters = {
@@ -320,107 +188,4 @@ export const getters = {
   getCourseSelectionByUserId: (state) => (userId) => {
     return state.courseSelections.find((courseSelection) => courseSelection.userId === userId);
   },
-  getSemesterPlans: (state) => {
-    const courseSelection = state.courseSelection;
-    if (!courseSelection) return;
-    return courseSelection.semesterPlans;
-  },
-  getSemesterPlan: (state) => (semester) => {
-    let semesterPlans = state.courseSelection.semesterPlans;
-    if (!semesterPlans) return;
-    for (let i in semesterPlans) {
-      if (semesterPlans[i].semester.name === semester.name) {
-        return semesterPlans[i];
-      }
-    }
-  },
-
-  getStateOfCourse:
-    (state, getters) => (courseCode, parentCourseCode, semester) => {
-      const semesterPlan = getters.getSemesterPlan(semester);
-      if (!parentCourseCode) {
-        let course = getCourseInPlannedCoursesOfSemester(
-          courseCode,
-          semesterPlan
-        );
-        return {
-          booked: course.booked || course.bookedThrough.length > 0,
-          passed: course.passed || course.passedThrough.length > 0,
-        };
-      } else {
-        let course = getCourseInPlannedCoursesOfSemester(
-          parentCourseCode,
-          semesterPlan
-        );
-        const index = course.bookedThrough.indexOf(courseCode);
-        if (index > -1) {
-          var booked = true;
-          return {
-            booked: true,
-            passed:
-              course.passedThrough.indexOf(courseCode) > -1 ? true : false,
-          };
-        } else {
-          return {
-            booked: false,
-            passed: false,
-          };
-        }
-      }
-    },
-
-  getBookedAndPassedThroughCourses:
-    (state, getter) => (parentCourseCode, semester) => {
-      const semesterPlan = getter.getSemesterPlan(semester);
-      let course = getCourseInPlannedCoursesOfSemester(
-        parentCourseCode,
-        semesterPlan
-      );
-      if (!course) return [];
-      return {
-        bookedThrough: course.bookedThrough,
-        passedThrough: course.passedThrough,
-      };
-    },
-  getIsChildCourseBookedYet: (state, getters) => (childCourseCode) => {
-    const semesterPlans = state.studyPlan.semesterPlans;
-    for (let plan in semesterPlans) {
-      for (let course in semesterPlans[plan].plannedCourses) {
-        if (
-          semesterPlans[plan].plannedCourses[course].bookedThrough.indexOf(
-            childCourseCode
-          ) != -1
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  },
 };
-
-function assignSemestersToSemesterPlans(
-  semesters,
-  semesterPlans,
-  startOfStudy
-) {
-  for (let i in semesters) {
-    if (semesters[i].name === startOfStudy.name) {
-      semesters = semesters.splice(i);
-      break;
-    }
-  }
-  for (let i = 0; i < semesterPlans.length; i++) {
-    semesterPlans[i].semester = semesters[i];
-  }
-  return semesterPlans;
-}
-
-function getCourseInPlannedCoursesOfSemester(code, semesterPlan) {
-  if (!semesterPlan.plannedCourses) return;
-  for (let course in semesterPlan.plannedCourses) {
-    if (semesterPlan.plannedCourses[course].code === code) {
-      return semesterPlan.plannedCourses[course];
-    }
-  }
-}

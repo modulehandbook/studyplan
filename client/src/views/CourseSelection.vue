@@ -2,7 +2,7 @@
   <div>
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div> <p> hier ist der inhalt der seite</p></div>
-    <div v-show="!pending"> <p>{{this.courseSelection != null}} </p> </div>
+    <div v-show="!pending"> <p>{{courseSelection.testNumber}} </p> </div>
     <div class="addSemester">
       <button class="addSemester addSemester__button" @click="addCourseSelection">
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
@@ -38,6 +38,7 @@
         await this.$store.dispatch("courseselection/fetchCourseSelection", {
           userId: this.user.id || this.user._id,
         });
+        console.log(this.courseSelection);
       }
       this.pending = false;
     },
@@ -46,13 +47,14 @@
         this.$store.dispatch("courseselection/createCourseSelection", {
           userId: this.user.id || this.user._id,
         });
+        console.log(this.$store);
       }
     },
 
     computed: {
     console: () => console,
       ...mapState("program", ["program"]),
-      ...mapState("courseselection", ["courseselection"]),
+      ...mapState("courseselection", ["courseSelection"]),
       ...mapState("user", ["user"]),
     },
   };
