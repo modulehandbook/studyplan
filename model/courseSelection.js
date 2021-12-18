@@ -1,6 +1,6 @@
 const mongoose = require("mongoose"),
   { Schema } = mongoose,
-  courseSelection = new Schema(
+  courseSelectionSchema = new Schema(
     {
       semesterPlans: [
         {

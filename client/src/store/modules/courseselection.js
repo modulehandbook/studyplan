@@ -300,12 +300,12 @@ export const getters = {
     return state.studyPlans.find((studyPlan) => studyPlan.userId === userId);
   },
   getSemesterPlans: (state) => {
-    const studyPlan = state.studyPlan;
-    if (!studyPlan) return;
-    return studyPlan.semesterPlans;
+    const courseSelection = state.courseSelection;
+    if (!courseSelection) return;
+    return courseSelection.semesterPlans;
   },
   getSemesterPlan: (state) => (semester) => {
-    let semesterPlans = state.studyPlan.semesterPlans;
+    let semesterPlans = state.courseSelection.semesterPlans;
     if (!semesterPlans) return;
     for (let i in semesterPlans) {
       if (semesterPlans[i].semester.name === semester.name) {

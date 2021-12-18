@@ -1,4 +1,4 @@
-const courseSelectionController = require("../controller/courseSelctionController"),
+const courseSelectionController = require("../controller/courseSelectionController"),
   router = require("express").Router();
 
 router.post("/create", courseSelectionController.create);
