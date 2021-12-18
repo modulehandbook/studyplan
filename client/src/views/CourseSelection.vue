@@ -2,7 +2,7 @@
   <div>
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div> <p> hier ist der inhalt der seite</p></div>
-    <div> <p v-if="this.courseSelection"> kursbelegung gefunden </p> </div>
+    <div v-show="!pending"> <p>{{this.courseSelection != null}} </p> </div>
     <div class="addSemester">
       <button class="addSemester addSemester__button" @click="addCourseSelection">
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
@@ -28,7 +28,7 @@
     },
 
     async mounted() {
-      console.log("cringe");
+
       if (!this.$store.state.user.user.startOfStudy) {
         this.$router.push("/select-program");
       } else {

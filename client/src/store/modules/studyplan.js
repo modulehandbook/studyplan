@@ -23,7 +23,7 @@ export const mutations = {
 export const actions = {
   async fetchStudyPlans({ commit }) {
     try {
-      
+
       commit("SET_PENDING", true);
       const response = await StudyPlanService.fetchStudyPlans();
       const studyplans = response.data;

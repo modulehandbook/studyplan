@@ -41,16 +41,20 @@ export const actions = {
   async fetchCourseSelection({ commit, dispatch, getters }, { userId }) {
   console.log("trying to fetch course selection");
     try {
-
+      console.log(userId);
       commit("SET_PENDING", true);
-      var courseSelection = getters.getCourseSelectionByUserId(userId);
+      var courseSelection = getters.getCourseSelection;
       console.log(courseSelection);
       if (courseSelection) {
         commit("SET_COURSESELECTION", courseSelection);
       } else {
         const response = await CourseSelectionService.fetchCourseSelection(userId);
         const courseSelection = response.data;
+        console.log(courseSelection);
+          console.log(state.courseSelection);
         commit("SET_COURSESELECTION", courseSelection);
+          console.log(state.courseSelection);
+
       }
     } catch (error) {
       const notification = {
@@ -69,10 +73,17 @@ export const actions = {
     try {
       commit("SET_PENDING", true);
 
-
+//currentSemesterCount
+      state.courseSelection = {
+          semesterPlans : [
+            {
+                currentSemesterCount: 55,
+              },
+          ],
+      };
       const response = await CourseSelectionService.createCourseSelection(state.courseSelection);
       const courseSelection = response.data;
-
+      console.log(courseSelection);
       commit("SET_COURSESELECTION", courseSelection);
       //await dispatch("fillEmptyCourseSelectionWithCourses", {  });
       console.log(state.courseSelection)
@@ -83,6 +94,7 @@ export const actions = {
       const user = userResponse.data;
 
       rootState.user.user = user;
+
       await dispatch("user/updateUser", {}, { root: true });
     } catch (error) {
       const notification = {
@@ -301,6 +313,10 @@ export const actions = {
 };
 
 export const getters = {
+
+  getCourseSelection: (state) => {
+    return state.courseSelections[0];
+  },
   getCourseSelectionByUserId: (state) => (userId) => {
     return state.courseSelections.find((courseSelection) => courseSelection.userId === userId);
   },
