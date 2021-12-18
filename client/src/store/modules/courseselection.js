@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import CourseSelectionService from "@/services/CourseSelectionService.js";
 
-//export const namespaced = true;
+export const namespaced = true;
 
 export const state = {
   courseSelections: [],
@@ -44,6 +44,7 @@ export const actions = {
 
       commit("SET_PENDING", true);
       var courseSelection = getters.getCourseSelectionByUserId(userId);
+      console.log(courseSelection);
       if (courseSelection) {
         commit("SET_COURSESELECTION", courseSelection);
       } else {
@@ -73,13 +74,14 @@ export const actions = {
       const courseSelection = response.data;
 
       commit("SET_COURSESELECTION", courseSelection);
-      await dispatch("fillEmptyCourseSelectionWithCourses", { startOfStudy });
-
+      //await dispatch("fillEmptyCourseSelectionWithCourses", {  });
+      console.log(state.courseSelection)
       const userResponse = await CourseSelectionService.saveToUser(
         state.courseSelection,
         userId
       );
       const user = userResponse.data;
+
       rootState.user.user = user;
       await dispatch("user/updateUser", {}, { root: true });
     } catch (error) {
@@ -130,8 +132,8 @@ export const actions = {
   },
 
   async fillEmptyCourseSelectionWithCourses(
-    { state, rootGetters, dispatch },
-    { startOfStudy }
+    { state, rootGetters, dispatch }
+
   ) {
     let helperArrayForSemesterPlans = [];
     const officialCoursesInSemester = await dispatch(
@@ -151,16 +153,16 @@ export const actions = {
       const obj = {
         currentSemesterCount: semester,
         semester: "",
-        plannedCourses: courseCodes,
+        unbookedCourses: courseCodes,
       };
       helperArrayForSemesterPlans.push(obj);
     }
 
-    state.CourseSelection.semesterPlans = assignSemestersToSemesterPlans(
-      rootGetters["semester/getSemesters"],
-      helperArrayForSemesterPlans,
-      startOfStudy
-    );
+  //  state.CourseSelection.semesterPlans = assignSemestersToSemesterPlans(
+      //rootGetters["semester/getSemesters"],
+    //  helperArrayForSemesterPlans,
+    //  startOfStudy
+  //  );
 
     await dispatch("updateCourseSelection");
   },

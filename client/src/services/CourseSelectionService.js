@@ -18,7 +18,7 @@ export default {
       headers: authHeader(),
     });
   },
-  createStudyPlan(courseSelection) {
+  createCourseSelection(courseSelection) {
     return server.post(`courseselection/create`, courseSelection, {
       headers: authHeader(),
     });

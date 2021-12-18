@@ -2,7 +2,13 @@
   <div>
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div> <p> hier ist der inhalt der seite</p></div>
-
+    <div> <p v-if="this.courseSelection"> kursbelegung gefunden </p> </div>
+    <div class="addSemester">
+      <button class="addSemester addSemester__button" @click="addCourseSelection">
+        <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
+      </button>
+      <p class="addSemester addSemester__text">Kurswahl hinzufuegen</p>
+    </div>
   </div>
   </template>
 
@@ -36,7 +42,11 @@
       this.pending = false;
     },
     methods: {
-
+      addCourseSelection(){
+        this.$store.dispatch("courseselection/createCourseSelection", {
+          userId: this.user.id || this.user._id,
+        });
+      }
     },
 
     computed: {
