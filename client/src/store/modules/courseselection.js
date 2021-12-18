@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import CourseSelectionService from "@/services/StudyPlanService.js";
+import CourseSelectionService from "@/services/CourseSelectionService.js";
 
-export const namespaced = true;
+//export const namespaced = true;
 
 export const state = {
   courseSelections: [],
@@ -23,6 +23,7 @@ export const mutations = {
 export const actions = {
   async fetchCourseSelections({ commit }) {
     try {
+      console.log("fetching studyplans");
       commit("SET_PENDING", true);
       const response = await CourseSelectionService.fetchCourseSelections();
       const courseSelections = response.data;
@@ -38,7 +39,9 @@ export const actions = {
     }
   },
   async fetchCourseSelection({ commit, dispatch, getters }, { userId }) {
+  console.log("trying to fetch course selection");
     try {
+
       commit("SET_PENDING", true);
       var courseSelection = getters.getCourseSelectionByUserId(userId);
       if (courseSelection) {
@@ -159,7 +162,7 @@ export const actions = {
       startOfStudy
     );
 
-    await dispatch("updateStudyPlan");
+    await dispatch("updateCourseSelection");
   },
 
   async moveCourse(
@@ -296,8 +299,8 @@ export const actions = {
 };
 
 export const getters = {
-  getStudyPlanByUserId: (state) => (userId) => {
-    return state.studyPlans.find((studyPlan) => studyPlan.userId === userId);
+  getCourseSelectionByUserId: (state) => (userId) => {
+    return state.courseSelections.find((courseSelection) => courseSelection.userId === userId);
   },
   getSemesterPlans: (state) => {
     const courseSelection = state.courseSelection;

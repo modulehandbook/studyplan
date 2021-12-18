@@ -2,10 +2,7 @@
   <div>
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div> <p> hier ist der inhalt der seite</p></div>
-    <BaseCourseSelection
-      v-show="!pending"
-      :coursesInSemester="this.studyPlan.semesterPlans"
-    />
+
   </div>
   </template>
 
@@ -25,12 +22,14 @@
     },
 
     async mounted() {
+      console.log("cringe");
       if (!this.$store.state.user.user.startOfStudy) {
         this.$router.push("/select-program");
       } else {
+
         this.pending = true;
         await this.$store.dispatch("semester/fetchSemesters");
-        await this.$store.dispatch("studyplan/fetchStudyPlan", {
+        await this.$store.dispatch("courseselection/fetchCourseSelection", {
           userId: this.user.id || this.user._id,
         });
       }
@@ -41,8 +40,9 @@
     },
 
     computed: {
+    console: () => console,
       ...mapState("program", ["program"]),
-      ...mapState("studyplan", ["studyPlan"]),
+      ...mapState("courseselection", ["courseselection"]),
       ...mapState("user", ["user"]),
     },
   };

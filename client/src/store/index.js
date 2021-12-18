@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import * as program from "@/store/modules/program.js";
 import * as studyplan from "@/store/modules/studyplan.js";
+import * as courseselection from "@/store/modules/courseselection.js";
 import * as course from "@/store/modules/course.js";
 import * as semester from "@/store/modules/semester.js";
 import * as user from "@/store/modules/user.js";
@@ -9,6 +10,7 @@ export const store = createStore({
   modules: {
     program,
     studyplan,
+    courseselection,
     course,
     semester,
     user,
