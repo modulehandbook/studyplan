@@ -28,6 +28,11 @@ sudo docker exec node-server node seeds/usersWithStudyplanAndSemester.js
 ```
 ## Use the development environment
 
+### Start Docker-Desktop
+* If you have docker-desktop installed: Start this first.
+
+* If you have only docker-engine installed: Do nothing.
+
 ### Start the environment
 ```bash
 sudo docker-compose up
