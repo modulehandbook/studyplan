@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Copy ESlint-config
+        run: cp .eslintrc.js client/src/
       - name: Login to Heroku Container registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -29,3 +31,5 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a infinite-plains-47804 web
         working-directory: client
+      - name: delete ESlint-config
+        run: rm client/src/.eslintrc.js
