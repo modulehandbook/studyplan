@@ -55,6 +55,7 @@ export const actions = {
         commit("SET_COURSESELECTION", courseSelection);
           console.log(state.courseSelection);
 
+
       }
     } catch (error) {
       const notification = {
@@ -70,7 +71,8 @@ export const actions = {
     { state, commit, rootState, dispatch },
     { userId }
     ) {
-      console.log(state);
+      console.log("test");
+        console.log(rootState);
 
     try {
       commit("SET_PENDING", true);
@@ -82,7 +84,7 @@ export const actions = {
       const courseSelection = response.data;
       console.log(courseSelection);
       commit("SET_COURSESELECTION", courseSelection);
-      //await dispatch("fillEmptyCourseSelectionWithCourses", {  });
+      await dispatch("fillEmptyCourseSelectionWithCourses", {  });
     //  console.log(state.courseSelection)
       const userResponse = await CourseSelectionService.saveToUser(
         state.courseSelection,
@@ -148,24 +150,25 @@ export const actions = {
       {},
       { root: true }
     );
-    for (let semester in officialCoursesInSemester) {
+    console.log(officialCoursesInSemester);
+    let unbookedCoursesHelpArray = [];
+    for (let course in officialCoursesInSemester[0]) {
       const courseCodes = [];
-      for (let course in officialCoursesInSemester[semester]) {
-        courseCodes.push({
-          code: officialCoursesInSemester[semester][course].code,
-          name: officialCoursesInSemester[semester][course].name,
-          ects: officialCoursesInSemester[semester][course].ects,
+      unbookedCoursesHelpArray.push({
+          code: officialCoursesInSemester[0][course].code,
+          name: officialCoursesInSemester[0][course].name,
+          ects: officialCoursesInSemester[0][course].ects,
         });
-      }
-      const obj = {
-        currentSemesterCount: semester,
-        semester: "",
-        unbookedCourses: courseCodes,
-      };
-      helperArrayForSemesterPlans.push(obj);
-    }
 
-  //  state.CourseSelection.semesterPlans = assignSemestersToSemesterPlans(
+      //unbookedCoursesHelpArray.push(obj);
+    }
+    state.courseSelection.semesterPlans = [{
+      unbookedCourses: unbookedCoursesHelpArray,
+      bookedCourses: [],
+    }];
+    console.log("filled courses")
+    console.log(state.courseSelection);
+  //  state.CourseSelection.semesterPlans[0] = helperArrayForSemesterPlans;
       //rootGetters["semester/getSemesters"],
     //  helperArrayForSemesterPlans,
     //  startOfStudy
