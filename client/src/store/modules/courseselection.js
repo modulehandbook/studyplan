@@ -191,4 +191,7 @@ export const getters = {
   getCourseSelectionByUserId: (state) => (userId) => {
     return state.courseSelections.find((courseSelection) => courseSelection.userId === userId);
   },
+  getSemesterPlan: (state) => {
+    return state.courseSelection.semesterPlans[0];
+  },
 };

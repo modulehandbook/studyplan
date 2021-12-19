@@ -2,7 +2,11 @@
   <div>
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div> <p> hier ist der inhalt der seite</p></div>
-    <div v-show="!pending"> <p>{{courseSelection.testNumber}} </p> </div>
+    <div v-show="!pending"> <li v-for="course in courseSelection.semesterPlans[0].unbookedCourses"
+    :key="course.name">
+    {{course.name}}
+    </li>
+    </div>
     <div class="addSemester">
       <button class="addSemester addSemester__button" @click="addCourseSelection">
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
