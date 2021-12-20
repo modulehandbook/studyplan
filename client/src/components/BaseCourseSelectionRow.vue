@@ -3,62 +3,47 @@
 
     <div
       class="semesterRow"
-      @drop.stop="moveCourse($event, semester.plannedCourses)"
+      @drop.stop="moveCourse($event, course)"
       @dragover.prevent
       @dragenter.prevent
     >
       <BaseCourseSelectionRowSidebar
-        :semester="semester"
-        :semesterIndex="semesterIndex"
-        :semesterName="semesterName"
+        :priority="1"
+        :isUnbookedCourses="isUnbookedCourses"
       />
 
       <div class="courses">
         <div
           class="course"
-          v-for="(course, $courseIndex) in semester.plannedCourses"
+          v-for="(course, $courseIndex) in courses"
           :key="$courseIndex"
           draggable="true"
-          @dragstart="pickupCourse($event, $courseIndex, semesterIndex)"
-          @drop.stop="moveCourse($event, semester.plannedCourses, $courseIndex)"
+          @dragstart="pickupCourse($event, course, $courseIndex)"
+          @drop.stop="moveCourse($event, courses, $courseIndex)"
           :style="{
             width: `${courseWidth(course)}px`,
           }"
         >
-          <router-link
-            class="course-content-container"
-            :to="{
-              name: 'baseModalParentCourse',
-              params: {
-                program: studyPlan.program.code,
-                version: studyPlan.program.version,
-                code: course.code,
-                semester: semesterName.name,
-              },
-            }"
-            draggable="false"
-          >
-            <div
-              class="course-content-container-content"
-              :class="{
-                'course-content-container-content--booked': course.booked,
-                'course-content-container-content--passed': course.passed,
+          <div
+            class="course-content-container" 
+            :class="{
+                'course-content-container-content--booked': true,
+                'course-content-container-content--passed': false,
               }"
-            >
-              <div class="course-content-container-content-text">
-                <p class="course-content-container-content-text--code">
-                  {{ course.code }}
-                </p>
-                <p
-                  :style="{
-                    fontSize: courseWidth(course) < 50 ? '9px' : '12px',
-                  }"
+          >
+            <div class="course-content-container-content-text">
+              <p class="course-content-container-content-text--code">
+                {{ course.code }}
+              </p>
+              <p
+                :style="{
+                  fontSize: courseWidth(course) < 50 ? '9px' : '12px',
+                }"
                 >
                   {{ course.name }}
-                </p>
-              </div>
+              </p>
             </div>
-          </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -70,30 +55,26 @@ import { mapState } from "vuex";
 
 export default {
   props: {
-    semester: {
-      type: Object,
-      required: true,
-    },
-    semesterIndex: {
-      type: Number,
-      required: true,
-    },
-    semesterName: {
-      type: Object,
-      required: true,
-    },
-    coursesInSemester: {
+    courses: {
       type: Array,
+      default: () => [],
+    },
+    coursePriority: {
+      type: Number,
+    },
+    isUnbookedCourses: {
+      type: Boolean,
       required: true,
     },
   },
 
   computed: {
     ...mapState("course", ["course"]),
-    ...mapState("studyplan", ["studyPlan"]),
+    ...mapState("courseselection", ["courseSelection"]),
   },
   methods: {
     courseWidth(course) {
+      console.log(course);
       return course.ects * 30 + (course.ects / 5 - 1) * 30;
     },
 
@@ -106,17 +87,19 @@ export default {
 
     moveCourse(e, toCourses, toCourseIndex) {
       e.preventDefault();
-      const fromSemesterIndex = e.dataTransfer.getData("from-semester-index");
-      const fromCourses =
-        this.coursesInSemester[fromSemesterIndex].plannedCourses;
-      const fromCourseIndex = e.dataTransfer.getData("from-course-index");
+      console.log(toCourses);
+      console.log(toCourseIndex)
+      //const fromSemesterIndex = e.dataTransfer.getData("from-semester-index");
+    //  const fromCourses =
+      //  this.coursesInSemester[fromSemesterIndex].plannedCourses;
+    //  const fromCourseIndex = e.dataTransfer.getData("from-course-index");
 
-      this.$store.dispatch("studyplan/moveCourse", {
-        fromCourses,
-        fromCourseIndex,
-        toCourses,
-        toCourseIndex,
-      });
+    //  this.$store.dispatch("studyplan/moveCourse", {
+    //    fromCourses,
+    //    fromCourseIndex,
+      //  toCourses,
+    //    toCourseIndex,
+    //  });
     },
   },
 };
@@ -174,22 +157,6 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
           border-radius: 14px;
           &:hover {
             background: rgba(193, 193, 193, 0.7);
-          }
-
-          &--booked {
-            background-color: $belegtBackground !important;
-            border: 1px solid rgba(253, 177, 62, 0.3);
-            &:hover {
-              background-color: rgba(253, 177, 62, 0.7) !important;
-            }
-          }
-
-          &--passed {
-            background-color: rgba(118, 185, 0, 0.45) !important;
-            border: 1px solid rgba(118, 185, 0, 0.3);
-            &:hover {
-              background-color: rgba(118, 185, 0, 0.7) !important;
-            }
           }
 
           &-text {

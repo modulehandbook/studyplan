@@ -1,23 +1,19 @@
 <template>
   <div class="container">
     <div class="shadowBox">
-
-      <BaseCourseSelectionRow
-        v-for="(semester, $semesterIndex) in coursesInSemester"
-        class="semester"
-        :key="semester.id"
-        :semester="semester"
-        :semesterIndex="$semesterIndex"
-        :coursesInSemester="coursesInSemester"
-        :semesterName="semester.semester"
+    <BaseCourseSelectionRow
+        class="course"
+        :coursePriority="2"
+        :courses="courses"
+        :isUnbookedCourses="true"
+      />
+       <BaseCourseSelectionRow
+        class="course"
+        :coursePriority="2"
+        :isUnbookedCourses="false"
       />
       <router-view></router-view>
-    </div>
-    <div class="addSemester">
-      <button class="addSemester addSemester__button" @click="addSemester">
-        <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
-      </button>
-      <p class="addSemester addSemester__text">Semester hinzufügen</p>
+  
     </div>
   </div>
 </template>
@@ -25,16 +21,16 @@
 <script>
 export default {
   props: {
-    coursesInSemester: {
+    courses: {
       type: Array,
       default: () => [],
     },
   },
+  async mounted() {
+    console.log("test");
+  },
   methods: {
-    addSemester() {
-     
-      this.$store.dispatch("studyplan/addSemester");
-    },
+    
   },
 };
 </script>

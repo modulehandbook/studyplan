@@ -1,11 +1,11 @@
 <template>
   <div>
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
-    <div> <p> hier ist der inhalt der seite</p></div>
-    <div v-show="!pending"> <li v-for="course in courseSelection.semesterPlans[0].unbookedCourses"
-    :key="course.name">
-    {{course.name}}
-    </li>
+    <div v-if="courseSelection.semesterPlans"> <p> hier ist der inhalt der seite</p>
+      <baseCourseSelection
+        v-show="!pending"
+        :courses="this.courseSelection.semesterPlans[0].unbookedCourses"
+      />
     </div>
     <div class="addSemester">
       <button class="addSemester addSemester__button" @click="addCourseSelection">
@@ -42,7 +42,7 @@
         await this.$store.dispatch("courseselection/fetchCourseSelection", {
           userId: this.user.id || this.user._id,
         });
-        console.log(this.courseSelection);
+        console.log(this.courseSelection.semesterPlans[0].unbookedCourses);
       }
       this.pending = false;
     },
@@ -51,7 +51,7 @@
         this.$store.dispatch("courseselection/createCourseSelection", {
           userId: this.user.id || this.user._id,
         });
-        console.log(this.$store);
+   
       }
     },
 

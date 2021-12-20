@@ -2,39 +2,26 @@
   <div class="sidebar">
     <p
     class="semesterCount"
-    v-if="semester.currentSemesterCount != 1"
-    >{{ semester.currentSemesterCount -1}}. Prioritaet
+    v-if="!isUnbookedCourses"
+    >{{priority}}. Prioritaet
     </p>
     <p
     class="semesterCount"
     v-else
     >alle kurse
     </p>
-
-
-    <button
-      class="deleteSemester"
-      v-if="semester.plannedCourses.length == 0"
-      @click="deleteSemester(semesterIndex)"
-    >
-      leere Prio loeschen
-    </button>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    semester: {
-      type: Object,
-      required: true,
-    },
-    semesterIndex: {
+    priority: {
       type: Number,
       required: true,
     },
-    semesterName: {
-      type: Object,
+    isUnbookedCourses: {
+      type: Boolean,
       required: true,
     },
   },
@@ -46,11 +33,6 @@ export default {
           ects += semester.plannedCourses[i].ects;
       }
       return ects;
-    },
-    deleteSemester(semesterIndex) {
-      this.$store.dispatch("studyplan/deleteSemester", {
-        semesterIndex,
-      });
     },
   },
 };

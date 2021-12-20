@@ -194,4 +194,7 @@ export const getters = {
   getSemesterPlan: (state) => {
     return state.courseSelection.semesterPlans[0];
   },
+  getSemesterPlans: (state) => {
+    return state.courseSelection.semesterPlans[0];
+  },
 };
