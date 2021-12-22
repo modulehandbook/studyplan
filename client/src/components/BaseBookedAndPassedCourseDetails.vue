@@ -6,6 +6,16 @@
       class="checkbox"
       :class="{ booked: booked, passed: passed }"
     >
+
+    <div>
+        <label for="mycheck1">Belegt</label>
+        <input type="checkbox" id="mycheck1" v-model="booked" :value="booked" color="rgba(253, 177, 62, 1)" @change="toggleBooked(course.course.code, semester)" :disabled="passed" >
+    </div>
+    <div>
+        <label for="mycheck2">Bestanden</label>
+        <input type="checkbox" id="mycheck2" v-model="passed" :value="passed" color="#76b900" @change="togglePassed(course.course.code, semester)" :disabled="!booked">
+    </div>
+       <!-- 
       <Checkbox
         id="mycheck1"
         v-model="booked"
@@ -25,6 +35,7 @@
         :disabled="!booked"
         >Bestanden
       </Checkbox>
+      -->
     </div>
 
     <!--Belegt/Bestanden mit Child Courses -->
@@ -188,10 +199,10 @@
 </template>
 
 <script>
-import Checkbox from "vue-material-checkbox";
+//import Checkbox from "vue-material-checkbox";
 import { mapGetters } from "vuex";
 export default {
-  components: { Checkbox },
+  //components: { Checkbox },
   props: {
     course: {
       type: Object,
@@ -226,8 +237,10 @@ export default {
       this.parentCourseCode,
       this.semester
     );
-    this.booked = states.booked;
-    this.passed = states.passed;
+    if(states){
+      this.booked = states.booked;
+      this.passed = states.passed;
+    }
     this.getRequiredCourses();
     this.mobileView = window.innerWidth <= 600;
     window.addEventListener("resize", this.isMobileView);
