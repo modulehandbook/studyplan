@@ -7,7 +7,7 @@
     "start": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Julia Zamaitat",
+  "author": "Julia Zamaitat, Project-Team (see README)",
   "license": "ISC",
   "devDependencies": {
     "@vue/cli-plugin-eslint": "~4.5.0",

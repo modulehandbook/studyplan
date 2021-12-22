@@ -2,7 +2,7 @@
 
 FROM node:16-alpine
 
-WORKDIR /studyplan/api
+WORKDIR /imi-module-selection/api
 
 ENV NODE_ENV=development
 

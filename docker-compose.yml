@@ -10,9 +10,9 @@ services:
     depends_on:
       - mongo-db
     volumes:
-      - .:/studyplan/api
-      - /studyplan/client
-      - /studyplan/api/node_modules
+      - .:/imi-module-selection/api
+      - /imi-module-selection/client
+      - /imi-module-selection/api/node_modules
 
   vue-app:
     build:
@@ -24,9 +24,9 @@ services:
     depends_on:
       - node-server
     volumes:
-      - ./.eslintrc.js:/studyplan/app/.eslintrc.js
-      - ./client:/studyplan/app
-      - /studyplan/app/node_modules
+      - ./.eslintrc.js:/imi-module-selection/app/.eslintrc.js
+      - ./client:/imi-module-selection/app
+      - /imi-module-selection/app/node_modules
   
   mongo-db:
     image: mongo

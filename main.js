@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const mongodbURI =
-  process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
+  process.env.MONGODB_URI || "mongodb://mongo-db:27017/imi-module-selection";
 
 
 //partly from asalant/connectWithRetry.js

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Willkommen zu deinem Studyplan!</h1>
+    <h1>Willkommen zur Wahlpflichtkurs belegung!</h1>
     <h2>Plane dein Studium und behalte den Überblick!</h2>
     <h3>Logge dich ein</h3>
     <div class="line"></div>
