@@ -14,7 +14,8 @@
         <label for="mycheck2">Bestanden</label>
         <input type="checkbox" id="mycheck2" v-model="passed" :value="passed" color="#76b900" @change="togglePassed(course.course.code, semester)" :disabled="!booked">
     </div>
-
+  </div>
+  
     <!--Belegt/Bestanden mit Child Courses -->
     <div v-if="course.child_courses.length > 0 && !isChildCourse">
       <!-- wenn nicht belegt -->
