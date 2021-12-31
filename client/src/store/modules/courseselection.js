@@ -177,7 +177,19 @@ export const actions = {
     await dispatch("updateCourseSelection");
   },
 
-
+  async moveCourse( 
+    {dispatch},
+    {fromCourses, fromCourseIndex, toCourses, toCourseIndex}
+  ) {
+    const courseToMove = fromCourses.splice(fromCourseIndex, 1)[0];
+    if(toCourseIndex == undefined){
+      toCourses.push(courseToMove);
+      await dispatch("updateCourseSelection");  
+    }
+    courseToMove.priority = toCourseIndex;
+    toCourses.splice(toCourseIndex, 0, courseToMove);
+    await dispatch("updateCourseSelection");
+  },
 
 
 

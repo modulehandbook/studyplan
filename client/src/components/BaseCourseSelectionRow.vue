@@ -74,15 +74,15 @@ export default {
   },
   methods: {
     courseWidth(course) {
-      console.log(course);
       return course.ects * 30 + (course.ects / 5 - 1) * 30;
     },
 
-    pickupCourse(e, fromCourseIndex, fromSemesterIndex) {
+    pickupCourse(e, fromCourseIndex, fromCoursePriority) {
       e.dataTransfer.effectAllowed = "move";
       e.dataTransfer.dropEffect = "move";
       e.dataTransfer.setData("from-course-index", fromCourseIndex);
-      e.dataTransfer.setData("from-semester-index", fromSemesterIndex);
+      e.dataTransfer.setData("from-course-priority", fromCoursePriority);
+      console.log(fromCourseIndex);
     },
 
     moveCourse(e, toCourses, toCourseIndex) {
