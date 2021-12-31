@@ -3,13 +3,16 @@
     <div class="shadowBox">
     <BaseCourseSelectionRow
         class="course"
-        :coursePriority="2"
+        :coursePriority="0"
         :courses="courses"
+        :otherCourses="bookedCourses"
         :isUnbookedCourses="true"
       />
        <BaseCourseSelectionRow
         class="course"
-        :coursePriority="2"
+        :coursePriority="1"
+        :courses="bookedCourses"
+        :otherCourses="courses"
         :isUnbookedCourses="false"
       />
       <router-view></router-view>
@@ -25,6 +28,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    bookedCourses: {
+      type: Array,
+      default: () => [],
+    }
   },
   async mounted() {
     console.log("test");

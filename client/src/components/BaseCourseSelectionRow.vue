@@ -3,7 +3,7 @@
 
     <div
       class="semesterRow"
-      @drop.stop="moveCourse($event, course)"
+      @drop.stop="moveCourse($event, 0)"
       @dragover.prevent
       @dragenter.prevent
     >
@@ -18,8 +18,8 @@
           v-for="(course, $courseIndex) in courses"
           :key="$courseIndex"
           draggable="true"
-          @dragstart="pickupCourse($event, course, $courseIndex)"
-          @drop.stop="moveCourse($event, courses, $courseIndex)"
+          @dragstart="pickupCourse($event, $courseIndex, this.coursePriority)"
+          @drop.stop="moveCourse($event, $courseIndex)"
           :style="{
             width: `${courseWidth(course)}px`,
           }"
@@ -59,8 +59,13 @@ export default {
       type: Array,
       default: () => [],
     },
+    otherCourses: {
+      type: Array,
+      default: () => [],
+    },
     coursePriority: {
       type: Number,
+      default: 0,
     },
     isUnbookedCourses: {
       type: Boolean,
@@ -78,6 +83,7 @@ export default {
     },
 
     pickupCourse(e, fromCourseIndex, fromCoursePriority) {
+      console.log(fromCoursePriority);
       e.dataTransfer.effectAllowed = "move";
       e.dataTransfer.dropEffect = "move";
       e.dataTransfer.setData("from-course-index", fromCourseIndex);
@@ -85,21 +91,23 @@ export default {
       console.log(fromCourseIndex);
     },
 
-    moveCourse(e, toCourses, toCourseIndex) {
+    moveCourse(e, toCourseIndex) {
       e.preventDefault();
-      console.log(toCourses);
-      console.log(toCourseIndex)
+      console.log(toCourseIndex);
+      const fromCoursePriority = e.dataTransfer.getData("from-course-priority");
+      console.log("toCoursePrio: " + this.coursePriority + 
+                  "\nfromCoursePrio: " + fromCoursePriority);
       //const fromSemesterIndex = e.dataTransfer.getData("from-semester-index");
-    //  const fromCourses =
-      //  this.coursesInSemester[fromSemesterIndex].plannedCourses;
-    //  const fromCourseIndex = e.dataTransfer.getData("from-course-index");
+    const fromCourseIndex = e.dataTransfer.getData("from-course-index");
+      
+      const toCoursePriority = this.coursePriority;
+      this.$store.dispatch("courseselection/moveCourse", {
+        fromCourseIndex,
+        toCourseIndex,
+        fromCoursePriority,
+        toCoursePriority,
 
-    //  this.$store.dispatch("studyplan/moveCourse", {
-    //    fromCourses,
-    //    fromCourseIndex,
-      //  toCourses,
-    //    toCourseIndex,
-    //  });
+      });
     },
   },
 };

@@ -5,6 +5,7 @@
       <baseCourseSelection
         v-show="!pending"
         :courses="this.courseSelection.semesterPlans[0].unbookedCourses"
+        :bookedCourses="this.courseSelection.semesterPlans[0].bookedCourses"
       />
     </div>
     <div class="addSemester">
