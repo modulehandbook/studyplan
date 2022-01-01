@@ -184,7 +184,7 @@ export const actions = {
   ) {
     const unbookedCourses = state.courseSelection.semesterPlans[0].unbookedCourses;
     const bookedCourses = state.courseSelection.semesterPlans[0].bookedCourses;
-  
+    state.courseSelection.testNumber = 1;
     console.log(toCoursePriority);
     console.log('test');
     if(toCoursePriority == 99) return;
@@ -198,15 +198,22 @@ export const actions = {
         //const swapper = bookedCourses.splice(toCoursePriority-1, 1, courseToMove)[0];
      // }
       courseToMove.priority = toCoursePriority;
-      bookedCourses.push(courseToMove);
+      bookedCourses[toCoursePriority - 1] = courseToMove;
     }else{
       unbookedCourses.splice(toCourseIndex, 0, courseToMove);
     }
     await dispatch("updateCourseSelection");
   },
-
-
-
+  async addCoursePriority( {dispatch}){
+    state.courseSelection.testNumber++;
+    var test = state.courseSelection.semesterPlans[0].bookedCourses[0];
+    console.log(test);
+    state.courseSelection.semesterPlans[0].bookedCourses = [];
+    state.courseSelection.semesterPlans[0].bookedCourses.push(test);
+    console.log(state.courseSelection.semesterPlans[0].bookedCourses);
+    await dispatch("updateCourseSelection");
+    //state.courseSelection.semesterPlans[0].bookedCourses = [];
+  },
 };
 
 export const getters = {
@@ -222,5 +229,9 @@ export const getters = {
   },
   getSemesterPlans: (state) => {
     return state.courseSelection.semesterPlans[0];
+  },
+  getCourseByPriority: (state) => (priority) => {
+    return state.courseSelection.semesterPlans[0].bookedCourses.
+    find((course) => course.priority === priority);
   },
 };

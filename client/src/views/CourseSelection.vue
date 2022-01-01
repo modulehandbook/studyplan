@@ -8,7 +8,7 @@
         :bookedCourses="this.courseSelection.semesterPlans[0].bookedCourses"
       />
     </div>
-    <div class="addSemester">
+    <div v-if="this.courseSelection == null" class="addSemester">
       <button class="addSemester addSemester__button" @click="addCourseSelection">
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
       </button>

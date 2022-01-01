@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="shadowBox">
-    <BaseCourseSelectionRow
+      <BaseCourseSelectionRow
         class="course"
         :coursePriority="0"
         :courses="courses"
@@ -17,6 +17,12 @@
       />
       <router-view></router-view>
   
+    </div>
+    <div class="addSemester">
+      <button class="addSemester addSemester__button" @click="addPriority">
+        <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
+      </button>
+      <p class="addSemester addSemester__text">Prio hinzufügen</p>
     </div>
   </div>
 </template>
@@ -37,7 +43,9 @@ export default {
     console.log("test");
   },
   methods: {
-    
+    addPriority(){
+      this.$store.dispatch("courseselection/addCoursePriority");
+    },
   },
 };
 </script>

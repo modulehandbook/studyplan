@@ -98,15 +98,14 @@ export default {
       console.log("toCoursePrio: " + this.coursePriority + 
                   "\nfromCoursePrio: " + fromCoursePriority);
       //const fromSemesterIndex = e.dataTransfer.getData("from-semester-index");
-    const fromCourseIndex = e.dataTransfer.getData("from-course-index");
-      
+      const fromCourseIndex = e.dataTransfer.getData("from-course-index");
       const toCoursePriority = this.coursePriority;
+      
       this.$store.dispatch("courseselection/moveCourse", {
         fromCourseIndex,
         toCourseIndex,
         fromCoursePriority,
         toCoursePriority,
-
       });
     },
   },
