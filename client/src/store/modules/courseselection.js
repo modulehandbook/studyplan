@@ -208,9 +208,12 @@ export const actions = {
     state.courseSelection.testNumber++;
     var test = state.courseSelection.semesterPlans[0].bookedCourses[0];
     console.log(test);
-    state.courseSelection.semesterPlans[0].bookedCourses = [];
-    state.courseSelection.semesterPlans[0].bookedCourses.push(test);
-    console.log(state.courseSelection.semesterPlans[0].bookedCourses);
+    state.courseSelection.semesterPlans[0].bookedCourses.push({
+        code: "",
+        name: "",
+        ects: 0,
+        priority: state.courseSelection.semesterPlans[0].bookedCourses.length + 1,
+      });
     await dispatch("updateCourseSelection");
     //state.courseSelection.semesterPlans[0].bookedCourses = [];
   },

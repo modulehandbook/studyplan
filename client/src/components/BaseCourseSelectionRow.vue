@@ -8,7 +8,7 @@
       @dragenter.prevent
     >
       <BaseCourseSelectionRowSidebar
-        :priority="1"
+        :priority="coursePriority"
         :isUnbookedCourses="isUnbookedCourses"
       />
 

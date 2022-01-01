@@ -9,9 +9,11 @@
         :isUnbookedCourses="true"
       />
        <BaseCourseSelectionRow
+        v-for="course in bookedCourses"
         class="course"
-        :coursePriority="1"
-        :courses="bookedCourses"
+        :key="course"
+        :coursePriority="course.priority"
+        :courses="[course]"
         :otherCourses="courses"
         :isUnbookedCourses="false"
       />
