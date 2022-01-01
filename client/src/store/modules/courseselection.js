@@ -186,21 +186,31 @@ export const actions = {
     const bookedCourses = state.courseSelection.semesterPlans[0].bookedCourses;
     state.courseSelection.testNumber = 1;
     console.log(toCoursePriority);
-    console.log('test');
-    if(toCoursePriority == 99) return;
+    console.log(fromCoursePriority);
+    if(toCoursePriority < 99) return;
     var courseToMove = undefined;
     if(fromCoursePriority > 0)courseToMove = bookedCourses.splice(fromCourseIndex, 1)[0];
     else courseToMove = unbookedCourses.splice(fromCourseIndex, 1)[0];
     console.log('test');
     if(toCoursePriority > 0){
 
-      //if(bookedCourses[toCoursePriority - 1 != undefined]){
-        //const swapper = bookedCourses.splice(toCoursePriority-1, 1, courseToMove)[0];
-     // }
+      if(bookedCourses[toCoursePriority - 1 ] != undefined|| bookedCourses[toCoursePriority - 1 ].name != ""){
+        const swapper = bookedCourses.splice(toCoursePriority-1, 1, courseToMove)[0];
+        if(fromCoursePriority > 0) bookedCourses.splice(fromCoursePriority-1, 1, swapper);
+        else unbookedCourses.push(swapper);
+      }
       courseToMove.priority = toCoursePriority;
       bookedCourses[toCoursePriority - 1] = courseToMove;
     }else{
       unbookedCourses.splice(toCourseIndex, 0, courseToMove);
+      if(fromCoursePriority > 0) {
+        bookedCourses[fromCourseIndex] = {
+          code: "",
+          name: "",
+          ects: 0,
+          priority: state.courseSelection.semesterPlans[0].bookedCourses.length + 1,
+      }
+    }
     }
     await dispatch("updateCourseSelection");
   },
@@ -217,6 +227,75 @@ export const actions = {
     await dispatch("updateCourseSelection");
     //state.courseSelection.semesterPlans[0].bookedCourses = [];
   },
+  async resetCoursePriority({state, dispatch,}) {
+    state.courseSelection.semesterPlans[0].unbookedCourses = [
+      {
+        code: "GT1",
+        ects: 5,
+        name: "AI for Games",
+      },
+      {
+        code: "GTAT1",
+        ects: 5,
+        name: "Game Technology & Interactive Systems - Aktuelle Themen 1",
+      },
+      {
+        code: "VC1",
+        ects: 5,
+        name: "Bild- und Videokompression",
+      },
+      {
+        code: "VCAT1",
+        ects: 5,
+        name: "Visual Computing - Aktuelle Themen 1",
+      },
+      {
+        code: "WT1",
+        ects: 5,
+        name: "DevOps",
+      },
+      {
+        code: "WT1",
+        ects: 5,
+        name: "Web Technology - Aktuelle Themen 1",
+      },
+      {
+        code: "GT2",
+        ects: 5,
+        name: "Game  Engines",
+      },
+      {
+        code: "GTAT2",
+        ects: 5,
+        name: "Game Technology & Interactive Systems - Aktuelle Themen 2",
+      },
+      {
+        code: "VC2",
+        ects: 5,
+        name: "Bildanalyse",
+      },
+      {
+        code: "VCAT2",
+        ects: 5,
+        name: "Visual Computing - Aktuelle Themen 2",
+      },
+      {
+        code: "WT2",
+        ects: 5,
+        name: "Usability",
+      },
+      {
+        code: "WT2",
+        ects: 5,
+        name: "Web Technology - Aktuelle Themen 2",
+      },
+    ];
+    state.courseSelection.semesterPlans[0].bookedCourses = [];
+    console.log(state.courseSelection);
+    await dispatch("updateCourseSelection");
+  },
+
+  
 };
 
 export const getters = {

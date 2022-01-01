@@ -2,7 +2,7 @@
   <div class="container">
     <div class="shadowBox">
       <BaseCourseSelectionRow
-        class="course"
+        class="semester"
         :coursePriority="0"
         :courses="courses"
         :otherCourses="bookedCourses"
@@ -10,7 +10,7 @@
       />
        <BaseCourseSelectionRow
         v-for="course in bookedCourses"
-        class="course"
+        class="semester"
         :key="course"
         :coursePriority="course.priority"
         :courses="[course]"
@@ -46,7 +46,10 @@ export default {
   },
   methods: {
     addPriority(){
-      this.$store.dispatch("courseselection/addCoursePriority");
+      this.$store.dispatch("courseselection/resetCoursePriority");
+    },
+    resetCourseSelection(){
+
     },
   },
 };

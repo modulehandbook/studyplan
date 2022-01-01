@@ -25,7 +25,7 @@
           }"
         >
           <div
-            class="course-content-container" 
+            class="course-content-container-content" 
             :class="{
                 'course-content-container-content--booked': true,
                 'course-content-container-content--passed': false,
@@ -158,7 +158,7 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
           margin: 0 auto;
           width: 100%;
           min-height: 87px;
-          background: rgba(193, 193, 193, 0.55);
+          background: rgba(55, 163, 22, 0.55);
           background-size: 100px 100px;
           border: 1px solid rgba(193, 193, 193, 0.3);
           border-radius: 14px;
