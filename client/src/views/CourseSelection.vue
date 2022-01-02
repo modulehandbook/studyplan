@@ -44,6 +44,7 @@
           userId: this.user.id || this.user._id,
         });
         console.log(this.courseSelection.semesterPlans[0].unbookedCourses);
+        console.log(this.courseSelection.semesterPlans[0].bookedCourses);
       }
       this.pending = false;
     },

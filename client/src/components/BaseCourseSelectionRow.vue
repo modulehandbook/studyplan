@@ -83,20 +83,15 @@ export default {
     },
 
     pickupCourse(e, fromCourseIndex, fromCoursePriority) {
-      console.log(fromCoursePriority);
       e.dataTransfer.effectAllowed = "move";
       e.dataTransfer.dropEffect = "move";
       e.dataTransfer.setData("from-course-index", fromCourseIndex);
       e.dataTransfer.setData("from-course-priority", fromCoursePriority);
-      console.log(fromCourseIndex);
     },
 
     moveCourse(e, toCourseIndex) {
       e.preventDefault();
-      console.log(toCourseIndex);
-      const fromCoursePriority = e.dataTransfer.getData("from-course-priority");
-      console.log("toCoursePrio: " + this.coursePriority + 
-                  "\nfromCoursePrio: " + fromCoursePriority);
+      const fromCoursePriority = parseInt(e.dataTransfer.getData("from-course-priority"), 10);
       //const fromSemesterIndex = e.dataTransfer.getData("from-semester-index");
       const fromCourseIndex = e.dataTransfer.getData("from-course-index");
       const toCoursePriority = this.coursePriority;

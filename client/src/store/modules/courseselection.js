@@ -39,23 +39,20 @@ export const actions = {
     }
   },
   async fetchCourseSelection({ commit, dispatch, getters }, { userId }) {
-  console.log("trying to fetch course selection");
     try {
-      console.log(userId);
+      //console.log(userId);
       commit("SET_PENDING", true);
       var courseSelection = getters.getCourseSelection;
-      console.log(courseSelection);
+      //console.log(courseSelection);
       if (courseSelection) {
         commit("SET_COURSESELECTION", courseSelection);
       } else {
         const response = await CourseSelectionService.fetchCourseSelection(userId);
         const courseSelection = response.data;
-        console.log(courseSelection);
-          console.log(state.courseSelection);
+        //console.log(courseSelection);
+        //console.log(state.courseSelection);
         commit("SET_COURSESELECTION", courseSelection);
-          console.log(state.courseSelection);
-
-
+        //console.log(state.courseSelection);
       }
     } catch (error) {
       const notification = {
@@ -185,18 +182,19 @@ export const actions = {
     const unbookedCourses = state.courseSelection.semesterPlans[0].unbookedCourses;
     const bookedCourses = state.courseSelection.semesterPlans[0].bookedCourses;
     state.courseSelection.testNumber = 1;
-    console.log(toCoursePriority);
-    console.log(fromCoursePriority);
-    if(toCoursePriority < 99) return;
+    console.log({fromCoursePriority, toCoursePriority});
+   
+   // if(toCoursePriority < 99) return;
     var courseToMove = undefined;
-    if(fromCoursePriority > 0)courseToMove = bookedCourses.splice(fromCourseIndex, 1)[0];
+    if(fromCoursePriority > 0)courseToMove = bookedCourses[fromCoursePriority - 1]
     else courseToMove = unbookedCourses.splice(fromCourseIndex, 1)[0];
-    console.log('test');
+    if(courseToMove.ects == 0)return;
     if(toCoursePriority > 0){
 
-      if(bookedCourses[toCoursePriority - 1 ] != undefined|| bookedCourses[toCoursePriority - 1 ].name != ""){
-        const swapper = bookedCourses.splice(toCoursePriority-1, 1, courseToMove)[0];
-        if(fromCoursePriority > 0) bookedCourses.splice(fromCoursePriority-1, 1, swapper);
+      if(bookedCourses[toCoursePriority - 1 ] != undefined && bookedCourses[toCoursePriority - 1 ].name != ""){
+        var swapper = bookedCourses[toCoursePriority - 1 ];
+        swapper.priority = fromCoursePriority;
+        if(fromCoursePriority > 0) bookedCourses[fromCoursePriority - 1] = swapper;
         else unbookedCourses.push(swapper);
       }
       courseToMove.priority = toCoursePriority;
@@ -204,20 +202,21 @@ export const actions = {
     }else{
       unbookedCourses.splice(toCourseIndex, 0, courseToMove);
       if(fromCoursePriority > 0) {
-        bookedCourses[fromCourseIndex] = {
+        console.log("from course prio:" + fromCoursePriority);
+        bookedCourses[fromCoursePriority - 1] = {
           code: "",
           name: "",
           ects: 0,
-          priority: state.courseSelection.semesterPlans[0].bookedCourses.length + 1,
+          priority: courseToMove.priority,
       }
     }
     }
+    console.table(state.courseSelection.semesterPlans[0].bookedCourses)
     await dispatch("updateCourseSelection");
   },
   async addCoursePriority( {dispatch}){
     state.courseSelection.testNumber++;
     var test = state.courseSelection.semesterPlans[0].bookedCourses[0];
-    console.log(test);
     state.courseSelection.semesterPlans[0].bookedCourses.push({
         code: "",
         name: "",
