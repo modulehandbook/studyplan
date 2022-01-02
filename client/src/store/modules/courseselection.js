@@ -191,11 +191,11 @@ export const actions = {
     if(courseToMove.ects == 0)return;
     if(toCoursePriority > 0){
 
-      if(bookedCourses[toCoursePriority - 1 ] != undefined && bookedCourses[toCoursePriority - 1 ].name != ""){
+      if(bookedCourses[toCoursePriority - 1 ] != undefined || bookedCourses[toCoursePriority - 1 ].name != ""){
         var swapper = bookedCourses[toCoursePriority - 1 ];
         swapper.priority = fromCoursePriority;
         if(fromCoursePriority > 0) bookedCourses[fromCoursePriority - 1] = swapper;
-        else unbookedCourses.push(swapper);
+        else if(swapper.ects !=0) unbookedCourses.push(swapper);
       }
       courseToMove.priority = toCoursePriority;
       bookedCourses[toCoursePriority - 1] = courseToMove;
@@ -225,6 +225,15 @@ export const actions = {
       });
     await dispatch("updateCourseSelection");
     //state.courseSelection.semesterPlans[0].bookedCourses = [];
+  },
+  async deleteCoursePriority({dispatch}, {priority}){
+    const bookedCourses = state.courseSelection.semesterPlans[0].bookedCourses;
+    for(let i = priority; i < bookedCourses.length; i++){
+      bookedCourses[i].priority--;
+    }
+    var course = bookedCourses.splice(priority -1, 1)[0];
+    if(course.ects !=0)state.courseSelection.semesterPlans[0].unbookedCourses.push(course);
+    await dispatch("updateCourseSelection");
   },
   async resetCoursePriority({state, dispatch,}) {
     state.courseSelection.semesterPlans[0].unbookedCourses = [

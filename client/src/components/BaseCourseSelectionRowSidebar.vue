@@ -1,11 +1,19 @@
 <template>
   <div class="sidebar">
+    <div v-if="!isUnbookedCourses">
+      <p
+      class="semesterCount"
+      >{{priority}}. Prioritaet
+      </p>
+       <button
+      class="deleteSemester"
+      @click="deleteCoursePriority()"
+    >
+      Prio löschen
+    </button>
+    </div>
     <p
-    class="semesterCount"
-    v-if="!isUnbookedCourses"
-    >{{priority}}. Prioritaet
-    </p>
-    <p
+     
     class="semesterCount"
     v-else
     >alle kurse
@@ -33,6 +41,11 @@ export default {
           ects += semester.plannedCourses[i].ects;
       }
       return ects;
+    },
+    deleteCoursePriority(){
+      this.$store.dispatch("courseselection/deleteCoursePriority", {
+        priority: this.priority,
+      });
     },
   },
 };
