@@ -15,16 +15,23 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const mongodbURI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/studyplan";
+  process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
 
-mongoose.connect(mongodbURI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then( //useCreateIndex: true because: ("https://github.com/Automattic/mongoose/issues/6890")
-  () => {
-    console.log("Database is connected");
-  },
-  (err) => {
-    console.log("Can not connect to the database" + err);
-  }
-);
+
+//partly from asalant/connectWithRetry.js
+var connectWithRetry = function() {
+  return mongoose.connect(mongodbURI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then( //useCreateIndex: true because: ("https://github.com/Automattic/mongoose/issues/6890")
+    () => {
+      console.log("Database is connected");
+    },
+    (err) => {
+      console.error("Can not connect to the database" + err);
+      console.error("retrying in 1 sec")
+      setTimeout(connectWithRetry,1000)
+    }
+  );
+};
+connectWithRetry();
 mongoose.set("useFindAndModify", false);
 app.use(history({
   // OPTIONAL: Includes more verbose logging
