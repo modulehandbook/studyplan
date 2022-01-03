@@ -6,27 +6,16 @@
       class="checkbox"
       :class="{ booked: booked, passed: passed }"
     >
-      <Checkbox
-        id="mycheck1"
-        v-model="booked"
-        :value="booked"
-        color="rgba(253, 177, 62, 1)"
-        @change="toggleBooked(course.course.code, semester)"
-        :disabled="passed"
-        >Belegt
-      </Checkbox>
-
-      <Checkbox
-        id="mycheck2"
-        v-model="passed"
-        :value="passed"
-        color="#76b900"
-        @change="togglePassed(course.course.code, semester)"
-        :disabled="!booked"
-        >Bestanden
-      </Checkbox>
+       <div>
+        <label for="mycheck1">Belegt</label>
+        <input type="checkbox" id="mycheck1" v-model="booked" :value="booked" color="rgba(253, 177, 62, 1)" @change="toggleBooked(course.course.code, semester)" :disabled="passed" >
     </div>
-
+    <div>
+        <label for="mycheck2">Bestanden</label>
+        <input type="checkbox" id="mycheck2" v-model="passed" :value="passed" color="#76b900" @change="togglePassed(course.course.code, semester)" :disabled="!booked">
+    </div>
+  </div>
+  
     <!--Belegt/Bestanden mit Child Courses -->
     <div v-if="course.child_courses.length > 0 && !isChildCourse">
       <!-- wenn nicht belegt -->
@@ -188,10 +177,8 @@
 </template>
 
 <script>
-import Checkbox from "vue-material-checkbox";
 import { mapGetters } from "vuex";
 export default {
-  components: { Checkbox },
   props: {
     course: {
       type: Object,

@@ -97,6 +97,7 @@ export default {
       await this.$store.dispatch("studyplan/fetchStudyPlan", {
         userId: this.user.id || this.user._id,
       });
+      
     }
     this.pending = false;
   },
@@ -176,6 +177,7 @@ export default {
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
       this.downloading = false;
+
     },
   },
 

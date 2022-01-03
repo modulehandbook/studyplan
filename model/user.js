@@ -25,7 +25,7 @@ const mongoose = require("mongoose"),
         ref: "Semester",
       },
       studyPlan: { type: Schema.Types.ObjectId, ref: "StudyPlan" },
-
+      courseSelection: { type: Schema.Types.ObjectId, ref: "CourseSelection" },
       accessToken: {
         type: String,
       },
