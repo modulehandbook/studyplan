@@ -81,7 +81,7 @@ export const actions = {
       const courseSelection = response.data;
       console.log(courseSelection);
       commit("SET_COURSESELECTION", courseSelection);
-      await dispatch("fillEmptyCourseSelectionWithCourses", {  });
+      await dispatch("resetCoursePriority", {  });
     //  console.log(state.courseSelection)
       const userResponse = await CourseSelectionService.saveToUser(
         state.courseSelection,
