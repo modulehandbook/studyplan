@@ -312,10 +312,14 @@ module.exports = {
       password: req.body.password,
       startOfStudy: req.body.startOfStudy,
       studyPlan: req.body.studyPlan,
+      courseSelection: req.body.courseSelection,
       accessToken: req.body.accessToken,
+
     };
+    console.log(userParams);
     User.findByIdAndUpdate(req.params.id, { $set: userParams }, { new: true })
       .populate("studyPlan")
+      .populate("courseSelection")
       .populate("startOfStudy")
       .then((user, err) => {
         if (err) console.log(err.message);
