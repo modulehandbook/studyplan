@@ -1,7 +1,7 @@
 <template>
   <div>
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
-    <div v-if="courseSelection.semesterPlans"> <p> hier ist der inhalt der seite</p>
+    <div v-if="courseSelection != null && this.courseSelection.semesterPlans !=null"> <p> hier ist der inhalt der seite</p>
       <baseCourseSelection
         v-show="!pending"
         :courses="this.courseSelection.semesterPlans[0].unbookedCourses"
@@ -43,8 +43,8 @@
         await this.$store.dispatch("courseselection/fetchCourseSelection", {
           userId: this.user.id || this.user._id,
         });
-        console.log(this.courseSelection.semesterPlans[0].unbookedCourses);
-        console.log(this.courseSelection.semesterPlans[0].bookedCourses);
+        //console.log(this.courseSelection.semesterPlans[0].unbookedCourses);
+        //onsole.log(this.courseSelection.semesterPlans[0].bookedCourses);
       }
       this.pending = false;
     },

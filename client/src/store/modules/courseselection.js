@@ -79,10 +79,16 @@ export const actions = {
       state.courseSelection.testNumber = 55;
       const response = await CourseSelectionService.createCourseSelection(state.courseSelection);
       const courseSelection = response.data;
-      console.log(courseSelection);
+      //console.log(courseSelection);
       commit("SET_COURSESELECTION", courseSelection);
+      state.courseSelection.semesterPlans = [
+        {
+          unbookedCourses: [],
+          bookedCourses: [],
+        },
+      ];
       await dispatch("resetCoursePriority", {  });
-    //  console.log(state.courseSelection)
+      console.log(state.courseSelection)
       const userResponse = await CourseSelectionService.saveToUser(
         state.courseSelection,
         userId
