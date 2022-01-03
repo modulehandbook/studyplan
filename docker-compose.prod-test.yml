@@ -1,0 +1,8 @@
+version: '3'
+services:
+  node-server:
+    environment:
+      - NODE_ENV=production
+      - TEST_PROD=true
+    env_file:
+      - .env
