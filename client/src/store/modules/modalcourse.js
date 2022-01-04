@@ -55,36 +55,15 @@ export const actions = {
   },
   async fetchCourse(
     {  commit },
-    { program, version, code, semester }
   ) {
     //ask for the semester route -> if there is a 404, so no semester info is there yet,
     // check the basic vuex course state
     try {
         commit("SET_PENDING", true);
-        await ModalCourseService.fetchCourseWithSemester(
-        program,
-        version,
-        code,
-        semester
-        )
-        .then((response) => {
-            commit("SET_COURSE", response.data); //don't save the course to vuex, because we don't save the semester versions
-        })
-        .catch(async (error) => {
-            if (error.response.status == 404) {
-            //there is no semester information yet, so fetching and saving the basic course
-            } else {
-            const notification = {
-                type: "error",
-                message:
-                "There was a problem fetching course with code " +
-                code +
-                ": " +
-                error.message,
-            };
-            console.log(notification);
-            }
-        });
+        console.log(state.modalCourses);
+        commit("SET_MODALCOURSE", state.modalCourses[1]);
+        console.log(state.modalCourse)
+        
     } finally {
       commit("SET_PENDING", false);
     }
@@ -96,8 +75,9 @@ export const actions = {
       commit("SET_PENDING", true);
       await ModalCourseService.fetchModalCourses()
       .then((response) => {
-        console.log(response.data);
+       
         commit("SET_MODALCOURSES", response.data);
+        console.log(state.modalCourses);
       })
       .catch(async (error) => {
         const notification = {
@@ -113,6 +93,7 @@ export const actions = {
 };
 
 export const getters = {
+  getCourses: (state) => {return state.modalCourses;},
   getCourseByCode: (state) => (code) => {
     if (!state.courses) return;
     return state.courses.find((course) => course.course.code === code);

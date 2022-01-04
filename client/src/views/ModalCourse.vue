@@ -39,6 +39,7 @@
                 <span>Speichern</span>
             </button>
         </form>
+        <p v-show="modalCourse != undefined"> {{modalCourse.name}} </p>
     </div>
 </template>
 
@@ -80,7 +81,8 @@ export default {
     },
     async mounted(){
       await this.$store.dispatch("modalcourse/fetchCourses")
-     // console.log(this.modalCourse.modalCourses);
+      await this.$store.dispatch("modalcourse/fetchCourse")
+      console.log(this.modalCourse);
     },
     methods: {
         async createNewModalCourse(){
