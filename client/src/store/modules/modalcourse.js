@@ -11,7 +11,7 @@ export const mutations = {
   SET_MODALCOURSES(state, modalCourses) {
     state.modalCourses = modalCourses;
   },
-  SET_MODACOURSE(state, modalCourse) {
+  SET_MODALCOURSE(state, modalCourse) {
     state.modalCourse = modalCourse;
   },
   SET_PENDING(state, status) {
@@ -32,7 +32,6 @@ export const actions = {
       semester: semester,
     };
     console.log(modalCourse);
-    if(courseName != "gehWEiter")return;
     try{
       commit("SET_PENDING", true)
       state.modalCourse = {
