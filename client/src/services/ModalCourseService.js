@@ -8,7 +8,9 @@ const server = axios.create({
 
 export default{
     fetchModalCourses(){
-        return server.get("modalcourse");
+        return server.get("modalcourse", {
+            headers: authHeader(),
+        });
     },
     fetchModalCourse(semesterId){
         return server.get(`modalcourse/${semesterId}`);

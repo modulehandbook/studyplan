@@ -89,6 +89,27 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  async fetchCourses(
+    {commit},
+  ){
+    try {
+      commit("SET_PENDING", true);
+      await ModalCourseService.fetchModalCourses()
+      .then((response) => {
+        console.log(response.data);
+        commit("SET_MODALCOURSES", response.data);
+      })
+      .catch(async (error) => {
+        const notification = {
+          type: "error",
+          message: "There was a problem fetching courses" + error.message,
+        };
+        console.log(notification);
+      })
+    } finally{
+      commit("SET_PENDING", false);
+    }
+  },
 };
 
 export const getters = {

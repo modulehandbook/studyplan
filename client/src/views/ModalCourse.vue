@@ -78,6 +78,10 @@ export default {
     async created(){
         await this.$store.dispatch("semester/fetchSemesters");
     },
+    async mounted(){
+      await this.$store.dispatch("modalcourse/fetchCourses")
+     // console.log(this.modalCourse.modalCourses);
+    },
     methods: {
         async createNewModalCourse(){
             console.log({test: this.courseName, code: this.code, 

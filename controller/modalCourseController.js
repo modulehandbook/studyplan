@@ -35,7 +35,15 @@ module.exports = {
         console.log(`Error fetching modalCourse by ID: ${error.message}`);
       });
   },
-
+  showAll: (req, res) => {
+    ModalCourse.find()
+      .then((modalCourse) => {
+        res.json(modalCourse);
+      })
+      .catch((error) => {
+        console.log(`Error Fetching ModalCourse: ${error.message}`);
+      });
+  },
   update: (req, res) => {
     let modalCourseId = req.params.id;
 
