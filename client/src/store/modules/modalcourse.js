@@ -1,4 +1,4 @@
-import CourseService from "@/services/Api/CourseService.js";
+import ModalCourseService from "@/services/ModalCourseService.js";
 
 export const namespaced = true;
 
@@ -20,6 +20,31 @@ export const mutations = {
 };
 
 export const actions = {
+  async createCoures(
+    {state, commit, getters},
+    {courseName, code, avaiblePlaces, semester}
+  ){
+    try{
+      commit("SET_PENDING", true)
+      state.modalCourse = {
+        courseName: courseName,
+        code: code,
+        avaiblePlaces: avaiblePlaces,
+        semester: semester,
+      };
+      const response = await ModalCourseService.createModalCourse(state.modalCourse);
+      const modalCourse = response.data;
+      commit("SET_MODALCOURSE", modalCourse)
+    } catch(error){
+      const notification = {
+        type: "error",
+        message: "there was a problem creating modal course" + error.message
+      };
+      console.log(notification);
+      } finally{
+        commit("SET_PENDING", false);
+    }
+  },
   async fetchCourse(
     { state, commit, getters },
     { program, version, code, semester }
