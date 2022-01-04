@@ -28,7 +28,7 @@
     </div>
     <div class="addSemester">
       <button class="addSemester addSemester__button" @click="resetCourseSelection">
-        <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
+        <font-awesome-icon :icon="['fas', 'redo']" size="3x" />
       </button>
       <p class="addSemester addSemester__text">Kurswahl resetten</p>
     </div>
