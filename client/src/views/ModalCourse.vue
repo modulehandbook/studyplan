@@ -45,7 +45,7 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-//import { mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
     setup(){
         return {v$: useVuelidate()};
@@ -79,10 +79,19 @@ export default {
         await this.$store.dispatch("semester/fetchSemesters");
     },
     methods: {
-        createNewModalCourse(){
+        async createNewModalCourse(){
             console.log({test: this.courseName, code: this.code, 
             semester: this.semester, avaiblePlaces: this.avaiblePlaces,});
+            await this.$store.dispatch("modalcourse/createCourse", {
+              courseName: this.courseName,
+              code: this.code,
+              semester: this.semester,
+              avaiblePlaces: this.avaiblePlaces,
+            })
         },
+    },
+    computed: {
+      ...mapState("modalcourse", ["modalCourse"]),
     },
 }
 </script>

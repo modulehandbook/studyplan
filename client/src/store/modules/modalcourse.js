@@ -20,14 +20,23 @@ export const mutations = {
 };
 
 export const actions = {
-  async createCoures(
-    {state, commit, getters},
+  async createCourse(
+    {state, commit},
     {courseName, code, avaiblePlaces, semester}
   ){
+    
+    const modalCourse ={
+      name: courseName,
+      code: code,
+      avaiblePlaces: avaiblePlaces,
+      semester: semester,
+    };
+    console.log(modalCourse);
+    if(courseName != "gehWEiter")return;
     try{
       commit("SET_PENDING", true)
       state.modalCourse = {
-        courseName: courseName,
+        name: courseName,
         code: code,
         avaiblePlaces: avaiblePlaces,
         semester: semester,
@@ -46,14 +55,14 @@ export const actions = {
     }
   },
   async fetchCourse(
-    { state, commit, getters },
+    {  commit },
     { program, version, code, semester }
   ) {
     //ask for the semester route -> if there is a 404, so no semester info is there yet,
     // check the basic vuex course state
     try {
         commit("SET_PENDING", true);
-        await CourseService.fetchCourseWithSemester(
+        await ModalCourseService.fetchCourseWithSemester(
         program,
         version,
         code,
