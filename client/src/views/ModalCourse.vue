@@ -1,9 +1,58 @@
 <template>
     <div>
         <BaseHeading> <h1> alle Kurse </h1> </BaseHeading>
-
+        <form name="form" @submit.prevent="createNewModalCourse">
+            <h3>Kursname</h3>
+            <button >
+                <span>Speichern</span>
+            </button>
+        </form>
     </div>
 </template>
+
+<script>
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+
+export default {
+    setup(){
+        return {v$: useVuelidate()};
+    },
+    data(){
+        return {
+            semester: "",
+            name: "",
+            code: "",
+            avaiblePlaces: "",
+        };
+    },
+    validations(){
+        return{
+            semester:{
+                required,
+            },
+            name:{
+                required,
+            },
+            code:{
+                required,
+            },
+            avaiblePlaces:{
+                required,
+            },
+            
+        };
+    },
+    async created(){
+
+    },
+    methods: {
+        createNewModalCourse(){
+            console.log("form has been submitted");
+        },
+    },
+}
+</script>
 
 
 <style lang="scss" scoped>
