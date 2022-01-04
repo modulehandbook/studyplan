@@ -2,7 +2,39 @@
     <div>
         <BaseHeading> <h1> alle Kurse </h1> </BaseHeading>
         <form name="form" @submit.prevent="createNewModalCourse">
-            <h3>Kursname</h3>
+            <div>
+                <h3>kursdaten</h3>
+                <label for="courseName">Kursname</label>
+                <input v-model="courseName" 
+                placeholder="Kursnamen eintragen"
+                name="courseName">
+            </div>
+            <div>
+                <label for="code">Kurscode</label>
+                <input v-model="code" 
+                placeholder="Kurscode eintragen"
+                name="code">
+            </div>
+            <div>
+                <label for="avaiblePlaces">Platzanzahl</label>
+                <input v-model.number="avaiblePlaces" 
+                type="number"
+                placeholder="anzahl der plaetze eintragen"
+                name="avaiblePlaces">
+            </div>
+            <div>
+                <label for="semester">Semester</label>
+                <select v-model="semester" 
+                name="semester">
+                    <option    
+                     v-for="semester in this.$store.state.semester.semesters"
+                     :value="semester"
+                     :key="semester.id">
+                        {{semester.name}}
+
+                    </option>
+                </select>
+            </div>
             <button >
                 <span>Speichern</span>
             </button>
@@ -13,7 +45,7 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-
+//import { mapState } from "vuex";
 export default {
     setup(){
         return {v$: useVuelidate()};
@@ -21,7 +53,7 @@ export default {
     data(){
         return {
             semester: "",
-            name: "",
+            courseName: "",
             code: "",
             avaiblePlaces: "",
         };
@@ -31,7 +63,7 @@ export default {
             semester:{
                 required,
             },
-            name:{
+            courseName:{
                 required,
             },
             code:{
@@ -44,11 +76,12 @@ export default {
         };
     },
     async created(){
-
+        await this.$store.dispatch("semester/fetchSemesters");
     },
     methods: {
         createNewModalCourse(){
-            console.log("form has been submitted");
+            console.log({test: this.courseName, code: this.code, 
+            semester: this.semester, avaiblePlaces: this.avaiblePlaces,});
         },
     },
 }
