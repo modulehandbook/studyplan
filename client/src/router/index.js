@@ -138,10 +138,15 @@ router.beforeEach((to, from, next) => {
     next();
     return;
   }
-  if (!user || user == null) {
+  if ((!user || user == null) && router.options.history.base != "/register#") {
+    console.log(router.options.history.base)
     next("/login");
     return;
   }
+  else if ((!user || user == null)){
+    next("/register")
+  }
+
   let loggedIn = AccessTokenValidation.parseJwt(user.accessToken);
 
   if (loggedIn.exp < Date.now() / 1000) {
