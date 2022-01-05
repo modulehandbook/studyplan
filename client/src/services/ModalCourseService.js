@@ -20,4 +20,12 @@ export default{
             headers: authHeader(),
           });
     },
+    deleteModalCourse(modalCourse){
+        return server.delete(`modalcourse/${modalCourse._id}`, 
+          {
+            headers: authHeader(),
+          }, 
+          { modalCourse }
+          );
+    }
 };

@@ -35,7 +35,9 @@ export const actions = {
       const response = await ModalCourseService.createModalCourse(state.modalCourse);
       const modalCourse = response.data;
       commit("SET_MODALCOURSE", modalCourse);
-      commit("SET_MODALCOURSES", state.modalCourses.push(modalCourse));
+      state.modalCourses.push(modalCourse);
+      console.log("the state assumes this value");
+      console.log(state.modalCourses);
     } catch(error){
       const notification = {
         type: "error",
@@ -80,6 +82,18 @@ export const actions = {
         console.log(notification);
       })
     } finally{
+      commit("SET_PENDING", false);
+    }
+  },
+  async deleteCourse(
+    {state, commit,},
+    {index}
+  ){
+    try{
+      commit("SET_PENDING", true);
+      const courseToDelete = state.modalCourses.splice(index, 1)[0];
+      await ModalCourseService.deleteModalCourse(courseToDelete);
+    }finally{
       commit("SET_PENDING", false);
     }
   },
