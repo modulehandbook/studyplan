@@ -22,27 +22,20 @@ export const mutations = {
 export const actions = {
   async createCourse(
     {state, commit},
-    {courseName, code, avaiblePlaces, semester}
+    {courseName, code, availablePlaces, semester}
   ){
-    
-    const modalCourse ={
-      name: courseName,
-      code: code,
-      avaiblePlaces: avaiblePlaces,
-      semester: semester,
-    };
-    console.log(modalCourse);
     try{
       commit("SET_PENDING", true)
       state.modalCourse = {
         name: courseName,
         code: code,
-        avaiblePlaces: avaiblePlaces,
+        availablePlaces: availablePlaces,
         semester: semester,
       };
       const response = await ModalCourseService.createModalCourse(state.modalCourse);
       const modalCourse = response.data;
-      commit("SET_MODALCOURSE", modalCourse)
+      commit("SET_MODALCOURSE", modalCourse);
+      commit("SET_MODALCOURSES", state.modalCourses.push(modalCourse));
     } catch(error){
       const notification = {
         type: "error",

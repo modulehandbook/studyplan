@@ -16,11 +16,11 @@
                 name="code">
             </div>
             <div>
-                <label for="avaiblePlaces">Platzanzahl</label>
-                <input v-model.number="avaiblePlaces" 
+                <label for="availablePlaces">Platzanzahl</label>
+                <input v-model.number="availablePlaces" 
                 type="number"
                 placeholder="anzahl der plaetze eintragen"
-                name="avaiblePlaces">
+                name="availablePlaces">
             </div>
             <div>
                 <label for="semester">Semester</label>
@@ -39,7 +39,11 @@
                 <span>Speichern</span>
             </button>
         </form>
-        <p v-show="modalCourse != undefined"> {{modalCourse.name}} </p>
+        <div v-show="!pending">
+          <p v-for="(modalCourse, $modalCourseIndex) in modalCourses"
+          :key="modalCourse.id">{{modalCourse.code}} - {{modalCourse.name}}({{$modalCourseIndex}})</p>
+
+        </div> 
     </div>
 </template>
 
@@ -53,10 +57,11 @@ export default {
     },
     data(){
         return {
+            pending: false,
             semester: "",
             courseName: "",
             code: "",
-            avaiblePlaces: "",
+            availablePlaces: "",
         };
     },
     validations(){
@@ -70,7 +75,7 @@ export default {
             code:{
                 required,
             },
-            avaiblePlaces:{
+            availablePlaces:{
                 required,
             },
             
@@ -80,24 +85,28 @@ export default {
         await this.$store.dispatch("semester/fetchSemesters");
     },
     async mounted(){
+      this.pending = true;
       await this.$store.dispatch("modalcourse/fetchCourses")
       await this.$store.dispatch("modalcourse/fetchCourse")
-      console.log(this.modalCourse);
+      // <p v-show="modalCourse != undefined"> {{modalCourse.name}} </p>
+
+      console.log(this.modalCourses);
+      this.pending = false;
     },
     methods: {
         async createNewModalCourse(){
             console.log({test: this.courseName, code: this.code, 
-            semester: this.semester, avaiblePlaces: this.avaiblePlaces,});
+            semester: this.semester, availablePlaces: this.availablePlaces,});
             await this.$store.dispatch("modalcourse/createCourse", {
               courseName: this.courseName,
               code: this.code,
               semester: this.semester,
-              avaiblePlaces: this.avaiblePlaces,
+              availablePlaces: this.availablePlaces,
             })
         },
     },
     computed: {
-      ...mapState("modalcourse", ["modalCourse"]),
+      ...mapState("modalcourse", ["modalCourses"]),
     },
 }
 </script>
