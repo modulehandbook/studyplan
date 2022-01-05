@@ -3,8 +3,6 @@ import ExampleStudyPlan from "../views/ExampleStudyPlan.vue";
 import Login from "../views/Login.vue";
 import StudyPlan from "../views/StudyPlan.vue";
 import Help from "../views/Help.vue";
-import CourseSelection from '../views/CourseSelection.vue'
-import CourseSurvey from '../views/CourseSurvey.vue'
 import Profile from "../views/Profile.vue";
 import Register from "../views/Register.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
@@ -85,16 +83,6 @@ const routes = [
     ],
   },
   {
-    path: "/courseselection",
-    name: "CourseSelection",
-    component: CourseSelection,
-  },
-  {
-    path: "/coursesurvey",
-    name: "CourseSurvey",
-    component: CourseSurvey,
-  },
-  {
     path: "/hilfe",
     name: "Help",
     component: Help,
@@ -150,10 +138,15 @@ router.beforeEach((to, from, next) => {
     next();
     return;
   }
-  if (!user || user == null) {
+  if ((!user || user == null) && router.options.history.base != "/register#") {
+    console.log(router.options.history.base)
     next("/login");
     return;
   }
+  else if ((!user || user == null)){
+    next("/register")
+  }
+
   let loggedIn = AccessTokenValidation.parseJwt(user.accessToken);
 
   if (loggedIn.exp < Date.now() / 1000) {
