@@ -15,6 +15,11 @@ export default{
     fetchModalCourse(semesterId){
         return server.get(`modalcourse/${semesterId}`);
     },
+    updateModalCourse(modalCourse) {
+        return server.put(`modalcourse/${modalCourse._id}`, modalCourse, {
+          headers: authHeader(),
+        });
+      },
     createModalCourse(modalCourse){
         return server.post('modalcourse/create', modalCourse,{
             headers: authHeader(),

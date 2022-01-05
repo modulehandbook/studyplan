@@ -37,6 +37,7 @@ module.exports = {
   },
   showAll: (req, res) => {
     ModalCourse.find()
+      .populate("semester")
       .then((modalCourse) => {
         res.json(modalCourse);
       })
@@ -57,10 +58,10 @@ module.exports = {
       { new: true }
     )
       .populate("semester")
-      .then((courseSelection, err) => {
+      .then((modalCourse, err) => {
         if (err) console.log(err.message);
         else {
-          res.json(courseSelection);
+          res.json(modalCourse);
         }
       });
   },

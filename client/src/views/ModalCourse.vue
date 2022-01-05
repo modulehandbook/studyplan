@@ -42,7 +42,7 @@
         <div v-show="!pending">
           <div v-for="(modalCourse, $modalCourseIndex) in modalCourses"
           :key="modalCourse.id">
-          <p>{{modalCourse.code}} - {{modalCourse.name}} mit {{modalCourse.availablePlaces}} plaetzen ({{$modalCourseIndex}} )</p>
+          <p>{{modalCourse.code}} - {{modalCourse.name}} mit {{modalCourse.availablePlaces}} plaetzen ({{modalCourse.semester.name}})</p>
           <button @click="deleteCourse($modalCourseIndex)"> Kurs loeschen </button>
           </div>
         </div> 
@@ -97,6 +97,8 @@ export default {
     },
     methods: {
         async createNewModalCourse(){
+          this.v$.$touch();
+          if(!this.v$.$invalid && this.semester && this.courseName && this.code && this.availablePlaces){
             console.log({test: this.courseName, code: this.code, 
             semester: this.semester, availablePlaces: this.availablePlaces,});
             await this.$store.dispatch("modalcourse/createCourse", {
@@ -105,6 +107,7 @@ export default {
               semester: this.semester,
               availablePlaces: this.availablePlaces,
             });
+          }
         },
         async deleteCourse(index){
           console.log(index);
