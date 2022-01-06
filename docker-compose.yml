@@ -24,7 +24,6 @@ services:
     depends_on:
       - node-server
     volumes:
-      - .eslintrc.js:/studyplan/app/.eslintrc.js
       - ./client:/studyplan/app
       - /studyplan/app/node_modules
   
