@@ -1,4 +1,7 @@
 version: '3'
+volumes:
+  node_server_modules:
+  node_vue_modules:
 services:
   node-server:
     build:
@@ -12,7 +15,7 @@ services:
     volumes:
       - .:/studyplan/api
       - /studyplan/client
-      - /studyplan/api/node_modules
+      - node_server_modules:/studyplan/api/node_modules
 
   vue-app:
     build:
@@ -24,9 +27,9 @@ services:
     depends_on:
       - node-server
     volumes:
-      - ./.eslintrc.js:/studyplan/app/.eslintrc.js
+      - .eslintrc.js:/studyplan/app/.eslintrc.js
       - ./client:/studyplan/app
-      - /studyplan/app/node_modules
+      - node_vue_modules:/studyplan/app/node_modules
   
   mongo-db:
     image: mongo
