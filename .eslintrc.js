@@ -1,20 +1,20 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    es2021: true
   },
   extends: [
-    "plugin:vue/essential",
-    "plugin:prettier/recommended",
     "eslint:recommended",
-    "@vue/prettier"
+    "prettier"
   ],
-  parserOptions: {
-    ecmaVersion: 2020
-  },
+  plugins: [
+    "prettier"
+  ],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
+    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "prettier/prettier": [warn]
   },
   overrides: [
     {
