@@ -15,13 +15,13 @@
             v-model="selectedProgram"
             class="select"
             name="program"
-            @blur="v$.selectedProgram.$touch()"
             :class="{ error: v$.selectedProgram.$error }"
+            @blur="v$.selectedProgram.$touch()"
           >
             <option
-              v-for="program in this.$store.state.program.programs"
-              :value="program"
+              v-for="program in $store.state.program.programs"
               :key="program.code"
+              :value="program"
             >
               {{ program.name }}
             </option>
@@ -39,8 +39,8 @@
             v-model="stupo"
             class="select"
             name="stupo"
-            @blur="v$.stupo.$touch()"
             :class="{ error: v$.stupo.$error }"
+            @blur="v$.stupo.$touch()"
           >
             <option>StuPo 28/12</option>
           </select>
@@ -60,13 +60,13 @@
             v-model="startOfStudy"
             class="select select--small"
             name="startOfStudy"
-            @blur="v$.startOfStudy.$touch()"
             :class="{ error: v$.startOfStudy.$error }"
+            @blur="v$.startOfStudy.$touch()"
           >
             <option
-              v-for="semester in this.$store.state.semester.semesters"
-              :value="semester"
+              v-for="semester in $store.state.semester.semesters"
               :key="semester.id"
+              :value="semester"
             >
               {{ semester.name }}
             </option>
@@ -117,6 +117,10 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState("studyplan", ["studyPlan"]),
+  },
+
   async created() {
     if (this.$store.state.user.user.startOfStudy) {
       this.$router.push("/my-studyplan");
@@ -124,9 +128,6 @@ export default {
       await this.$store.dispatch("program/fetchPrograms");
       await this.$store.dispatch("semester/fetchSemesters");
     }
-  },
-  computed: {
-    ...mapState("studyplan", ["studyPlan"]),
   },
 
   methods: {

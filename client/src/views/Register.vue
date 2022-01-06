@@ -42,10 +42,10 @@
         <div>
           <label for="password">Passwort</label>
           <input
+            id="password"
             v-model="password"
             type="password"
             name="password"
-            id="password"
             :class="{ error: v$.password.$error }"
             @blur="v$.password.$touch()"
           />

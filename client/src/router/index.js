@@ -3,8 +3,8 @@ import ExampleStudyPlan from "../views/ExampleStudyPlan.vue";
 import Login from "../views/Login.vue";
 import StudyPlan from "../views/StudyPlan.vue";
 import Help from "../views/Help.vue";
-import CourseSelection from '../views/CourseSelection.vue';
-import CourseSurvey from '../views/CourseSurvey.vue';
+import CourseSelection from "../views/CourseSelection.vue";
+import CourseSurvey from "../views/CourseSurvey.vue";
 import Profile from "../views/Profile.vue";
 import Register from "../views/Register.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
@@ -151,12 +151,11 @@ router.beforeEach((to, from, next) => {
     return;
   }
   if ((!user || user == null) && router.options.history.base != "/register#") {
-    console.log(router.options.history.base)
+    console.log(router.options.history.base);
     next("/login");
     return;
-  }
-  else if ((!user || user == null)){
-    next("/register")
+  } else if (!user || user == null) {
+    next("/register");
   }
 
   let loggedIn = AccessTokenValidation.parseJwt(user.accessToken);

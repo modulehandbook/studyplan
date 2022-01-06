@@ -2,8 +2,8 @@
   <div>
     <BaseHeading><h1>Plan nach Studienordnung</h1></BaseHeading>
     <BaseExampleSemesterAndCoursesTable
-      :coursesInSemester="courses"
       v-show="!pending"
+      :courses-in-semester="courses"
     />
   </div>
 </template>
@@ -22,6 +22,11 @@ export default {
       courses: {},
     };
   },
+  computed: {
+    ...mapState("program", ["program"]),
+    ...mapState("user", ["user"]),
+  },
+
   async created() {
     if (!this.$store.state.user.user.startOfStudy) {
       this.$router.push("/select-program");
@@ -36,10 +41,6 @@ export default {
       );
       this.pending = false;
     }
-  },
-  computed: {
-    ...mapState("program", ["program"]),
-    ...mapState("user", ["user"]),
   },
 };
 </script>

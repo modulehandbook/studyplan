@@ -10,11 +10,11 @@
           v-model="username"
           type="text"
           name="username"
+          :class="{ error: v$.username.$error }"
           @blur="
             v$.username.$touch();
             handleUpdate($event, 'username');
           "
-          :class="{ error: v$.username.$error }"
         />
       </div>
       <div class="fieldgroup">
@@ -23,11 +23,11 @@
           v-model="email"
           type="email"
           name="email"
+          :class="{ error: v$.email.$error }"
           @blur="
             v$.email.$touch();
             handleUpdate($event, 'email');
           "
-          :class="{ error: v$.email.$error }"
         />
       </div>
     </div>
@@ -114,6 +114,10 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState("user", ["user"]),
+  },
+
   created() {
     if (!this.user.startOfStudy) {
       this.$router.push("/select-program");
@@ -124,9 +128,6 @@ export default {
       this.program = this.user.studyPlan.program.name;
       this.version = this.user.studyPlan.program.version;
     }
-  },
-  computed: {
-    ...mapState("user", ["user"]),
   },
   methods: {
     ...mapMutations("user", ["SET_USER"]),

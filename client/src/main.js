@@ -6,7 +6,7 @@ import { store } from "./store";
 const app = createApp(App);
 
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-app.component("pulse-loader", PulseLoader);
+app.component("PulseLoader", PulseLoader);
 
 import upperFirst from "lodash/upperFirst";
 import camelCase from "lodash/camelCase";
@@ -22,7 +22,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faPlusCircle, faArrowLeft, faUser, faBars, faSignOutAlt);
-app.component("font-awesome-icon", FontAwesomeIcon);
+app.component("FontAwesomeIcon", FontAwesomeIcon);
 
 //registering BaseComponents globall
 const requireComponent = require.context(

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <CookieMessage position="top"/>
+    <CookieMessage position="top" />
     <div class="content-wrap">
       <div id="nav">
         <BaseNavigation />
@@ -12,14 +12,14 @@
 </template>
 
 <script>
-  import CookieMessage from './components/BaseCookieConsent.vue'
+import CookieMessage from "./components/BaseCookieConsent.vue";
 
-  export default {
-    name: 'app',
-    components: {
-      CookieMessage
-    }
-  }
+export default {
+  name: "App",
+  components: {
+    CookieMessage,
+  },
+};
 </script>
 
 <style lang="scss">

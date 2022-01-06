@@ -8,21 +8,21 @@
     >
       <BaseSemesterRowSidebar
         :semester="semester"
-        :semesterIndex="semesterIndex"
-        :semesterName="semesterName"
+        :semester-index="semesterIndex"
+        :semester-name="semesterName"
       />
 
       <div class="courses">
         <div
-          class="course"
           v-for="(course, $courseIndex) in semester.plannedCourses"
           :key="$courseIndex"
+          class="course"
           draggable="true"
-          @dragstart="pickupCourse($event, $courseIndex, semesterIndex)"
-          @drop.stop="moveCourse($event, semester.plannedCourses, $courseIndex)"
           :style="{
             width: `${courseWidth(course)}px`,
           }"
+          @dragstart="pickupCourse($event, $courseIndex, semesterIndex)"
+          @drop.stop="moveCourse($event, semester.plannedCourses, $courseIndex)"
         >
           <router-link
             class="course-content-container"
