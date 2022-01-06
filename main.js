@@ -20,7 +20,7 @@ const mongodbURI =
 
 //partly from asalant/connectWithRetry.js
 var connectWithRetry = function() {
-  return mongoose.connect(mongodbURI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then( //useCreateIndex: true because: ("https://github.com/Automattic/mongoose/issues/6890")
+  return mongoose.connect(mongodbURI).then(
     () => {
       console.log("Database is connected");
     },
@@ -32,7 +32,6 @@ var connectWithRetry = function() {
   );
 };
 connectWithRetry();
-mongoose.set("useFindAndModify", false);
 app.use(history({
   // OPTIONAL: Includes more verbose logging
   verbose: true
