@@ -12,14 +12,14 @@ const oauth2Client = new OAuth2(clientID, clientSecret, redirectURL);
 if (process.env.NODE_ENV == "production") {
   oauth2Client.setCredentials({
     refresh_token: refreshToken,
-  });
+  }); 
   const gmailAccessToken = oauth2Client.getAccessToken();
 
   const gmailTransporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       type: "OAuth2",
-      user: "studyplanhtwberlin@gmail.com",
+      user: "imi.module.selection@gmail.com",
       clientId: clientID,
       clientSecret: clientSecret,
       refreshToken: refreshToken,
