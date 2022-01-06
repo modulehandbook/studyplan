@@ -314,7 +314,6 @@ module.exports = {
       studyPlan: req.body.studyPlan,
       courseSelection: req.body.courseSelection,
       accessToken: req.body.accessToken,
-
     };
     console.log(userParams);
     User.findByIdAndUpdate(req.params.id, { $set: userParams }, { new: true })
