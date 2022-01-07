@@ -20,6 +20,11 @@ export default{
           headers: authHeader(),
         });
       },
+    updateModalCourses(semester){
+        return server.put(`modalcourse/${semester._id}`, {
+          headers: authHeader(),
+        });
+    },
     createModalCourse(modalCourse){
         return server.post('modalcourse/create', modalCourse,{
             headers: authHeader(),

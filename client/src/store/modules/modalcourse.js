@@ -101,6 +101,31 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  async assignUsers(
+    {commit, rootGetters, getters}
+  ){
+
+
+    try{
+    commit("SET_PENDING", true);
+    const semester = rootGetters['semester/getCurrentSemester'];
+    const test = getters.getCoursesBySemester(semester);
+    console.log(test);
+    if(semester != undefined) return;
+    //const response = await ModalCourseService.updateModalCourses(semester);
+    //const modalCourses = response.data;
+
+   // commit("SET_MODALCOURSES", modalCourses);
+    } catch(error) {
+      const notification = {
+        type: "error",
+        message: "there was a problem assigning users to modal courses: " + error.message,
+      };
+      console.log(notification);
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },
 };
 
 export const getters = {
@@ -111,6 +136,6 @@ export const getters = {
   },
   getCoursesBySemester: (state) => (semester) => {
     if(!state.modalCourses) return;
-    return state.modalCourses.filter((modalCourse) => modalCourse.modalCourse.semester === semester);
+    return state.modalCourses.filter((modalCourse) => modalCourse.semester.name === semester.name);
   },
 };

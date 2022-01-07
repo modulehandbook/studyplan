@@ -86,13 +86,15 @@ export default {
     },
     async created(){
         await this.$store.dispatch("semester/fetchSemesters");
+       
         var test = this.$store.getters["semester/getCurrentSemester"];
         console.log(test);
     },
     async mounted(){
       this.pending = true;
-      await this.$store.dispatch("modalcourse/fetchCourses")
-      await this.$store.dispatch("modalcourse/fetchCourse")
+      await this.$store.dispatch("modalcourse/fetchCourses");
+      await this.$store.dispatch("modalcourse/fetchCourse");
+      await this.$store.dispatch("modalcourse/assignUsers");
       // <p v-show="modalCourse != undefined"> {{modalCourse.name}} </p>
 
       console.log(this.modalCourses);
