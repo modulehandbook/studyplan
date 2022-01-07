@@ -62,6 +62,7 @@ export default {
             pending: false,
             semester: "",
             courseName: "",
+            filterSemester: "",
             code: "",
             availablePlaces: "",
         };
@@ -85,6 +86,8 @@ export default {
     },
     async created(){
         await this.$store.dispatch("semester/fetchSemesters");
+        var test = this.$store.getters["semester/getCurrentSemester"];
+        console.log(test);
     },
     async mounted(){
       this.pending = true;
