@@ -5,4 +5,8 @@ services:
       - NODE_ENV=production
       - TEST_PROD=true
     env_file:
+<<<<<<< HEAD
       - .env
+=======
+      - prod.env
+>>>>>>> working-Krist
