@@ -6,7 +6,10 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "clean-packages": "rm package-lock.json && rm -r node_modules && npm i",
+    "clean-packages:all": "npm run clean-packages && cd .. && npm run clean-packages",
+    "clean-docker-packages": "cd .. && npm run clean-docker-packages"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.3.0-beta3",
