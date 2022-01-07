@@ -8,7 +8,7 @@
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "clean-packages": "rm package-lock.json && rm -r node_modules && npm i",
-    "clean-packages:all": "npm run clean-packages && cd .. && npm run clean-packages",
+    "clean-packages-all": "npm run clean-packages && cd .. && npm run clean-packages",
     "clean-docker-packages": "cd .. && npm run clean-docker-packages"
   },
   "dependencies": {

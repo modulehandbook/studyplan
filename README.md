@@ -49,6 +49,22 @@ sudo docker-compose down
 sudo docker-compose logs
 ```
 
+### Clean reset the enviroment
+#### If you have, for example, problems with not installed node packages run this command to completely rebuild the docker images:
+```bash
+npm run clean-docker-packages
+```
+
+#### If you want to completely reinstall the node packages on your local machine run this command either in ```client/``` or in ```root``` to clean the vue-app-packages / node-server-packages:
+```bash
+npm run clean-packages
+```
+
+#### Or to clean both run:
+```bash
+npm run clean-packages
+```
+
 ## Additional information
 * You may want not always prefix the docker commands with ```sudo```, so look [here](https://docs.docker.com/engine/install/linux-postinstall/).
 * In ```docker-dev-db``` the local database is stored. To reset remove the directory.
