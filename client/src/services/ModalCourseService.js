@@ -21,7 +21,7 @@ export default{
         });
       },
     updateModalCourses(semester){
-        return server.put(`modalcourse/${semester._id}`, {
+        return server.put(`modalcourse/${semester._id}`, semester, {
           headers: authHeader(),
         });
     },

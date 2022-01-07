@@ -111,10 +111,11 @@ export const actions = {
     const semester = rootGetters['semester/getCurrentSemester'];
     const test = getters.getCoursesBySemester(semester);
     console.log(test);
-    if(semester != undefined) return;
-    //const response = await ModalCourseService.updateModalCourses(semester);
-    //const modalCourses = response.data;
-
+    //if(semester != undefined) return;
+    const response = await ModalCourseService.updateModalCourses(semester);
+    const modalCourses = response.data;
+    console.log("the following courses from the databese could be found:");
+    console.log(modalCourses);
    // commit("SET_MODALCOURSES", modalCourses);
     } catch(error) {
       const notification = {

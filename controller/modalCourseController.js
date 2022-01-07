@@ -1,3 +1,4 @@
+const modalCourse = require("../model/modalCourse");
 const User = require("../model/user"),
 ModalCourse = require("../model/modalCourse");
 module.exports = {
@@ -37,7 +38,7 @@ module.exports = {
   },
   showAll: (req, res) => {
     ModalCourse.find()
-      .populate("semester")
+      .populate("semester students")
       .then((modalCourse) => {
         res.json(modalCourse);
       })
@@ -46,23 +47,22 @@ module.exports = {
       });
   },
   update: (req, res) => {
-    let modalCourseId = req.params.id;
+    let semesterId = req.params.id;
 
-    ModalCourse.findByIdAndUpdate(
-        modalCourseId,
-      {
-        $set: {
-          students: req.body.students,
-        },
-      },
-      { new: true }
-    )
-      .populate("semester")
-      .then((modalCourse, err) => {
-        if (err) console.log(err.message);
-        else {
-          res.json(modalCourse);
-        }
+    User.find()
+      .then((users) => {
+        ModalCourse.updateMany(
+          {semester: semesterId}, 
+          {
+            students: users,
+          },
+          {new: true}
+          )
+          .populate('semester students')
+          .then((modalCourses, err) => {
+            if (err)console.log(err.message);
+            else res.json(modalCourses);
+          });
       });
   },
 };
