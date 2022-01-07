@@ -109,4 +109,8 @@ export const getters = {
     if (!state.courses) return;
     return state.courses.find((course) => course.course.code === code);
   },
+  getCoursesBySemester: (state) => (semester) => {
+    if(!state.modalCourses) return;
+    return state.modalCourses.filter((modalCourse) => modalCourse.modalCourse.semester === semester);
+  },
 };
