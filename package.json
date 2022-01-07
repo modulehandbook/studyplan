@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --fix .",
+    "lint-all": "npm run lint && cd client && npm run lint",
     "clean-packages": "rm package-lock.json && rm -r node_modules && npm i",
     "clean-packages-all": "npm run clean-packages && cd client && npm run clean-packages",
     "clean-docker-packages": "sudo docker-compose down ; sudo docker rm -f $(sudo docker ps -a -q) ; sudo docker volume rm $(sudo docker volume ls -q) ; sudo docker-compose build --no-cache ; sudo docker-compose up"

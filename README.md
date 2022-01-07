@@ -49,6 +49,18 @@ sudo docker-compose down
 sudo docker-compose logs
 ```
 
+### Lint and format code
+
+#### run this command either in ```client/``` or in ```root``` to lint and format the vue-app / node-server code: 
+```bash
+npm run lint
+```
+
+#### Or to lint and format both run:
+```bash
+npm run lint-all
+```
+
 ### Clean reset the enviroment
 #### If you have, for example, problems with not installed node packages run this command to completely rebuild the docker images:
 ```bash
