@@ -241,7 +241,8 @@ export const actions = {
     if(course.ects !=0)state.courseSelection.semesterPlans[0].unbookedCourses.push(course);
     await dispatch("updateCourseSelection");
   },
-  async resetCoursePriority({state, dispatch,}) {
+  async resetCoursePriority({state, dispatch,rootGetters}) {
+    state.courseSelection.semesterPlans[0] = rootGetters['semester/getCurrentSemester'];
     state.courseSelection.semesterPlans[0].unbookedCourses = [
       {
         code: "GT1",

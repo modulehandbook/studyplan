@@ -65,6 +65,24 @@ module.exports = {
       
       //CoursesInThisSemester[modalCourses[0].code] = {test:1, test2: "test"};
       res.json(CoursesInThisSemester);
+      /*
+      User.find()
+        .populate("courseSelection")
+        then((users) => {
+          users.forEach((user) => {
+            const userId = user._id
+            user.courseSelection.semesterPlans.find(
+              (semesterPlan) => semesterPlan.semester === semesterId)
+              .bookedCourses.forEach((course) => {
+                CoursesInThisSemester[course.code].students.push({
+                  user: userId,
+                  priority: course.priority,
+                });
+              });
+          });
+        
+        });
+        */
     })
     .catch((error) => {
       console.log(`Error updating courses: ${error.message}`);
