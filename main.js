@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 let mongodbURI;
 if (process.env.NODE_ENV == "TEST") {
-  mongodbURI = "mongodb://localhost:27018/studyplan";
+  mongodbURI = "mongodb://mongo-test-db:27017/studyplan";
 } else {
   mongodbURI = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
 }
