@@ -14,11 +14,13 @@
   "author": "Julia Zamaitat",
   "license": "ISC",
   "devDependencies": {
+    "eml-parser": "^1.0.6",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^25.3.4",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.4.7",
+    "mongodb": "^4.3.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "supertest": "^6.1.6"
@@ -31,7 +33,6 @@
     "express": "^4.17.1",
     "googleapis": "^92.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^4.2.2",
     "mongoose": "^6.1.5",
     "node-localstorage": "^2.2.1",
     "nodemailer": "^6.6.3",

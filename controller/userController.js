@@ -294,15 +294,21 @@ module.exports = {
         "/users/confirmation/" +
         res.locals.token.token,
     };
-    transporter.sendMail(mailOptions, function (err) {
+    transporter.sendMail(mailOptions, function (err, info) {
       if (err) {
         return res.status(500).send({ msg: err.message });
       }
-      res
-        .status(200)
-        .send(
-          "A verification email has been sent to " + res.locals.user.email + "."
-        );
+      if (process.env.NODE_ENV == "TEST") {
+        res.status(200).send(nodemailer.getTestMessageUrl(info));
+      } else {
+        res
+          .status(200)
+          .send(
+            "A verification email has been sent to " +
+              res.locals.user.email +
+              "."
+          );
+      }
     });
   },
   update: async (req, res) => {
