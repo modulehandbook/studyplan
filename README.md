@@ -61,6 +61,11 @@ npm run lint
 npm run lint-all
 ```
 
+### Run Server Tests (run in ```root```)
+```bash
+npm run test
+```
+
 ### Clean reset the enviroment
 #### If you have, for example, problems with not installed node packages run this command to completely rebuild the docker images:
 ```bash
