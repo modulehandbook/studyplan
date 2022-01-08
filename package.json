@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "sudo docker-compose -f docker-compose.test.yml up -d && jest --runInBand --detectOpenHandles && sudo docker-compose -f docker-compose.test.yml down",
     "lint": "eslint --fix .",
     "lint-all": "npm run lint && cd client && npm run lint",
     "clean-packages": "rm package-lock.json && rm -r node_modules && npm i",
@@ -16,9 +16,12 @@
   "devDependencies": {
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^25.3.4",
     "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.4.7",
     "nodemon": "^2.0.15",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "supertest": "^6.1.6"
   },
   "dependencies": {
     "axios": "^0.24.0",

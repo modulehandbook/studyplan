@@ -9,8 +9,12 @@ const express = require("express"),
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const mongodbURI =
-  process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
+let mongodbURI;
+if (process.env.NODE_ENV == "TEST") {
+  mongodbURI = "mongodb://localhost:27018/studyplan";
+} else {
+  mongodbURI = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
+}
 
 //partly from asalant/connectWithRetry.js
 var connectWithRetry = function () {
@@ -44,8 +48,11 @@ app.use(express.json());
 app.use(cors());
 
 // app.use(serveStatic(__dirname + "/dist"));
-
-app.set("port", process.env.PORT || 3000);
+if (process.env.NODE_ENV == "TEST") {
+  app.set("port", 3001);
+} else {
+  app.set("port", process.env.PORT || 3000);
+}
 app.set("view engine", "ejs"); //To use EJS
 
 // Serve static assets
