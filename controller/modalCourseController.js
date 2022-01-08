@@ -1,4 +1,5 @@
-const modalCourse = require("../model/modalCourse");
+//const modalCourse = require("../model/modalCourse");
+//const { populate } = require("../model/user");
 const User = require("../model/user"),
 ModalCourse = require("../model/modalCourse");
 module.exports = {
@@ -48,9 +49,40 @@ module.exports = {
   },
   update: (req, res) => {
     let semesterId = req.params.id;
-
+    
+    ModalCourse.find({semester: semesterId})
+    .populate("semester")
+    .then((modalCourses) => {
+      let CoursesInThisSemester = {};
+      
+      modalCourses.forEach((modalCourse) =>{
+        CoursesInThisSemester[modalCourse.code] = {
+          id: modalCourse.id,
+          students: [],
+          availablePlaces: modalCourse.availablePlaces,
+        };
+      });
+      
+      //CoursesInThisSemester[modalCourses[0].code] = {test:1, test2: "test"};
+      res.json(CoursesInThisSemester);
+    })
+    .catch((error) => {
+      console.log(`Error updating courses: ${error.message}`);
+    });
+    /*
+    if(999 == 22)return;
     User.find()
+      .populate("courseSelection")
       .then((users) => {
+        let courseSelections = [];
+        for(user in users){
+          for(semesterplan in user.courseSelection.semesterPlans){
+            if(semesterplan.semester === semesterId)courseSelections.push(
+              {user: user, bookedCourses: semesterplan.bookedCourses,});
+          }
+        }
+      
+
         ModalCourse.updateMany(
           {semester: semesterId}, 
           {
@@ -64,5 +96,6 @@ module.exports = {
             else res.json(modalCourses);
           });
       });
+      */
   },
 };
