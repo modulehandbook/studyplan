@@ -1,5 +1,4 @@
 const request = require("supertest");
-//const app = require("../main.js");
 const db = require("./config/dbHandler.js");
 
 beforeAll(async () => await db.connect());
@@ -9,7 +8,14 @@ afterAll(async () => await db.closeDatabase());
 describe("users", () => {
   describe("POST users/register", () => {
     test("successful", (done) => {
-      request("http://localhost:3001").get("/").expect(200, done);
+      request("http://localhost:3001")
+          .get("/programs")
+        /*.post("/users/register", {
+          username: "test",
+          email: "test@mail.de",
+          password: "testPass",
+        })*/
+        .expect(200, done);
     });
   });
 });
