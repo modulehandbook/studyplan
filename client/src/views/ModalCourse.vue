@@ -94,10 +94,10 @@ export default {
       this.pending = true;
       await this.$store.dispatch("modalcourse/fetchCourses");
       await this.$store.dispatch("modalcourse/fetchCourse");
-     // await this.$store.dispatch("modalcourse/assignUsers");
+      await this.$store.dispatch("modalcourse/assignUsers");
       // <p v-show="modalCourse != undefined"> {{modalCourse.name}} </p>
 
-      //console.log(this.modalCourses);
+      console.log(this.modalCourses);
       this.pending = false;
     },
     methods: {

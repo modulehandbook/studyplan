@@ -100,16 +100,16 @@ module.exports = {
               },
               {new: true}
               )
-              .populate("students")
+              .populate("students semester")
               .then((moin, err) => {
                 if(err) console.log(err.message);
-                else(responseJson.push(moin));
+                else res.json(moin);
               });
           }
           //61d337cf87268f001e8ee21b
           
         });
-        response.json(responseJson);
+        
       /*
       User.find()
         .populate("courseSelection")
