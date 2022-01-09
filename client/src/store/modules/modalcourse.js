@@ -116,7 +116,7 @@ export const actions = {
     const modalCourses = response.data;
     console.log("the following courses from the databese could be found:");
     console.log(modalCourses);
-   // commit("SET_MODALCOURSES", modalCourses);
+    commit("SET_MODALCOURSES", modalCourses);
     } catch(error) {
       const notification = {
         type: "error",

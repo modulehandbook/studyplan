@@ -49,7 +49,7 @@ module.exports = {
   },
   update: (req, res) => {
     let semesterId = req.params.id;
-    
+    let responseJson = [];
     ModalCourse.find({semester: semesterId})
     .populate("semester")
     .then((modalCourses) => {
@@ -57,14 +57,59 @@ module.exports = {
       
       modalCourses.forEach((modalCourse) =>{
         CoursesInThisSemester[modalCourse.code] = {
-          id: modalCourse.id,
+          id: modalCourse._id,
           students: [],
           availablePlaces: modalCourse.availablePlaces,
         };
       });
       
       //CoursesInThisSemester[modalCourses[0].code] = {test:1, test2: "test"};
-      res.json(CoursesInThisSemester);
+      
+      User.find()
+        .populate('courseSelection')
+        .then((users) => {
+          let currentSemesterPlans = [];
+        
+          users.forEach((user) =>{
+           
+            let currentSemesterPlan = user.courseSelection.semesterPlans.find(
+              (semesterPlan) => semesterPlan.semester == semesterId
+            );
+            
+            if(currentSemesterPlan)currentSemesterPlan.bookedCourses.forEach(
+              (course) => {
+                CoursesInThisSemester[course.code].students.push({
+                  user: user._id,
+                  priority: course.priority,
+               });
+              });
+             // CoursesInThisSemester[currentSemesterPlan.bookedCourses[0].code].students = ["test"];
+              
+          });
+          for(let property in CoursesInThisSemester){
+            CoursesInThisSemester[property].students.sort((a, b) => 0.5 - Math.random())
+              .sort((student1, student2) => student1.priority > student2.priority);
+            const finalArray = CoursesInThisSemester[property].students.slice(0, CoursesInThisSemester[property].availablePlaces -1)
+              .map((element) => element.user);
+            ModalCourse.findByIdAndUpdate(
+              CoursesInThisSemester[property].id, 
+              {
+                $set: {
+                  students: finalArray,
+                },    
+              },
+              {new: true}
+              )
+              .populate("students")
+              .then((moin, err) => {
+                if(err) console.log(err.message);
+                else(responseJson.push(moin));
+              });
+          }
+          //61d337cf87268f001e8ee21b
+          
+        });
+        response.json(responseJson);
       /*
       User.find()
         .populate("courseSelection")
