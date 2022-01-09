@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "sudo docker-compose -f docker-compose.test.yml up -d && jest --runInBand --detectOpenHandles ; sudo docker-compose -f docker-compose.test.yml down",
+    "test": "sudo docker-compose -f docker-compose.test.yml up -d && jest --runInBand ; sudo docker-compose -f docker-compose.test.yml down ; rm -r tmp-test/",
     "lint": "eslint --fix .",
     "lint-all": "npm run lint && cd client && npm run lint",
     "clean-packages": "rm package-lock.json && rm -r node_modules && npm i",

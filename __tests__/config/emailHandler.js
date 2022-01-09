@@ -2,29 +2,25 @@ const fs = require("fs");
 const https = require("https");
 const EmlParser = require("eml-parser");
 
-module.exports.getVerificationCode = async (url) => {
-    let res;
+module.exports.getVerificationCode = (url, callback) => {
   // Download the file
   https
-    .get(url, async (res) => {
+    .get(url, (res) => {
       // Open file in local filesystem
-      const file =  fs.createWriteStream("email.eml");
-
+      const file = fs.createWriteStream("tmp-test/email.eml");
       // Write data into local file
       res.pipe(file);
-
       // Close the file
-      file.on("finish", async () => {
+      file.on("finish", () => {
         file.close();
-        console.log(`File downloaded!`);
 
-        await new EmlParser(fs.createReadStream("email.eml"))
+        new EmlParser(fs.createReadStream("tmp-test/email.eml"))
           .parseEml()
           .then(async (result) => {
-            console.log(result.text);
-            res = result.text
+            let str = result.text.split("confirmation/")[1]
+            callback(str);
           })
-          .catch(async(err) => {
+          .catch(async (err) => {
             console.log(err);
           });
       });
@@ -32,5 +28,4 @@ module.exports.getVerificationCode = async (url) => {
     .on("error", async (err) => {
       console.log("Error: ", err.message);
     });
-    return res;
 };
