@@ -25,6 +25,7 @@
           }"
         >
           <div
+            v-if="course.ects!=0"
             class="course-content-container-content" 
             :class="{
                 'course-content-container-content--booked': true,
