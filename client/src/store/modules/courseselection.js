@@ -49,7 +49,7 @@ export const actions = {
       } else {
         const response = await CourseSelectionService.fetchCourseSelection(userId);
         const courseSelection = response.data;
-        //console.log(courseSelection);
+        console.log(courseSelection);
         //console.log(state.courseSelection);
         commit("SET_COURSESELECTION", courseSelection);
         //console.log(state.courseSelection);
@@ -242,7 +242,7 @@ export const actions = {
     await dispatch("updateCourseSelection");
   },
   async resetCoursePriority({state, dispatch,rootGetters}) {
-    state.courseSelection.semesterPlans[0] = rootGetters['semester/getCurrentSemester'];
+    state.courseSelection.semesterPlans[0].semester = rootGetters['semester/getCurrentSemester'];
     state.courseSelection.semesterPlans[0].unbookedCourses = [
       {
         code: "GT1",
