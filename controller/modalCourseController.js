@@ -89,7 +89,7 @@ module.exports = {
           for(let property in CoursesInThisSemester){
             CoursesInThisSemester[property].students.sort((a, b) => 0.5 - Math.random())
               .sort((student1, student2) => student1.priority > student2.priority);
-            const finalArray = CoursesInThisSemester[property].students.slice(0, CoursesInThisSemester[property].availablePlaces -1)
+            const finalArray = CoursesInThisSemester[property].students.slice(0, CoursesInThisSemester[property].availablePlaces)
               .map((element) => element.user);
             ModalCourse.findByIdAndUpdate(
               CoursesInThisSemester[property].id, 

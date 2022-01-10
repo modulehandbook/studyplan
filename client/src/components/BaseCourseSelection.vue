@@ -55,7 +55,7 @@ export default {
       this.$store.dispatch("courseselection/addCoursePriority");
     },
     resetCourseSelection(){
-      this.$store.dispatch("courseselection/resetCoursePriority");
+      this.$store.dispatch("courseselection/resetCoursePriority2");
     },
   },
 };

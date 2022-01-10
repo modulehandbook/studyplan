@@ -40,6 +40,7 @@
 
         this.pending = true;
         await this.$store.dispatch("semester/fetchSemesters");
+        await this.$store.dispatch("modalcourse/fetchCourses");
         await this.$store.dispatch("courseselection/fetchCourseSelection", {
           userId: this.user.id || this.user._id,
         });

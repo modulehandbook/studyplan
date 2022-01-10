@@ -87,7 +87,7 @@ export const actions = {
           bookedCourses: [],
         },
       ];
-      await dispatch("resetCoursePriority", {  });
+      await dispatch("resetCoursePriority2", {  });
       console.log(state.courseSelection)
       const userResponse = await CourseSelectionService.saveToUser(
         state.courseSelection,
@@ -240,6 +240,24 @@ export const actions = {
     var course = bookedCourses.splice(priority -1, 1)[0];
     if(course.ects !=0)state.courseSelection.semesterPlans[0].unbookedCourses.push(course);
     await dispatch("updateCourseSelection");
+  },
+  async resetCoursePriority2({state, dispatch, rootGetters}){
+    var test =[];
+    const currSemester= rootGetters['semester/getCurrentSemester'];
+    const coursesInThisSemester = rootGetters['modalcourse/getCourses'].filter((course) => course.semester.name == currSemester.name);
+    state.courseSelection.semesterPlans[0].semester
+    coursesInThisSemester.forEach((modalCourse) => {
+      test.push({
+        code: modalCourse.code,
+        ects: 5,
+        name: modalCourse.name,
+      });
+    });
+    state.courseSelection.semesterPlans[0].unbookedCourses = test;
+   state.courseSelection.semesterPlans[0].bookedCourses = [];
+   // console.log(state.courseSelection);
+   await dispatch("updateCourseSelection");
+   //console.log(test);
   },
   async resetCoursePriority({state, dispatch,rootGetters}) {
     state.courseSelection.semesterPlans[0].semester = rootGetters['semester/getCurrentSemester'];
