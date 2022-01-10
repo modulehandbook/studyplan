@@ -7,9 +7,11 @@ module.exports.getVerificationCode = (url, callback) => {
   https
     .get(url, (res) => {
       // Open file in local filesystem
-      fs.mkdir("tmp-test", (err) => {
-        if (err) throw err;
-      });
+      if (!fs.existsSync("tmp-test")) {
+        fs.mkdir("tmp-test", (err) => {
+          if (err) throw err;
+        });
+      }
       const file = fs.createWriteStream("tmp-test/email.eml");
       // Write data into local file
       res.pipe(file);
