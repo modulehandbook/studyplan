@@ -79,7 +79,7 @@ npm run clean-packages
 
 #### Or to clean both run:
 ```bash
-npm run clean-packages
+npm run clean-packages-all
 ```
 
 ## Additional information
