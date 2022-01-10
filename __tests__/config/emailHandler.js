@@ -7,6 +7,9 @@ module.exports.getVerificationCode = (url, callback) => {
   https
     .get(url, (res) => {
       // Open file in local filesystem
+      fs.mkdir("tmp-test", (err) => {
+        if (err) throw err;
+      });
       const file = fs.createWriteStream("tmp-test/email.eml");
       // Write data into local file
       res.pipe(file);
@@ -17,7 +20,7 @@ module.exports.getVerificationCode = (url, callback) => {
         new EmlParser(fs.createReadStream("tmp-test/email.eml"))
           .parseEml()
           .then(async (result) => {
-            let str = result.text.split("confirmation/")[1]
+            let str = result.text.split("confirmation/")[1];
             callback(str);
           })
           .catch(async (err) => {
