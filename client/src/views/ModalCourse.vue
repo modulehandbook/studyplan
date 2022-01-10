@@ -1,6 +1,12 @@
 <template>
     <div>
         <BaseHeading> <h1> alle Kurse </h1> </BaseHeading>
+        <div v-for="(
+          semester) in this.$store.state.semester.semesters"
+          :key="semester.id"
+          > 
+            <p v-if="getCoursesfromSemester(semester).length">{{semester.name}}</p>
+          </div>
         <form name="form" @submit.prevent="createNewModalCourse">
             <div>
                 <h3>kursdaten</h3>
@@ -117,6 +123,10 @@ export default {
         async deleteCourse(index){
           console.log(index);
           await this.$store.dispatch("modalcourse/deleteCourse", {index: index,});
+        },
+        getCoursesfromSemester(semester){
+          
+          return this.modalCourses.filter((modalCourse) => modalCourse.semester.name == semester.name);
         },
     },
     computed: {
