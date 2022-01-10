@@ -3,17 +3,17 @@ const db = require("../../config/dbHandler.js");
 const email = require("../../config/emailHandler.js");
 const assert = require("assert");
 
-afterAll(async () => await db.connect());
+beforeAll(async () => await db.reset());
 
 const url = "http://localhost:3001";
 const username = "test";
-const e_mail = "test@mail.de";
+const e_mail = "test@gmail.com";
 const password = "testPass";
 const username2 = "test2";
-const e_mail2 = "test2@mail.de";
+const e_mail2 = "test2@gmail.com";
 const password2 = "test2Pass";
 
-describe("registration, confirmation and login", () => {
+describe("registration, confirmation", () => {
   let emailURL;
   let confirmationCode;
   describe("flawless registration", () => {
@@ -45,24 +45,6 @@ describe("registration, confirmation and login", () => {
             res.text,
             "The account has been verified. Please log in: https://studyplan.herokuapp.com/login"
           );
-          done();
-        })
-        .catch((e) => done(e));
-    });
-    test("login", (done) => {
-      request(url)
-        .post("/users/login")
-        .send({
-          username: username,
-          password: password,
-        })
-        .expect(200)
-        .then((res) => {
-          assert(res.body.id);
-          assert(res.body.username);
-          assert(res.body.email);
-          assert(res.body.accessToken);
-          assert(res.body.password);
           done();
         })
         .catch((e) => done(e));

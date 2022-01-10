@@ -6,5 +6,6 @@ module.exports = {
     "/docker-dev-db/",
     "/node_modules",
     "<rootDir>/__tests__/config/",
+    "<rootDir>/__tests__/seeds/",
   ],
 };

@@ -253,17 +253,21 @@ module.exports = {
         "This is your new password. Please update it in your profile settings soon.\n\n" +
         res.locals.password,
     };
-    transporter.sendMail(mailOptions, function (err) {
+    transporter.sendMail(mailOptions, function (err, info) {
       if (err) {
         return res.status(500).send({ msg: err.message });
       }
-      res
-        .status(200)
-        .send(
-          "An email with a new password has been sent to " +
-            res.locals.user.email +
-            "."
-        );
+      if (process.env.NODE_ENV == "TEST") {
+        res.status(200).send(nodemailer.getTestMessageUrl(info));
+      } else {
+        res
+          .status(200)
+          .send(
+            "An email with a new password has been sent to " +
+              res.locals.user.email +
+              "."
+          );
+      }
     });
   },
   sendVerificationEmail: (req, res) => {
@@ -315,11 +319,11 @@ module.exports = {
     let userParams = {
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password,
-      startOfStudy: req.body.startOfStudy,
-      studyPlan: req.body.studyPlan,
-      courseSelection: req.body.courseSelection,
-      accessToken: req.body.accessToken,
+      //password: req.body.password,
+      //startOfStudy: req.body.startOfStudy,
+      //studyPlan: req.body.studyPlan,
+      //courseSelection: req.body.courseSelection,
+      //accessToken: req.body.accessToken,
     };
     console.log(userParams);
     User.findByIdAndUpdate(req.params.id, { $set: userParams }, { new: true })

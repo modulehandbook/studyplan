@@ -3,6 +3,20 @@ const https = require("https");
 const EmlParser = require("eml-parser");
 
 module.exports.getVerificationCode = (url, callback) => {
+  getEmailContent(url, (content) => {
+    let str = content.text.split("confirmation/")[1];
+    callback(str);
+  });
+};
+
+module.exports.getPassword = (url, callback) => {
+  getEmailContent(url, (content) => {
+    let str = content.text.split("soon.\n\n")[1];
+    callback(str.split("\n")[0]);
+  });
+};
+
+function getEmailContent(url, callback) {
   // Download the file
   https
     .get(url, (res) => {
@@ -22,8 +36,7 @@ module.exports.getVerificationCode = (url, callback) => {
         new EmlParser(fs.createReadStream("tmp-test/email.eml"))
           .parseEml()
           .then(async (result) => {
-            let str = result.text.split("confirmation/")[1];
-            callback(str);
+            callback(result);
           })
           .catch(async (err) => {
             console.log(err);
@@ -33,4 +46,4 @@ module.exports.getVerificationCode = (url, callback) => {
     .on("error", async (err) => {
       console.log("Error: ", err.message);
     });
-};
+}
