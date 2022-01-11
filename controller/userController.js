@@ -319,11 +319,11 @@ module.exports = {
     let userParams = {
       username: req.body.username,
       email: req.body.email,
-      //password: req.body.password,
-      //startOfStudy: req.body.startOfStudy,
-      //studyPlan: req.body.studyPlan,
-      //courseSelection: req.body.courseSelection,
-      //accessToken: req.body.accessToken,
+      password: req.body.password,
+      startOfStudy: req.body.startOfStudy,
+      studyPlan: req.body.studyPlan,
+      courseSelection: req.body.courseSelection,
+      accessToken: req.body.accessToken,
     };
     console.log(userParams);
     User.findByIdAndUpdate(req.params.id, { $set: userParams }, { new: true })
