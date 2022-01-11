@@ -7,6 +7,7 @@ dist
 .env
 .env.local
 .env.*.local
+prod.env
 
 #local docker database dir
 docker-dev-db/
