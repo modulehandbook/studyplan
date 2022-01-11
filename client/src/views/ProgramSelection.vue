@@ -1,10 +1,11 @@
 <template>
   <div>
     <h1>Bitte mach zuerst ein paar Angaben zu deinem Studium</h1>
-    <h2>
-      Wir benötigen die richtigen Angaben, um dir deinen korrekten Studyplan zu
-      erstellen!
-    </h2>
+    <h2 id="warning">Achtung: Bitte tätige alle Angaben wahrheitsgemäß!</h2>
+    <h3 id="warnigDescription">
+      Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
+      Angaben führen zur Abmeldung aller Kurse.
+    </h3>
     <div class="line"></div>
     <form name="form" @submit.prevent="saveProgramAndStartOfStudy">
       <h3>Was studierst du?</h3>
@@ -78,6 +79,59 @@
           </div>
         </div>
       </div>
+      <h3 id="noBottomMargin">Wirst du bei der Belegung bevorzugt?</h3>
+      <p>
+        Falls du Kinder hast, Angehörige pflegen musst, eine Behinderung hast
+        oder Leistungssportler bist, kannst du bevorzugt Belegen.
+        <a
+          href="https://www.htw-berlin.de/studium/studienorganisation/kursbelegung/sonderregelungen/"
+          >Weiter Infos.</a
+        >
+      </p>
+      <div class="select-boxes">
+        <div class="select-boxes select-boxes--box">
+          <label for="isPreferred">Bevorzugte Belegung</label>
+          <select
+            v-model="isPreferred"
+            class="select select--small"
+            name="isPreferred"
+            :class="{ error: v$.isPreferred.$error }"
+            @blur="v$.isPreferred.$touch()"
+          >
+            <option
+              v-for="option in this.isPreferredOptions"
+              :key="option.name"
+              :value="option.value"
+            >
+              {{ option.name }}
+            </option>
+          </select>
+          <div v-if="v$.isPreferred.$error">
+            <p v-if="!v$.isPreferred.required" class="error-message">
+              Gib an, ob du bevorzugt wirst.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="line"></div>
+      <div id="accept">
+        <input
+          id="acceptCheck"
+          type="checkbox"
+          name="accept"
+          v-model="accept"
+          :class="{ error: v$.accept.$error }"
+          @blur="v$.accept.$touch()"
+          @change="v$.accept.$touch()"
+        />
+        <div id="acceptLabel">
+          <label for="accept"
+            >Ich versicher, dass alle Angaben wahrheitsgemäß sind. <br />
+            Ich bin mir bewusst, dass falsche Angaben zur Nichtberücksichtigung
+            meiner Belegung führen.</label
+          >
+        </div>
+      </div>
       <button :disabled="v$.$invalid" :class="{ disabled: v$.$invalid }">
         <span>Speichern</span>
       </button>
@@ -93,6 +147,10 @@ import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { mapState } from "vuex";
 
+const isTrue = (val) => {
+  return val == true;
+};
+
 export default {
   setup() {
     return { v$: useVuelidate() };
@@ -102,6 +160,12 @@ export default {
       selectedProgram: "",
       stupo: "",
       startOfStudy: "",
+      isPreferred: undefined,
+      isPreferredOptions: [
+        { name: "ja", value: true },
+        { name: "nein", value: false },
+      ],
+      accept: false,
     };
   },
   validations() {
@@ -114,6 +178,12 @@ export default {
       },
       startOfStudy: {
         required,
+      },
+      isPreferred: {
+        required,
+      },
+      accept: {
+        isTrue,
       },
     };
   },
@@ -134,12 +204,19 @@ export default {
     saveProgramAndStartOfStudy() {
       this.v$.$touch();
       if (!this.v$.$invalid) {
-        if (this.selectedProgram && this.stupo && this.startOfStudy) {
+        if (
+          this.selectedProgram &&
+          this.stupo &&
+          this.startOfStudy &&
+          this.isPreferred != null&&
+          this.accept == true
+        ) {
           this.$store
             .dispatch("user/saveProgramAndStartOfStudy", {
               program: this.selectedProgram,
               stupo: this.stupo,
               startOfStudy: this.startOfStudy,
+              isPreferred: this.isPreferred,
             })
             .then(
               () => {
@@ -175,6 +252,40 @@ $errorRed: #f8153d;
   margin-bottom: 20px;
   color: $htwGruen;
   margin-top: 40px;
+}
+
+#accept {
+  display: flex;
+  margin-left: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+#acceptCheck {
+  transform: scale(1.5);
+  margin-right: 20px;
+}
+
+#acceptLabel {
+  text-align: left;
+  color: $htwGruen;
+}
+
+#warning {
+  color: orangered;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+#warnigDescription {
+  color: orange;
+  font-size: 20px;
+  margin-top: 0px;
+  font-weight: normal;
+}
+
+#noBottomMargin {
+  margin-bottom: 0px;
 }
 
 h1,

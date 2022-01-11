@@ -3,34 +3,6 @@
     <BaseHeading>
       <h1>Profil</h1>
     </BaseHeading>
-    <div class="fields fields-personal">
-      <div class="fieldgroup">
-        <label for="username">Benutzername </label>
-        <input
-          v-model="username"
-          type="text"
-          name="username"
-          :class="{ error: v$.username.$error }"
-          @blur="
-            v$.username.$touch();
-            handleUpdate($event, 'username');
-          "
-        />
-      </div>
-      <div class="fieldgroup">
-        <label for="email">Email </label>
-        <input
-          v-model="email"
-          type="email"
-          name="email"
-          :class="{ error: v$.email.$error }"
-          @blur="
-            v$.email.$touch();
-            handleUpdate($event, 'email');
-          "
-        />
-      </div>
-    </div>
     <div class="changePassword">
       <router-link
         :to="{
@@ -40,23 +12,20 @@
         Passwort ändern
       </router-link>
     </div>
-    <div v-if="v$.username.$error">
-      <p v-if="!v$.username.required" class="error-message">
-        Benutzername darf nicht leer sein.
-      </p>
-    </div>
-    <div v-if="v$.email.$error">
-      <p v-if="!v$.email.email" class="error-message">
-        Bitte gib eine gülitge Emailadresse an
-      </p>
-      <p v-if="!v$.email.required" class="error-message">
-        Gib eine Emailadresse an
-      </p>
-    </div>
-    <div v-if="message" role="alert" class="error-message">
-      {{ message }}
-    </div>
     <div class="fields fields-program">
+      <div class="fieldgroup">
+        <label for="username">Benutzername </label>
+        <input
+          v-model="username"
+          type="text"
+          name="username"
+          :disabled="true"
+        />
+      </div>
+      <div class="fieldgroup">
+        <label for="email">Email</label>
+        <input v-model="email" type="text" name="email" :disabled="true" />
+      </div>
       <div class="fieldgroup">
         <label for="program">Studiengang </label>
         <input v-model="program" type="text" name="program" :disabled="true" />
@@ -70,29 +39,23 @@
           :disabled="true"
         />
       </div>
-
-      <router-link
-        class="danger"
-        :to="{
-          name: 'baseDeleteStudyplanModal',
-        }"
-      >
-        Angaben zum Studium ändern
-      </router-link>
-      <router-view></router-view>
+      <div class="fieldgroup">
+        <label for="isPreferred">Bevorzugte Belegung</label>
+        <input
+          v-model="isPreferredText"
+          type="text"
+          name="isPreferred"
+          :disabled="true"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import { mapState, mapMutations } from "vuex";
-import { required, email } from "@vuelidate/validators";
+import { mapState} from "vuex";
 
 export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
   data() {
     return {
       username: "",
@@ -101,21 +64,20 @@ export default {
       startOfStudy: "",
       program: "",
       version: "",
-    };
-  },
-  validations() {
-    return {
-      username: {
-        required,
-      },
-      email: {
-        required,
-        email,
-      },
+      isPreferred: undefined,
     };
   },
   computed: {
     ...mapState("user", ["user"]),
+    isPreferredText: function () {
+      if (this.isPreferred == null) {
+        return "";
+      } else if (this.isPreferred) {
+        return "ja";
+      } else {
+        return "nein";
+      }
+    },
   },
 
   created() {
@@ -127,57 +89,8 @@ export default {
       this.startOfStudy = this.user.startOfStudy.name;
       this.program = this.user.studyPlan.program.name;
       this.version = this.user.studyPlan.program.version;
+      this.isPreferred = this.user.isPreferred;
     }
-  },
-  methods: {
-    ...mapMutations("user", ["SET_USER"]),
-
-    async handleUpdate(e, attribute) {
-      this.v$.$touch();
-      if (!this.v$.$invalid) {
-        if (attribute == "username") {
-          const newName = e.target.value;
-          this.user.username = newName;
-          this.SET_USER(this.user);
-          const response = await this.$store.dispatch(
-            "user/updateUser",
-            {},
-            { root: true }
-          );
-          if (response) {
-            //not updated
-            this.message = response.message;
-            this.user.username = this.username;
-            e.target.value = this.username;
-            this.SET_USER(this.user);
-          } else {
-            //everything went ok
-            this.username = newName;
-            this.v$.$reset();
-          }
-        } else if (attribute == "email") {
-          const newEmail = e.target.value;
-          this.user.email = newEmail;
-          this.SET_USER(this.user);
-          const response = await this.$store.dispatch(
-            "user/updateUser",
-            {},
-            { root: true }
-          );
-          if (response) {
-            //not updated
-            this.message = response.message;
-            this.user.email = this.email;
-            e.target.value = this.email;
-            this.SET_USER(this.user);
-          } else {
-            //everything went ok
-            this.email = newEmail;
-            this.v$.$reset();
-          }
-        }
-      }
-    },
   },
 };
 </script>
@@ -188,20 +101,10 @@ $htwGruen: #76b900;
 .changePassword {
   margin-bottom: 40px;
   a {
-    color: inherit;
+    color: $htwGruen;
+    font-size: 20px;
   }
 }
-
-.error-message {
-  color: #f8153d;
-  margin-bottom: 30px;
-  margin-top: 0;
-}
-
-.error {
-  border-color: #f8153d !important;
-}
-
 .fields {
   display: flex;
   margin: 0 auto;
@@ -250,11 +153,6 @@ $htwGruen: #76b900;
         background: rgba(204, 204, 204, 0.3);
         border: 3px solid #c1c1c1;
       }
-    }
-
-    .danger {
-      color: #f8153d;
-      padding-top: 20px;
     }
   }
 }
