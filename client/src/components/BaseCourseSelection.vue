@@ -3,31 +3,43 @@
     <div class="shadowBox">
       <BaseCourseSelectionRow
         class="semester"
-        :coursePriority=0
+        :course-priority="0"
         :courses="courses"
-        :otherCourses="bookedCourses"
-        :isUnbookedCourses="true"
+        :other-courses="bookedCourses"
+        :is-unbooked-courses="true"
       />
-       <BaseCourseSelectionRow
+      <BaseCourseSelectionRow
         v-for="course in bookedCourses"
-        class="semester"
         :key="course"
-        :coursePriority="course.priority"
+        class="semester"
+        :course-priority="course.priority"
         :courses="[course]"
-        :otherCourses="courses"
-        :isUnbookedCourses="false"
+        :other-courses="courses"
+        :is-unbooked-courses="false"
       />
       <router-view></router-view>
-  
     </div>
-      <div class="addSemester">
+    <BaseCountdown 
+      class="time"
+      :year="2022"
+      :month="1" 
+      :date="1" 
+      :hour="0" 
+      :minute="0" 
+      :second="0" 
+      :millisecond="0"
+    />
+    <div class="addSemester">
       <button class="addSemester addSemester__button" @click="addPriority">
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
       </button>
       <p class="addSemester addSemester__text">Prio hinzufügen</p>
     </div>
     <div class="addSemester">
-      <button class="addSemester addSemester__button" @click="resetCourseSelection">
+      <button
+        class="addSemester addSemester__button"
+        @click="resetCourseSelection"
+      >
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
       </button>
       <p class="addSemester addSemester__text">Kurswahl resetten</p>
@@ -45,17 +57,34 @@ export default {
     bookedCourses: {
       type: Array,
       default: () => [],
-    }
+    },
   },
   async mounted() {
     console.log("test");
   },
   methods: {
-    addPriority(){
+    addPriority() {
       this.$store.dispatch("courseselection/addCoursePriority");
     },
-    resetCourseSelection(){
+    resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority");
+    },
+    countdown(){
+      const countDate = new Date("February 1, 2022 00:00:00").getTime();
+      const now = new Date().getTime();
+      const gap = countDate - now;
+
+      const second = 1000;
+      const minute = second*60;
+      const hour = minute*60;
+      const day = hour*24;
+
+      const textD = Math.floor(gap/day);
+      const textH = Math.floor((gap%day) / hour);
+      const textM = Math.floor((gap%hour) / minute);
+      const textS = Math.floor((gap%minute) / second);
+
+      document.querySelector(".time").innerText = textD + "d" + textH + "h" + textM + "m" + textS + "s";
     },
   },
 };
@@ -65,6 +94,12 @@ export default {
 $htwGruen: #76b900;
 p {
   font-weight: 700;
+}
+
+.time {
+  text-align: right;
+  font-weight: normal;
+  margin-top: 25px;
 }
 
 .container {
