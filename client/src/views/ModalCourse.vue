@@ -1,12 +1,12 @@
 <template>
     <div>
         <BaseHeading> <h1> alle Kurse </h1> </BaseHeading>
-        <div v-for="(
+        <div class="container" v-for="(
           semester) in this.$store.state.semester.semesters"
           :key="semester.id"
           > 
             <p v-if="getCoursesfromSemester(semester).length">{{semester.name}}</p>
-            <div v-if="getCoursesfromSemester(semester).length">
+            <div  v-if="getCoursesfromSemester(semester).length">
               <BaseModalCourseContainer :coursesInSemester="getCoursesfromSemester(semester)"/>
           </div> 
         </div>
@@ -135,7 +135,13 @@ export default {
 <style lang="scss" scoped>
 $htwGruen: #76b900;
 $errorRed: #f8153d;
-
+.container {
+  display: grid;
+  padding: 0 2rem;
+  margin: 0 auto;
+  max-width: 1350px;
+  border-radius: 20px;
+}
 .line {
   border-top: 3px solid;
   margin: 0 auto;

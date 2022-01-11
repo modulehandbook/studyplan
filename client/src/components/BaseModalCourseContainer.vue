@@ -1,6 +1,8 @@
 <template>
-  <div>
+<div>
+  <div class="semesterRow">
     <div class="courses">
+      <div class="course-content-container">
       <div
           class="course"
           v-for="(course, $courseIndex) in coursesInSemester"
@@ -22,8 +24,10 @@
             </p>
           </div>
         </div>
+         </div>
       </div>
     </div>
+  </div>
   </div>  
 </template>
 
@@ -48,11 +52,25 @@ export default {
   };
 </script>
 <style lang="scss" scoped>
-.course {
+  .semesterRow {
+      max-width: 100%;
+      display: grid;
+      align-items: center;
+    grid-template-columns: 0.2fr 0.8fr;
+    row-gap: 0px;
+
+  .courses {
+    min-width: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+   .course {
       margin: 20px 25px 20px 0;
       display: flex;
       align-items: center;
       min-height: 87px;
+      width: 150px;
       transform: translate(0, 0);
 
       a {
@@ -111,6 +129,8 @@ export default {
           }
         }
       }
+      }
     }
+  }
 </style>
 
