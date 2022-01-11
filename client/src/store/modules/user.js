@@ -144,7 +144,7 @@ export const actions = {
   },
   async saveProgramAndStartOfStudy(
     { state, dispatch },
-    { program, stupo, startOfStudy }
+    { program, stupo, startOfStudy, isPreferred }
   ) {
     await dispatch(
       "program/fetchProgram",
@@ -166,6 +166,7 @@ export const actions = {
     );
 
     state.user.startOfStudy = startOfStudy;
+    state.user.isPreferred = isPreferred;
     await dispatch("updateUser");
     return;
   },

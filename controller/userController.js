@@ -166,6 +166,7 @@ module.exports = {
           studyPlan: user.studyPlan,
           accessToken: user.accessToken,
           password: user.password,
+          isPreferred: user.isPreferred,
         });
       });
   },
@@ -324,6 +325,7 @@ module.exports = {
       studyPlan: req.body.studyPlan,
       courseSelection: req.body.courseSelection,
       accessToken: req.body.accessToken,
+      isPreferred: req.body.isPreferred,
     };
     console.log(userParams);
     User.findByIdAndUpdate(req.params.id, { $set: userParams }, { new: true })
