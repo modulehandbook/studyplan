@@ -2,12 +2,13 @@
 <div>
   <div class="semesterRow">
     <div class="courses">
-      <div class="course-content-container">
+     
       <div
           class="course"
           v-for="(course, $courseIndex) in coursesInSemester"
           :key="$courseIndex"
       >
+       <div class="course-content-container">
         <div
           class="course-content-container-content"
           :class="{
@@ -40,6 +41,7 @@ export default {
       type: Array,
       required: true,
     },
+  
   },
   data(){
     return {
@@ -53,9 +55,8 @@ export default {
 </script>
 <style lang="scss" scoped>
   .semesterRow {
-      max-width: 100%;
-      display: grid;
-      align-items: center;
+    max-width: 100%;
+    align-items: center;
     grid-template-columns: 0.2fr 0.8fr;
     row-gap: 0px;
 
@@ -64,7 +65,7 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
    .course {
       margin: 20px 25px 20px 0;
       display: flex;

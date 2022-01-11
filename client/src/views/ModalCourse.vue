@@ -1,7 +1,8 @@
 <template>
     <div>
         <BaseHeading> <h1> alle Kurse </h1> </BaseHeading>
-        <div class="container" v-for="(
+        <div class="container">
+        <div v-for="(
           semester) in this.$store.state.semester.semesters"
           :key="semester.id"
           > 
@@ -48,6 +49,7 @@
                 <span>Speichern</span>
             </button>
         </form>
+        </div>
     </div>
 </template>
 
@@ -139,7 +141,7 @@ $errorRed: #f8153d;
   display: grid;
   padding: 0 2rem;
   margin: 0 auto;
-  max-width: 1350px;
+  max-width: 800px;
   border-radius: 20px;
 }
 .line {
