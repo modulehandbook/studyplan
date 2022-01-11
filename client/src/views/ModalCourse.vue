@@ -7,11 +7,7 @@
           > 
             <p v-if="getCoursesfromSemester(semester).length">{{semester.name}}</p>
             <div v-if="getCoursesfromSemester(semester).length">
-              <div v-for="(modalCourse, $modalCourseIndex) in getCoursesfromSemester(semester)"
-              :key="modalCourse.id">
-               <p>{{modalCourse.code}} - {{modalCourse.name}} mit {{modalCourse.availablePlaces}} plaetzen ({{modalCourse.semester.name}})</p>
-              <button @click="deleteCourse($modalCourseIndex)"> Kurs loeschen </button>
-            </div>
+              <BaseModalCourseContainer :coursesInSemester="getCoursesfromSemester(semester)"/>
           </div> 
         </div>
         <form name="form" @submit.prevent="createNewModalCourse">
