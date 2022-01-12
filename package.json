@@ -11,7 +11,7 @@
     "clean-packages-all": "npm run clean-packages && cd client && npm run clean-packages",
     "clean-docker-packages": "sudo docker-compose down ; sudo docker rm -f $(sudo docker ps -a -q) ; sudo docker volume rm $(sudo docker volume ls -q) ; sudo docker-compose build --no-cache ; sudo docker-compose up"
   },
-  "author": "Julia Zamaitat",
+  "author": "Julia Zamaitat, Project-Team (see README)",
   "license": "ISC",
   "devDependencies": {
     "eml-parser": "^1.0.6",

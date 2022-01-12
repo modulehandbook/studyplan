@@ -113,7 +113,7 @@ module.exports = {
           res
             .status(200)
             .send(
-              "The account has been verified. Please log in: https://studyplan.herokuapp.com/login"
+              "The account has been verified. Please log in: https://studyplan.herokuapp.com/login" //TODO change
             );
         });
       });
@@ -246,7 +246,7 @@ module.exports = {
     }
 
     var mailOptions = {
-      from: "studyplanhtwberlin@gmail.com",
+      from: "studyplanhtwberlin@gmail.com", //TODO change email
       to: res.locals.user.email,
       subject: "New Password",
       text:
@@ -289,7 +289,7 @@ module.exports = {
     }
 
     var mailOptions = {
-      from: "studyplanhtwberlin@gmail.com",
+      from: "studyplanhtwberlin@gmail.com", //TODO change email
       to: res.locals.user.email,
       subject: "Account Verification Token",
       text:

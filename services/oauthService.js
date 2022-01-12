@@ -19,7 +19,7 @@ if (process.env.NODE_ENV == "production") {
     service: "gmail",
     auth: {
       type: "OAuth2",
-      user: "studyplanhtwberlin@gmail.com",
+      user: "studyplanhtwberlin@gmail.com", //TODO change email
       clientId: clientID,
       clientSecret: clientSecret,
       refreshToken: refreshToken,
