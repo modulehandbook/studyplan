@@ -51,15 +51,18 @@ export const actions = {
     }
   },
   async fetchCourse(
-    {  commit },
+    { state, commit },
+    {semester, code}
   ) {
     //ask for the semester route -> if there is a 404, so no semester info is there yet,
     // check the basic vuex course state
     try {
         commit("SET_PENDING", true);
         console.log(state.modalCourses);
-        commit("SET_MODALCOURSE", state.modalCourses[0]);
-        console.log(state.modalCourse)
+        const foundModalCourse = state.modalCourses.find((modalCourse) => modalCourse.semester.name == semester && modalCourse.code == code);
+
+        commit("SET_MODALCOURSE", foundModalCourse);
+        console.log(state.modalCourse);
         
     } finally {
       commit("SET_PENDING", false);

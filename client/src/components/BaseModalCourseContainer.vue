@@ -12,7 +12,17 @@
           v-for="(course, $courseIndex) in coursesInSemester"
           :key="$courseIndex"
       >
-       <div class="course-content-container">
+        <router-link
+            class="course-content-container"
+            :to="{
+              name: 'courseDetails',
+              params: {
+                code: course.code,
+                semester: semester.name,
+              },
+            }"
+            draggable="false"
+          >
         <div
           class="course-content-container-content"
          
@@ -26,7 +36,7 @@
             </p>
           </div>
         </div>
-         </div>
+        </router-link>
       </div>
     </div>
   </div>
