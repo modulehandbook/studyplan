@@ -13,6 +13,7 @@ import camelCase from "lodash/camelCase";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faRedo,
   faPlusCircle,
   faArrowLeft,
   faUser,
@@ -21,7 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faPlusCircle, faArrowLeft, faUser, faBars, faSignOutAlt);
+library.add(faRedo, faPlusCircle, faArrowLeft, faUser, faBars, faSignOutAlt);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 //registering BaseComponents globall
