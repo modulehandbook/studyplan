@@ -165,12 +165,11 @@ router.beforeEach((to, from, next) => {
     return;
   }
   if ((!user || user == null) && router.options.history.base != "/register#") {
-    console.log(router.options.history.base)
+    console.log(router.options.history.base);
     next("/login");
     return;
-  }
-  else if ((!user || user == null)){
-    next("/register")
+  } else if (!user || user == null) {
+    next("/register");
   }
 
   let loggedIn = AccessTokenValidation.parseJwt(user.accessToken);

@@ -15,7 +15,6 @@
             <router-link class="link" to="/courseselection">Kursbelegung</router-link>
             <router-link class="link" to="/modalcourse"> Wahlpflichtkurse </router-link>
             <router-link class="link" to="/hilfe">Hilfe</router-link>
-
           </div>
 
           <div v-if="currentUser" class="navigation-right">
@@ -45,7 +44,7 @@
       <button @click="toggleMobileNavMenu">
         <font-awesome-icon class="icon" :icon="['fas', 'bars']" size="2x" />
       </button>
-      <div class="mobile-navigation-container" v-if="showMobileNavMenu">
+      <div v-if="showMobileNavMenu" class="mobile-navigation-container">
         <button class="close-btn" @click="toggleMobileNavMenu">x</button>
 
         <div class="links">
@@ -87,14 +86,14 @@ export default {
       showMobileNavMenu: false,
     };
   },
-  created() {
-    this.mobileView = window.innerWidth <= 600;
-    window.addEventListener("resize", this.isMobileView);
-  },
   computed: {
     currentUser() {
       return this.$store.state.user.user;
     },
+  },
+  created() {
+    this.mobileView = window.innerWidth <= 600;
+    window.addEventListener("resize", this.isMobileView);
   },
   methods: {
     logOut() {

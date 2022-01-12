@@ -1,5 +1,23 @@
-# Studyplan (rename?)
-describtion...
+# Studyplan
+### A MEVN-based Tool for HTW IMI students to plan their studies and choose optional modules.
+
+
+Developed as [HTW IMI-Project](https://imi-bachelor.htw-berlin.de/showtime/) (WiSe21/22).
+
+Based on [studplan](https://github.com/JuliaZamaitat/studyplan) by [Julia Zamaitat](https://github.com/JuliaZamaitat).
+
+### Team:
+* [Krist Baliev](https://github.com/FlyingBaum) 
+* [Linh Phuong Chu](https://github.com/ChuChuPL)
+* [Leon Grahl](https://github.com/nt2743) 
+* [Ramadhan Irfan](https://github.com/Devianirfan) 
+* [Ben Sauerländer](https://github.com/BenSauerlaender) 
+* [Viet Anh Jimmy Tran](https://github.com/jimmy080900) 
+* [Leonard Valentin](https://github.com/LennoxCode) 
+
+### Supervisor:
+* [Prof. Dr. Barne Kleinen](https://github.com/bkleinen)
+
 
 ## Set up development environment
 
@@ -49,10 +67,39 @@ sudo docker-compose down
 sudo docker-compose logs
 ```
 
+### Lint and format code
+
+#### run this command either in ```client/``` or in ```root``` to lint and format the vue-app / node-server code: 
+```bash
+npm run lint
+```
+
+#### Or to lint and format both run:
+```bash
+npm run lint-all
+```
+
+### Run Server Tests (run in ```root```)
+```bash
+npm run test
+```
+
+### Clean reset the enviroment
+#### If you have, for example, problems with not installed node packages run this command to completely rebuild the docker images:
+```bash
+npm run clean-docker-packages
+```
+
+#### If you want to completely reinstall the node packages on your local machine run this command either in ```client/``` or in ```root``` to clean the vue-app-packages / node-server-packages:
+```bash
+npm run clean-packages
+```
+
+#### Or to clean both run:
+```bash
+npm run clean-packages-all
+```
+
 ## Additional information
 * You may want not always prefix the docker commands with ```sudo```, so look [here](https://docs.docker.com/engine/install/linux-postinstall/).
 * In ```docker-dev-db``` the local database is stored. To reset remove the directory.
-* ```client/.eslintrc.js``` can be ignored.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/) (?!?!)

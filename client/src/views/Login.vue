@@ -11,8 +11,8 @@
           v-model="username"
           type="text"
           name="username"
-          @blur="v$.username.$touch()"
           :class="{ error: v$.username.$error }"
+          @blur="v$.username.$touch()"
         />
 
         <div v-if="v$.username.$error">
@@ -24,10 +24,10 @@
       <div>
         <label for="password">Passwort</label>
         <input
+          id="password"
           v-model="password"
           type="password"
           name="password"
-          id="password"
           :class="{ error: v$.password.$error }"
           @blur="v$.password.$touch()"
         />

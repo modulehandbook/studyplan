@@ -12,7 +12,7 @@ const mongoose = require("mongoose"),
           currentSemesterCount: {
             type: Number,
           },
-          unbookedCourses:[
+          unbookedCourses: [
             {
               code: String,
               name: String,

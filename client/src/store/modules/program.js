@@ -87,7 +87,7 @@ export const actions = {
       let coursesInProgram = getCoursesInProgram(state.program);
       for (let y in coursesInProgram) {
         if (coursesInProgram[y].code.includes(".")) continue; //ohne B20.1, also required Submodule
-          if (coursesInProgram[y].code.includes("M")) continue;
+        if (coursesInProgram[y].code.includes("M")) continue;
         if (semester[i] == coursesInProgram[y].semester)
           courses.push(coursesInProgram[y]);
       }

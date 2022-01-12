@@ -1,0 +1,32 @@
+version: '3'
+services:
+  node-test-server:
+    build:
+      context: .
+      dockerfile: Dockerfile-test
+    ports:
+      - 3001:3001
+    container_name: node-test-server
+    depends_on:
+      - mongo-test-db
+    environment:
+      - NODE_ENV=TEST
+    volumes:
+      - .:/studyplan/api
+      - /studyplan/client
+      - /studyplan/api/node_modules
+    networks:
+      - test-network
+
+  mongo-test-db:
+    image: mongo
+    ports: 
+      - 27018:27017
+    container_name: mongo-test-db
+    volumes:
+      - ./docker-test-db:/data/db
+    networks:
+      - test-network
+
+networks:
+  test-network:

@@ -10,8 +10,8 @@
       <p>hier ist der inhalt der seite</p>
       <baseCourseSelection
         v-show="!pending"
-        :courses="this.courseSelection.semesterPlans[0].unbookedCourses"
-        :bookedCourses="this.courseSelection.semesterPlans[0].bookedCourses"
+        :courses="courseSelection.semesterPlans[0].unbookedCourses"
+        :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
       />
     </div>
     <div v-if="this.courseSelection == null" class="addSemester">

@@ -17,8 +17,8 @@
     <div v-if="!isExampleStudyPlan">
       <BaseBookedAndPassedCourseDetails
         :course="course"
-        :isChildCourse="isChildCourse"
-        :parentCourseCode="parentCourseCode"
+        :is-child-course="isChildCourse"
+        :parent-course-code="parentCourseCode"
         :semester="semester"
       />
     </div>
@@ -32,9 +32,9 @@
 
         <div class="childCourses">
           <div
-            class="childCourses-course"
             v-for="childCourse in course.child_courses"
             :key="childCourse.id"
+            class="childCourses-course"
           >
             <router-link
               class="course-content-container"
@@ -166,12 +166,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      requiredCourses: [],
-      mobileView: false,
-    };
-  },
   props: {
     course: {
       type: Object,
@@ -180,6 +174,9 @@ export default {
     semester: {
       type: Object,
       required: false,
+      default() {
+        return null;
+      },
     },
     isChildCourse: {
       type: Boolean,
@@ -195,6 +192,12 @@ export default {
       required: true,
       default: false,
     },
+  },
+  data() {
+    return {
+      requiredCourses: [],
+      mobileView: false,
+    };
   },
   created() {
     this.getRequiredCourses();
