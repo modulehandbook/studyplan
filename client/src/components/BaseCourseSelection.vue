@@ -69,23 +69,6 @@ export default {
     resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority");
     },
-    countdown(){
-      const countDate = new Date("February 1, 2022 00:00:00").getTime();
-      const now = new Date().getTime();
-      const gap = countDate - now;
-
-      const second = 1000;
-      const minute = second*60;
-      const hour = minute*60;
-      const day = hour*24;
-
-      const textD = Math.floor(gap/day);
-      const textH = Math.floor((gap%day) / hour);
-      const textM = Math.floor((gap%hour) / minute);
-      const textS = Math.floor((gap%minute) / second);
-
-      document.querySelector(".time").innerText = textD + "d" + textH + "h" + textM + "m" + textS + "s";
-    },
   },
 };
 </script>
