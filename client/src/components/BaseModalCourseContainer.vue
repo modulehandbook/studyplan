@@ -1,7 +1,11 @@
 <template>
 <div>
   <div class="semesterRow">
-    <div class="courses">
+       <button v-on:click=" isVisible = !isVisible">{{semester.name}}</button>
+    <div class="courses"
+     :class="{
+            'courses--visible': !isVisible,
+          }">
      
       <div
           class="course"
@@ -11,10 +15,7 @@
        <div class="course-content-container">
         <div
           class="course-content-container-content"
-          :class="{
-            'course-content-container-content--booked': course.booked,
-            'course-content-container-content--passed': course.passed,
-          }"
+         
         >
           <div class="course-content-container-content-text">
             <p class="course-content-container-content-text--code">
@@ -41,6 +42,10 @@ export default {
       type: Array,
       required: true,
     },
+    semester: {
+      type: Object,
+      required: true,
+    }
   
   },
   data(){
@@ -66,6 +71,10 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
+      &--visible {
+            display: none;
+          }
+
    .course {
       margin: 20px 25px 20px 0;
       display: flex;
@@ -104,14 +113,7 @@ export default {
             background: rgba(193, 193, 193, 0.7);
           }
 
-          &--visible {
-            background-color: rgba(118, 185, 0, 0.45) !important;
-            border: 1px solid rgba(118, 185, 0, 0.3);
-            &:hover {
-              background-color: rgba(118, 185, 0, 0.7) !important;
-            }
-          }
-
+        
           &-text {
             max-width: 100%;
             height: 100%;

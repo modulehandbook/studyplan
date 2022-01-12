@@ -6,9 +6,11 @@
           semester) in this.$store.state.semester.semesters"
           :key="semester.id"
           > 
-            <p v-if="getCoursesfromSemester(semester).length">{{semester.name}}</p>
+           
             <div  v-if="getCoursesfromSemester(semester).length">
-              <BaseModalCourseContainer :coursesInSemester="getCoursesfromSemester(semester)"/>
+              <BaseModalCourseContainer 
+              :coursesInSemester="getCoursesfromSemester(semester)"
+              :semester="semester"/>
           </div> 
         </div>
         <form name="form" @submit.prevent="createNewModalCourse">
