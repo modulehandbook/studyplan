@@ -1,6 +1,7 @@
 <template>
     <div>
         <BaseHeading> <h1> alle Kurse </h1> </BaseHeading>
+      
         <div class="container">
         <div v-for="(
           semester) in this.$store.state.semester.semesters"
@@ -12,7 +13,9 @@
               :coursesInSemester="getCoursesfromSemester(semester)"
               :semester="semester"/>
           </div> 
+          
         </div>
+          <router-view></router-view>
         <form name="form" @submit.prevent="createNewModalCourse">
             <div>
                 <h3>kursdaten</h3>
@@ -99,7 +102,6 @@ export default {
     async mounted(){
       this.pending = true;
       await this.$store.dispatch("modalcourse/fetchCourses");
-      await this.$store.dispatch("modalcourse/fetchCourse");
      // await this.$store.dispatch("modalcourse/assignUsers");
       // <p v-show="modalCourse != undefined"> {{modalCourse.name}} </p>
 

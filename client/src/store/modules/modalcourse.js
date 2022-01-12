@@ -58,10 +58,11 @@ export const actions = {
     // check the basic vuex course state
     try {
         commit("SET_PENDING", true);
-        console.log(state.modalCourses);
+       // console.log(state.modalCourses);
         const foundModalCourse = state.modalCourses.find((modalCourse) => modalCourse.semester.name == semester && modalCourse.code == code);
 
         commit("SET_MODALCOURSE", foundModalCourse);
+        console.log("found the following course:");
         console.log(state.modalCourse);
         
     } finally {

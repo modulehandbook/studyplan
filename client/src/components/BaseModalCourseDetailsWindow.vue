@@ -3,13 +3,13 @@
 <template>
   <div>
     <BaseModal
-      :route="'modalCourse'"
+      :route="'/modalcourse'"
     >
       <template v-slot:header>
         <button
           type="button"
           class="btn-close"
-          @click="$router.push('/modalCourse')"
+          @click="$router.push('/modalcourse')"
         >
           x
         </button>
