@@ -17,7 +17,10 @@
 
       <template v-slot:body>
         <pulse-loader :loading="pending" :color="color"></pulse-loader>
-
+      <BaseWindowContent 
+       v-if="!pending"
+      :semester="semester"
+      :course="modalCourse"/>
        </template>
     </BaseModal>
   </div>
