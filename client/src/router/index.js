@@ -6,6 +6,7 @@ import Help from "../views/Help.vue";
 import CourseSelection from '../views/CourseSelection.vue'
 import CourseSurvey from '../views/CourseSurvey.vue'
 import ModalCourse from '../views/ModalCourse.vue'
+import BaseModalCourseDetailsWindow from "../components/BaseModalCourseDetailsWindow.vue";
 import Profile from "../views/Profile.vue";
 import Register from "../views/Register.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
@@ -99,6 +100,13 @@ const routes = [
     path: "/modalCourse",
     name: "ModalCourse",
     component: ModalCourse,
+    children: [
+      {
+        path: ":semester/:code",
+        component: BaseModalCourseDetailsWindow,
+        name: "courseDetails",
+      },
+    ],
   },
   {
     path: "/hilfe",
