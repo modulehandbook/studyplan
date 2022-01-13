@@ -118,6 +118,10 @@ export default {
         (modalCourse) => modalCourse.semester.name == semester.name
       );
     },
+    async createNewModalCourse(){
+      //console.log(this.courseName);
+      await this.$store.dispatch("modalcourse/createCourse", {courseName: this.courseName, code: this.code, availablePlaces: this.availablePlaces, semester: this.semester });
+    }
   },
   computed: {
     ...mapState("modalcourse", ["modalCourses"]),
