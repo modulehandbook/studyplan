@@ -1,18 +1,19 @@
 <template>
-<div>
-  <div class="semesterRow">
-       <button v-on:click=" isVisible = !isVisible">{{semester.name}}</button>
-    <div class="courses"
-     :class="{
-            'courses--visible': !isVisible,
-          }">
-     
+  <div>
+    <div class="semesterRow">
+      <button @click="isVisible = !isVisible">{{ semester.name }}</button>
       <div
-          class="course"
+        class="courses"
+        :class="{
+          'courses--visible': !isVisible,
+        }"
+      >
+        <div
           v-for="(course, $courseIndex) in coursesInSemester"
           :key="$courseIndex"
-      >
-        <router-link
+          class="course"
+        >
+          <router-link
             class="course-content-container"
             :to="{
               name: 'courseDetails',
@@ -23,28 +24,25 @@
             }"
             draggable="false"
           >
-        <div
-          class="course-content-container-content"
-         
-        >
-          <div class="course-content-container-content-text">
-            <p class="course-content-container-content-text--code">
-              {{ course.code }}
-            </p>
-            <p>
-              {{ course.name }}
-            </p>
-          </div>
+            <div class="course-content-container-content">
+              <div class="course-content-container-content-text">
+                <p class="course-content-container-content-text--code">
+                  {{ course.code }}
+                </p>
+                <p>
+                  {{ course.name }}
+                </p>
+              </div>
+            </div>
+          </router-link>
         </div>
-        </router-link>
       </div>
     </div>
   </div>
-  </div>  
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -55,10 +53,9 @@ export default {
     semester: {
       type: Object,
       required: true,
-    }
-  
+    },
   },
-  data(){
+  data() {
     return {
       isVisible: false,
     };
@@ -66,14 +63,14 @@ export default {
   computed: {
     ...mapState("modalcourses", ["modalCourses"]),
   },
-  };
+};
 </script>
 <style lang="scss" scoped>
-  .semesterRow {
-    max-width: 100%;
-    align-items: center;
-    grid-template-columns: 0.2fr 0.8fr;
-    row-gap: 0px;
+.semesterRow {
+  max-width: 100%;
+  align-items: center;
+  grid-template-columns: 0.2fr 0.8fr;
+  row-gap: 0px;
 
   .courses {
     min-width: 0;
@@ -81,11 +78,11 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
-      &--visible {
-            display: none;
-          }
+    &--visible {
+      display: none;
+    }
 
-   .course {
+    .course {
       margin: 20px 25px 20px 0;
       display: flex;
       align-items: center;
@@ -123,7 +120,6 @@ export default {
             background: rgba(193, 193, 193, 0.7);
           }
 
-        
           &-text {
             max-width: 100%;
             height: 100%;
@@ -142,8 +138,7 @@ export default {
           }
         }
       }
-      }
     }
   }
+}
 </style>
-

@@ -12,8 +12,12 @@
               >Plan nach Studienordnung</router-link
             >
             <router-link class="link" to="/coursesurvey">Umfrage</router-link>
-            <router-link class="link" to="/courseselection">Kursbelegung</router-link>
-            <router-link class="link" to="/modalcourse"> Wahlpflichtkurse </router-link>
+            <router-link class="link" to="/courseselection"
+              >Kursbelegung</router-link
+            >
+            <router-link class="link" to="/modalcourse">
+              Wahlpflichtkurse
+            </router-link>
             <router-link class="link" to="/hilfe">Hilfe</router-link>
           </div>
 

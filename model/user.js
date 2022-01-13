@@ -30,7 +30,7 @@ const mongoose = require("mongoose"),
         type: String,
       },
       isVerified: { type: Boolean, default: false },
-      isPreferred: {type: Boolean, default: undefined}
+      isPreferred: { type: Boolean, default: undefined },
     },
     {
       timestamps: true,

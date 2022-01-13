@@ -2,10 +2,7 @@
   <div>
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div
-      v-if="
-        this.courseSelection != null &&
-        this.courseSelection.semesterPlans != null
-      "
+      v-if="courseSelection != null && courseSelection.semesterPlans != null"
     >
       <p>hier ist der inhalt der seite</p>
       <baseCourseSelection
@@ -14,7 +11,7 @@
         :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
       />
     </div>
-    <div v-if="this.courseSelection == null" class="addSemester">
+    <div v-if="courseSelection == null" class="addSemester">
       <button
         class="addSemester addSemester__button"
         @click="addCourseSelection"
@@ -38,6 +35,12 @@ export default {
       downloading: false,
     };
   },
+  computed: {
+    console: () => console,
+    ...mapState("program", ["program"]),
+    ...mapState("courseselection", ["courseSelection"]),
+    ...mapState("user", ["user"]),
+  },
 
   async mounted() {
     if (!this.$store.state.user.user.startOfStudy) {
@@ -60,13 +63,6 @@ export default {
         userId: this.user.id || this.user._id,
       });
     },
-  },
-
-  computed: {
-    console: () => console,
-    ...mapState("program", ["program"]),
-    ...mapState("courseselection", ["courseSelection"]),
-    ...mapState("user", ["user"]),
   },
 };
 </script>

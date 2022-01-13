@@ -26,7 +26,10 @@
       <p class="addSemester addSemester__text">Prio hinzufügen</p>
     </div>
     <div class="addSemester">
-      <button class="addSemester addSemester__button" @click="resetCourseSelection">
+      <button
+        class="addSemester addSemester__button"
+        @click="resetCourseSelection"
+      >
         <font-awesome-icon :icon="['fas', 'redo']" size="3x" />
       </button>
       <p class="addSemester addSemester__text">Kurswahl resetten</p>
@@ -53,7 +56,7 @@ export default {
     addPriority() {
       this.$store.dispatch("courseselection/addCoursePriority");
     },
-    resetCourseSelection(){
+    resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority2");
     },
   },
