@@ -5,7 +5,7 @@
 
     <BaseStudyPlan
       v-show="!pending"
-      :coursesInSemester="this.studyPlan.semesterPlans"
+      :courses-in-semester="studyPlan.semesterPlans"
     />
 
     <div class="explanation">
@@ -88,6 +88,12 @@ export default {
     };
   },
 
+  computed: {
+    ...mapState("program", ["program"]),
+    ...mapState("studyplan", ["studyPlan"]),
+    ...mapState("user", ["user"]),
+  },
+
   async mounted() {
     if (!this.$store.state.user.user.startOfStudy) {
       this.$router.push("/select-program");
@@ -97,7 +103,6 @@ export default {
       await this.$store.dispatch("studyplan/fetchStudyPlan", {
         userId: this.user.id || this.user._id,
       });
-      
     }
     this.pending = false;
   },
@@ -177,14 +182,7 @@ export default {
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
       this.downloading = false;
-
     },
-  },
-
-  computed: {
-    ...mapState("program", ["program"]),
-    ...mapState("studyplan", ["studyPlan"]),
-    ...mapState("user", ["user"]),
   },
 };
 </script>

@@ -5,8 +5,8 @@
     <p class="semesterECTS">{{ ects(semester) }} ECTS</p>
 
     <button
-      class="deleteSemester"
       v-if="semester.plannedCourses.length == 0"
+      class="deleteSemester"
       @click="deleteSemester(semesterIndex)"
     >
       Freies Semester löschen

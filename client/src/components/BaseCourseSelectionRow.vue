@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div
       class="semesterRow"
       @drop.stop="moveCourse($event, 0)"
@@ -9,27 +8,27 @@
     >
       <BaseCourseSelectionRowSidebar
         :priority="coursePriority"
-        :isUnbookedCourses="isUnbookedCourses"
+        :is-unbooked-courses="isUnbookedCourses"
       />
 
       <div class="courses">
         <div
-          class="course"
           v-for="(course, $courseIndex) in courses"
           :key="$courseIndex"
+          class="course"
           draggable="true"
-          @dragstart="pickupCourse($event, $courseIndex, this.coursePriority)"
-          @drop.stop="moveCourse($event, $courseIndex)"
           :style="{
             width: `${courseWidth(course)}px`,
           }"
+          @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
+          @drop.stop="moveCourse($event, $courseIndex)"
         >
           <div
-            class="course-content-container-content" 
+            class="course-content-container-content"
             :class="{
-                'course-content-container-content--booked': true,
-                'course-content-container-content--passed': false,
-              }"
+              'course-content-container-content--booked': true,
+              'course-content-container-content--passed': false,
+            }"
           >
             <div class="course-content-container-content-text">
               <p class="course-content-container-content-text--code">
@@ -39,8 +38,8 @@
                 :style="{
                   fontSize: courseWidth(course) < 50 ? '9px' : '12px',
                 }"
-                >
-                  {{ course.name }}
+              >
+                {{ course.name }}
               </p>
             </div>
           </div>
@@ -91,11 +90,14 @@ export default {
 
     moveCourse(e, toCourseIndex) {
       e.preventDefault();
-      const fromCoursePriority = parseInt(e.dataTransfer.getData("from-course-priority"), 10);
+      const fromCoursePriority = parseInt(
+        e.dataTransfer.getData("from-course-priority"),
+        10
+      );
       //const fromSemesterIndex = e.dataTransfer.getData("from-semester-index");
       const fromCourseIndex = e.dataTransfer.getData("from-course-index");
       const toCoursePriority = this.coursePriority;
-      
+
       this.$store.dispatch("courseselection/moveCourse", {
         fromCourseIndex,
         toCourseIndex,

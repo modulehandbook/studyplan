@@ -42,10 +42,10 @@
         <div>
           <label for="password">Passwort</label>
           <input
+            id="password"
             v-model="password"
             type="password"
             name="password"
-            id="password"
             :class="{ error: v$.password.$error }"
             @blur="v$.password.$touch()"
           />
@@ -105,6 +105,10 @@
 import useVuelidate from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 
+// regex approah
+// validHtwEmail = (value) => (/^[^ ]+@+htw-berlin.de$/.test(value)) == true;
+const validHtwEmail = (value) => value.endsWith("@htw-berlin.de");
+
 export default {
   setup() {
     return { v$: useVuelidate() };
@@ -124,6 +128,7 @@ export default {
       email: {
         required,
         email,
+        validHtwEmail,
       },
       username: {
         required,

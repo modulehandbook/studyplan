@@ -1,7 +1,7 @@
 <template>
   <div>
     <BaseModal :route="'/profile'">
-      <template v-slot:header>
+      <template #header>
         <button
           type="button"
           class="btn-close"
@@ -12,7 +12,7 @@
         <h1>Passwort ändern</h1>
       </template>
 
-      <template v-slot:body>
+      <template #body>
         <form name="form">
           <div class="fields">
             <div class="fieldgroup">
@@ -20,13 +20,13 @@
                 >Altes Passwort</label
               >
               <input
-                class="password-input"
+                id="oldPassword"
                 v-model="oldPassword"
+                class="password-input"
                 type="password"
                 name="oldPassword"
-                id="oldPassword"
-                @blur="v$.oldPassword.$touch()"
                 :class="{ error: v$.oldPassword.$error }"
+                @blur="v$.oldPassword.$touch()"
               />
               <div>
                 <input
@@ -43,13 +43,13 @@
                 >Neues Passwort</label
               >
               <input
-                class="password-input"
+                id="newPassword"
                 v-model="newPassword"
+                class="password-input"
                 type="password"
                 name="newPassword"
-                id="newPassword"
-                @blur="v$.newPassword.$touch()"
                 :class="{ error: v$.newPassword.$error }"
+                @blur="v$.newPassword.$touch()"
               />
               <div>
                 <input
@@ -82,7 +82,7 @@
         </div>
       </template>
 
-      <template v-slot:footer>
+      <template #footer>
         <button
           :disabled="v$.$invalid"
           class="submit"

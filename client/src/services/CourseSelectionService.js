@@ -14,9 +14,13 @@ export default {
     return server.get(`courseselection/${userId}`, { headers: authHeader() });
   },
   updateCourseSelection(courseSelection) {
-    return server.put(`courseselection/${courseSelection._id}`, courseSelection, {
-      headers: authHeader(),
-    });
+    return server.put(
+      `courseselection/${courseSelection._id}`,
+      courseSelection,
+      {
+        headers: authHeader(),
+      }
+    );
   },
   createCourseSelection(courseSelection) {
     return server.post(`courseselection/create`, courseSelection, {

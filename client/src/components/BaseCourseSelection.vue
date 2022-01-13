@@ -3,31 +3,33 @@
     <div class="shadowBox">
       <BaseCourseSelectionRow
         class="semester"
-        :coursePriority=0
+        :course-priority="0"
         :courses="courses"
-        :otherCourses="bookedCourses"
-        :isUnbookedCourses="true"
+        :other-courses="bookedCourses"
+        :is-unbooked-courses="true"
       />
-       <BaseCourseSelectionRow
+      <BaseCourseSelectionRow
         v-for="course in bookedCourses"
-        class="semester"
         :key="course"
-        :coursePriority="course.priority"
+        class="semester"
+        :course-priority="course.priority"
         :courses="[course]"
-        :otherCourses="courses"
-        :isUnbookedCourses="false"
+        :other-courses="courses"
+        :is-unbooked-courses="false"
       />
       <router-view></router-view>
-  
     </div>
-      <div class="addSemester">
+    <div class="addSemester">
       <button class="addSemester addSemester__button" @click="addPriority">
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
       </button>
       <p class="addSemester addSemester__text">Prio hinzufügen</p>
     </div>
     <div class="addSemester">
-      <button class="addSemester addSemester__button" @click="resetCourseSelection">
+      <button
+        class="addSemester addSemester__button"
+        @click="resetCourseSelection"
+      >
         <font-awesome-icon :icon="['fas', 'redo']" size="3x" />
       </button>
       <p class="addSemester addSemester__text">Kurswahl resetten</p>
@@ -45,16 +47,16 @@ export default {
     bookedCourses: {
       type: Array,
       default: () => [],
-    }
+    },
   },
   async mounted() {
     console.log("test");
   },
   methods: {
-    addPriority(){
+    addPriority() {
       this.$store.dispatch("courseselection/addCoursePriority");
     },
-    resetCourseSelection(){
+    resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority2");
     },
   },

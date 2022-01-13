@@ -15,7 +15,7 @@
         </button>
       </template>
 
-      <template v-slot:body>
+      <template #body>
         <pulse-loader :loading="pending" :color="color"></pulse-loader>
       <BaseWindowContent 
        v-if="!pending"
@@ -30,6 +30,7 @@
 import { mapState, mapGetters } from "vuex";
 
 export default {
+  emits: ["close"],
   data() {
     return {
       semester: {
@@ -38,6 +39,10 @@ export default {
       pending: false,
       color: "#76b900",
     };
+  },
+  computed: {
+    ...mapState("modalcourse", ["modalCourse"]),
+    ...mapGetters("semester", ["getSemesterByName"]),
   },
   async created() {
     this.pending = true;
@@ -52,10 +57,6 @@ export default {
   },
   async beforeUnmount() {
     document.documentElement.style.overflow = "auto";
-  },
-  computed: {
-    ...mapState("modalcourse", ["modalCourse"]),
-    ...mapGetters("semester", ["getSemesterByName"]),
   },
   methods: {
     close() {

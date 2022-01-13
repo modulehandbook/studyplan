@@ -6,16 +6,32 @@
       class="checkbox"
       :class="{ booked: booked, passed: passed }"
     >
-       <div>
+      <div>
         <label for="mycheck1">Belegt</label>
-        <input type="checkbox" id="mycheck1" v-model="booked" :value="booked" color="rgba(253, 177, 62, 1)" @change="toggleBooked(course.course.code, semester)" :disabled="passed" >
-    </div>
-    <div>
+        <input
+          id="mycheck1"
+          v-model="booked"
+          type="checkbox"
+          :value="booked"
+          color="rgba(253, 177, 62, 1)"
+          :disabled="passed"
+          @change="toggleBooked(course.course.code, semester)"
+        />
+      </div>
+      <div>
         <label for="mycheck2">Bestanden</label>
-        <input type="checkbox" id="mycheck2" v-model="passed" :value="passed" color="#76b900" @change="togglePassed(course.course.code, semester)" :disabled="!booked">
+        <input
+          id="mycheck2"
+          v-model="passed"
+          type="checkbox"
+          :value="passed"
+          color="#76b900"
+          :disabled="!booked"
+          @change="togglePassed(course.course.code, semester)"
+        />
+      </div>
     </div>
-  </div>
-  
+
     <!--Belegt/Bestanden mit Child Courses -->
     <div v-if="course.child_courses.length > 0 && !isChildCourse">
       <!-- wenn nicht belegt -->
@@ -27,9 +43,9 @@
 
         <div class="childCourses">
           <div
-            class="childCourses-course"
             v-for="childCourse in unbookedChildCourses"
             :key="childCourse.id"
+            class="childCourses-course"
           >
             <router-link
               class="childCourses-course-content-container"
@@ -62,13 +78,13 @@
           <h3 v-else class="passedThrough">Bestanden durch</h3>
           <div class="childCourses">
             <div
+              v-for="childCourse in bookedOrPassedThroughCourses.bookedThrough"
+              :key="childCourse.id"
               class="childCourses-course"
               :class="{
                 'childCourses-course--booked': booked,
                 'childCourses-course--passed': passed,
               }"
-              v-for="childCourse in bookedOrPassedThroughCourses.bookedThrough"
-              :key="childCourse.id"
             >
               <router-link
                 class="childCourses-course-content-container"
@@ -131,6 +147,8 @@
           </h3>
           <div class="childCourses">
             <div
+              v-for="childCourse in course.child_courses"
+              :key="childCourse.id"
               class="childCourses-course"
               :class="{
                 'childCourses-course--booked':
@@ -146,8 +164,6 @@
                       ) != -1
                     : false,
               }"
-              v-for="childCourse in course.child_courses"
-              :key="childCourse.id"
             >
               <router-link
                 class="childCourses-course-content-container"
@@ -207,18 +223,6 @@ export default {
       mobileView: false,
     };
   },
-  created() {
-    let states = this.$store.getters["studyplan/getStateOfCourse"](
-      this.course.course.code,
-      this.parentCourseCode,
-      this.semester
-    );
-    this.booked = states.booked;
-    this.passed = states.passed;
-    this.getRequiredCourses();
-    this.mobileView = window.innerWidth <= 600;
-    window.addEventListener("resize", this.isMobileView);
-  },
   computed: {
     ...mapGetters("studyplan", [
       "getBookedAndPassedThroughCourses",
@@ -252,6 +256,19 @@ export default {
 
       return array;
     },
+  },
+
+  created() {
+    let states = this.$store.getters["studyplan/getStateOfCourse"](
+      this.course.course.code,
+      this.parentCourseCode,
+      this.semester
+    );
+    this.booked = states.booked;
+    this.passed = states.passed;
+    this.getRequiredCourses();
+    this.mobileView = window.innerWidth <= 600;
+    window.addEventListener("resize", this.isMobileView);
   },
   methods: {
     isMobileView() {

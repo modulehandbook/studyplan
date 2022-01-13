@@ -1,7 +1,7 @@
 <template>
   <div>
     <BaseModal :route="'/login'">
-      <template v-slot:header>
+      <template #header>
         <button type="button" class="btn-close" @click="$router.push('/login')">
           x
         </button>
@@ -14,16 +14,16 @@
           </h3>
         </div>
       </template>
-      <template v-slot:body>
+      <template #body>
         <div class="fieldgroup">
           <label for="email" class="email-label">Email</label>
           <input
-            class="email-input"
             v-model="email"
+            class="email-input"
             type="email"
             name="email"
-            @blur="v$.email.$touch()"
             :class="{ error: v$.email.$error }"
+            @blur="v$.email.$touch()"
           />
           <div v-if="v$.email.$error">
             <p v-if="!v$.email.required" class="message--error">
@@ -45,7 +45,7 @@
         </div>
       </template>
 
-      <template v-slot:footer>
+      <template #footer>
         <button
           :disabled="v$.$invalid"
           class="submit"

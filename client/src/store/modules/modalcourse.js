@@ -3,8 +3,8 @@ import ModalCourseService from "@/services/ModalCourseService.js";
 export const namespaced = true;
 
 export const state = {
-    modalCourses: [],
-    modalCourse: {},
+  modalCourses: [],
+  modalCourse: {},
 };
 
 export const mutations = {
@@ -21,39 +21,38 @@ export const mutations = {
 
 export const actions = {
   async createCourse(
-    {state, commit},
-    {courseName, code, availablePlaces, semester}
-  ){
-    try{
-      commit("SET_PENDING", true)
+    { state, commit },
+    { courseName, code, availablePlaces, semester }
+  ) {
+    try {
+      commit("SET_PENDING", true);
       state.modalCourse = {
         name: courseName,
         code: code,
         availablePlaces: availablePlaces,
         semester: semester,
       };
-      const response = await ModalCourseService.createModalCourse(state.modalCourse);
+      const response = await ModalCourseService.createModalCourse(
+        state.modalCourse
+      );
       const modalCourse = response.data;
       const test = await ModalCourseService.updateModalCourse(modalCourse);
-      
+
       commit("SET_MODALCOURSE", test.data);
       state.modalCourses.push(test.data);
       console.log("the state assumes this value");
       console.log(test.data);
-    } catch(error){
+    } catch (error) {
       const notification = {
         type: "error",
-        message: "there was a problem creating modal course" + error.message
+        message: "there was a problem creating modal course" + error.message,
       };
       console.log(notification);
-      } finally{
-        commit("SET_PENDING", false);
+    } finally {
+      commit("SET_PENDING", false);
     }
   },
-  async fetchCourse(
-    { state, commit },
-    {semester, code}
-  ) {
+  async fetchCourse({ state, commit }, { semester, code }) {
     //ask for the semester route -> if there is a 404, so no semester info is there yet,
     // check the basic vuex course state
     try {
@@ -69,62 +68,54 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async fetchCourses(
-    {commit},
-  ){
+  async fetchCourses({ commit }) {
     try {
       commit("SET_PENDING", true);
       await ModalCourseService.fetchModalCourses()
-      .then((response) => {
-       
-        commit("SET_MODALCOURSES", response.data);
-        console.log(state.modalCourses);
-      })
-      .catch(async (error) => {
-        const notification = {
-          type: "error",
-          message: "There was a problem fetching courses" + error.message,
-        };
-        console.log(notification);
-      })
-    } finally{
+        .then((response) => {
+          commit("SET_MODALCOURSES", response.data);
+          console.log(state.modalCourses);
+        })
+        .catch(async (error) => {
+          const notification = {
+            type: "error",
+            message: "There was a problem fetching courses" + error.message,
+          };
+          console.log(notification);
+        });
+    } finally {
       commit("SET_PENDING", false);
     }
   },
-  async deleteCourse(
-    {state, commit,},
-    {index}
-  ){
-    try{
+  async deleteCourse({ state, commit }, { index }) {
+    try {
       commit("SET_PENDING", true);
       const courseToDelete = state.modalCourses.splice(index, 1)[0];
 
       await ModalCourseService.deleteModalCourse(courseToDelete);
       commit("SET_MODALCOURSES", state.modalCourses);
-    }finally{
+    } finally {
       commit("SET_PENDING", false);
     }
   },
-  async assignUsers(
-    {commit, rootGetters, getters}
-  ){
-
-
-    try{
-    commit("SET_PENDING", true);
-    const semester = rootGetters['semester/getCurrentSemester'];
-    const test = getters.getCoursesBySemester(semester);
-    console.log(test);
-    //if(semester != undefined) return;
-    const response = await ModalCourseService.updateModalCourses(semester);
-    const modalCourses = response.data;
-    console.log("the following courses from the databese could be found:");
-    console.log(modalCourses);
-    //commit("SET_MODALCOURSES", modalCourses);
-    } catch(error) {
+  async assignUsers({ commit, rootGetters, getters }) {
+    try {
+      commit("SET_PENDING", true);
+      const semester = rootGetters["semester/getCurrentSemester"];
+      const test = getters.getCoursesBySemester(semester);
+      console.log(test);
+      //if(semester != undefined) return;
+      const response = await ModalCourseService.updateModalCourses(semester);
+      const modalCourses = response.data;
+      console.log("the following courses from the databese could be found:");
+      console.log(modalCourses);
+      //commit("SET_MODALCOURSES", modalCourses);
+    } catch (error) {
       const notification = {
         type: "error",
-        message: "there was a problem assigning users to modal courses: " + error.message,
+        message:
+          "there was a problem assigning users to modal courses: " +
+          error.message,
       };
       console.log(notification);
     } finally {
@@ -134,13 +125,17 @@ export const actions = {
 };
 
 export const getters = {
-  getCourses: (state) => {return state.modalCourses;},
+  getCourses: (state) => {
+    return state.modalCourses;
+  },
   getCourseByCode: (state) => (code) => {
     if (!state.courses) return;
     return state.courses.find((course) => course.course.code === code);
   },
   getCoursesBySemester: (state) => (semester) => {
-    if(!state.modalCourses) return;
-    return state.modalCourses.filter((modalCourse) => modalCourse.semester.name === semester.name);
+    if (!state.modalCourses) return;
+    return state.modalCourses.filter(
+      (modalCourse) => modalCourse.semester.name === semester.name
+    );
   },
 };

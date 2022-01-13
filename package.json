@@ -4,19 +4,26 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "sudo docker-compose -f docker-compose.test.yml up -d && jest --runInBand ; sudo docker-compose -f docker-compose.test.yml down ; rm -r tmp-test/",
+    "lint": "eslint --fix .",
+    "lint-all": "npm run lint && cd client && npm run lint",
+    "clean-packages": "rm package-lock.json && rm -r node_modules && npm i",
+    "clean-packages-all": "npm run clean-packages && cd client && npm run clean-packages",
+    "clean-docker-packages": "sudo docker-compose down ; sudo docker rm -f $(sudo docker ps -a -q) ; sudo docker volume rm $(sudo docker volume ls -q) ; sudo docker-compose build --no-cache ; sudo docker-compose up"
   },
-  "author": "Julia Zamaitat",
+  "author": "Julia Zamaitat, Project-Team (see README)",
   "license": "ISC",
   "devDependencies": {
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-prettier": "^3.4.1",
-    "eslint-plugin-vue": "^6.2.2",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "eml-parser": "^1.0.6",
+    "eslint": "^8.6.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^25.3.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.4.7",
+    "mongodb": "^4.3.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "supertest": "^6.1.6"
   },
   "dependencies": {
     "axios": "^0.24.0",
@@ -26,8 +33,7 @@
     "express": "^4.17.1",
     "googleapis": "^92.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^4.2.2",
-    "mongoose": "^5.13.13",
+    "mongoose": "^6.1.5",
     "node-localstorage": "^2.2.1",
     "nodemailer": "^6.6.3",
     "path": "^0.12.7",

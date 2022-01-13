@@ -53,9 +53,9 @@
             <button >
                 <span>Speichern</span>
             </button>
-        </form>
-        </div>
+      </form>
     </div>
+  </div>
 </template>
 
 <script>
@@ -109,34 +109,21 @@ export default {
       this.pending = false;
     },
     methods: {
-        async createNewModalCourse(){
-          this.v$.$touch();
-          if(!this.v$.$invalid && this.semester && this.courseName && this.code && this.availablePlaces){
-            console.log({test: this.courseName, code: this.code, 
-            semester: this.semester, availablePlaces: this.availablePlaces,});
-            await this.$store.dispatch("modalcourse/createCourse", {
-              courseName: this.courseName,
-              code: this.code,
-              semester: this.semester,
-              availablePlaces: this.availablePlaces,
-            });
-          }
-        },
-        async deleteCourse(index){
-          console.log(index);
-          await this.$store.dispatch("modalcourse/deleteCourse", {index: index,});
-        },
-        getCoursesfromSemester(semester){
-          
-          return this.modalCourses.filter((modalCourse) => modalCourse.semester.name == semester.name);
-        },
+    async deleteCourse(index) {
+      console.log(index);
+      await this.$store.dispatch("modalcourse/deleteCourse", { index: index });
     },
-    computed: {
-      ...mapState("modalcourse", ["modalCourses"]),
+    getCoursesfromSemester(semester) {
+      return this.modalCourses.filter(
+        (modalCourse) => modalCourse.semester.name == semester.name
+      );
     },
-}
+  },
+  computed: {
+    ...mapState("modalcourse", ["modalCourses"]),
+  },
+};
 </script>
-
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;

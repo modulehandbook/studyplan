@@ -5,7 +5,7 @@
     <BaseModal
       :route="isExampleStudyPlan ? '/example-studyplan' : '/my-studyplan'"
     >
-      <template v-slot:header>
+      <template #header>
         <button
           v-if="!isChildCourse"
           type="button"
@@ -23,16 +23,16 @@
         </button>
       </template>
 
-      <template v-slot:body>
+      <template #body>
         <pulse-loader :loading="pending" :color="color"></pulse-loader>
 
         <BaseCourseDetails
           v-if="!pending"
           :course="course"
           :semester="semester"
-          :isChildCourse="isChildCourse"
-          :parentCourseCode="parentCourseCode"
-          :isExampleStudyPlan="isExampleStudyPlan"
+          :is-child-course="isChildCourse"
+          :parent-course-code="parentCourseCode"
+          :is-example-study-plan="isExampleStudyPlan"
       /></template>
     </BaseModal>
   </div>
@@ -49,6 +49,7 @@ export default {
       default: false,
     },
   },
+  emits: ["close"],
   data() {
     return {
       semester: {
@@ -59,6 +60,11 @@ export default {
       color: "#76b900",
       isExampleStudyPlan: false,
     };
+  },
+  computed: {
+    ...mapState("course", ["course"]),
+    ...mapState("studyplan", ["studyPlan"]),
+    ...mapGetters("semester", ["getSemesterByName"]),
   },
   async created() {
     this.pending = true;
@@ -80,11 +86,6 @@ export default {
   },
   async beforeUnmount() {
     document.documentElement.style.overflow = "auto";
-  },
-  computed: {
-    ...mapState("course", ["course"]),
-    ...mapState("studyplan", ["studyPlan"]),
-    ...mapGetters("semester", ["getSemesterByName"]),
   },
   methods: {
     close() {
