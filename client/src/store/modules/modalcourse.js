@@ -21,7 +21,7 @@ export const mutations = {
 
 export const actions = {
   async createCourse(
-    { state, commit },
+    { state, commit, dispatch},
     { courseName, code, availablePlaces, semester }
   ) {
     try {
@@ -36,12 +36,14 @@ export const actions = {
         state.modalCourse
       );
       const modalCourse = response.data;
-      const test = await ModalCourseService.updateModalCourse(modalCourse);
-
-      commit("SET_MODALCOURSE", test.data);
-      state.modalCourses.push(test.data);
+      //const test = await ModalCourseService.updateModalCourse(modalCourse);
+      let modalCourses = state.modalCourses;
+      modalCourses.push(modalCourse);
+      commit("SET_MODALCOURSES", modalCourses);
+      //state.modalCourses.push(test.data);
       console.log("the state assumes this value");
-      console.log(test.data);
+      console.log(state.modalCourses);
+      await dispatch("fetchCourses");
     } catch (error) {
       const notification = {
         type: "error",

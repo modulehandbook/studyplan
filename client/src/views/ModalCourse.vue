@@ -119,8 +119,8 @@ export default {
       );
     },
     async createNewModalCourse(){
-      //console.log(this.courseName);
-      await this.$store.dispatch("modalcourse/createCourse", {courseName: this.courseName, code: this.code, availablePlaces: this.availablePlaces, semester: this.semester });
+      //console.log(this.semester._id);
+      await this.$store.dispatch("modalcourse/createCourse", {courseName: this.courseName, code: this.code, availablePlaces: this.availablePlaces, semester: this.semester._id });
     }
   },
   computed: {

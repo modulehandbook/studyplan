@@ -9,6 +9,7 @@ module.exports = {
       code: req.body.code,
       semester: req.body.semester,
       availablePlaces: req.body.availablePlaces,
+      students: [],
     };
     ModalCourse.create(modalCourseParams)
       .then((modalCourse) => {
