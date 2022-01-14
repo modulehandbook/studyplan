@@ -139,7 +139,7 @@ export default {
         userId: this.user.id || this.user._id,
       });
     this.pending = false;
-    console.log(this.courseSelection)
+    console.log(this.$store);
   },
   data() {
    
@@ -165,19 +165,19 @@ export default {
       courses: defaultCourses,
       test: [],
       surveys: [
-        { key: "lb", name: "Lehrer bedingt", value: "Lehrer bedingt" },
-        { key: "zb", name: "zeitlich bedingt", value: "zeitlich bedingt" },
+        { key: "lb", name: "Lehrer bedingt", value: "teacher" },
+        { key: "zb", name: "zeitlich bedingt", value: "time" },
         {
           key: "ki",
           name: "Kurs ist interessant",
-          value: "Kurs ist interessant",
+          value: "interest",
         },
         {
           key: "rb",
           name: "relevant für Berufslaufbahn",
-          value: "relevant für Berufslaufbahn",
+          value: "careerRelevant",
         },
-        { key: "ke", name: "Kurs ist einfach", value: "Kurs ist einfach" },
+        { key: "ke", name: "Kurs ist einfach", value: "easy" },
         { key: "so", name: "sonstiges", value: "" },
       ],
       // array of the enabled status for the text input field
@@ -204,9 +204,18 @@ export default {
       document.getElementById(id).value = event.target.value;
     },
     async updateCourses() {
-      console.log(this.test);
-    }
-  },
+      let mappedCourses = [];
+      this.test.forEach((element, index) => {
+        mappedCourses.push({
+          code: this.courseSelection.semesterPlans[0].bookedCourses[index].code,
+          selectionReason: element,
+        });
+      });
+      console.log(mappedCourses);
+      await this.$store.dispatch("modalcourse/updateSelectionReasons", {mappedCourses});
+    },
+  }
+    
 };
 </script>
 

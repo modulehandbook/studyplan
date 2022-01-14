@@ -100,6 +100,26 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  async updateSelectionReasons({rootGetters}, {mappedCourses}){
+    console.log("teste");
+    try {
+      const semester = rootGetters["semester/getCurrentSemester"];
+      const course = mappedCourses[0];
+      await ModalCourseService.updateModalCourse(course.code, course.selectionReason, semester._id)
+      .then((response) => {
+        console.log(response.data);
+      });
+  
+    } catch (error) {
+      const notification = {
+        type: "error",
+        message:
+          "there was a problem updating the reasons modal courses where chosen: " +
+          error.message,
+      };
+      console.log(notification)
+    }
+  },
   async assignUsers({ commit, rootGetters, getters }) {
     try {
       commit("SET_PENDING", true);

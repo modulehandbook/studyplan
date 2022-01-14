@@ -48,6 +48,35 @@ module.exports = {
       });
   },
   update: (req, res) => {
+   ModalCourse.findOne({code: req.body.code, semester: req.body.semester})
+   .then((modalCourse) => {
+    let selectionReasons = {
+        teacher: 0,
+        time: 0,
+        interest: 0,
+        easy: 0,
+        careerRelevant: 0,
+        other: 0,
+      };
+    
+      
+      if(selectionReasons[`${req.body.reason}`] != undefined)selectionReasons[`${req.body.reason}`]++; 
+      else selectionReasons["other"]++;
+      modalCourse.reasonsForSelection = selectionReasons;
+      modalCourse.save((err) => {
+        if (err) {
+          console.log(err.message);
+          return;
+        } else {
+          res.json(modalCourse);
+        }
+      });
+   })
+   .catch((error) => {
+     console.log(`error updating modalCourse: ${error.message}`);
+   });
+  },
+  updateAll: (req, res) => {
     let semesterId = req.params.id;
     ModalCourse.find({ semester: semesterId })
       .populate("semester")

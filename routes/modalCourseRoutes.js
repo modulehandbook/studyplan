@@ -4,7 +4,8 @@ const modalCourseController = require("../controller/modalCourseController"),
 router.post("/create", modalCourseController.create);
 router.get("", modalCourseController.showAll);
 router.get("/:id", modalCourseController.show);
-router.put("/:id", modalCourseController.update);
+router.put("/", modalCourseController.updateAll);
+router.put("/updatesurvey", modalCourseController.update);
 router.delete("/:id", modalCourseController.delete);
 
 module.exports = router;
