@@ -1,5 +1,6 @@
 <template>
-  <form name="form" @submit.prevent="updateCourses" v-if="!pending" >
+  <div>
+  <form name="form" @submit.prevent="updateCourses" v-if="!pending && this.courseSelection.semesterPlans[0].bookedCourses.length > 0" >
     <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
     <div
       v-for="(course, index) in this.courseSelection.semesterPlans[0].bookedCourses"
@@ -104,6 +105,8 @@
       <p class="survey-time">Umfrageschluss: dd/mm/yyyy</p>
     </div>
   </form>
+  <p v-else> komm wieder wenn du kurse gewaehlt hast</p>
+  </div>
 </template>
   
 <!--
