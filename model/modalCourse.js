@@ -15,6 +15,13 @@ const mongoose = require("mongoose"),
           ref: "User",
         },
       ],
+      reasonsForSelecton: { 
+        teacher: Number,
+        time: Number,
+        interest: Number,
+        easy: Number,
+        careerRelevant: Number,
+      },
       availablePlaces: Number,
     },
     {
