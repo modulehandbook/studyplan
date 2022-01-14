@@ -111,7 +111,7 @@ module.exports = {
             return res.status(500).send({ msg: err.message });
           }
           res.status(200).send(
-            "The account has been verified. Please log in: https://studyplan.herokuapp.com/login" //TODO change
+            "The account has been verified. Please log in: http://studyplan.f4.htw-berlin.de/login" //TODO change to https
           );
         });
       });
