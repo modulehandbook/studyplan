@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "test": "sudo docker-compose -f docker-compose.test.yml up -d && jest --runInBand ; sudo docker-compose -f docker-compose.test.yml down ; rm -r tmp-test/",
-    "lint": "eslint --fix .",
+    "lint": "./node_modules/.bin/eslint --fix .",
     "lint-all": "npm run lint && cd client && npm run lint",
     "clean-packages": "rm package-lock.json && rm -r node_modules && npm i",
     "clean-packages-all": "npm run clean-packages && cd client && npm run clean-packages",
