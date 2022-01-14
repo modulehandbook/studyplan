@@ -21,7 +21,7 @@ export const mutations = {
 
 export const actions = {
   async createCourse(
-    { state, commit, dispatch},
+    { state, commit, dispatch },
     { courseName, code, availablePlaces, semester }
   ) {
     try {
@@ -58,14 +58,16 @@ export const actions = {
     //ask for the semester route -> if there is a 404, so no semester info is there yet,
     // check the basic vuex course state
     try {
-        commit("SET_PENDING", true);
-       // console.log(state.modalCourses);
-        const foundModalCourse = state.modalCourses.find((modalCourse) => modalCourse.semester.name == semester && modalCourse.code == code);
+      commit("SET_PENDING", true);
+      // console.log(state.modalCourses);
+      const foundModalCourse = state.modalCourses.find(
+        (modalCourse) =>
+          modalCourse.semester.name == semester && modalCourse.code == code
+      );
 
-        commit("SET_MODALCOURSE", foundModalCourse);
-        console.log("found the following course:");
-        console.log(state.modalCourse);
-        
+      commit("SET_MODALCOURSE", foundModalCourse);
+      console.log("found the following course:");
+      console.log(state.modalCourse);
     } finally {
       commit("SET_PENDING", false);
     }

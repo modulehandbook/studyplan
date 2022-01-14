@@ -2,10 +2,8 @@
 
 <template>
   <div>
-    <BaseModal
-      :route="'/modalcourse'"
-    >
-      <template v-slot:header>
+    <BaseModal :route="'/modalcourse'">
+      <template #header>
         <button
           type="button"
           class="btn-close"
@@ -17,11 +15,12 @@
 
       <template #body>
         <pulse-loader :loading="pending" :color="color"></pulse-loader>
-      <BaseWindowContent 
-       v-if="!pending"
-      :semester="semester"
-      :course="modalCourse"/>
-       </template>
+        <BaseWindowContent
+          v-if="!pending"
+          :semester="semester"
+          :course="modalCourse"
+        />
+      </template>
     </BaseModal>
   </div>
 </template>
