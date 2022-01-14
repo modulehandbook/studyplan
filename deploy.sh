@@ -1,13 +1,8 @@
 #!/bin/bash
 
-##########################
-#only for debug
-cd studyplan;
-########################
-
-tmp_node=../tmp-node/
-tmp_vue=../tmp-vue/
-files=../.filesToDeploy 
+tmp_node=tmp-node/
+tmp_vue=tmp-vue/
+files=.filesToDeploy 
 
 ##########################################################
 if [ "$1" = "prepare" ]; then # mode = prepare
