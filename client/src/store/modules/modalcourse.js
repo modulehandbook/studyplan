@@ -100,7 +100,7 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async updateSelectionReasons({rootGetters}, {mappedCourses}){
+  async updateSelectionReasons({state, commit, rootGetters}, {mappedCourses}){
     console.log("teste");
     try {
       const semester = rootGetters["semester/getCurrentSemester"];
@@ -109,9 +109,14 @@ export const actions = {
         await ModalCourseService.updateModalCourse(mappedCourse.code, mappedCourse.selectionReason, semester._id)
         .then((response) => {
           console.log(response.data);
+          const changedCourse = response.data;
+          state.modalCourses.forEach((modalCourse, i) => {
+            if(modalCourse.code == changedCourse.code)state.modalCourses[i].reasonsForSelection = changedCourse.reasonsForSelection;
+          });
         });
       });
-     
+      console.log(state.modalCourses);
+      commit("SET_MODALCOURSES", state.modalCourses);
   
     } catch (error) {
       const notification = {
