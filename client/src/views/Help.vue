@@ -91,7 +91,7 @@
           Brauchst du Hilfe mit dem Tool selbst?
         </p>
         <a
-          href="mailto:s0565922@htw.berlin.de"
+          href="mailto:studyplan-imi@htw-berlin.de"
           target="blank"
           class="questions questions-question--answer"
           >Schreib uns eine Mail</a
