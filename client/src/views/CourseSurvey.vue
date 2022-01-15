@@ -1,6 +1,6 @@
 <template>
   <div v-if="!pending">
-  <form name="form" @submit.prevent="updateCourses"   v-if="courseSelection != null && courseSelection.semesterPlans != null">
+  <form name="form" @submit.prevent="updateCourses"   v-if="courseSelection != null && courseSelection.semesterPlans != null && courseSelection.semesterPlans[0].bookedCourses.length > 0">
     <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
     <div
       v-for="(course, index) in this.courseSelection.semesterPlans[0].bookedCourses"
