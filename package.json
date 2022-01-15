@@ -28,6 +28,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
+    "bree": "^7.1.5",
     "connect-history-api-fallback": "^1.6.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
