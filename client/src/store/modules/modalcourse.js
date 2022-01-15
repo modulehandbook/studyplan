@@ -104,11 +104,14 @@ export const actions = {
     console.log("teste");
     try {
       const semester = rootGetters["semester/getCurrentSemester"];
-      const course = mappedCourses[0];
-      await ModalCourseService.updateModalCourse(course.code, course.selectionReason, semester._id)
-      .then((response) => {
-        console.log(response.data);
+      //const course = mappedCourses[0];
+      mappedCourses.forEach(async (mappedCourse) => {
+        await ModalCourseService.updateModalCourse(mappedCourse.code, mappedCourse.selectionReason, semester._id)
+        .then((response) => {
+          console.log(response.data);
+        });
       });
+     
   
     } catch (error) {
       const notification = {
