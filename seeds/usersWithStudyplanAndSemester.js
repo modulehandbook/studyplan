@@ -1,6 +1,9 @@
 const User = require("../model/user"),
   StudyPlan = require("../model/studyPlan"),
   Semester = require("../model/semester"),
+  ModalCourse = require("../model/modalCourse"),
+  CourseSelection = require("../model/courseSelection"),
+  Stage = require("../model/stage"),
   mongoose = require("mongoose"),
   bcrypt = require("bcryptjs");
 
@@ -20,6 +23,25 @@ async function loadUser() {
   await Semester.deleteMany({});
   await StudyPlan.deleteMany({});
   await User.deleteMany({});
+  await ModalCourse.deleteMany({});
+  await CourseSelection.deleteMany({});
+  await Stage.deleteMany({});
+
+  await Stage.create({
+    currentStage: "IDLE",
+    nextDates: {
+      idle: [{ date: "2022-01-15" }],
+      courseSelection: [{ date: "2022-01-16" }],
+      evaluation: [
+        { date: "2022-01-17" },
+        { date: "2022-01-16" },
+        { date: "2022-01-15" },
+        { date: "2022-01-14" },
+      ],
+      courseResult: [{ date: "2022-01-18" }],
+    },
+    //TODO add currentSemester
+  });
 
   let semesterData = [];
   let i = 10;
