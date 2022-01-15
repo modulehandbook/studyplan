@@ -3,10 +3,10 @@ module.exports = {
   getStage: (req, res) => {
     Stage.find()
       .then((stage) => {
-        res.json(stage[0].currentStage);
+        res.json(stage[0]);
       })
       .catch((error) => {
-        console.log(`Error fetching courseSelection by ID: ${error.message}`);
+        console.log("Error fetching Stage: " + error);
       });
   },
 };
