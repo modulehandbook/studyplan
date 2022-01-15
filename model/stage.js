@@ -6,7 +6,7 @@ const mongoose = require("mongoose"),
         type: Schema.Types.ObjectId,
         ref: "Semester",
       },
-      currentState: {
+      currentStage: {
         type: String,
         enum: ["IDLE", "COURSE-SELECTION", "EVALUATION", "COURSE-RESULT"],
       },
@@ -14,7 +14,7 @@ const mongoose = require("mongoose"),
         idle: [{ date: Date }],
         courseSelection: [{ date: Date }],
         evaluation: [{ date: Date }],
-        coureseResult: [{ date: Date }],
+        courseResult: [{ date: Date }],
       },
     },
     {
