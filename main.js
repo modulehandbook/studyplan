@@ -5,7 +5,7 @@ const express = require("express"),
   router = require("./routes/index"),
   history = require("connect-history-api-fallback"),
   serveStatic = require("serve-static"),
-  { bree } = require("./services/breeService"),
+  Bree = require("./services/breeService"),
   Graceful = require("@ladjs/graceful");
 
 app.use(express.json());
@@ -73,11 +73,15 @@ app.listen(app.get("port"), () => {
   console.log(`Server running at http://localhost:${app.get("port")}`);
 });
 
-// handle graceful reloads, pm2 support, and events like SIGHUP, SIGINT, etc.
-const graceful = new Graceful({ brees: [bree] });
-graceful.listen();
+Bree.createBree()
+  .then((bree) => {
+    // handle graceful reloads, pm2 support, and events like SIGHUP, SIGINT, etc.
+    const graceful = new Graceful({ brees: [bree] });
+    graceful.listen();
 
-// start all jobs (this is the equivalent of reloading a crontab):
-bree.start();
+    // start all jobs (this is the equivalent of reloading a crontab):
+    bree.start();
+  })
+  .catch((err) => console.log(err));
 
 module.exports = app;
