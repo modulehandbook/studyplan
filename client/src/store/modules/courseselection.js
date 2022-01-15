@@ -43,7 +43,7 @@ export const actions = {
     try {
       //console.log(userId);
       commit("SET_PENDING", true);
-      var courseSelection = getters.getCourseSelection;
+      var courseSelection = getters.getCourseSelectionByUserId(userId);
       //console.log(courseSelection);
       if (courseSelection) {
         commit("SET_COURSESELECTION", courseSelection);

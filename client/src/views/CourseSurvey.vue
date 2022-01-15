@@ -1,6 +1,6 @@
 <template>
-  <div>
-  <form name="form" @submit.prevent="updateCourses" v-if="!pending && this.courseSelection.semesterPlans[0].bookedCourses.length > 0" >
+  <div v-if="!pending">
+  <form name="form" @submit.prevent="updateCourses"   v-if="courseSelection != null && courseSelection.semesterPlans != null">
     <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
     <div
       v-for="(course, index) in this.courseSelection.semesterPlans[0].bookedCourses"
@@ -140,9 +140,16 @@ export default {
     this.pending = true;
        await this.$store.dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
+      })
+      .then((test)=>{
+        console.log(test);
+        this.pending = false;
+      })
+      .catch((e) => {
+        console.log(e);
       });
-    this.pending = false;
-    console.log(this.$store);
+
+    //console.log(this.courseSelection);
   },
   data() {
    
