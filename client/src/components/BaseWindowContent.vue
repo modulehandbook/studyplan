@@ -16,7 +16,17 @@
       <h3>Zuständige Person</h3>
       <p>{{ course.responsible_person }}</p>
     </div>
-
+    <div v-if="course.reasonsForSelection"> 
+      <h3>Beleggründe</h3>
+      <ol>
+        <li>Dozent: {{course.reasonsForSelection.teacher}}</li>
+        <li>Zeit: {{course.reasonsForSelection.time}}</li>
+        <li>Interesse: {{course.reasonsForSelection.interest}}</li>
+        <li>Kurs ist einfach: {{course.reasonsForSelection.easy}}</li>
+        <li>Karriere-relevant: {{course.reasonsForSelection.careerRelevant}}</li>
+        <li>andere: {{course.reasonsForSelection.other}}</li>
+      </ol>
+    </div>
     <div v-if="course.updatedAt">
       <h4>Zuletzt geupdated</h4>
       <p>
