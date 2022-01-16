@@ -3,7 +3,7 @@
 <template>
   <div>
     <BaseModal :route="'/profile'">
-      <template v-slot:header>
+      <template #header>
         <button
           type="button"
           class="btn-close"
@@ -14,7 +14,7 @@
         <h1>ACHTUNG</h1>
       </template>
 
-      <template v-slot:body>
+      <template #body>
         <p class="text">
           Wenn du Angaben zu deinem Studium änderst, verlierst du deinen
           StudyPlan, den du für den jetzigen Studiengang mit der ausgewählten
@@ -30,7 +30,7 @@
         </button>
       </template>
 
-      <template v-slot:footer>
+      <template #footer>
         <button
           type="button"
           class="button button-danger"
@@ -47,16 +47,17 @@
 import { mapState, mapMutations } from "vuex";
 
 export default {
+  computed: {
+    ...mapState("user", ["user"]),
+    ...mapState("studyplan", ["studyplan"]),
+  },
+
   created() {
     document.documentElement.style.overflow = "hidden";
   },
 
   unmounted() {
     document.documentElement.style.overflow = "auto";
-  },
-  computed: {
-    ...mapState("user", ["user"]),
-    ...mapState("studyplan", ["studyplan"]),
   },
   methods: {
     ...mapMutations("user", ["SET_USER"]),

@@ -3,9 +3,9 @@
     <div class="container">
       <div class="shadowBox">
         <div
-          class="semesterRow"
           v-for="semester in coursesInSemester"
           :key="semester.id"
+          class="semesterRow"
         >
           <div class="sidebar">
             <p class="semesterCount">{{ semester[0].semester }}. Semester</p>
@@ -14,10 +14,10 @@
 
           <div class="courses">
             <div
-              class="course"
-              :style="{ width: `${courseWidth(course)}px` }"
               v-for="course in semester"
               :key="course.id"
+              class="course"
+              :style="{ width: `${courseWidth(course)}px` }"
             >
               <router-link
                 class="course-content-container"
@@ -58,7 +58,21 @@
 import { mapState } from "vuex";
 export default {
   props: {
-    coursesInSemester: Object,
+    coursesInSemester: {
+      type: Object,
+      default() {
+        return null;
+      },
+    },
+  },
+  computed: {
+    studyplan() {
+      return this.$store.state.user.user.studyPlan;
+    },
+    ...mapState(["course"]),
+    //Julia's version below:  //Don't know why its not working -Ben
+    //...mapState("course", ["course"]),
+    //...mapState("studyplan", ["studyPlan"]),
   },
   methods: {
     ects(semester) {
@@ -71,15 +85,6 @@ export default {
     courseWidth(course) {
       return course.ects * 30 + (course.ects / 5 - 1) * 25;
     },
-  },
-  computed: {
-    studyplan() {
-      return this.$store.state.user.user.studyPlan;
-    },
-    ...mapState(["course"]),
-    //Julia's version below:  //Don't know why its not working -Ben
-    //...mapState("course", ["course"]),
-    //...mapState("studyplan", ["studyPlan"]),
   },
 };
 </script>

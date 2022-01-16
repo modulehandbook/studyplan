@@ -3,12 +3,12 @@
     <div class="shadowBox">
       <BaseSemesterRow
         v-for="(semester, $semesterIndex) in coursesInSemester"
-        class="semester"
         :key="semester.id"
+        class="semester"
         :semester="semester"
-        :semesterIndex="$semesterIndex"
-        :coursesInSemester="coursesInSemester"
-        :semesterName="semester.semester"
+        :semester-index="$semesterIndex"
+        :courses-in-semester="coursesInSemester"
+        :semester-name="semester.semester"
       />
       <router-view></router-view>
     </div>

@@ -3,8 +3,9 @@ import ExampleStudyPlan from "../views/ExampleStudyPlan.vue";
 import Login from "../views/Login.vue";
 import StudyPlan from "../views/StudyPlan.vue";
 import Help from "../views/Help.vue";
-import CourseSelection from '../views/CourseSelection.vue'
-import CourseSurvey from '../views/CourseSurvey.vue'
+import CourseSelection from "../views/CourseSelection.vue";
+import CourseSurvey from "../views/CourseSurvey.vue";
+import ModalCourse from "../views/ModalCourse.vue";
 import Profile from "../views/Profile.vue";
 import Register from "../views/Register.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
@@ -12,6 +13,7 @@ import Imprint from "../views/Imprint.vue";
 import ProgramSelection from "../views/ProgramSelection.vue";
 import BaseModalChildCourse from "../components/BaseModalChildCourse.vue";
 import BaseModalParentCourse from "../components/BaseModalParentCourse.vue";
+import BaseModalCourseDetailsWindow from "../components/BaseModalCourseDetailsWindow.vue";
 import BaseDeleteStudyplanModal from "../components/BaseDeleteStudyplanModal.vue";
 import BaseChangePasswordModal from "../components/BaseChangePasswordModal.vue";
 import BaseResendVerification from "../components/BaseResendVerification.vue";
@@ -95,6 +97,18 @@ const routes = [
     component: CourseSurvey,
   },
   {
+    path: "/modalcourse",
+    name: "ModalCourse",
+    component: ModalCourse,
+    children: [
+      {
+        path: ":semester/:code",
+        component: BaseModalCourseDetailsWindow,
+        name: "baseModalCourseDetails",
+      },
+    ],
+  },
+  {
     path: "/hilfe",
     name: "Help",
     component: Help,
@@ -150,10 +164,14 @@ router.beforeEach((to, from, next) => {
     next();
     return;
   }
-  if (!user || user == null) {
+  if ((!user || user == null) && router.options.history.base != "/register#") {
+    console.log(router.options.history.base);
     next("/login");
     return;
+  } else if (!user || user == null) {
+    next("/register");
   }
+
   let loggedIn = AccessTokenValidation.parseJwt(user.accessToken);
 
   if (loggedIn.exp < Date.now() / 1000) {

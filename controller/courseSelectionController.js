@@ -14,10 +14,9 @@ module.exports = {
         return;
       });
   },
-  delete: (req, res) => {
+  delete: (req) => {
     CourseSelection.findByIdAndRemove(req.params.id)
-      .then(async () => {
-      })
+      .then(async () => {})
       .catch((error) => {
         console.log(`Error deleting courseSelection by ID: ${error.message}`);
         return;

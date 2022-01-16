@@ -110,11 +110,9 @@ module.exports = {
           if (err) {
             return res.status(500).send({ msg: err.message });
           }
-          res
-            .status(200)
-            .send(
-              "The account has been verified. Please log in: https://studyplan.herokuapp.com/login"
-            );
+          res.status(200).send(
+            "The account has been verified. Please log in: https://studyplan.herokuapp.com/login" //TODO change
+          );
         });
       });
     });
@@ -166,6 +164,7 @@ module.exports = {
           studyPlan: user.studyPlan,
           accessToken: user.accessToken,
           password: user.password,
+          isPreferred: user.isPreferred,
         });
       });
   },
@@ -245,7 +244,7 @@ module.exports = {
     }
 
     var mailOptions = {
-      from: "studyplanhtwberlin@gmail.com",
+      from: "studyplanhtwberlin@gmail.com", //TODO change email
       to: res.locals.user.email,
       subject: "New Password",
       text:
@@ -253,17 +252,21 @@ module.exports = {
         "This is your new password. Please update it in your profile settings soon.\n\n" +
         res.locals.password,
     };
-    transporter.sendMail(mailOptions, function (err) {
+    transporter.sendMail(mailOptions, function (err, info) {
       if (err) {
         return res.status(500).send({ msg: err.message });
       }
-      res
-        .status(200)
-        .send(
-          "An email with a new password has been sent to " +
-            res.locals.user.email +
-            "."
-        );
+      if (process.env.NODE_ENV == "TEST") {
+        res.status(200).send(nodemailer.getTestMessageUrl(info));
+      } else {
+        res
+          .status(200)
+          .send(
+            "An email with a new password has been sent to " +
+              res.locals.user.email +
+              "."
+          );
+      }
     });
   },
   sendVerificationEmail: (req, res) => {
@@ -284,7 +287,7 @@ module.exports = {
     }
 
     var mailOptions = {
-      from: "studyplanhtwberlin@gmail.com",
+      from: "studyplanhtwberlin@gmail.com", //TODO change email
       to: res.locals.user.email,
       subject: "Account Verification Token",
       text:
@@ -294,15 +297,21 @@ module.exports = {
         "/users/confirmation/" +
         res.locals.token.token,
     };
-    transporter.sendMail(mailOptions, function (err) {
+    transporter.sendMail(mailOptions, function (err, info) {
       if (err) {
         return res.status(500).send({ msg: err.message });
       }
-      res
-        .status(200)
-        .send(
-          "A verification email has been sent to " + res.locals.user.email + "."
-        );
+      if (process.env.NODE_ENV == "TEST") {
+        res.status(200).send(nodemailer.getTestMessageUrl(info));
+      } else {
+        res
+          .status(200)
+          .send(
+            "A verification email has been sent to " +
+              res.locals.user.email +
+              "."
+          );
+      }
     });
   },
   update: async (req, res) => {
@@ -314,7 +323,7 @@ module.exports = {
       studyPlan: req.body.studyPlan,
       courseSelection: req.body.courseSelection,
       accessToken: req.body.accessToken,
-
+      isPreferred: req.body.isPreferred,
     };
     console.log(userParams);
     User.findByIdAndUpdate(req.params.id, { $set: userParams }, { new: true })

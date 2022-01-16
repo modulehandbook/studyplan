@@ -65,7 +65,7 @@ export const actions = {
     if (!semester) return;
     const coursesInSemester = {};
     for (let i in semester) {
-      //if (semester[i] == 0) continue; //ohne Wahlpflichtfächer
+      if (semester[i] == 0) continue; //ohne Wahlpflichtfächer
       let courses = [];
       let coursesInProgram = getCoursesInProgram(state.program);
       for (let y in coursesInProgram) {
@@ -87,7 +87,7 @@ export const actions = {
       let coursesInProgram = getCoursesInProgram(state.program);
       for (let y in coursesInProgram) {
         if (coursesInProgram[y].code.includes(".")) continue; //ohne B20.1, also required Submodule
-          if (coursesInProgram[y].code.includes("M")) continue;
+        if (coursesInProgram[y].code.includes("M")) continue;
         if (semester[i] == coursesInProgram[y].semester)
           courses.push(coursesInProgram[y]);
       }

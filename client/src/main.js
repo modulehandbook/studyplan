@@ -6,13 +6,14 @@ import { store } from "./store";
 const app = createApp(App);
 
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-app.component("pulse-loader", PulseLoader);
+app.component("PulseLoader", PulseLoader);
 
 import upperFirst from "lodash/upperFirst";
 import camelCase from "lodash/camelCase";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faRedo,
   faPlusCircle,
   faArrowLeft,
   faUser,
@@ -21,8 +22,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faPlusCircle, faArrowLeft, faUser, faBars, faSignOutAlt);
-app.component("font-awesome-icon", FontAwesomeIcon);
+library.add(faRedo, faPlusCircle, faArrowLeft, faUser, faBars, faSignOutAlt);
+app.component("FontAwesomeIcon", FontAwesomeIcon);
 
 //registering BaseComponents globall
 const requireComponent = require.context(

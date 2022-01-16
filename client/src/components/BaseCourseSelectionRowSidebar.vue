@@ -31,7 +31,7 @@ export default {
       }
       return ects;
     },
-    deleteCoursePriority(){
+    deleteCoursePriority() {
       this.$store.dispatch("courseselection/deleteCoursePriority", {
         priority: this.priority,
       });

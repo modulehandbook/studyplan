@@ -1,3 +1,11 @@
 module.exports = {
-  preset: "@vue/cli-plugin-unit-jest/presets/no-babel",
+  verbose: true,
+  testEnvironment: "node",
+  testPathIgnorePatterns: [
+    "/client/",
+    "/docker-dev-db/",
+    "/node_modules",
+    "<rootDir>/__tests__/config/",
+    "<rootDir>/__tests__/seeds/",
+  ],
 };
