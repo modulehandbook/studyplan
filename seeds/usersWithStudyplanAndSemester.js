@@ -66,6 +66,13 @@ async function loadUser() {
       email: "test@mail.de",
       isVerified: true,
     }),
+    new User({
+      username: "admin",
+      password: bcrypt.hashSync("admin", 8),
+      email: "admin@mail.de",
+      isVerified: true,
+      isAdmin: true,
+    }),
   ];
 
   const users = await User.create(userData);
