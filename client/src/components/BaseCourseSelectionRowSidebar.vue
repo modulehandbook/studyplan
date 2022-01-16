@@ -1,12 +1,7 @@
 <template>
-  <div class="sidebar">
-    <div v-if="!isUnbookedCourses">
-      <p class="semesterCount">{{ priority }}. Prioritaet</p>
-      <button class="deleteSemester" @click="deleteCoursePriority()">
-        Prio löschen
-      </button>
-    </div>
-    <p v-else class="semesterCount">alle kurse</p>
+  <div>
+    <p>{{ priority }}. Prioritaet</p>
+    <button @click="deleteCoursePriority()">Prio löschen</button>
   </div>
 </template>
 
@@ -42,42 +37,4 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
-
-.semesterCount {
-  font-size: 18px;
-  padding: 10px;
-  font-weight: bold;
-  color: $htwGruen;
-}
-
-.semesterName {
-  font-size: 15px;
-  color: $htwGruen;
-}
-
-.semesterECTS {
-  font-size: 12px;
-}
-p {
-  margin: 0;
-  font-weight: 700;
-}
-
-.sidebar {
-  min-height: 87px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin: 14px;
-}
-
-.deleteSemester {
-  text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-  text-decoration: underline;
-}
 </style>

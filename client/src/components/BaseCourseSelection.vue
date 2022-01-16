@@ -1,35 +1,34 @@
 <template>
-  <div class="container">
-    <div class="shadowBox">
+  <div class="courseSelection">
+    <BaseCourseSelectionColumn
+      :course-priority="0"
+      :courses="courses"
+      :other-courses="bookedCourses"
+      :is-unbooked-courses="true"
+      class="allCourses"
+    />
+    <div class="prioritiesBox">
+      <div class="addPriorities">
+        <h2>Please drag and drop your preference course</h2>
+        <div>
+          <button @click="addPriority">
+            <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
+          </button>
+          <p>Prio hinzufügen</p>
+        </div>
+      </div>
       <BaseCourseSelectionRow
-        class="semester"
-        :course-priority="0"
-        :courses="courses"
-        :other-courses="bookedCourses"
-        :is-unbooked-courses="true"
-      />
-      <BaseCourseSelectionRow
+        class="priorities"
         v-for="course in bookedCourses"
         :key="course"
-        class="semester"
         :course-priority="course.priority"
         :courses="[course]"
         :other-courses="courses"
         :is-unbooked-courses="false"
       />
-      <router-view></router-view>
-    </div>
-    <div class="addSemester">
-      <button class="addSemester addSemester__button" @click="addPriority">
-        <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
+      <button @click="resetCourseSelection" class="reset">
+        <p>Reset</p>
       </button>
-      <p class="addSemester addSemester__text">Prio hinzufügen</p>
-    </div>
-    <div class="addSemester">
-      <button class="addSemester addSemester__button" @click="resetCourseSelection">
-        <font-awesome-icon :icon="['fas', 'redo']" size="3x" />
-      </button>
-      <p class="addSemester addSemester__text">Kurswahl resetten</p>
     </div>
   </div>
 </template>
@@ -53,7 +52,7 @@ export default {
     addPriority() {
       this.$store.dispatch("courseselection/addCoursePriority");
     },
-    resetCourseSelection(){
+    resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority2");
     },
   },
@@ -62,51 +61,51 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
-p {
-  font-weight: 700;
+
+.prioritiesBox {
+  background-color: #b3b3b3;
+  color: white;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  flex: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  
+  margin: 2rem;
+  border-radius: 0.5rem;
+
+  .addPriorities {
+    border-bottom-style: solid;
+    border-color: white;
+    border-width: 0.125rem;
+    padding: 1rem;
+    h2 {
+      font-size: large;
+    }
+  }
+
+  .priorities {
+    border-bottom-style: solid;
+    border-color: white;
+    border-width: 0.125rem;
+    padding: 1rem;
+  }
+  .reset {
+    margin: 2rem;
+    padding-left: 0.125rem;
+    padding-right: 0.125rem;
+  }
 }
 
-.container {
-  display: grid;
-  padding: 0 2rem;
-  margin: 0 auto;
-  max-width: 1350px;
-  border-radius: 20px;
-
-  @media screen and (max-width: 1400px) {
-    max-width: 90% !important;
-  }
-
-  .shadowBox {
-    box-shadow: 0px 7px 4px rgba(0, 0, 0, 0.23);
-    border-radius: 20px;
-  }
-  .semester {
-    background: white;
-    &:nth-child(odd) {
-      background: rgba(118, 185, 0, 0.1) !important;
-    }
-    &:first-of-type {
-      border-radius: 20px 20px 0 0;
-    }
-    &:last-of-type {
-      border-radius: 0 0 20px 20px;
-    }
-  }
+.allCourses {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  flex: auto;
+  margin: 2rem;
 }
-.addSemester {
-  &__button {
-    text-decoration: none;
-    background: none;
-    border: none;
-    margin: 40px 0 20px 0;
-    color: $htwGruen;
-    cursor: pointer;
-  }
-
-  &__text {
-    margin: 0;
-    color: $htwGruen;
-  }
+.courseSelection {
+  display: inline-grid;
+  align-items: stretch;
+  padding: 2rem;
 }
 </style>

@@ -1,27 +1,22 @@
 <template>
   <div>
-    <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div
       v-if="
         this.courseSelection != null &&
         this.courseSelection.semesterPlans != null
       "
     >
-      <p>hier ist der inhalt der seite</p>
       <baseCourseSelection
         v-show="!pending"
         :courses="courseSelection.semesterPlans[0].unbookedCourses"
         :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
       />
     </div>
-    <div v-if="this.courseSelection == null" class="addSemester">
-      <button
-        class="addSemester addSemester__button"
-        @click="addCourseSelection"
-      >
+    <div v-if="this.courseSelection == null">
+      <button @click="addCourseSelection">
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
       </button>
-      <p class="addSemester addSemester__text">Kurswahl hinzufuegen</p>
+      <p>Kurswahl hinzufuegen</p>
     </div>
   </div>
 </template>
@@ -70,3 +65,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+
+</style>

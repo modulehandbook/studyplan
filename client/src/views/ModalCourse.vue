@@ -1,6 +1,6 @@
 <template>
     <div>
-        <BaseHeading> <h1> alle Kurse </h1> </BaseHeading>
+        <BaseHeading> <h1>Alle Kurse</h1> </BaseHeading>
         <div class="container">
         <div v-for="(
           semester) in this.$store.state.semester.semesters"
@@ -15,7 +15,7 @@
         </div>
         <form name="form" @submit.prevent="createNewModalCourse">
             <div>
-                <h3>kursdaten</h3>
+                <h3>Kursdaten</h3>
                 <label for="courseName">Kursname</label>
                 <input v-model="courseName" 
                 placeholder="Kursnamen eintragen"

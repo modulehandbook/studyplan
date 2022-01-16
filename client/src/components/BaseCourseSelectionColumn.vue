@@ -1,10 +1,6 @@
 <template>
   <div @drop.stop="moveCourse($event, 0)" @dragover.prevent @dragenter.prevent>
-    <BaseCourseSelectionRowSidebar
-      :priority="coursePriority"
-      :is-unbooked-courses="isUnbookedCourses"
-    />
-
+    <h2>Alle Kurse</h2>
     <div
       v-for="(course, $courseIndex) in courses"
       :key="$courseIndex"
