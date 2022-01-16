@@ -10,6 +10,14 @@ module.exports = {
       semester: req.body.semester,
       availablePlaces: req.body.availablePlaces,
       students: [],
+      reasonsForSelection: {
+        teacher: 0,
+        time: 0,
+        interest: 0,
+        easy: 0,
+        careerRelevant: 0,
+        other: 0,
+      },
     };
     ModalCourse.create(modalCourseParams)
       .then((modalCourse) => {
@@ -48,6 +56,45 @@ module.exports = {
       });
   },
   update: (req, res) => {
+   ModalCourse.findOne({code: req.body.code, semester: req.body.semester})
+   .then((modalCourse) => {
+      let selectionReasons = modalCourse.reasonsForSelection;
+    
+      
+      if(selectionReasons[`${req.body.reason}`] != undefined)selectionReasons[`${req.body.reason}`]++; 
+      else selectionReasons["other"]++;
+      modalCourse.reasonsForSelection = selectionReasons;
+      ModalCourse.findOneAndUpdate({code: req.body.code, semester: req.body.semester},
+        {
+          $set: {
+            reasonsForSelection: selectionReasons,
+          },
+        },
+        { new: true }
+      )
+      .populate("semester")
+      .then((modalCourso, err) => {
+        if (err) console.log(err.message);
+        else {
+          res.json(modalCourso);
+        }
+      });
+      /*
+      modalCourse.save((err) => {
+        if (err) {
+          console.log(err.message);
+          return;
+        } else {
+          res.json(modalCourse);
+        }
+      });
+      */
+   })
+   .catch((error) => {
+     console.log(`error updating modalCourse: ${error.message}`);
+   });
+  },
+  updateAll: (req, res) => {
     let semesterId = req.params.id;
     ModalCourse.find({ semester: semesterId })
       .populate("semester")
