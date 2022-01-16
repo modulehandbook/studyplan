@@ -9,9 +9,11 @@
     <!-- Allgemeine Informationen -->
     <div>
       <h3>Studenten im Kurs</h3>
-      <p v-for="student in course.students" :key="student.id">{{student.username}}</p>
+      <p v-for="student in course.students" :key="student.id">
+        {{ student.username }}
+      </p>
     </div>
-  
+
     <div v-if="course.responsible_person">
       <h3>Zuständige Person</h3>
       <p>{{ course.responsible_person }}</p>
@@ -34,19 +36,12 @@
       </p>
     </div>
 
-
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      requiredCourses: [],
-      mobileView: false,
-    };
-  },
   props: {
     course: {
       type: Object,
@@ -56,6 +51,12 @@ export default {
       type: Object,
       required: false,
     },
+  },
+  data() {
+    return {
+      requiredCourses: [],
+      mobileView: false,
+    };
   },
   created() {
     this.mobileView = window.innerWidth <= 600;
