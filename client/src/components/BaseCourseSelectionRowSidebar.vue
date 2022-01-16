@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <div v-if="!isUnbookedCourses">
-      <p class="semesterCount">{{ priority }}. Prioritaet</p>
+      <p class="semesterCount">{{ priority }}. Priorit&auml;t</p>
       <button class="deleteSemester" @click="deleteCoursePriority()">
         Prio löschen
       </button>
