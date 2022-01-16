@@ -10,7 +10,6 @@ export default {
   fetchStage() {
     return server.get("stage", {
       headers: authHeader(),
-    })
-  }
+    });
+  },
 };
-

@@ -2,20 +2,13 @@
   <div>
     <BaseHeading><h1>Impressum</h1> </BaseHeading>
     <div class="container">
-
       <h2>Kontakt</h2>
-      <a
-            href="https://home.htw-berlin.de/~kleinen/contact/"
-            target="blank"
-            >Prof. Dr. Barne Kleinen</a
+      <a href="https://home.htw-berlin.de/~kleinen/contact/" target="blank"
+        >Prof. Dr. Barne Kleinen</a
       >
 
       <h2>Informationen zum Projekt-Programm</h2>
-      <a
-            href="https://showtime.f4.htw-berlin.de/"
-            target="blank"
-            >Showtime</a
-      >
+      <a href="https://showtime.f4.htw-berlin.de/" target="blank">Showtime</a>
     </div>
   </div>
 </template>
@@ -25,5 +18,7 @@
   width: 80%;
   margin: 0 auto;
 }
-a {color:blue;}
+a {
+  color: blue;
+}
 </style>

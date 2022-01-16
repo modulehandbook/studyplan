@@ -28,16 +28,15 @@ export const actions = {
       const stage = response.data;
       commit("SET_CURRENTSTAGE", stage.currentStage);
       commit("SET_NEXTDATES", {
-          idle:stage.nextDates.idle[0],
-          courseSelection:stage.nextDates.courseSelection[0],
-          evaluation:stage.nextDates.evaluation[0],
-          courseResult:stage.nextDates.courseResult[0],
-        })
+        idle: stage.nextDates.idle[0],
+        courseSelection: stage.nextDates.courseSelection[0],
+        evaluation: stage.nextDates.evaluation[0],
+        courseResult: stage.nextDates.courseResult[0],
+      });
     } catch (error) {
       const notification = {
         type: "error",
-        message:
-          "There was a problem fetching stage: " + error.message,
+        message: "There was a problem fetching stage: " + error.message,
       };
       console.log(notification);
     } finally {
@@ -50,7 +49,7 @@ export const getters = {
   getCurrentStage: (state) => {
     return state.currentStage;
   },
-  getNextDate: (state)  =>{
+  getNextDate: (state) => {
     return state.nextDates;
   },
 };

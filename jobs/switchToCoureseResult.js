@@ -17,7 +17,7 @@ const mongoose = require("mongoose");
   nextDates.courseResult.shift();
   await Stage.updateMany(
     {},
-    { $set: { currentStage: "COURSE-RESULT", nextDates: nextDates} },
+    { $set: { currentStage: "COURSE-RESULT", nextDates: nextDates } },
     { new: true }
   )
     .exec()
@@ -27,4 +27,3 @@ const mongoose = require("mongoose");
   if (parentPort) parentPort.postMessage("done");
   else process.exit(0);
 })();
-

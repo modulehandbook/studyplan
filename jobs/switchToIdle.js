@@ -17,7 +17,7 @@ const mongoose = require("mongoose");
   nextDates.idle.shift();
   await Stage.updateMany(
     {},
-    { $set: { currentStage: "IDLE", nextDates: nextDates} },
+    { $set: { currentStage: "IDLE", nextDates: nextDates } },
     { new: true }
   )
     .exec()

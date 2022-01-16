@@ -24,8 +24,8 @@
           @drop.stop="moveCourse($event, $courseIndex)"
         >
           <div
-            v-if="course.ects!=0"
-            class="course-content-container-content" 
+            v-if="course.ects != 0"
+            class="course-content-container-content"
             :class="{
               'course-content-container-content--booked': true,
               'course-content-container-content--passed': false,

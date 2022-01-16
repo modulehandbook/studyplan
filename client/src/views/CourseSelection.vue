@@ -2,9 +2,7 @@
   <div v-if="!pending">
     <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div v-if="stage.currentStage === 'COURSE-SELECTION'">
-      <div>
-        Verbleibende Zeit: {{ time }}
-      </div>
+      <div>Verbleibende Zeit: {{ time }}</div>
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
       >
@@ -33,15 +31,15 @@
 
 <script>
 import { mapState, useStore } from "vuex";
-import { computed } from 'vue'
-import moment from "moment"
+import { computed } from "vue";
+import moment from "moment";
 
 export default {
-  setup(){
-    const store = useStore()
+  setup() {
+    const store = useStore();
     return {
-      stage: computed(() => store.state.stage)
-    }
+      stage: computed(() => store.state.stage),
+    };
   },
   data() {
     return {
@@ -58,7 +56,7 @@ export default {
     time() {
       const deadline = new Date(this.stage.nextDates.evaluation.date);
       //return deadline.getTime() - Date.now()
-      const gap = moment.duration(moment(deadline).diff(moment(Date.now())))
+      const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
       return gap.locale("de").humanize();
     },
   },
