@@ -102,6 +102,34 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  async updateSelectionReasons({state, commit, rootGetters}, {mappedCourses}){
+    console.log("teste");
+    try {
+      const semester = rootGetters["semester/getCurrentSemester"];
+      //const course = mappedCourses[0];
+      mappedCourses.forEach(async (mappedCourse) => {
+        await ModalCourseService.updateModalCourse(mappedCourse.code, mappedCourse.selectionReason, semester._id)
+        .then((response) => {
+          console.log(response.data);
+          const changedCourse = response.data;
+          state.modalCourses.forEach((modalCourse, i) => {
+            if(modalCourse.code == changedCourse.code)state.modalCourses[i].reasonsForSelection = changedCourse.reasonsForSelection;
+          });
+        });
+      });
+      console.log(state.modalCourses);
+      commit("SET_MODALCOURSES", state.modalCourses);
+  
+    } catch (error) {
+      const notification = {
+        type: "error",
+        message:
+          "there was a problem updating the reasons modal courses where chosen: " +
+          error.message,
+      };
+      console.log(notification)
+    }
+  },
   async assignUsers({ commit, rootGetters, getters }) {
     try {
       commit("SET_PENDING", true);

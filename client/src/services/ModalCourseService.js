@@ -15,8 +15,8 @@ export default {
   fetchModalCourse(semesterId) {
     return server.get(`modalcourse/${semesterId}`);
   },
-  updateModalCourse(modalCourse) {
-    return server.put(`modalcourse/${modalCourse._id}`, modalCourse, {
+  updateModalCourse(code, reason, semester) {
+    return server.put("modalcourse/updatesurvey",{code, reason, semester}, {
       headers: authHeader(),
     });
   },
