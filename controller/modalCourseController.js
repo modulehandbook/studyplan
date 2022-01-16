@@ -64,6 +64,22 @@ module.exports = {
       if(selectionReasons[`${req.body.reason}`] != undefined)selectionReasons[`${req.body.reason}`]++; 
       else selectionReasons["other"]++;
       modalCourse.reasonsForSelection = selectionReasons;
+      ModalCourse.findOneAndUpdate({code: req.body.code, semester: req.body.semester},
+        {
+          $set: {
+            reasonsForSelection: selectionReasons,
+          },
+        },
+        { new: true }
+      )
+      .populate("semester")
+      .then((modalCourso, err) => {
+        if (err) console.log(err.message);
+        else {
+          res.json(modalCourso);
+        }
+      });
+      /*
       modalCourse.save((err) => {
         if (err) {
           console.log(err.message);
@@ -72,6 +88,7 @@ module.exports = {
           res.json(modalCourse);
         }
       });
+      */
    })
    .catch((error) => {
      console.log(`error updating modalCourse: ${error.message}`);
