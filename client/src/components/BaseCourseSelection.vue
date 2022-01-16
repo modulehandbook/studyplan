@@ -19,16 +19,6 @@
       />
       <router-view></router-view>
     </div>
-    <BaseCountdown 
-      class="time"
-      :year="2022"
-      :month="1" 
-      :date="1" 
-      :hour="0" 
-      :minute="0"
-      :second="0" 
-      :millisecond="0"
-    />
     <div class="addSemester">
       <button class="addSemester addSemester__button" @click="addPriority">
         <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
@@ -77,12 +67,6 @@ export default {
 $htwGruen: #76b900;
 p {
   font-weight: 700;
-}
-
-.time {
-  text-align: right;
-  font-weight: normal;
-  margin-top: 25px;
 }
 
 .container {
