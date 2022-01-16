@@ -16,9 +16,13 @@ export default {
     return server.get(`modalcourse/${semesterId}`);
   },
   updateModalCourse(code, reason, semester) {
-    return server.put("modalcourse/updatesurvey",{code, reason, semester}, {
-      headers: authHeader(),
-    });
+    return server.put(
+      "modalcourse/updatesurvey",
+      { code, reason, semester },
+      {
+        headers: authHeader(),
+      }
+    );
   },
   updateModalCourses(semester) {
     return server.put(`modalcourse/${semester._id}`, semester, {

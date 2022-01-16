@@ -1,114 +1,135 @@
 <template>
   <div v-if="!pending">
-  <form name="form" @submit.prevent="updateCourses"   v-if="courseSelection != null && courseSelection.semesterPlans != null && courseSelection.semesterPlans[0].bookedCourses.length > 0">
-    <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
-    <div
-      v-for="(course, index) in this.courseSelection.semesterPlans[0].bookedCourses"
-      :key="course.key"
-      class="survey-wrapper"
+    <form
+      v-if="
+        courseSelection != null &&
+        courseSelection.semesterPlans != null &&
+        courseSelection.semesterPlans[0].bookedCourses.length > 0
+      "
+      name="form"
+      @submit.prevent="updateCourses"
     >
-      <input :name="'course' + index" :value="course.name" hidden />
-      <div class="survey-left-content">
-        <div class="block">
-          <p>{{ course.key }}</p>
-          <p>{{ course.name }}</p>
-        </div>
-      </div>
-      <div class="survey-right-content">
-        <div class="survey-form">
-          <div class="survey-column-wrapper">
-            <div class="survey-radio left">
-              <input
-                type="radio"
-                :id="surveys[0].key + index"
-                :name="'survey' + index"
-                :value="surveys[0].value"
-                v-model="test[index]"
-                v-on:change="getChecked($event, index)"
-              />
-              <label :for="surveys[0].key + index">{{ surveys[0].name }}</label>
-            </div>
-            <div class="survey-radio right">
-              <input
-                type="radio"
-                :id="surveys[1].key + index"
-                :name="'survey' + index"
-                :value="surveys[1].value"
-                 v-model="test[index]"
-                v-on:change="getChecked($event, index)"
-              />
-              <label :for="surveys[1].key + index">{{ surveys[1].name }}</label>
-            </div>
-          </div>
-          <div class="survey-column-wrapper">
-            <div class="survey-radio left">
-              <input
-                type="radio"
-                :id="surveys[2].key + index"
-                :name="'survey' + index"
-                :value="surveys[2].value"
-                 v-model="test[index]"
-                v-on:change="getChecked($event, index)"
-              />
-              <label :for="surveys[2].key + index">{{ surveys[2].name }}</label>
-            </div>
-
-            <div class="survey-radio right">
-              <input
-                type="radio"
-                :id="surveys[3].key + index"
-                :name="'survey' + index"
-                :value="surveys[3].value"
-                 v-model="test[index]"
-                v-on:change="getChecked($event, index)"
-              />
-              <label :for="surveys[3].key + index">{{ surveys[3].name }}</label>
-            </div>
-          </div>
-          <div class="survey-column-wrapper">
-            <div class="survey-radio left">
-              <input
-                type="radio"
-                :id="surveys[4].key + index"
-                :name="'survey' + index"
-                :value="surveys[4].value"
-                 v-model="test[index]"
-                v-on:change="getChecked($event, index)"
-              />
-              <label :for="surveys[4].key + index">{{ surveys[4].name }}</label>
-            </div>
-
-            <div class="survey-radio right">
-              <input
-                type="radio"
-                :id="surveys[5].key + index"
-                :name="'survey' + index"
-                 v-model="test[index]"
-                v-on:change="getChecked($event, index)"
-              />
-              <label :for="surveys[5].key + index">{{ surveys[5].name }}</label>
-              <input
-                class="input-text"
-                type="text"
-                name=""
-                 v-model="test[index]"
-                :disabled="!isEnabledArray[index]"
-                v-on:change="getTextFieldValue($event, surveys[5].key + index)"
-              />
-            </div>
+      <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
+      <div
+        v-for="(course, index) in courseSelection.semesterPlans[0]
+          .bookedCourses"
+        :key="course.key"
+        class="survey-wrapper"
+      >
+        <input :name="'course' + index" :value="course.name" hidden />
+        <div class="survey-left-content">
+          <div class="block">
+            <p>{{ course.key }}</p>
+            <p>{{ course.name }}</p>
           </div>
         </div>
+        <div class="survey-right-content">
+          <div class="survey-form">
+            <div class="survey-column-wrapper">
+              <div class="survey-radio left">
+                <input
+                  :id="surveys[0].key + index"
+                  v-model="test[index]"
+                  type="radio"
+                  :name="'survey' + index"
+                  :value="surveys[0].value"
+                  @change="getChecked($event, index)"
+                />
+                <label :for="surveys[0].key + index">{{
+                  surveys[0].name
+                }}</label>
+              </div>
+              <div class="survey-radio right">
+                <input
+                  :id="surveys[1].key + index"
+                  v-model="test[index]"
+                  type="radio"
+                  :name="'survey' + index"
+                  :value="surveys[1].value"
+                  @change="getChecked($event, index)"
+                />
+                <label :for="surveys[1].key + index">{{
+                  surveys[1].name
+                }}</label>
+              </div>
+            </div>
+            <div class="survey-column-wrapper">
+              <div class="survey-radio left">
+                <input
+                  :id="surveys[2].key + index"
+                  v-model="test[index]"
+                  type="radio"
+                  :name="'survey' + index"
+                  :value="surveys[2].value"
+                  @change="getChecked($event, index)"
+                />
+                <label :for="surveys[2].key + index">{{
+                  surveys[2].name
+                }}</label>
+              </div>
+
+              <div class="survey-radio right">
+                <input
+                  :id="surveys[3].key + index"
+                  v-model="test[index]"
+                  type="radio"
+                  :name="'survey' + index"
+                  :value="surveys[3].value"
+                  @change="getChecked($event, index)"
+                />
+                <label :for="surveys[3].key + index">{{
+                  surveys[3].name
+                }}</label>
+              </div>
+            </div>
+            <div class="survey-column-wrapper">
+              <div class="survey-radio left">
+                <input
+                  :id="surveys[4].key + index"
+                  v-model="test[index]"
+                  type="radio"
+                  :name="'survey' + index"
+                  :value="surveys[4].value"
+                  @change="getChecked($event, index)"
+                />
+                <label :for="surveys[4].key + index">{{
+                  surveys[4].name
+                }}</label>
+              </div>
+
+              <div class="survey-radio right">
+                <input
+                  :id="surveys[5].key + index"
+                  v-model="test[index]"
+                  type="radio"
+                  :name="'survey' + index"
+                  @change="getChecked($event, index)"
+                />
+                <label :for="surveys[5].key + index">{{
+                  surveys[5].name
+                }}</label>
+                <input
+                  v-model="test[index]"
+                  class="input-text"
+                  type="text"
+                  name=""
+                  :disabled="!isEnabledArray[index]"
+                  @change="getTextFieldValue($event, surveys[5].key + index)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="button-wrapper">
-      <button class="survey-button" type="submit">Submit</button>
-      <p class="survey-time">Umfrageschluss: dd/mm/yyyy</p>
-    </div>
-  </form>
-  <p v-else> komm wieder wenn du kurse gewaehlt hast</p>
+      <div class="button-wrapper">
+        <button class="survey-button" type="submit">Submit</button>
+        <p class="survey-time">Umfrageschluss: dd/mm/yyyy</p>
+      </div>
+    </form>
+    <p v-else>komm wieder wenn du kurse gewaehlt hast</p>
   </div>
 </template>
-  
+
 <!--
 Frage an Backend guys
 
@@ -124,11 +145,8 @@ survey2: zeitlich bedingt
 ..
 -->
 
-
-
-
-  <script>
-import { mapState } from 'vuex';
+<script>
+import { mapState } from "vuex";
 import BaseHeading from "../components/BaseHeading.vue";
 export default {
   components: { BaseHeading },
@@ -136,12 +154,13 @@ export default {
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user", ["user"]),
   },
-  async mounted(){
+  async mounted() {
     this.pending = true;
-       await this.$store.dispatch("courseselection/fetchCourseSelection", {
+    await this.$store
+      .dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       })
-      .then((test)=>{
+      .then((test) => {
         console.log(test);
         this.pending = false;
       })
@@ -152,7 +171,6 @@ export default {
     //console.log(this.courseSelection);
   },
   data() {
-   
     const defaultCourses = [
       { key: "B1", name: "Informatik 1" },
       { key: "B2", name: "Computersysteme2" },
@@ -192,7 +210,6 @@ export default {
       ],
       // array of the enabled status for the text input field
       isEnabledArray: Array.apply(false, Array(defaultCourses.length)),
-      
     };
   },
   methods: {
@@ -222,10 +239,11 @@ export default {
         });
       });
       console.log(mappedCourses);
-      await this.$store.dispatch("modalcourse/updateSelectionReasons", {mappedCourses});
+      await this.$store.dispatch("modalcourse/updateSelectionReasons", {
+        mappedCourses,
+      });
     },
-  }
-    
+  },
 };
 </script>
 

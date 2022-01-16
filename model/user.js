@@ -31,7 +31,7 @@ const mongoose = require("mongoose"),
       },
       isVerified: { type: Boolean, default: false },
       isPreferred: { type: Boolean, default: undefined },
-      isAdmin: {type: Boolean, default: false},
+      isAdmin: { type: Boolean, default: false },
     },
     {
       timestamps: true,

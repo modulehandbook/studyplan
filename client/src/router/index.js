@@ -157,9 +157,7 @@ router.beforeEach((to, from, next) => {
     "/impressum",
     "/datenschutz",
   ];
-  const adminPages = [
-    "/modalcourse",
-  ];
+  const adminPages = ["/modalcourse"];
   const authRequired = !publicPages.includes(to.path);
   const adminRequired = adminPages.includes(to.path);
 
@@ -175,8 +173,8 @@ router.beforeEach((to, from, next) => {
   } else if (!user || user == null) {
     next("/register");
   }
-  if(adminRequired){
-    if(!user.isAdmin) {
+  if (adminRequired) {
+    if (!user.isAdmin) {
       next("/");
       return;
     }
