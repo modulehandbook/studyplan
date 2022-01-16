@@ -15,7 +15,7 @@
             <router-link class="link" to="/courseselection"
               >Kursbelegung</router-link
             >
-            <router-link class="link" to="/modalcourse">
+            <router-link v-if="currentUser.isAdmin" class="link" to="/modalcourse">
               Wahlpflichtkurse
             </router-link>
             <router-link class="link" to="/hilfe">Hilfe</router-link>
@@ -92,6 +92,7 @@ export default {
   },
   computed: {
     currentUser() {
+      console.log(this.$store.state.user);
       return this.$store.state.user.user;
     },
   },

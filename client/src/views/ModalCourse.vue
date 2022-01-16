@@ -1,7 +1,6 @@
 <template>
   <div>
     <BaseHeading> <h1>alle Kurse</h1> </BaseHeading>
-    <p>{{this.user.isAdmin}}</p>
     <div class="container">
       <div
         v-for="semester in $store.state.semester.semesters"
