@@ -1,6 +1,8 @@
 const User = require("../model/user"),
   StudyPlan = require("../model/studyPlan"),
   Semester = require("../model/semester"),
+  ModalCourse = require('../model/modalCourse'),
+  CourseSelection = require('../model/courseSelection'),
   mongoose = require("mongoose"),
   bcrypt = require("bcryptjs");
 
@@ -20,6 +22,8 @@ async function loadUser() {
   await Semester.deleteMany({});
   await StudyPlan.deleteMany({});
   await User.deleteMany({});
+  await ModalCourse.deleteMany({});
+  await CourseSelection.deleteMany({});
 
   let semesterData = [];
   let i = 10;
@@ -37,6 +41,13 @@ async function loadUser() {
       password: bcrypt.hashSync("test", 8),
       email: "test@mail.de",
       isVerified: true,
+    }),
+    new User({
+      username: "admin",
+      password: bcrypt.hashSync("admin", 8),
+      email: "admin@mail.de",
+      isVerified: true,
+      isAdmin: true,
     }),
   ];
 
