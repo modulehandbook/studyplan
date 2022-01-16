@@ -1,7 +1,7 @@
 <template>
   <div>
     <BaseHeading> <h1>alle Kurse</h1> </BaseHeading>
-
+    <p>{{this.user.isAdmin}}</p>
     <div class="container">
       <div
         v-for="semester in $store.state.semester.semesters"
@@ -101,6 +101,7 @@ export default {
   async mounted() {
     this.pending = true;
     await this.$store.dispatch("modalcourse/fetchCourses");
+    console.log(this.user);
     // await this.$store.dispatch("modalcourse/assignUsers");
     // <p v-show="modalCourse != undefined"> {{modalCourse.name}} </p>
 
@@ -129,6 +130,7 @@ export default {
   },
   computed: {
     ...mapState("modalcourse", ["modalCourses"]),
+    ...mapState("user", ["user"]),
   },
 };
 </script>
