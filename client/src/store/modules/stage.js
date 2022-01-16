@@ -25,7 +25,6 @@ export const actions = {
     try {
       commit("SET_PENDING", true);
       const response = await StageService.fetchStage();
-      console.log(response)
       const stage = response.data;
       commit("SET_CURRENTSTAGE", stage.currentStage);
       commit("SET_NEXTDATES", {

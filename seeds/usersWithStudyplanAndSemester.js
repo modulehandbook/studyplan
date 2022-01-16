@@ -28,7 +28,7 @@ async function loadUser() {
   await Stage.deleteMany({});
 
   await Stage.create({
-    currentStage: "IDLE",
+    currentStage: "COURSE-SELECTION",
     nextDates: {
       idle: [{ date: "2022-01-15" }],
       courseSelection: [{ date: "2022-01-16" }],
