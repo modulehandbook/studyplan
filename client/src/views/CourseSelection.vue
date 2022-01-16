@@ -1,26 +1,23 @@
 <template>
   <div v-if="!pending">
-    <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div v-if="stage.currentStage === 'COURSE-SELECTION'">
       <div>Verbleibende Zeit: {{ time }}</div>
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
       >
-        <p>hier ist der inhalt der seite</p>
         <baseCourseSelection
           v-show="!pending"
           :courses="courseSelection.semesterPlans[0].unbookedCourses"
           :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
         />
       </div>
-      <div v-if="courseSelection == null" class="addSemester">
+      <div v-if="courseSelection == null">
         <button
-          class="addSemester addSemester__button"
           @click="addCourseSelection"
         >
           <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
         </button>
-        <p class="addSemester addSemester__text">Kurswahl hinzufuegen</p>
+        <p>Kurswahl hinzufuegen</p>
       </div>
     </div>
     <div v-if="stage.currentStage !== 'COURSE-SELECTION'">
