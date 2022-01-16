@@ -8,6 +8,18 @@ const mongoose = require("mongoose"),
         type: Schema.Types.ObjectId,
         ref: "Semester",
       },
+      info:{
+        CTS: Number,
+        language: String,
+        shortText: String,
+        longText: String,
+        currentTopic: String,
+        SWS: Number,
+        type: String,
+        professor: String,
+        room: String,
+        pdf: String
+      },
 
       students: [
         {

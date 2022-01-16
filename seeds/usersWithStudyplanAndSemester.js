@@ -1,6 +1,7 @@
 const User = require("../model/user"),
   StudyPlan = require("../model/studyPlan"),
   Semester = require("../model/semester"),
+  ModalCourse = require("../model/modalCourse"),
   mongoose = require("mongoose"),
   bcrypt = require("bcryptjs");
 
@@ -20,10 +21,17 @@ async function loadUser() {
   await Semester.deleteMany({});
   await StudyPlan.deleteMany({});
   await User.deleteMany({});
+  await ModalCourse.deleteMany({});
+
+  const ModalCourseData = [
+    new ModalCourse({
+
+    }),
+  ]
 
   let semesterData = [];
   let i = 10;
-  for (i; i < 70; i++) {
+  for (i; i < 24; i++) {
     semesterData.push({ name: `SoSe${i}` });
     semesterData.push({ name: `WiSe${i}/${i + 1}` });
   }
