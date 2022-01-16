@@ -12,7 +12,7 @@ const oauth2Client = new OAuth2(clientID, clientSecret, redirectURL);
 if (process.env.NODE_ENV == "production") {
   oauth2Client.setCredentials({
     refresh_token: refreshToken,
-  }); 
+  });
   const gmailAccessToken = oauth2Client.getAccessToken();
 
   const gmailTransporter = nodemailer.createTransport({

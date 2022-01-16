@@ -1,37 +1,64 @@
 <template>
-  <div>
-    <div
-      v-if="
-        this.courseSelection != null &&
-        this.courseSelection.semesterPlans != null
-      "
-    >
-      <baseCourseSelection
-        v-show="!pending"
-        :courses="courseSelection.semesterPlans[0].unbookedCourses"
-        :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
-      />
+  <div v-if="!pending">
+    <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
+    <div v-if="stage.currentStage === 'COURSE-SELECTION'">
+      <div>Verbleibende Zeit: {{ time }}</div>
+      <div
+        v-if="courseSelection != null && courseSelection.semesterPlans != null"
+      >
+        <p>hier ist der inhalt der seite</p>
+        <baseCourseSelection
+          v-show="!pending"
+          :courses="courseSelection.semesterPlans[0].unbookedCourses"
+          :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
+        />
+      </div>
+      <div v-if="courseSelection == null" class="addSemester">
+        <button
+          class="addSemester addSemester__button"
+          @click="addCourseSelection"
+        >
+          <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
+        </button>
+        <p class="addSemester addSemester__text">Kurswahl hinzufuegen</p>
+      </div>
     </div>
-    <div v-if="this.courseSelection == null">
-      <button @click="addCourseSelection">
-        <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
-      </button>
-      <p>Kurswahl hinzufuegen</p>
+    <div v-if="stage.currentStage !== 'COURSE-SELECTION'">
+      <p>Die Belegungsphase ist geschlossen</p>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, useStore } from "vuex";
+import { computed } from "vue";
+import moment from "moment";
 
 export default {
+  setup() {
+    const store = useStore();
+    return {
+      stage: computed(() => store.state.stage),
+    };
+  },
   data() {
     return {
-      pending: false,
-      color: "#76b900",
-      showingExplanations: false,
-      downloading: false,
+      pending: true,
     };
+  },
+
+  computed: {
+    console: () => console,
+    ...mapState("program", ["program"]),
+    ...mapState("courseselection", ["courseSelection"]),
+    ...mapState("user", ["user"]),
+
+    time() {
+      const deadline = new Date(this.stage.nextDates.evaluation.date);
+      //return deadline.getTime() - Date.now()
+      const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
+      return gap.locale("de").humanize();
+    },
   },
 
   async mounted() {
@@ -40,12 +67,10 @@ export default {
     } else {
       this.pending = true;
       await this.$store.dispatch("semester/fetchSemesters");
-      await this.$store.dispatch("modalcourse/fetchCourses");
+      await this.$store.dispatch("stage/fetchStage");
       await this.$store.dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       });
-      //console.log(this.courseSelection.semesterPlans[0].unbookedCourses);
-      //onsole.log(this.courseSelection.semesterPlans[0].bookedCourses);
     }
     this.pending = false;
   },
@@ -55,13 +80,6 @@ export default {
         userId: this.user.id || this.user._id,
       });
     },
-  },
-
-  computed: {
-    console: () => console,
-    ...mapState("program", ["program"]),
-    ...mapState("courseselection", ["courseSelection"]),
-    ...mapState("user", ["user"]),
   },
 };
 </script>

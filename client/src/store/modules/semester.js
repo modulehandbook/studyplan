@@ -51,7 +51,8 @@ export const getters = {
   getCurrentSemester: (state) => {
     const date = new Date();
     const year = date.getFullYear() % 100;
-    const query =( date.getMonth() > 5 ? `WiSe${year}/${year+1}`: `SoSe${year}`);
+    const query =
+      date.getMonth() > 5 ? `WiSe${year}/${year + 1}` : `SoSe${year}`;
     return state.semesters.find(
       (semester) => semester.name.toLowerCase() === query.toLocaleLowerCase()
     );
