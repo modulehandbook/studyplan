@@ -6,6 +6,7 @@ import * as course from "@/store/modules/course.js";
 import * as semester from "@/store/modules/semester.js";
 import * as user from "@/store/modules/user.js";
 import * as modalcourse from "@/store/modules/modalcourse";
+import * as stage from "@/store/modules/stage";
 export const store = createStore({
   modules: {
     program,
@@ -13,6 +14,7 @@ export const store = createStore({
     courseselection,
     course,
     modalcourse,
+    stage,
     semester,
     user,
   },
