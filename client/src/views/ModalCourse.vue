@@ -25,24 +25,11 @@ export default {
   data() {
     return {
       pending: false,
-      semester: "",
     };
   },
-  validations() {
-    return {
-      semester: {
-        required,
-      },
-      courseName: {
-        required,
-      },
-      code: {
-        required,
-      },
-      availablePlaces: {
-        required,
-      },
-    };
+  computed: {
+    ...mapState("modalcourse", ["modalCourses"]),
+    ...mapState("user", ["user"]),
   },
   async created() {
     await this.$store.dispatch("semester/fetchSemesters");
@@ -58,10 +45,6 @@ export default {
         (modalCourse) => modalCourse.semester.name == semester.name
       );
     },
-  },
-  computed: {
-    ...mapState("modalcourse", ["modalCourses"]),
-    ...mapState("user", ["user"]),
   },
 };
 </script>

@@ -8,7 +8,6 @@ export const state = {
 };
 
 export const mutations = {
-
   // create and delete are deprecated for now. Courses will be added directly to th Database via Seed.
   /*SET_MODALCOURSES(state, modalCourses) {
     state.modalCourses = modalCourses;
