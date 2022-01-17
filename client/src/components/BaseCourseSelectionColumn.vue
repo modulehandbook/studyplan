@@ -1,12 +1,13 @@
 <template>
   <div @drop.stop="moveCourse($event, 0)" @dragover.prevent @dragenter.prevent>
-    <h2>Alle Kurse</h2>
+    <h3>Internationaler Studiengang Medieninformatik</h3>
     <div
       v-for="(course, $courseIndex) in courses"
       :key="$courseIndex"
       draggable="true"
       @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
       @drop.stop="moveCourse($event, $courseIndex)"
+      class="border"
     >
       <div>
         <p class="ub-content">
@@ -83,5 +84,13 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
 .ub-content{
   display: flex;
   align-items: center;
+  padding-bottom: 10px;
+}
+.border{
+  border-left-style: solid;
+  border-right-style: solid;
+  padding-left: 5px;
+  border-width: 1px;
+  border-color: #b3b3b3;
 }
 </style>

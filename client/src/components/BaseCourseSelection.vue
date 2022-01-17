@@ -64,12 +64,14 @@ $htwGruen: #76b900;
 
 .button{
   text-decoration: none;
-  background: none;
+  background: white;
   border: none;
+  padding:0px;
+  border-radius: 5rem;
 }
 .button:hover {
   //background-color: #4CAF50; /* Green */
-  color: white;
+  color: rgb(56, 55, 55);
 }
 .prioritiesBox {
   background-color: #b3b3b3;

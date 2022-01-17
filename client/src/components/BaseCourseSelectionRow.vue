@@ -104,20 +104,21 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
 
 .gridContainer {
   display: inline-grid;
-  justify-content: space-between;
-  max-width: 20rem;
+  width: 20rem;
+  place-content: center;
 }
 
 .gridItem1 {
   grid-column-start: 1;
   grid-column-end: 1;
-  place-content: center;
+  width: 10rem;
 }
 
 .gridItem2 {
   grid-column-start: 2;
   grid-column-end: 2;
-  margin-left: 3rem;
+  width: 12rem;
+  place-content: left;
 }
 
 .gridItem2Alt {
