@@ -4,6 +4,7 @@ import Login from "../views/Login.vue";
 import StudyPlan from "../views/StudyPlan.vue";
 import Help from "../views/Help.vue";
 import CourseSelection from "../views/CourseSelection.vue";
+import ChosenCourses from "../views/ChosenCourses.vue";
 import CourseSurvey from "../views/CourseSurvey.vue";
 import ModalCourse from "../views/ModalCourse.vue";
 import Profile from "../views/Profile.vue";
@@ -90,6 +91,11 @@ const routes = [
     path: "/courseselection",
     name: "CourseSelection",
     component: CourseSelection,
+  },
+  {
+    path: "/mycourses",
+    name: "myCourses",
+    component: ChosenCourses,
   },
   {
     path: "/coursesurvey",
