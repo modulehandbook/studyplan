@@ -129,6 +129,8 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   place-content: center;
   background: none;
   border:none;
-  
+}
+.prioButton:hover {
+  color: rgb(56, 55, 55);
 }
 </style>
