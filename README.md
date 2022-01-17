@@ -100,6 +100,26 @@ npm run clean-packages
 npm run clean-packages-all
 ```
 
+## Deploy to HTW-Server
+
+### Prerequisite
+
+* Be inside the HTW network (or VPN)
+
+* Configured SSH connection to the server.
+
+### Deploy
+
+To deploy vue-app and node-server to the production-server, do the following:
+
+1. Clean your git working tree and commit any changes (check with git status) (main-branch will be deployed)
+
+2. run ```./deploy prepare``` (use ```--no-cache``` to rebuild the node modules)
+
+3. check the ```tmp-vue``` and ```tmp-node``` (thats the files, that will be deployed) (in ```.filesToDeploy``` is difined, which backend files will be deployed)
+
+4. run ```./deploy deploy```
+
 ## Additional information
 * You may want not always prefix the docker commands with ```sudo```, so look [here](https://docs.docker.com/engine/install/linux-postinstall/).
 * In ```docker-dev-db``` the local database is stored. To reset remove the directory.

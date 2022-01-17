@@ -1,140 +1,53 @@
 <template>
-    <div>
-        <BaseHeading> <h1>Alle Kurse</h1> </BaseHeading>
-        <div class="container">
-        <div v-for="(
-          semester) in this.$store.state.semester.semesters"
-          :key="semester.id"
-          > 
-           
-            <div  v-if="getCoursesfromSemester(semester).length">
-              <BaseModalCourseContainer 
-              :coursesInSemester="getCoursesfromSemester(semester)"
-              :semester="semester"/>
-          </div> 
+  <div>
+    <BaseHeading> <h1>alle Kurse</h1> </BaseHeading>
+    <div class="container">
+      <div
+        v-for="semester in $store.state.semester.semesters"
+        :key="semester.id"
+      >
+        <div v-if="getCoursesfromSemester(semester).length">
+          <BaseModalCourseContainer
+            :courses-in-semester="getCoursesfromSemester(semester)"
+            :semester="semester"
+          />
         </div>
-        <form name="form" @submit.prevent="createNewModalCourse">
-            <div>
-                <h3>Kursdaten</h3>
-                <label for="courseName">Kursname</label>
-                <input v-model="courseName" 
-                placeholder="Kursnamen eintragen"
-                name="courseName">
-            </div>
-            <div>
-                <label for="code">Kurscode</label>
-                <input v-model="code" 
-                placeholder="Kurscode eintragen"
-                name="code">
-            </div>
-            <div>
-                <label for="availablePlaces">Platzanzahl</label>
-                <input v-model.number="availablePlaces" 
-                type="number"
-                placeholder="anzahl der plaetze eintragen"
-                name="availablePlaces">
-            </div>
-            <div>
-                <label for="semester">Semester</label>
-                <select v-model="semester" 
-                name="semester">
-                    <option    
-                     v-for="semester in this.$store.state.semester.semesters"
-                     :value="semester"
-                     :key="semester.id">
-                        {{semester.name}}
-
-                    </option>
-                </select>
-            </div>
-            <button >
-                <span>Speichern</span>
-            </button>
-        </form>
-        </div>
+      </div>
+      <router-view></router-view>
     </div>
+  </div>
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
 import { mapState } from "vuex";
+
 export default {
-    setup(){
-        return {v$: useVuelidate()};
+  data() {
+    return {
+      pending: false,
+    };
+  },
+  computed: {
+    ...mapState("modalcourse", ["modalCourses"]),
+    ...mapState("user", ["user"]),
+  },
+  async created() {
+    await this.$store.dispatch("semester/fetchSemesters");
+  },
+  async mounted() {
+    this.pending = true;
+    await this.$store.dispatch("modalcourse/fetchCourses");
+    this.pending = false;
+  },
+  methods: {
+    getCoursesfromSemester(semester) {
+      return this.modalCourses.filter(
+        (modalCourse) => modalCourse.semester.name == semester.name
+      );
     },
-    data(){
-        return {
-            pending: false,
-            semester: "",
-            courseName: "",
-            filterSemester: "",
-            code: "",
-            availablePlaces: "",
-        };
-    },
-    validations(){
-        return{
-            semester:{
-                required,
-            },
-            courseName:{
-                required,
-            },
-            code:{
-                required,
-            },
-            availablePlaces:{
-                required,
-            },
-            
-        };
-    },
-    async created(){
-        await this.$store.dispatch("semester/fetchSemesters");
-       
-        var test = this.$store.getters["semester/getCurrentSemester"];
-        console.log(test);
-    },
-    async mounted(){
-      this.pending = true;
-      await this.$store.dispatch("modalcourse/fetchCourses");
-      await this.$store.dispatch("modalcourse/fetchCourse");
-     // await this.$store.dispatch("modalcourse/assignUsers");
-      // <p v-show="modalCourse != undefined"> {{modalCourse.name}} </p>
-
-      console.log(this.modalCourses);
-      this.pending = false;
-    },
-    methods: {
-        async createNewModalCourse(){
-          this.v$.$touch();
-          if(!this.v$.$invalid && this.semester && this.courseName && this.code && this.availablePlaces){
-            console.log({test: this.courseName, code: this.code, 
-            semester: this.semester, availablePlaces: this.availablePlaces,});
-            await this.$store.dispatch("modalcourse/createCourse", {
-              courseName: this.courseName,
-              code: this.code,
-              semester: this.semester,
-              availablePlaces: this.availablePlaces,
-            });
-          }
-        },
-        async deleteCourse(index){
-          console.log(index);
-          await this.$store.dispatch("modalcourse/deleteCourse", {index: index,});
-        },
-        getCoursesfromSemester(semester){
-          
-          return this.modalCourses.filter((modalCourse) => modalCourse.semester.name == semester.name);
-        },
-    },
-    computed: {
-      ...mapState("modalcourse", ["modalCourses"]),
-    },
-}
+  },
+};
 </script>
-
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;

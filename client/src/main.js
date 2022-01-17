@@ -23,7 +23,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faRedo, faPlusCircle, faArrowLeft, faUser, faBars, faSignOutAlt);
-app.component("font-awesome-icon", FontAwesomeIcon);
+app.component("FontAwesomeIcon", FontAwesomeIcon);
 
 //registering BaseComponents globall
 const requireComponent = require.context(

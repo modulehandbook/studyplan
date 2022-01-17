@@ -2,23 +2,25 @@
 
 <template>
   <div>
-    <BaseModal
-      :route="'modalCourse'"
-    >
-      <template v-slot:header>
+    <BaseModal :route="'/modalcourse'">
+      <template #header>
         <button
           type="button"
           class="btn-close"
-          @click="$router.push('/modalCourse')"
+          @click="$router.push('/modalcourse')"
         >
           x
         </button>
       </template>
 
-      <template v-slot:body>
+      <template #body>
         <pulse-loader :loading="pending" :color="color"></pulse-loader>
-
-       </template>
+        <BaseWindowContent
+          v-if="!pending"
+          :semester="semester"
+          :course="modalCourse"
+        />
+      </template>
     </BaseModal>
   </div>
 </template>
@@ -27,6 +29,7 @@
 import { mapState, mapGetters } from "vuex";
 
 export default {
+  emits: ["close"],
   data() {
     return {
       semester: {
@@ -35,6 +38,10 @@ export default {
       pending: false,
       color: "#76b900",
     };
+  },
+  computed: {
+    ...mapState("modalcourse", ["modalCourse"]),
+    ...mapGetters("semester", ["getSemesterByName"]),
   },
   async created() {
     this.pending = true;
@@ -49,10 +56,6 @@ export default {
   },
   async beforeUnmount() {
     document.documentElement.style.overflow = "auto";
-  },
-  computed: {
-    ...mapState("modalcourse", ["modalCourse"]),
-    ...mapGetters("semester", ["getSemesterByName"]),
   },
   methods: {
     close() {

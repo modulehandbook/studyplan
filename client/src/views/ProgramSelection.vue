@@ -99,7 +99,7 @@
             @blur="v$.isPreferred.$touch()"
           >
             <option
-              v-for="option in this.isPreferredOptions"
+              v-for="option in isPreferredOptions"
               :key="option.name"
               :value="option.value"
             >
@@ -117,9 +117,9 @@
       <div id="accept">
         <input
           id="acceptCheck"
+          v-model="accept"
           type="checkbox"
           name="accept"
-          v-model="accept"
           :class="{ error: v$.accept.$error }"
           @blur="v$.accept.$touch()"
           @change="v$.accept.$touch()"
@@ -208,7 +208,7 @@ export default {
           this.selectedProgram &&
           this.stupo &&
           this.startOfStudy &&
-          this.isPreferred != null&&
+          this.isPreferred != null &&
           this.accept == true
         ) {
           this.$store
