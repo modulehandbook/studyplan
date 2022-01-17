@@ -29,7 +29,7 @@ async function loadUser() {
 
   let semesterData = [];
   let i = 10;
-  for (i; i <= 22; i++) {
+  for (i; i <= 55; i++) {
     semesterData.push({ name: `SoSe${i}` });
     semesterData.push({ name: `WiSe${i}/${i + 1}` });
   }

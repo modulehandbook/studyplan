@@ -80,6 +80,18 @@ module.exports = {
         careerRelevant: 0,
         other: 0,
       },
+      info: {
+        CTS: 5,
+        language: "Deutsch",
+        contents: ["lernen", "Ueben"],
+        learningOutcomes: ["schalauer sein", "mental breakdown"],
+        recommendedRequirements: ["programmieren", "computer"],
+        currentTopic: "",
+        examType: "Pruefung",
+        SWS: "420",
+        professor: "Prof. Musterperson",
+        room: "HC420",
+      },
     };
     ModalCourse.create(modalCourseParams)
       .then((modalCourse) => {

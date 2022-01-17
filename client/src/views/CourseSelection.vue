@@ -71,6 +71,8 @@ export default {
       await this.$store.dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       });
+      await this.$store.dispatch("modalcourse/fetchCourses");
+      console.log(this.modalCourses);
     }
     this.pending = false;
   },
