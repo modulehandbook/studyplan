@@ -6,4 +6,5 @@ public
 routes
 seeds
 services
-static.json
+static.js
+ecosystem.config.js
