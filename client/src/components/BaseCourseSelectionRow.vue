@@ -119,6 +119,12 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   grid-column-end: 2;
   width: 12rem;
   place-content: left;
+  border-radius: 20px;
+  background: #c4c4c4;
+  color: black;
+  text-align: center;
+  padding: 10px 10px;
+  margin-bottom: 1rem;
 }
 
 .gridItem2Alt {
