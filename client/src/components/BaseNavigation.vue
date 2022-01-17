@@ -11,6 +11,7 @@
             <router-link class="link" to="/example-studyplan"
               >Plan nach Studienordnung</router-link
             >
+            <router-link class="link" to="/mycourses"> gewaehlte kurse </router-link>
             <router-link class="link" to="/coursesurvey">Umfrage</router-link>
             <router-link class="link" to="/courseselection"
               >Kursbelegung</router-link
