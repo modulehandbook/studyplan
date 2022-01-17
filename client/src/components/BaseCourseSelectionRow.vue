@@ -24,7 +24,7 @@
       </div>
     </div>
     <br />
-    <button @click="deleteCoursePriority()" style="place-content: center">
+    <button @click="deleteCoursePriority()" class="prioButton" >
       Prio löschen
     </button>
   </div>
@@ -123,5 +123,12 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
 
 .gridItem2Alt {
   margin: 0;
+}
+.prioButton{
+  text-decoration: underline;
+  place-content: center;
+  background: none;
+  border:none;
+  
 }
 </style>

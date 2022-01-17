@@ -98,6 +98,7 @@ $htwGruen: #76b900;
   min-width: 20rem;
   border-radius: 0.5rem;
   margin: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   .addPriorities {
     border-bottom-style: solid;
@@ -117,12 +118,28 @@ $htwGruen: #76b900;
     margin-top: 1rem;
     margin-bottom: 1rem;
     margin-right: 3rem;
+    // padding-top: 0.5rem;
+    // padding-bottom: 0.5rem;
+    padding:0.5rem;
+    border:none;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
-    .reset2 {
+  .reset2 {
     margin-top: 1rem;
     margin-bottom: 1rem;
     margin-left: 3rem;
-    }
+    // padding-top: 0.5rem;
+    // padding-bottom: 0.5rem;
+    padding:0.5rem;
+    border:none;
+    border-radius: 0.25rem;
+    background:rgb(163, 223, 145);
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
 }
 
 .allCourses {
