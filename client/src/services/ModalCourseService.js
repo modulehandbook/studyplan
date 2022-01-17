@@ -29,7 +29,8 @@ export default {
       headers: authHeader(),
     });
   },
-  createModalCourse(modalCourse) {
+  // create and delete are deprecated for now. Courses will be added directly to th Database via Seed.
+  /*createModalCourse(modalCourse) {
     return server.post("modalcourse/create", modalCourse, {
       headers: authHeader(),
     });
@@ -42,5 +43,5 @@ export default {
       },
       { modalCourse }
     );
-  },
+  },*/
 };
