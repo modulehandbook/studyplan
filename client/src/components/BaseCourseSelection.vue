@@ -9,7 +9,7 @@
     />
     <div class="prioritiesBox">
       <div class="addPriorities">
-        <h3>Please drag and drop your preference course</h3>
+        <h3>Ziehe deine Kurse per Drag&amp;Drop hier rein</h3>
         <div>
           <button @click="addPriority" class="button">
             <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
@@ -28,9 +28,14 @@
         :is-unbooked-courses="false"
       />
       </div>
-      <button @click="resetCourseSelection" class="reset">
-        <p>Reset</p>
-      </button>
+      <div>
+        <button @click="resetCourseSelection" class="reset" >
+          Reset
+        </button>
+        <button @click="resetCourseSelection" class="reset2" >
+          Reset
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -90,7 +95,6 @@ $htwGruen: #76b900;
   grid-column-start: 2;
   grid-column-end: 2;
   flex: auto;
-  padding-bottom: 0.5rem;
   min-width: 20rem;
   border-radius: 0.5rem;
   margin: 0.75rem;
@@ -110,10 +114,15 @@ $htwGruen: #76b900;
     padding: 1rem;
   }
   .reset {
-    margin: 2rem;
-    padding-left: 0.125rem;
-    padding-right: 0.125rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-right: 3rem;
   }
+    .reset2 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 3rem;
+    }
 }
 
 .allCourses {

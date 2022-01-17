@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>{{ priority }}. Prioritaet</p>
+    <p>{{ priority }}. Priorit&auml;t</p>
   </div>
 </template>
 
