@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!pending && this.courseSelection.semesterPlans">
         <BaseHeading><h1>Diese Kurse wollen Sie Belegen</h1></BaseHeading>
        <div
        v-for="(course,index) in this.courseSelection.semesterPlans[0].bookedCourses"
@@ -62,7 +62,7 @@ export default {
       .catch((e) => {
         console.log(e);
       });
-
+    this.pending = false;
     //console.log(this.courseSelection);
   },
   data(){
@@ -153,7 +153,7 @@ export default {
 }
 
 .heading{
-  position: fixed;
+  position: relative;
   border-radius: 20px;
   color: black;
   text-align: inline-block;
