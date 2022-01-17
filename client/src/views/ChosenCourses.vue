@@ -2,38 +2,30 @@
     <div v-if="!pending && this.courseSelection.semesterPlans">
         <BaseHeading><h1>Diese Kurse wollen Sie Belegen</h1></BaseHeading>
        <div
-       v-for="(course,index) in this.courseSelection.semesterPlans[0].bookedCourses"
-       :key = "course.key"
         class = "wrap">
          <div class="heading">
            <p>Belegte Kurse:</p>
-           <div class="belegteKurse">
+           <div   v-for="(course,index) in this.courseSelection.semesterPlans[0].bookedCourses"
+       :key = "course.key" class="belegteKurse">
              <input :name="'course' + index" :value="course.name" hidden />
              <div class="belegterKurs">
                <p>{{course.name}}</p>
                <input type="checkbox" id="markCourse" name="GE">
              </div>
              <br>
-             <div class="belegterKurs">
-               <p>DevOps</p>
-               <input type="checkbox" id="markCourse" name="DS">
-             </div>
            </div>
          </div>
 
          <div class="heading2">
            <p>Zugelassene Kurse: </p>
-           <div class="zugelasseneKurse">
+           <div   v-for="(course,index) in this.courseSelection.semesterPlans[0].bookedCourses"
+       :key = "course.key" class="zugelasseneKurse">
               <input :name="'course' + index" :value="course.name" hidden />
              <div class="zugelassenerKurs">
                <p>{{course.name}}</p>
                <input type="checkbox" id="markCourse" name="GE">
              </div>
              <br>
-             <div class="zugelassenerKurs">
-               <p>DevOps</p>
-               <input type="checkbox" id="markCourse" name="DS">
-             </div>
            </div>
          </div>
          <button class="button" onclick="marked()"> Delete marked courses</button>
@@ -66,16 +58,8 @@ export default {
     //console.log(this.courseSelection);
   },
   data(){
-    const defaultCourses = [
-      { key: "B1", name: "Game Engines" },
-      { key: "B2", name: "Visual Computing Aktuelle Themen 1" },
-      { key: "B3", name: "Uability" },
-      {key: "B4", name:"DevOps"},
-    ];
-
     return{
       pending: false,
-      courses: defaultCourses
     }
   },
 
