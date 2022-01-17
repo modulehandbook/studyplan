@@ -8,6 +8,18 @@ const mongoose = require("mongoose"),
         type: Schema.Types.ObjectId,
         ref: "Semester",
       },
+      info: {
+        CTS: Number,
+        language: String,
+        contents: [String],
+        learningOutcomes: [String],
+        recommendedRequirements: [String],
+        currentTopic: String,
+        examType: String,
+        SWS: Number,
+        professor: String,
+        room: String,
+      },
 
       students: [
         {
@@ -15,6 +27,14 @@ const mongoose = require("mongoose"),
           ref: "User",
         },
       ],
+      reasonsForSelection: {
+        teacher: Number,
+        time: Number,
+        interest: Number,
+        easy: Number,
+        careerRelevant: Number,
+        other: Number,
+      },
       availablePlaces: Number,
     },
     {

@@ -21,6 +21,7 @@
     "axios": "^0.24.0",
     "googleapis": "^92.0.0",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "nodemailer": "^6.6.2",
     "vue": "3.2.23",
     "vue-router": "^4.0.12",

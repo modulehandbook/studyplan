@@ -16,7 +16,7 @@
           <router-link
             class="course-content-container"
             :to="{
-              name: 'courseDetails',
+              name: 'baseModalCourseDetails',
               params: {
                 code: course.code,
                 semester: semester.name,

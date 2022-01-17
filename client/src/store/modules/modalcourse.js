@@ -20,50 +20,19 @@ export const mutations = {
 };
 
 export const actions = {
-  async createCourse(
-    { state, commit },
-    { courseName, code, availablePlaces, semester }
-  ) {
-    try {
-      commit("SET_PENDING", true);
-      state.modalCourse = {
-        name: courseName,
-        code: code,
-        availablePlaces: availablePlaces,
-        semester: semester,
-      };
-      const response = await ModalCourseService.createModalCourse(
-        state.modalCourse
-      );
-      const modalCourse = response.data;
-      const test = await ModalCourseService.updateModalCourse(modalCourse);
-
-      commit("SET_MODALCOURSE", test.data);
-      state.modalCourses.push(test.data);
-      console.log("the state assumes this value");
-      console.log(test.data);
-    } catch (error) {
-      const notification = {
-        type: "error",
-        message: "there was a problem creating modal course" + error.message,
-      };
-      console.log(notification);
-    } finally {
-      commit("SET_PENDING", false);
-    }
-  },
   async fetchCourse({ state, commit }, { semester, code }) {
     //ask for the semester route -> if there is a 404, so no semester info is there yet,
     // check the basic vuex course state
     try {
       commit("SET_PENDING", true);
-      console.log(state.modalCourses);
+      // console.log(state.modalCourses);
       const foundModalCourse = state.modalCourses.find(
         (modalCourse) =>
           modalCourse.semester.name == semester && modalCourse.code == code
       );
 
       commit("SET_MODALCOURSE", foundModalCourse);
+      console.log("found the following course:");
       console.log(state.modalCourse);
     } finally {
       commit("SET_PENDING", false);
@@ -88,15 +57,39 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async deleteCourse({ state, commit }, { index }) {
+  async updateSelectionReasons(
+    { state, commit, rootGetters },
+    { mappedCourses }
+  ) {
+    console.log("teste");
     try {
-      commit("SET_PENDING", true);
-      const courseToDelete = state.modalCourses.splice(index, 1)[0];
-
-      await ModalCourseService.deleteModalCourse(courseToDelete);
+      const semester = rootGetters["semester/getCurrentSemester"];
+      //const course = mappedCourses[0];
+      mappedCourses.forEach(async (mappedCourse) => {
+        await ModalCourseService.updateModalCourse(
+          mappedCourse.code,
+          mappedCourse.selectionReason,
+          semester._id
+        ).then((response) => {
+          console.log(response.data);
+          const changedCourse = response.data;
+          state.modalCourses.forEach((modalCourse, i) => {
+            if (modalCourse.code == changedCourse.code)
+              state.modalCourses[i].reasonsForSelection =
+                changedCourse.reasonsForSelection;
+          });
+        });
+      });
+      console.log(state.modalCourses);
       commit("SET_MODALCOURSES", state.modalCourses);
-    } finally {
-      commit("SET_PENDING", false);
+    } catch (error) {
+      const notification = {
+        type: "error",
+        message:
+          "there was a problem updating the reasons modal courses where chosen: " +
+          error.message,
+      };
+      console.log(notification);
     }
   },
   async assignUsers({ commit, rootGetters, getters }) {
@@ -123,6 +116,52 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  // create and delete are deprecated for now. Courses will be added directly to th Database via Seed.
+  /*async createCourse(
+    { state, commit, dispatch },
+    { courseName, code, availablePlaces, semester }
+  ) {
+    try {
+      commit("SET_PENDING", true);
+      state.modalCourse = {
+        name: courseName,
+        code: code,
+        availablePlaces: availablePlaces,
+        semester: semester,
+      };
+      const response = await ModalCourseService.createModalCourse(
+        state.modalCourse
+      );
+      const modalCourse = response.data;
+      //const test = await ModalCourseService.updateModalCourse(modalCourse);
+      let modalCourses = state.modalCourses;
+      modalCourses.push(modalCourse);
+      commit("SET_MODALCOURSES", modalCourses);
+      //state.modalCourses.push(test.data);
+      console.log("the state assumes this value");
+      console.log(state.modalCourses);
+      await dispatch("fetchCourses");
+    } catch (error) {
+      const notification = {
+        type: "error",
+        message: "there was a problem creating modal course" + error.message,
+      };
+      console.log(notification);
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },
+  async deleteCourse({ state, commit }, { index }) {
+    try {
+      commit("SET_PENDING", true);
+      const courseToDelete = state.modalCourses.splice(index, 1)[0];
+
+      await ModalCourseService.deleteModalCourse(courseToDelete);
+      commit("SET_MODALCOURSES", state.modalCourses);
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },*/
 };
 
 export const getters = {

@@ -165,6 +165,7 @@ module.exports = {
           accessToken: user.accessToken,
           password: user.password,
           isPreferred: user.isPreferred,
+          isAdmin: user.isAdmin,
         });
       });
   },
