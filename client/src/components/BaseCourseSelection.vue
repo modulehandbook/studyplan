@@ -11,7 +11,7 @@
       <div class="addPriorities">
         <h2>Please drag and drop your preference course</h2>
         <div>
-          <button @click="addPriority">
+          <button @click="addPriority" class="button">
             <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
           </button>
           <p>Prio hinzufügen</p>
@@ -62,6 +62,15 @@ export default {
 <style lang="scss" scoped>
 $htwGruen: #76b900;
 
+.button{
+  text-decoration: none;
+  background: none;
+  border: none;
+}
+.button:hover {
+  //background-color: #4CAF50; /* Green */
+  color: white;
+}
 .prioritiesBox {
   background-color: #b3b3b3;
   color: white;
@@ -105,8 +114,11 @@ $htwGruen: #76b900;
   min-width: 20rem;
 }
 .courseSelection {
+  // display: inline-grid;
+  // align-items: stretch;
   display: inline-grid;
-  align-items: stretch;
   padding: 2rem;
+  justify-content: start;
+  align-items: left;
 }
 </style>

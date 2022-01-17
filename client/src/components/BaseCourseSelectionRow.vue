@@ -105,6 +105,7 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
 .gridContainer {
   display: inline-grid;
   justify-content: space-between;
+  max-width: 20rem;
 }
 
 .gridItem1 {

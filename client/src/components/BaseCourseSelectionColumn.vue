@@ -9,7 +9,7 @@
       @drop.stop="moveCourse($event, $courseIndex)"
     >
       <div>
-        <p>
+        <p class="ub-content">
           {{ course.code }} {{ course.name }}
         </p>
       </div>
@@ -80,4 +80,8 @@ export default {
 <style lang="scss" scoped>
 $htwGruen: #76b900;
 $belegtBackground: rgba(253, 177, 62, 0.55);
+.ub-content{
+  display: flex;
+  align-items: center;
+}
 </style>
