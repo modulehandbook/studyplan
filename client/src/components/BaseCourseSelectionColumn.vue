@@ -1,18 +1,19 @@
 <template>
   <div @drop.stop="moveCourse($event, 0)" @dragover.prevent @dragenter.prevent>
     <h3>Internationaler Studiengang Medieninformatik</h3>
-    <div
-      v-for="(course, $courseIndex) in courses"
-      :key="$courseIndex"
-      draggable="true"
-      @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
-      @drop.stop="moveCourse($event, $courseIndex)"
-      class="border"
-    >
-      <div>
-        <p class="ub-content">
-          {{ course.code }} {{ course.name }}
-        </p>
+    <div class="border">
+      <div
+        v-for="(course, $courseIndex) in courses"
+        :key="$courseIndex"
+        draggable="true"
+        @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
+        @drop.stop="moveCourse($event, $courseIndex)"    
+      >
+        <div>
+         <p class="ub-content">
+            {{ course.code }} {{ course.name }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
