@@ -8,7 +8,10 @@
       />
 
       <div
-        class="gridItem2"
+        :class="{
+          'gridItem2': course.code != '',
+          'gridItem2Alt': course.code == '',
+        }"
         v-for="(course, $courseIndex) in courses"
         :key="$courseIndex"
         draggable="true"
@@ -20,6 +23,10 @@
         </div>
       </div>
     </div>
+    <br />
+    <button @click="deleteCoursePriority()" style="place-content: center">
+      Prio löschen
+    </button>
   </div>
 </template>
 
@@ -50,7 +57,15 @@ export default {
     ...mapState("course", ["course"]),
     ...mapState("courseselection", ["courseSelection"]),
   },
+
+  //Priority oder CoursePriority okay?
   methods: {
+    deleteCoursePriority() {
+      this.$store.dispatch("courseselection/deleteCoursePriority", {
+        priority: this.coursePriority,
+      });
+    },
+
     courseWidth(course) {
       return course.ects * 30 + (course.ects / 5 - 1) * 30;
     },
@@ -95,12 +110,16 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
 .gridItem1 {
   grid-column-start: 1;
   grid-column-end: 1;
-  margin-right: 3rem;
+  place-content: center;
 }
 
 .gridItem2 {
   grid-column-start: 2;
   grid-column-end: 2;
   margin-left: 3rem;
+}
+
+.gridItem2Alt {
+  margin: 0;
 }
 </style>

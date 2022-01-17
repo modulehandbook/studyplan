@@ -1,7 +1,6 @@
 <template>
   <div>
     <p>{{ priority }}. Prioritaet</p>
-    <button @click="deleteCoursePriority()">Prio löschen</button>
   </div>
 </template>
 
@@ -18,11 +17,6 @@ export default {
     },
   },
   methods: {
-    deleteCoursePriority() {
-      this.$store.dispatch("courseselection/deleteCoursePriority", {
-        priority: this.priority,
-      });
-    },
   },
 };
 </script>
