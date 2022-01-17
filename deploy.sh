@@ -16,9 +16,9 @@ if [ "$1" = "prepare" ]; then # mode = prepare
   echo "fetch repo..."
 
   #update git-repo
-  git checkout main || exit;
-  git fetch || exit;
-  git reset --hard origin/main || exit;
+  #git checkout main || exit 1;
+  #git fetch || exit 1;
+  #git reset --hard origin/main || exit 1;
   
   echo "build vue..."
 
@@ -29,8 +29,8 @@ if [ "$1" = "prepare" ]; then # mode = prepare
     rm -f package-lock.json  && echo "deleted package-lock.json" 
   fi
   
-  npm i || exit;
-  npm run build || exit;
+  npm i || exit 1;
+  npm run build || exit 1;
 
   echo "copy files..."
 
@@ -64,29 +64,29 @@ elif [ "$1" = "deploy" ]; then # mode = deploy
   echo "This will override data from the live-production-server!"
   read -r -p "Continue (y/n)?" CONT
   if ! [ "$CONT" = "y" ]; then
-    exit;
+    exit 0;
   fi
 
   echo "send vue data..."
 
   #deploy vue
-  ssh local@studyplan.f4.htw-berlin.de 'rm -rf /var/www/html/*' > log.txt || exit;
+  ssh local@studyplan.f4.htw-berlin.de 'rm -rf /var/www/html/*' > log.txt || { cat "log.txt"; exit 1; }
   cat "log.txt"
-  scp -r "$tmp_vue"* local@studyplan.f4.htw-berlin.de:/var/www/html/ || exit;
+  scp -r "$tmp_vue"* local@studyplan.f4.htw-berlin.de:/var/www/html/ || exit 1;
 
   echo "send node-api data..."
 
   #deploy node-server
-  ssh local@studyplan.f4.htw-berlin.de 'rm -rf /var/www/api/*' > log.txt || exit;
+  ssh local@studyplan.f4.htw-berlin.de 'rm -rf /var/www/api/*' > log.txt || { cat "log.txt"; exit 1; }
   cat "log.txt"
-  scp -r "$tmp_node"* local@studyplan.f4.htw-berlin.de:/var/www/api/ || exit;
+  scp -r "$tmp_node"* local@studyplan.f4.htw-berlin.de:/var/www/api/ || exit 1;
 
   echo "npm install..."
-  ssh local@studyplan.f4.htw-berlin.de 'cd /var/www/api/ && npm i --only=prod' > log.txt || exit;
+  ssh local@studyplan.f4.htw-berlin.de 'cd /var/www/api/ && npm i --only=prod' > log.txt || { cat "log.txt"; exit 1; }
   cat "log.txt"
 
   echo "restart pm2..."
-  ssh local@studyplan.f4.htw-berlin.de 'pm2 restart main' > log.txt || exit;
+  ssh local@studyplan.f4.htw-berlin.de 'pm2 restart node-server' > log.txt || { cat "log.txt"; exit 1; }
   cat "log.txt"
 
   #clean up
@@ -100,5 +100,5 @@ elif [ "$1" = "deploy" ]; then # mode = deploy
 #####################################################################################
 else # mode = unkown
   echo "please use './deploy prepare' or './deploy deploy' ";
-  exit;
+  exit 1;
 fi
