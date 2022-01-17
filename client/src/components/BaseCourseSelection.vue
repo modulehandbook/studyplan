@@ -93,8 +93,8 @@ $htwGruen: #76b900;
   padding-top: 1rem;
   padding-bottom: 1rem;
   min-width: 20rem;
-  margin: 2rem;
   border-radius: 0.5rem;
+  margin: 0.75rem;
 
   .addPriorities {
     border-bottom-style: solid;
@@ -123,8 +123,8 @@ $htwGruen: #76b900;
   grid-column-start: 1;
   grid-column-end: 1;
   flex: auto;
-  margin: 2rem;
   min-width: 20rem;
+  margin: 0.75rem;
 }
 .courseSelection {
   // display: inline-grid;
