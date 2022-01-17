@@ -9,7 +9,7 @@
     />
     <div class="prioritiesBox">
       <div class="addPriorities">
-        <h2>Please drag and drop your preference course</h2>
+        <h3>Please drag and drop your preference course</h3>
         <div>
           <button @click="addPriority" class="button">
             <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
@@ -90,8 +90,7 @@ $htwGruen: #76b900;
   grid-column-start: 2;
   grid-column-end: 2;
   flex: auto;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
   min-width: 20rem;
   border-radius: 0.5rem;
   margin: 0.75rem;
@@ -100,10 +99,8 @@ $htwGruen: #76b900;
     border-bottom-style: solid;
     border-color: white;
     border-width: 0.125rem;
-    padding: 1rem;
-    h2 {
-      font-size: large;
-    }
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .priorities {
