@@ -18,23 +18,19 @@
         </div>
       </div>
       <div class="scroll">
-      <BaseCourseSelectionRow
-        class="priorities"
-        v-for="course in bookedCourses"
-        :key="course"
-        :course-priority="course.priority"
-        :courses="[course]"
-        :other-courses="courses"
-        :is-unbooked-courses="false"
-      />
+        <BaseCourseSelectionRow
+          class="priorities"
+          v-for="course in bookedCourses"
+          :key="course"
+          :course-priority="course.priority"
+          :courses="[course]"
+          :other-courses="courses"
+          :is-unbooked-courses="false"
+        />
       </div>
       <div>
-        <button @click="resetCourseSelection" class="reset" >
-          Reset
-        </button>
-        <button @click="resetCourseSelection" class="reset2" >
-          Reset
-        </button>
+        <button @click="resetCourseSelection" class="reset">Reset</button>
+        <button @click="resetCourseSelection" class="reset2">Reset</button>
       </div>
     </div>
   </div>
@@ -78,11 +74,11 @@ export default {
 <style lang="scss" scoped>
 $htwGruen: #76b900;
 
-.button{
+.button {
   text-decoration: none;
   background: white;
   border: none;
-  padding:0px;
+  padding: 0px;
   border-radius: 5rem;
 }
 .button:hover {
@@ -117,12 +113,14 @@ $htwGruen: #76b900;
     margin-top: 1rem;
     margin-bottom: 1rem;
     margin-right: 3rem;
+    border: none;
   }
-    .reset2 {
+  .reset2 {
     margin-top: 1rem;
     margin-bottom: 1rem;
     margin-left: 3rem;
-    }
+    border: none;
+  }
 }
 
 .allCourses {
