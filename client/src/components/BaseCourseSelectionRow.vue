@@ -112,6 +112,7 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   grid-column-start: 1;
   grid-column-end: 1;
   width: 10rem;
+  padding-top:0.5rem;
 }
 
 .gridItem2 {
@@ -123,7 +124,7 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   background: #c4c4c4;
   color: black;
   text-align: center;
-  padding: 10px 10px;
+  padding: 0.5rem 0.5rem;
   margin-bottom: 1rem;
 }
 
