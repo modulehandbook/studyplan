@@ -70,7 +70,7 @@ $htwGruen: #76b900;
   flex: auto;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  
+  min-width: 20rem;
   margin: 2rem;
   border-radius: 0.5rem;
 
@@ -102,6 +102,7 @@ $htwGruen: #76b900;
   grid-column-end: 1;
   flex: auto;
   margin: 2rem;
+  min-width: 20rem;
 }
 .courseSelection {
   display: inline-grid;

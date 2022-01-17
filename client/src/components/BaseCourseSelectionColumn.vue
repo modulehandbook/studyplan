@@ -10,10 +10,7 @@
     >
       <div>
         <p>
-          {{ course.code }}
-        </p>
-        <p>
-          {{ course.name }}
+          {{ course.code }} {{ course.name }}
         </p>
       </div>
     </div>

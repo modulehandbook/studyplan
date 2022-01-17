@@ -18,14 +18,6 @@ export default {
     },
   },
   methods: {
-    ects(semester) {
-      var ects = 0;
-      for (let i in semester.plannedCourses) {
-        if (semester.plannedCourses[i].ects)
-          ects += semester.plannedCourses[i].ects;
-      }
-      return ects;
-    },
     deleteCoursePriority() {
       this.$store.dispatch("courseselection/deleteCoursePriority", {
         priority: this.priority,
