@@ -1,7 +1,6 @@
 <template>
   <div v-if="!pending">
     <div v-if="stage.currentStage === 'COURSE-SELECTION'">
-      <div>Verbleibende Zeit: {{ time }}</div>
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
       >
@@ -11,6 +10,7 @@
           :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
         />
       </div>
+      <div>Verbleibende Zeit: {{ time }}</div>
       <div v-if="courseSelection == null">
         <button
           @click="addCourseSelection"

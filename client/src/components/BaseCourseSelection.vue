@@ -136,7 +136,7 @@ $htwGruen: #76b900;
 }
 
 .scroll {
-  max-height: 500px;
+  max-height: 20rem;
   overflow-y: auto;
 }
 </style>
