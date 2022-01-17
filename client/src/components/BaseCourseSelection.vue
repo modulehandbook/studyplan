@@ -17,6 +17,7 @@
           <p>Prio hinzufügen</p>
         </div>
       </div>
+      <div class="scroll">
       <BaseCourseSelectionRow
         class="priorities"
         v-for="course in bookedCourses"
@@ -26,6 +27,7 @@
         :other-courses="courses"
         :is-unbooked-courses="false"
       />
+      </div>
       <button @click="resetCourseSelection" class="reset">
         <p>Reset</p>
       </button>
@@ -47,8 +49,17 @@ export default {
   },
   async mounted() {
     console.log("test");
+    this.scrollToEnd();
+  },
+  updated() {
+    this.scrollToEnd();
   },
   methods: {
+    scrollToEnd() {
+      var container = document.querySelector(".scroll");
+      var scrollHeight = container.scrollHeight;
+      container.scrollTop = scrollHeight;
+    },
     addPriority() {
       this.$store.dispatch("courseselection/addCoursePriority");
     },
@@ -122,5 +133,10 @@ $htwGruen: #76b900;
   padding: 2rem;
   justify-content: start;
   align-items: left;
+}
+
+.scroll {
+  max-height: 500px;
+  overflow-y: auto;
 }
 </style>
