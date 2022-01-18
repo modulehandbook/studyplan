@@ -71,13 +71,14 @@ module.exports = {
     const semester = req.body.semester;
     const courseCode = req.body.courseCode;
     const user = req.body.user;
-    res.json({semester: semester, courseCode, courseCode, user: user});
+    //res.json({semester: semester, courseCode, courseCode, user: user});
+
     
-    /*
-    ModalCourse.findONe({code: req.body.code, semester: req.body.semester})
+    ModalCourse.findOne({code: courseCode, semester: semester})
     .then((modalCourse) => {
-      const index = modalCourse.users.findIndex((user))
-    });*/
+     // const index = modalCourse.users.findIndex((user))
+      res.json(modalCourse);
+    });
 
   },
   update: (req, res) => {

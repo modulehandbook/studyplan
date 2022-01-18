@@ -3,7 +3,7 @@ const modalCourseController = require("../controller/modalCourseController"),
 
 router.post("/create", modalCourseController.create);
 router.get("", modalCourseController.showAll);
-router.put("modalcourse/removeoneuser", modalCourseController.updateOne);
+router.put("/removeoneuser", modalCourseController.updateOne);
 router.get("/:id", modalCourseController.show);
 router.put("/", modalCourseController.updateAll);
 router.put("/updatesurvey", modalCourseController.update);

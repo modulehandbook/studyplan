@@ -75,7 +75,7 @@ export default {
       this.coursesToRemove.forEach((course, index) => {
         if(course)helperArray.push(this.courseSelection.semesterPlans[0].bookedCourses[index]);
       });
-      await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user});
+      await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user.id || this.user._id,});
     }
   }
 }
