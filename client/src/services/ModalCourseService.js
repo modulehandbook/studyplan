@@ -24,7 +24,7 @@ export default {
       }
     );
   },
-  removeUserFromCourses(user, semester, courseCode){
+  removeUserFromCourse(user, semester, courseCode){
     return server.put(
       "modalcourse/removeoneuser",
       {semester, courseCode, user},

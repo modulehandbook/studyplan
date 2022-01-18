@@ -67,6 +67,19 @@ module.exports = {
         console.log(`Error Fetching ModalCourse: ${error.message}`);
       });
   },
+  updateOne: (req, res) => {
+    const semester = req.body.semester;
+    const courseCode = req.body.courseCode;
+    const user = req.body.user;
+    res.json({semester: semester, courseCode, courseCode, user: user});
+    
+    /*
+    ModalCourse.findONe({code: req.body.code, semester: req.body.semester})
+    .then((modalCourse) => {
+      const index = modalCourse.users.findIndex((user))
+    });*/
+
+  },
   update: (req, res) => {
     ModalCourse.findOne({ code: req.body.code, semester: req.body.semester })
       .then((modalCourse) => {
