@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core";
 export default {
   setup() {
     return { v$: useVuelidate() };
