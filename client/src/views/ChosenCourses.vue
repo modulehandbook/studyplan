@@ -71,8 +71,9 @@ export default {
         }
     },
     removeChosenCourses(){
+      let helperArray = []
       this.coursesToRemove.forEach((course, index) => {
-        console.log(`${this.courseSelection.semesterPlans[0].bookedCourses[index].name} should be removed ${course}`);
+        if(course)helperArray.push(this.courseSelection.semesterPlans[0].bookedCourses[index]);
       });
     }
   }

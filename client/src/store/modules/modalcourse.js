@@ -161,6 +161,24 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  async removeUserfromCourses({rootGetters}, {coursesToRemoveUserFrom}){
+    try{
+      commit("SET_Pending", true);
+      const semester = rootGetters["semester/getCurrentSemester"];
+      const response = await ModalCourseService.removeUserFromCourses(semester, coursesToRemoveUserFrom);
+      console.log(response.data);
+    } catch (error) {
+      const notification = {
+        type: "error",
+        message:
+          "there was a problem assigning users to modal courses: " +
+          error.message,
+      };
+      console.log(notification);
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },
 };
 
 export const getters = {
