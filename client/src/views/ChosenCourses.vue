@@ -54,6 +54,9 @@ export default {
         console.log(e);
       });
     this.pending = false;
+    await this.$store.dispatch("modalcourse/fetchCourses");
+    const test = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id);
+    console.log(test);
     //console.log(this.courseSelection);
   },
   data(){

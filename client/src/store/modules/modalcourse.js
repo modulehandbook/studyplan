@@ -201,4 +201,7 @@ export const getters = {
       (modalCourse) => modalCourse.semester.name === semester.name
     );
   },
+  getCoursesByUser: (state) => (user) => {
+    return state.modalCourses.filter((course) => course.students.includes(user));
+  },
 };
