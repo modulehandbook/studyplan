@@ -31,10 +31,10 @@
         />
       </div>
       <div>
-        <button class="edit" @click="isEditable=true">
+        <button class="edit" @click="isEditable=true" >
           Ändern
         </button>
-        <button @click="resetCourseSelection" class="reset" >
+        <button @click="resetCourseSelection" class="reset" :disabled="!isEditable">
           Zurücksetzen
         </button>
         <button :disabled="v$.$invalid" class="save" @click="isEditable=false">
