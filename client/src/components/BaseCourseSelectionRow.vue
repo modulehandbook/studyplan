@@ -14,7 +14,7 @@
         }"
         v-for="(course, $courseIndex) in courses"
         :key="$courseIndex"
-        draggable="true"
+        draggable="isEditable"
         @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
         @drop.stop="moveCourse($event, $courseIndex)"
       >
@@ -84,8 +84,11 @@ export default {
       },
     };
   },
-  
+
   props: {
+    isEditable: {
+      type: Boolean,
+    },
     courses: {
       type: Array,
       default: () => [],

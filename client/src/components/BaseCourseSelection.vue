@@ -26,6 +26,7 @@
           :courses="[course]"
           :other-courses="courses"
           :is-unbooked-courses="false"
+          :isEditable="isEditable"
         />
       </div>
       <div>
@@ -35,7 +36,7 @@
         <button @click="resetCourseSelection" class="reset" >
           Zurücksetzen
         </button>
-        <button :disabled="v$.$invalid" class="save" >
+        <button :disabled="v$.$invalid" class="save" @click="isEditable=false">
           Speichern
         </button>
       </div>
@@ -54,6 +55,11 @@ import useVuelidate from "@vuelidate/core";
 export default {
   setup() {
     return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      isEditable: true,
+    };
   },
   props: {
     courses: {
