@@ -1,17 +1,17 @@
 <template>
   <div v-if="!pending">
     <form
-      name="form"
-      @submit.prevent="updateCourses"
       v-if="
         courseSelection != null &&
         courseSelection.semesterPlans != null &&
         courseSelection.semesterPlans[0].bookedCourses.length > 0
       "
+      name="form"
+      @submit.prevent="updateCourses"
     >
       <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
       <div
-        v-for="(course, index) in this.courseSelection.semesterPlans[0]
+        v-for="(course, index) in courseSelection.semesterPlans[0]
           .bookedCourses"
         :key="course.key"
         class="survey-wrapper"
@@ -28,12 +28,12 @@
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
                 <input
-                  type="radio"
                   :id="surveys[0].key + index"
+                  v-model="test[index]"
+                  type="radio"
                   :name="'survey' + index"
                   :value="surveys[0].value"
-                  v-model="test[index]"
-                  v-on:change="getChecked($event, index)"
+                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[0].key + index">{{
                   surveys[0].name
@@ -41,12 +41,12 @@
               </div>
               <div class="survey-radio right">
                 <input
-                  type="radio"
                   :id="surveys[1].key + index"
+                  v-model="test[index]"
+                  type="radio"
                   :name="'survey' + index"
                   :value="surveys[1].value"
-                  v-model="test[index]"
-                  v-on:change="getChecked($event, index)"
+                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[1].key + index">{{
                   surveys[1].name
@@ -56,12 +56,12 @@
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
                 <input
-                  type="radio"
                   :id="surveys[2].key + index"
+                  v-model="test[index]"
+                  type="radio"
                   :name="'survey' + index"
                   :value="surveys[2].value"
-                  v-model="test[index]"
-                  v-on:change="getChecked($event, index)"
+                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[2].key + index">{{
                   surveys[2].name
@@ -70,12 +70,12 @@
 
               <div class="survey-radio right">
                 <input
-                  type="radio"
                   :id="surveys[3].key + index"
+                  v-model="test[index]"
+                  type="radio"
                   :name="'survey' + index"
                   :value="surveys[3].value"
-                  v-model="test[index]"
-                  v-on:change="getChecked($event, index)"
+                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[3].key + index">{{
                   surveys[3].name
@@ -85,12 +85,12 @@
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
                 <input
-                  type="radio"
                   :id="surveys[4].key + index"
+                  v-model="test[index]"
+                  type="radio"
                   :name="'survey' + index"
                   :value="surveys[4].value"
-                  v-model="test[index]"
-                  v-on:change="getChecked($event, index)"
+                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[4].key + index">{{
                   surveys[4].name
@@ -99,24 +99,22 @@
 
               <div class="survey-radio right">
                 <input
-                  type="radio"
                   :id="surveys[5].key + index"
-                  :name="'survey' + index"
                   v-model="test[index]"
-                  v-on:change="getChecked($event, index)"
+                  type="radio"
+                  :name="'survey' + index"
+                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[5].key + index">{{
                   surveys[5].name
                 }}</label>
                 <input
+                  v-model="test[index]"
                   class="input-text"
                   type="text"
                   name=""
-                  v-model="test[index]"
                   :disabled="!isEnabledArray[index]"
-                  v-on:change="
-                    getTextFieldValue($event, surveys[5].key + index)
-                  "
+                  @change="getTextFieldValue($event, surveys[5].key + index)"
                 />
               </div>
             </div>
@@ -140,7 +138,7 @@
     </div>
   </div>
 </template>
-  
+
 <!--
 Frage an Backend guys
 
@@ -156,10 +154,7 @@ survey2: zeitlich bedingt
 ..
 -->
 
-
-
-
-  <script>
+<script>
 import { mapState } from "vuex";
 import BaseHeading from "../components/BaseHeading.vue";
 export default {
