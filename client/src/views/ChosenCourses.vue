@@ -18,7 +18,7 @@
            <p>Zugelassene Kurse: </p>
            <div   v-for="(course,index) in this.courseSelection.semesterPlans[0].bookedCourses"
        :key = "course.key" class="zugelasseneKurse">
-              <input :name="'course' + index" :value="course.name" hidden />
+              <input :name="'course' + index" :value="course.name" v-model="coursesToRemove[index]" hidden />
              <div class="zugelassenerKurs">
                <p>{{course.name}}</p>
                <input type="checkbox" id="markCourse" name="GE">
@@ -26,7 +26,7 @@
              <br>
            </div>
          </div>
-         <button class="button" onclick="marked()"> Delete marked courses</button>
+         <button class="button" onclick="removeChosenCourses()"> Delete marked courses</button>
        </div>
     </div>
 </template>
@@ -57,7 +57,7 @@ export default {
   },
   data(){
     return{
-      CoursesToDelete: [],
+      coursesToRemove: [],
       pending: false,
     }
   },
@@ -68,6 +68,11 @@ export default {
         if(getBox.checked){
           console.log("checked")
         }
+    },
+    removeChosenCourses(){
+      this.coursesToRemove.forEach((course) => {
+        console.log(course);
+      });
     }
   }
 }
