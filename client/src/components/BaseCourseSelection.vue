@@ -50,6 +50,9 @@
 
 <script>
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   props: {
     courses: {
       type: Array,

@@ -84,6 +84,7 @@ export default {
       },
     };
   },
+  
   props: {
     courses: {
       type: Array,
