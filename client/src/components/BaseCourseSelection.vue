@@ -29,8 +29,20 @@
         />
       </div>
       <div>
-        <button @click="resetCourseSelection" class="reset">Reset</button>
-        <button @click="resetCourseSelection" class="reset2">Reset</button>
+        <p class="instruction">
+          Bitte tätige alle Angaben wahrheitsgemäß!
+          Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
+          Angaben führen zur Abmeldung aller Kurse.
+        </p>
+        <p class="instruction">
+        Bitte fülle alle Felder aus oder entferne leere Felder.
+        </p>
+        <button @click="resetCourseSelection" class="reset" >
+          Reset
+        </button>
+        <button :disabled="v$.$invalid" class="save" >
+          save
+        </button>
       </div>
     </div>
   </div>
@@ -122,7 +134,7 @@ $htwGruen: #76b900;
     font-weight: 600;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
-  .reset2 {
+  .save {
     margin-top: 1rem;
     margin-bottom: 1rem;
     margin-left: 3rem;
@@ -134,10 +146,24 @@ $htwGruen: #76b900;
     background:rgb(163, 223, 145);
     font-weight: 600;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  }
+    }
 
 }
-
+.instruction{
+  padding-left: 2rem;
+  //padding-right: 2rem;
+  text-align: justify;
+  font-size: small;
+  color:rgb(34, 34, 34);
+  max-width: 20rem;
+  //align-content: center;
+  justify-content: center;
+}
+.error-message {
+  color: #f8153d;
+  margin-bottom: 30px;
+  margin-top: 0;
+}
 .allCourses {
   grid-column-start: 1;
   grid-column-end: 1;

@@ -24,6 +24,33 @@
       </div>
     </div>
     <br />
+    <div
+    v-for="(course, $courseIndex) in courses" 
+    :key="$courseIndex"
+    >
+    <form name="form" v-if="course.code != ''">
+      <label for="wiederholer">Wiederholer</label>
+        <select
+          v-model="wiederholer"
+          name="wiederholer"
+          :class="{ error: v$.wiederholer.$error }"
+          @blur="v$.wiederholer.$touch()"
+        >
+          <option
+            v-for="option in this.wiederholerOptions"
+            :key="option.name"
+            :value="option.value"
+          >
+            {{ option.name }}
+          </option>
+        </select>
+        <div v-if="v$.wiederholer.$error">
+          <p class="error-message">
+            Gib an, ob du Wiederholer bist.
+          </p>
+        </div>
+      </form>
+    </div>
     <button @click="deleteCoursePriority()" class="prioButton" >
       Prio löschen
     </button>
@@ -32,8 +59,31 @@
 
 <script>
 import { mapState } from "vuex";
+import { required } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+
+      wiederholer: null,
+      wiederholerOptions: [
+        { name: "ja", value: true },
+        { name: "nein", value: false },
+      ],
+    };
+  },
+
+  validations() {
+    return {
+      wiederholer: {
+        required,
+      },
+    };
+  },
   props: {
     courses: {
       type: Array,
@@ -139,5 +189,10 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
 }
 .prioButton:hover {
   color: rgb(56, 55, 55);
+}
+.error-message {
+  color: #f8153d;
+  margin-bottom: 30px;
+  margin-top: 0;
 }
 </style>
