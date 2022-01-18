@@ -161,7 +161,7 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async removeUserfromCourses({rootGetters}, {coursesToRemoveUserFrom}){
+  async removeUserfromCourses({commit, rootGetters}, {coursesToRemoveUserFrom}){
     try{
       commit("SET_Pending", true);
       const semester = rootGetters["semester/getCurrentSemester"];

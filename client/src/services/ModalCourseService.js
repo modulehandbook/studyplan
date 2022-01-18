@@ -24,6 +24,15 @@ export default {
       }
     );
   },
+  removeUserFromCourses(user, semester, courseCode){
+    return server.put(
+      "modalcourse/removeoneuser",
+      {semester, courseCode, user},
+      {
+        headers: authHeader(),
+      }
+    );
+  },
   updateModalCourses(semester) {
     return server.put(`modalcourse/${semester._id}`, semester, {
       headers: authHeader(),
