@@ -14,7 +14,7 @@
         }"
         v-for="(course, $courseIndex) in courses"
         :key="$courseIndex"
-        draggable="isEditable"
+        :draggable="isEditable"
         @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
         @drop.stop="moveCourse($event, $courseIndex)"
       >
