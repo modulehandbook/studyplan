@@ -31,7 +31,7 @@
         />
       </div>
       <div>
-        <button class="edit" @click="isEditable=true" >
+        <button class="edit" @click="isEditable=true" :disabled="isEditable" >
           Ändern
         </button>
         <button @click="resetCourseSelection" class="reset" :disabled="!isEditable">
