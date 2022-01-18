@@ -29,21 +29,22 @@
         />
       </div>
       <div>
-        <p class="instruction">
-          Bitte tätige alle Angaben wahrheitsgemäß!
-          Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
-          Angaben führen zur Abmeldung aller Kurse.
-        </p>
-        <p class="instruction">
-        Bitte fülle alle Felder aus oder entferne leere Felder.
-        </p>
+        <button class="edit">
+          Ändern
+        </button>
         <button @click="resetCourseSelection" class="reset" >
-          Reset
+          Zurücksetzen
         </button>
         <button :disabled="v$.$invalid" class="save" >
-          save
+          Speichern
         </button>
       </div>
+      <p class="instruction">
+          Bitte tätige alle Angaben wahrheitsgemäß! Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
+          Angaben führen zur Abmeldung aller Kurse.
+        <br> <br>
+        <u>Bitte fülle alle Felder aus oder entferne leere Felder.</u>
+        </p>
     </div>
   </div>
 </template>
@@ -90,6 +91,21 @@ export default {
 <style lang="scss" scoped>
 $htwGruen: #76b900;
 
+.instruction{
+  margin-bottom: 1.5rem;
+  margin-left: 3rem;
+  //padding-right: 2rem;
+  text-align: justify;
+  font-size: x-small;
+  color:rgb(34, 34, 34);
+  max-width: 20rem;
+  //justify-content: right;
+}
+.error-message {
+  color: #f8153d;
+  margin-bottom: 30px;
+  margin-top: 0;
+}
 .button {
   text-decoration: none;
   background: white;
@@ -128,8 +144,9 @@ $htwGruen: #76b900;
   }
   .reset {
     margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-right: 3rem;
+    margin-bottom: 0.5rem;
+    margin-right: 2rem;
+    margin-left: 1rem;
     // padding-top: 0.5rem;
     // padding-bottom: 0.5rem;
     padding:0.5rem;
@@ -140,8 +157,8 @@ $htwGruen: #76b900;
   }
   .save {
     margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-left: 3rem;
+    margin-bottom: 0.5rem;
+    margin-left: 1.5rem;
     // padding-top: 0.5rem;
     // padding-bottom: 0.5rem;
     padding:0.5rem;
@@ -150,24 +167,19 @@ $htwGruen: #76b900;
     background:rgb(163, 223, 145);
     font-weight: 600;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    }
+  }
+  .edit {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    padding:0.5rem;
+    border:none;
+    border-radius: 0.25rem;
+    background:rgb(163, 223, 145);
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+}
 
-}
-.instruction{
-  padding-left: 2rem;
-  //padding-right: 2rem;
-  text-align: justify;
-  font-size: small;
-  color:rgb(34, 34, 34);
-  max-width: 20rem;
-  //align-content: center;
-  justify-content: center;
-}
-.error-message {
-  color: #f8153d;
-  margin-bottom: 30px;
-  margin-top: 0;
-}
 .allCourses {
   grid-column-start: 1;
   grid-column-end: 1;
