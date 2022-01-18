@@ -16,9 +16,9 @@ if [ "$1" = "prepare" ]; then # mode = prepare
   echo "fetch repo..."
 
   #update git-repo
-  #git checkout main || exit 1;
-  #git fetch || exit 1;
-  #git reset --hard origin/main || exit 1;
+  git checkout main || exit 1;
+  git fetch || exit 1;
+  git reset --hard origin/main || exit 1;
   
   echo "build vue..."
 
@@ -83,6 +83,10 @@ elif [ "$1" = "deploy" ]; then # mode = deploy
 
   echo "npm install..."
   ssh local@studyplan.f4.htw-berlin.de 'cd /var/www/api/ && npm i --only=prod' > log.txt || { cat "log.txt"; exit 1; }
+  cat "log.txt"
+
+  echo "reload env variables..."
+  ssh local@studyplan.f4.htw-berlin.de 'cd /var/www/api && pm2 reload ecosystem.config.js' > log.txt || { cat "log.txt"; exit 1; }
   cat "log.txt"
 
   echo "restart pm2..."
