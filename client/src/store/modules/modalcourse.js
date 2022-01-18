@@ -202,6 +202,12 @@ export const getters = {
     );
   },
   getCoursesByUser: (state) => (user) => {
-    return state.modalCourses.filter((course) => course.students.includes(user));
+    let returnArray = [];
+    state.modalCourses.forEach((course) => {
+      course.students.forEach((student) => {
+        if(student._id === user) returnArray.push(course);
+      });
+    });
+    return returnArray;
   },
 };
