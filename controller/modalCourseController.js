@@ -91,7 +91,7 @@ module.exports = {
       let studentsInCourse = modalCourse.students;
 
       const index = studentsInCourse.findIndex((user) => user === user);
-      
+      //res.json(modalCourse);
       
       if(index == -1){
         //res.json("no user found in course");

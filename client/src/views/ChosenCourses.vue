@@ -83,6 +83,7 @@ export default {
       this.coursesToRemove.forEach((course, index) => {
         if(course)helperArray.push(this.assignedCourses(this.user.id)[index]);
       });
+      //helperArray.push({code: "VC1"});
       await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user.id || this.user._id,});
     }
   }

@@ -161,18 +161,19 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async removeUserfromCourses({commit, rootGetters}, {coursesToRemoveUserFrom, user}){
+  async removeUserfromCourses({commit, rootGetters, dispatch}, {coursesToRemoveUserFrom, user}){
     try{
       commit("SET_PENDING", true);
       const semester = rootGetters["semester/getCurrentSemester"];
      // let responses = [];
-      console.log(user);
+      console.log(coursesToRemoveUserFrom);
       coursesToRemoveUserFrom.forEach(async (courseToRemoveFrom) => {
         const response = await ModalCourseService.removeUserFromCourse(user, semester, courseToRemoveFrom.code);
-        console.log(response.data)
+        //const index = state.modalCourses.findIndex((course) => course.code === response.data.code && course.semester._id === response.data.semester._id);
+       // if(index != -1)state.modalCourses.splice(index, 1, response.data);
+       console.log(response.data);
       });
-    
-     // console.log(responses.data);
+      await dispatch("fetchCourses");
     } catch (error) {
       const notification = {
         type: "error",
