@@ -5,12 +5,10 @@
         class = "wrap">
          <div class="heading">
            <p>Belegte Kurse:</p>
-           <div   v-for="(course,index) in this.courseSelection.semesterPlans[0].bookedCourses"
+           <div   v-for="(course) in this.courseSelection.semesterPlans[0].bookedCourses"
        :key = "course.key" class="belegteKurse">
-             <input :name="'course' + index" :value="course.name" hidden />
              <div class="belegterKurs">
                <p>{{course.name}}</p>
-               <input type="checkbox" id="markCourse" name="GE">
              </div>
              <br>
            </div>
@@ -59,6 +57,7 @@ export default {
   },
   data(){
     return{
+      CoursesToDelete: [],
       pending: false,
     }
   },
