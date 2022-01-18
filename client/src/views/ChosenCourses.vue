@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!pending && this.courseSelection.semesterPlans">
+    <div v-if="!pending && this.courseSelection && this.courseSelection.semesterPlans">
         <BaseHeading><h1>Diese Kurse wollen Sie Belegen</h1></BaseHeading>
        <div
         class = "wrap">
@@ -17,7 +17,7 @@
 
          <div class="heading2">
            <p>Zugelassene Kurse: </p>
-           <div   v-for="(course,index) in assignedCourses"
+           <div   v-for="(course,index) in this.assignedCourses(this.user.id)"
        :key = "course.key" class="zugelasseneKurse">
              <div class="zugelassenerKurs">
                <p>{{course.name}}</p>
@@ -33,13 +33,16 @@
 </template>
 
 <script>
-import { mapState} from 'vuex'
+import { mapGetters, mapState} from 'vuex'
 import BaseHeading from "../components/BaseHeading.vue";
 export default {
   components: { BaseHeading },
   computed: {
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user",["user"]),
+    ...mapGetters({
+        assignedCourses: 'modalcourse/getCoursesByUser'
+    }),
   },
  async mounted(){
     this.pending = true;
@@ -55,14 +58,15 @@ export default {
       });
     this.pending = false;
     await this.$store.dispatch("modalcourse/fetchCourses");
-    this.assignedCourses = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id || this.user._id);
-    console.log( this.assignedCourses);
+   // this.assignedCourses = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id || this.user._id);
+    //console.log( this.assignedcourses(this.user.id));
+    console.log(this.assignedCourses(this.user.id));
     //console.log(this.courseSelection);
   },
   data(){
     return{
       coursesToRemove: [],
-      assignedCourses: [],
+      //assignedCourses: [],
       pending: false,
     }
   },
@@ -77,7 +81,7 @@ export default {
     async removeChosenCourses(){
       let helperArray = []
       this.coursesToRemove.forEach((course, index) => {
-        if(course)helperArray.push(this.courseSelection.semesterPlans[0].bookedCourses[index]);
+        if(course)helperArray.push(this.assignedCourses(this.user.id)[index]);
       });
       await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user.id || this.user._id,});
     }
