@@ -43,7 +43,7 @@ describe("registration, confirmation", () => {
         .then((res) => {
           assert(
             res.text,
-            "The account has been verified. Please log in: https://studyplan.herokuapp.com/login"
+            "The account has been verified. Please log in: http://studyplan.f4.htw-berlin.de/login"
           );
           done();
         })
@@ -150,7 +150,7 @@ describe("registration, confirmation", () => {
           .then((res) => {
             assert(
               res.text,
-              "The account has been verified. Please log in: https://studyplan.herokuapp.com/login"
+              "The account has been verified. Please log in: http://studyplan.f4.htw-berlin.de/login"
             );
             done();
           })

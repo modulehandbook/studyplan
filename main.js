@@ -67,7 +67,11 @@ app.set("view engine", "ejs"); //To use EJS
 
 app.use(serveStatic(__dirname + "/dist"));
 
-app.use("/", router);
+if (process.env.NODE_ENV == "production") {
+  app.use("/api", router);
+} else {
+  app.use("/", router);
+}
 
 app.listen(app.get("port"), () => {
   console.log(`Server running at http://localhost:${app.get("port")}`);
