@@ -76,8 +76,10 @@ module.exports = {
     
     ModalCourse.findOne({code: courseCode, semester: semester})
     .then((modalCourse) => {
-     // const index = modalCourse.users.findIndex((user))
-      res.json(modalCourse);
+      //const test;
+      const index = modalCourse.students.findIndex((user) => user === user);
+      //if(index == -1)test = "-1";
+      res.json(index);
     });
 
   },
