@@ -35,6 +35,7 @@
           name="wiederholer"
           :class="{ error: v$.wiederholer.$error }"
           @blur="v$.wiederholer.$touch()"
+          :disabled="!isEditable"
         >
           <option
             v-for="option in this.wiederholerOptions"
@@ -51,7 +52,7 @@
         </div>
       </form>
     </div>
-    <button @click="deleteCoursePriority()" class="prioButton" >
+    <button @click="deleteCoursePriority()" :class="{ prioButtonDisable: !isEditable, prioButton: isEditable}" :disabled="!isEditable">
       Prio löschen
     </button>
   </div>
@@ -186,6 +187,12 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   margin: 0;
 }
 .prioButton{
+  text-decoration: underline;
+  place-content: center;
+  background: none;
+  border:none;
+}
+.prioButtonDisable{
   text-decoration: underline;
   place-content: center;
   background: none;

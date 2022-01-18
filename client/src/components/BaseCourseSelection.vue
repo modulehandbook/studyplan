@@ -31,7 +31,7 @@
         />
       </div>
       <div>
-        <button class="edit">
+        <button class="edit" @click="isEditable=true">
           Ändern
         </button>
         <button @click="resetCourseSelection" class="reset" >
