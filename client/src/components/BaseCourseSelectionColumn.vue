@@ -5,7 +5,7 @@
       <div
         v-for="(course, $courseIndex) in courses"
         :key="$courseIndex"
-        draggable="true"
+        :draggable="isEditable"
         @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
         @drop.stop="moveCourse($event, $courseIndex)"    
       >
@@ -23,6 +23,9 @@
 import { mapState } from "vuex";
 
 export default {
+  isEditable:{
+    type: Boolean,
+  },
   props: {
     courses: {
       type: Array,

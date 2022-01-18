@@ -5,6 +5,7 @@
       :courses="courses"
       :other-courses="bookedCourses"
       :is-unbooked-courses="true"
+      :isEditable="isEditable"
       class="allCourses"
     />
     <div class="prioritiesBox">
