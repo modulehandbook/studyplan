@@ -3,6 +3,7 @@
         <BaseHeading><h1>Diese Kurse wollen Sie Belegen</h1></BaseHeading>
        <div
         class = "wrap">
+        <form @submit.prevent="removeChosenCourses">
          <div class="heading">
            <p>Belegte Kurse:</p>
            <div   v-for="(course) in this.courseSelection.semesterPlans[0].bookedCourses"
@@ -18,15 +19,15 @@
            <p>Zugelassene Kurse: </p>
            <div   v-for="(course,index) in this.courseSelection.semesterPlans[0].bookedCourses"
        :key = "course.key" class="zugelasseneKurse">
-              <input :name="'course' + index" :value="course.name" v-model="coursesToRemove[index]" hidden />
              <div class="zugelassenerKurs">
                <p>{{course.name}}</p>
-               <input type="checkbox" id="markCourse" name="GE">
+               <input type="checkbox" id="markCourse" v-model="coursesToRemove[index]" name="GE">
              </div>
              <br>
            </div>
          </div>
-         <button class="button" onclick="removeChosenCourses()"> Delete marked courses</button>
+         <button class="button" type="submit"> Delete marked courses</button>
+        </form>
        </div>
     </div>
 </template>
@@ -70,8 +71,8 @@ export default {
         }
     },
     removeChosenCourses(){
-      this.coursesToRemove.forEach((course) => {
-        console.log(course);
+      this.coursesToRemove.forEach((course, index) => {
+        console.log(`${this.courseSelection.semesterPlans[0].bookedCourses[index].name} should be removed ${course}`);
       });
     }
   }
