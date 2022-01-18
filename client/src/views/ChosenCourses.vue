@@ -70,11 +70,12 @@ export default {
           console.log("checked")
         }
     },
-    removeChosenCourses(){
+    async removeChosenCourses(){
       let helperArray = []
       this.coursesToRemove.forEach((course, index) => {
         if(course)helperArray.push(this.courseSelection.semesterPlans[0].bookedCourses[index]);
       });
+      await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user});
     }
   }
 }

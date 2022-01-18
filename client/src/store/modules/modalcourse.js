@@ -163,10 +163,15 @@ export const actions = {
   },
   async removeUserfromCourses({commit, rootGetters}, {coursesToRemoveUserFrom, user}){
     try{
-      commit("SET_Pending", true);
+      commit("SET_PENDING", true);
       const semester = rootGetters["semester/getCurrentSemester"];
-      const response = await ModalCourseService.removeUserFromCourses(semester, coursesToRemoveUserFrom, user);
-      console.log(response.data);
+      let responses = [];
+      coursesToRemoveUserFrom.forEach(async (courseToRemoveFrom) => {
+        const response = await ModalCourseService.removeUserFromCourse(semester, courseToRemoveFrom, user);
+        responses.push(response.data);
+      });
+    
+      console.log(responses.data);
     } catch (error) {
       const notification = {
         type: "error",
