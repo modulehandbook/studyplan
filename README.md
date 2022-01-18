@@ -120,6 +120,13 @@ To deploy vue-app and node-server to the production-server, do the following:
 
 4. run ```./deploy deploy```
 
+### Enviroment Variables
+
+- Non-secret variables are stored inside ```ecosystem.config.js```
+
+* Secret variables are stored in a file, which path ist defined as env-variable in ```ecosytem.config.js``` (```SECRET_PATH```).  
+In ```secrets.js``` should be all variables defined, that are listed in ```secrets.js.example```.
+
 ## Additional information
 * You may want not always prefix the docker commands with ```sudo```, so look [here](https://docs.docker.com/engine/install/linux-postinstall/).
 * In ```docker-dev-db``` the local database is stored. To reset remove the directory.
