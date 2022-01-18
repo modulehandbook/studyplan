@@ -131,11 +131,11 @@
     <div v-else class="no-course-wrapper">
       <BaseHeading>
         <h2 class="no-course-headline">
-          Zurzeit gibt es keine Kurse
+          Noch keine Kurse gewählt.
         </h2></BaseHeading
       >
       <span class="no-course-text">
-        Bitte kommen Sie später wieder, wenn Sie den Kurs ausgewählt haben.
+        Bitte wähle zuerst welche unter „Kursbelegung“.
       </span>
     </div>
   </div>
@@ -355,7 +355,7 @@ export default {
   margin: 40px auto;
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 200px;
   background: #ffffff;
   border: 5px solid #7eb726;
   box-sizing: border-box;
