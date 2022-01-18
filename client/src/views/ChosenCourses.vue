@@ -17,7 +17,7 @@
 
          <div class="heading2">
            <p>Zugelassene Kurse: </p>
-           <div   v-for="(course,index) in this.courseSelection.semesterPlans[0].bookedCourses"
+           <div   v-for="(course,index) in assignedCourses"
        :key = "course.key" class="zugelasseneKurse">
              <div class="zugelassenerKurs">
                <p>{{course.name}}</p>
@@ -55,13 +55,14 @@ export default {
       });
     this.pending = false;
     await this.$store.dispatch("modalcourse/fetchCourses");
-    const test = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id || this.user._id);
-    console.log(test);
+    this.assignedCourses = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id || this.user._id);
+    console.log( this.assignedCourses);
     //console.log(this.courseSelection);
   },
   data(){
     return{
       coursesToRemove: [],
+      assignedCourses: [],
       pending: false,
     }
   },
