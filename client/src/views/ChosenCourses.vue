@@ -17,9 +17,9 @@
            </div>
          </div>
 
-         <div class="courses-block courses-block--approved">
+         <div v-if="this.user" class="courses-block courses-block--approved">
            <h2>Zugelassene Kurse: </h2>
-           <div   v-for="(course,index) in this.assignedCourses(this.user.id)"
+           <div   v-for="(course,index) in this.assignedCourses(this.user.id || this.user._id)"
        :key = "course.key" class="courses-content">
              <div class="courses-content-label">
                <p>{{course.code}}</p>
@@ -60,11 +60,13 @@ export default {
       .catch((e) => {
         console.log(e);
       });
-    this.pending = false;
+    await this.$store.dispatch("semester/fetchSemesters");
     await this.$store.dispatch("modalcourse/fetchCourses");
+    this.pending = false;
+   
    // this.assignedCourses = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id || this.user._id);
     //console.log( this.assignedcourses(this.user.id));
-    console.log(this.assignedCourses(this.user.id));
+    console.log(this.assignedCourses(this.user.id || this.user.id));
     //console.log(this.courseSelection);
   },
   data(){
@@ -85,10 +87,11 @@ export default {
     async removeChosenCourses(){
       let helperArray = []
       this.coursesToRemove.forEach((course, index) => {
-        if(course)helperArray.push(this.assignedCourses(this.user.id)[index]);
+        if(course)helperArray.push(this.assignedCourses(this.user.id || this.user._id)[index]);
       });
       //helperArray.push({code: "VC1"});
       await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user.id || this.user._id,});
+      this.coursesToRemove = [];
     }
   }
 }
