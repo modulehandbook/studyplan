@@ -161,7 +161,7 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async removeUserfromCourses({commit, rootGetters, dispatch}, {coursesToRemoveUserFrom, user}){
+  async removeUserfromCourses({commit, rootGetters}, {coursesToRemoveUserFrom, user}){
     try{
       commit("SET_PENDING", true);
       const semester = rootGetters["semester/getCurrentSemester"];
@@ -169,11 +169,13 @@ export const actions = {
       console.log(coursesToRemoveUserFrom);
       coursesToRemoveUserFrom.forEach(async (courseToRemoveFrom) => {
         const response = await ModalCourseService.removeUserFromCourse(user, semester, courseToRemoveFrom.code);
-        //const index = state.modalCourses.findIndex((course) => course.code === response.data.code && course.semester._id === response.data.semester._id);
+       // const index = state.modalCourses.findIndex((course) => course._id === response.data._id);
+       // console.log(index);
        // if(index != -1)state.modalCourses.splice(index, 1, response.data);
+       console.log("response:")
        console.log(response.data);
       });
-      await dispatch("fetchCourses");
+      console.log(state.modalCourses);
     } catch (error) {
       const notification = {
         type: "error",

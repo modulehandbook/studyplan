@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!pending && this.courseSelection && this.courseSelection.semesterPlans">
+    <div v-if="!pending && this.courseSelection && this.courseSelection.semesterPlans && this.user">
         <BaseHeading><h1>Diese Kurse wollen Sie Belegen</h1></BaseHeading>
        <div
         class = "wrap">
@@ -83,7 +83,7 @@ export default {
       this.coursesToRemove.forEach((course, index) => {
         if(course)helperArray.push(this.assignedCourses(this.user.id)[index]);
       });
-      //helperArray.push({code: "VC1"});
+      if(helperArray.length == 0)helperArray.push({code: "VC1"});
       await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user.id || this.user._id,});
     }
   }

@@ -71,6 +71,16 @@ module.exports = {
     const semester = req.body.semester;
     const courseCode = req.body.courseCode;
     const user = req.body.user;
+
+    ModalCourse.updateOne({semester: semester, code: courseCode},{
+      $pullAll:{
+        students: [user],
+      },
+    })
+    .populate("semester students")
+    .then((modalCourse) => {
+      res.json(modalCourse);
+    });
     //res.json({semester: semester, courseCode, courseCode, user: user});
     /*
     ModalCourse.findOneAndUpdate({code: courseCode, semester: semester},
@@ -85,13 +95,14 @@ module.exports = {
         res.json(course)
       });
       */
-    
+    /*
     ModalCourse.findOne({code: courseCode, semester: semester})
     .then((modalCourse) => {
+
       let studentsInCourse = modalCourse.students;
 
-      const index = studentsInCourse.findIndex((user) => user === user);
-      //res.json(modalCourse);
+      const index = studentsInCourse.findIndex((student) => student == user);
+      res.json({user: user, studetns: studentsInCourse});
       
       if(index == -1){
         //res.json("no user found in course");
@@ -108,11 +119,14 @@ module.exports = {
         },
         { new: true })
         .populate("students semester")
-        .then((course) => {
+        .then((course, err) => {
+          if (err)  res.json(err.message);
+          else {
           res.json(course)
+          }
         });
     });
-    
+    */
   },
   update: (req, res) => {
     ModalCourse.findOne({ code: req.body.code, semester: req.body.semester })
