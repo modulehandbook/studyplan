@@ -153,6 +153,21 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  async updateCourseSelectionReasons({state, commit, dispatch}, {mappedCourses}){
+    commit("SET_PENDING", true);
+    try{
+      let selectionReasonsHelper = [];
+      mappedCourses.forEach((mappedCourse) => {
+        selectionReasonsHelper.push({code: mappedCourse.code, reason: mappedCourse.selectionReason});
+      });
+      state.courseSelection.selectionReasons = selectionReasonsHelper;
+      await dispatch("updateCourseSelection");
+    }catch (error) {
+
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },
 
   async fillEmptyCourseSelectionWithCourses({ state, rootGetters, dispatch }) {
     let helperArrayForSemesterPlans = [];

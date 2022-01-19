@@ -30,7 +30,7 @@ const mongoose = require("mongoose"),
           selectionReasons: [
             {
               code: String,
-              reason: string
+              reason: String,
             },
           ],
         },
