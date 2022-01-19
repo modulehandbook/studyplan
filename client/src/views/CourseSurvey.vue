@@ -126,7 +126,16 @@
         <p class="survey-time">Umfrageschluss: dd/mm/yyyy</p>
       </div>
     </form>
-    <p v-else>komm wieder wenn du kurse gewaehlt hast</p>
+    <div v-else class="no-course-wrapper">
+      <BaseHeading>
+        <h2 class="no-course-headline">
+          Noch keine Kurse gewählt.
+        </h2></BaseHeading
+      >
+      <span class="no-course-text">
+        Bitte wähle zuerst welche unter „Kursbelegung“.
+      </span>
+    </div>
   </div>
 </template>
 
@@ -330,5 +339,22 @@ export default {
 
 .input-text {
   margin-left: 10px;
+}
+
+.no-course-wrapper {
+  width: 700px;
+  border-radius: 20px;
+  color: black;
+  text-align: center;
+  padding: 10px 10px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  background: #ffffff;
+  border: 5px solid #7eb726;
+  box-sizing: border-box;
+  box-shadow: 6px 6px 18px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
 }
 </style>

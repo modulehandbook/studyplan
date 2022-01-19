@@ -3,51 +3,6 @@
 const User = require("../model/user"),
   ModalCourse = require("../model/modalCourse");
 module.exports = {
-  create: (req, res) => {
-    let modalCourseParams = {
-      name: req.body.name,
-      code: req.body.code,
-      semester: req.body.semester,
-      availablePlaces: req.body.availablePlaces,
-      students: [],
-      reasonsForSelection: {
-        teacher: 0,
-        time: 0,
-        interest: 0,
-        easy: 0,
-        careerRelevant: 0,
-        other: 0,
-      },
-      info: {
-        CTS: 5,
-        language: "Deutsch",
-        contents: ["lernen", "Ueben"],
-        learningOutcomes: ["schalauer sein", "mental breakdown"],
-        recommendedRequirements: ["programmieren", "computer"],
-        currentTopic: "",
-        examType: "Pruefung",
-        SWS: "420",
-        professor: "Prof. Musterperson",
-        room: "HC420",
-      },
-    };
-    ModalCourse.create(modalCourseParams)
-      .then((modalCourse) => {
-        res.json(modalCourse);
-      })
-      .catch((error) => {
-        console.log(`Error saving ModalCourse: ${error.message}`);
-        return;
-      });
-  },
-  delete: (req) => {
-    ModalCourse.findByIdAndRemove(req.params.id)
-      .then(async () => {})
-      .catch((error) => {
-        console.log(`Error deleting ModalCourse by ID: ${error.message}`);
-        return;
-      });
-  },
   show: (req, res) => {
     ModalCourse.findById(req.params.id)
       .then((modalCourse) => {
@@ -170,6 +125,54 @@ module.exports = {
         console.log(`error updating modalCourse: ${error.message}`);
       });
   },
+  //////////////////////////////////////////////
+  // create and delete are deprecated for now. Courses will be added directly to th Database via Seed.
+  //////////////////////////////////////////////
+  /*create: (req, res) => {
+    let modalCourseParams = {
+      name: req.body.name,
+      code: req.body.code,
+      semester: req.body.semester,
+      availablePlaces: req.body.availablePlaces,
+      students: [],
+      reasonsForSelection: {
+        teacher: 0,
+        time: 0,
+        interest: 0,
+        easy: 0,
+        careerRelevant: 0,
+        other: 0,
+      },
+      info: {
+        CTS: 5,
+        language: "Deutsch",
+        contents: ["lernen", "Ueben"],
+        learningOutcomes: ["schalauer sein", "mental breakdown"],
+        recommendedRequirements: ["programmieren", "computer"],
+        currentTopic: "",
+        examType: "Pruefung",
+        SWS: "420",
+        professor: "Prof. Musterperson",
+        room: "HC420",
+      },
+    };
+    ModalCourse.create(modalCourseParams)
+      .then((modalCourse) => {
+        res.json(modalCourse);
+      })
+      .catch((error) => {
+        console.log(`Error saving ModalCourse: ${error.message}`);
+        return;
+      });
+  },
+  delete: (req) => {
+    ModalCourse.findByIdAndRemove(req.params.id)
+      .then(async () => {})
+      .catch((error) => {
+        console.log(`Error deleting ModalCourse by ID: ${error.message}`);
+        return;
+      });
+  },*/
   updateAll: (req, res) => {
     let semesterId = req.params.id;
     ModalCourse.find({ semester: semesterId })

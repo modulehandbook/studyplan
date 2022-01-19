@@ -2,6 +2,10 @@
 node_modules
 dist
 
+#tmp deployment files
+log.txt
+tmp-node
+tmp-vue
 
 # local env files
 .env
