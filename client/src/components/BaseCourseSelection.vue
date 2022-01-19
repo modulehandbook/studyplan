@@ -12,7 +12,7 @@
       <div class="addPriorities">
         <h3>Ziehe deine Kurse per Drag&amp;Drop hier rein</h3>
         <div>
-          <button @click="addPriority" class="button">
+          <button @click="addPriority" class="button" :disabled="!isEditable">
             <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
           </button>
           <p>Prio hinzufügen</p>
@@ -207,7 +207,7 @@ $htwGruen: #76b900;
     padding:0.5rem;
     border:none;
     border-radius: 0.25rem;
-    background:rgb(163, 223, 145);
+    background:rgb(145, 201, 223);
     font-weight: 600;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
