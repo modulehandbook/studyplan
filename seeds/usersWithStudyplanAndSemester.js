@@ -37,6 +37,23 @@ async function loadUser() {
     await Semester.create(semesterData[semester]);
   }
 
+  const userData = [
+    new User({
+      username: "test",
+      password: bcrypt.hashSync("test", 8),
+      email: "test@mail.de",
+      isVerified: true,
+    }),
+    new User({
+      username: "admin",
+      password: bcrypt.hashSync("admin", 8),
+      email: "admin@mail.de",
+      isVerified: true,
+      isAdmin: true,
+    }),
+  ];
+
+  const users = await User.create(userData);
   const ModalCourseData = [
     {
       name: "AI for Games",
@@ -185,7 +202,7 @@ async function loadUser() {
   const sem = await Semester.findOne({ name: "SoSe22" });
 
   for (let course of ModalCourseData) {
-    course.students = [];
+    course.students = [userData[0]._id];
     course.reasonsForSelection = {
       teacher: 0,
       time: 0,
@@ -195,6 +212,7 @@ async function loadUser() {
       other: 0,
     };
     course.semester = sem._id;
+
     await ModalCourse.create(course);
   }
 
@@ -215,23 +233,7 @@ async function loadUser() {
     },
   });
 
-  const userData = [
-    new User({
-      username: "test",
-      password: bcrypt.hashSync("test", 8),
-      email: "test@mail.de",
-      isVerified: true,
-    }),
-    new User({
-      username: "admin",
-      password: bcrypt.hashSync("admin", 8),
-      email: "admin@mail.de",
-      isVerified: true,
-      isAdmin: true,
-    }),
-  ];
-
-  const users = await User.create(userData);
+  
 
   console.log("----");
   console.log("database seeded with:");
