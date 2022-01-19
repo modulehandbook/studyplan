@@ -27,6 +27,12 @@ const mongoose = require("mongoose"),
               priority: Number,
             },
           ],
+          selectionReasons: [
+            {
+              code: String,
+              reason: string
+            },
+          ],
         },
       ],
     },
