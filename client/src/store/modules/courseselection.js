@@ -160,10 +160,15 @@ export const actions = {
       mappedCourses.forEach((mappedCourse) => {
         selectionReasonsHelper.push({code: mappedCourse.code, reason: mappedCourse.selectionReason});
       });
-      state.courseSelection.selectionReasons = selectionReasonsHelper;
+      state.courseSelection.semesterPlans[0].selectionReasons = selectionReasonsHelper;
       await dispatch("updateCourseSelection");
     }catch (error) {
-
+      const notification = {
+        type: "error",
+        message:
+          "There was a problem updating a reason for courseSelection: " + error.message,
+      };
+      console.log(notification);
     } finally {
       commit("SET_PENDING", false);
     }

@@ -199,6 +199,7 @@ export default {
     */
     return {
       pending: false,
+      surveyTaken: false,
       courses: defaultCourses,
       test: [],
       surveys: [
@@ -248,9 +249,11 @@ export default {
         });
       });
       console.log(mappedCourses);
-      await this.$store.dispatch("modalcourse/updateSelectionReasons", {
+      await this.$store.dispatch("courseselection/updateCourseSelectionReasons", {
         mappedCourses,
       });
+      console.log("courseselection");
+      console.log(this.courseSelection);
     },
   },
 };
