@@ -1,10 +1,10 @@
 <template>
-    <div v-if="!pending && this.courseSelection && this.courseSelection.semesterPlans && this.user">
+    <div v-if="!pending  && this.user ">
         <BaseHeading><h1>Diese Kurse wollen Sie Belegen</h1></BaseHeading>
-       <div
+       <div 
         class = "wrap">
         <form @submit.prevent="removeChosenCourses">
-         <div class="heading">
+         <div class="heading" v-if="this.courseSelection && this.courseSelection.semesterPlans">
            <p>Belegte Kurse:</p>
            <div   v-for="(course) in this.courseSelection.semesterPlans[0].bookedCourses"
        :key = "course.key" class="belegteKurse">
@@ -15,9 +15,9 @@
            </div>
          </div>
 
-         <div class="heading2">
+         <div v-if="this.assignedCourses(this.user.id)" class="heading2">
            <p>Zugelassene Kurse: </p>
-           <div   v-for="(course,index) in this.assignedCourses(this.user.id)"
+           <div   v-for="(course,index) in this.assignedCourses(this.user.id || this.user._id)"
        :key = "course.key" class="zugelasseneKurse">
              <div class="zugelassenerKurs">
                <p>{{course.name}}</p>
@@ -56,8 +56,10 @@ export default {
       .catch((e) => {
         console.log(e);
       });
-    this.pending = false;
+    console.log({_id: this.user._id, id: this.user.id});
     await this.$store.dispatch("modalcourse/fetchCourses");
+    this.pending = false;
+  
    // this.assignedCourses = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id || this.user._id);
     //console.log( this.assignedcourses(this.user.id));
     console.log(this.assignedCourses(this.user.id));
@@ -83,8 +85,8 @@ export default {
       this.coursesToRemove.forEach((course, index) => {
         if(course)helperArray.push(this.assignedCourses(this.user.id)[index]);
       });
-      if(helperArray.length == 0)helperArray.push({code: "VC1"});
       await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user.id || this.user._id,});
+      this.coursesToRemove = [];
     }
   }
 }
