@@ -29,26 +29,28 @@
     :key="$courseIndex"
     >
     <form name="form" v-if="course.code != ''">
-      <label for="wiederholer">Wiederholer</label>
-        <select
-          v-model="wiederholer"
-          name="wiederholer"
-          :class="{ error: v$.wiederholer.$error }"
+     <div :class="{ error: v$.wiederholer.$error}">
+        <label label for="yes">Wiederholer:      Ja</label>
+        <input  
+                
           @blur="v$.wiederholer.$touch()"
           :disabled="!isEditable"
-        >
-          <option
-            v-for="option in this.wiederholerOptions"
-            :key="option.name"
-            :value="option.value"
-          >
-            {{ option.name }}
-          </option>
-        </select>
-        <div v-if="v$.wiederholer.$error">
-          <p class="error-message">
-            Gib an, ob du Wiederholer bist.
-          </p>
+                type="radio"
+                v-model="wiederholer"
+                :id="ja+$courseIndex"
+                :name="test+$courseIndex"
+                :value="true"
+              />
+        <label label for="no">Nein</label>
+        <input
+                @blur="v$.wiederholer.$touch()"
+                :disabled="!isEditable"
+                type="radio"
+                v-model="wiederholer"
+                :id="nein+$courseIndex"
+                :name="test+$courseIndex"
+                :value="false"
+              />
         </div>
       </form>
     </div>
@@ -71,10 +73,6 @@ export default {
     return {
 
       wiederholer: null,
-      wiederholerOptions: [
-        { name: "ja", value: true },
-        { name: "nein", value: false },
-      ],
     };
   },
 

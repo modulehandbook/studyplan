@@ -37,15 +37,20 @@
         <button @click="resetCourseSelection" class="reset" :disabled="!isEditable">
           Zurücksetzen
         </button>
-        <button :disabled="v$.$invalid" class="save" @click="isEditable=false">
+        <button :disabled="v$.$invalid || !isEditable" class="save" @click="isEditable=false">
           Speichern
         </button>
       </div>
       <p class="instruction">
-          Bitte tätige alle Angaben wahrheitsgemäß! Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
+          <u class="tooltip">Wiederholer
+            <span class="tooltiptext">Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal belegt wurde. Weitere Informationen finden Sie auf der Hilfe Seite.</span>
+          </u>
+          <br> <br>
+          Bitte tätige alle Angaben wahrheitsgemäß!
+          Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
           Angaben führen zur Abmeldung aller Kurse.
-        <br> <br>
-        <u>Bitte fülle alle Felder aus oder entferne leere Felder.</u>
+          <br> <br>
+        	<u>Bitte fülle alle Felder aus oder entferne leere Felder.</u>
         </p>
     </div>
   </div>
@@ -97,7 +102,27 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
+.tooltip {
+  color:rgb(24, 24, 156);
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  //padding: 5px 0;
+  padding: 5px;
 
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 .instruction{
   margin-bottom: 1.5rem;
   margin-left: 3rem;
