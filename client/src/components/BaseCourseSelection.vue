@@ -19,19 +19,19 @@
         </div>
       </div>
       <div class="scroll">
-        <BaseCourseSelectionRow
-          class="priorities"
-          v-for="course in bookedCourses"
-          :key="course"
-          :course-priority="course.priority"
-          :courses="[course]"
-          :other-courses="courses"
-          :is-unbooked-courses="false"
-          :isEditable="isEditable"
-        />
+      <BaseCourseSelectionRow
+        class="priorities"
+        v-for="course in bookedCourses"
+        :key="course"
+        :course-priority="course.priority"
+        :courses="[course]"
+        :other-courses="courses"
+        :is-unbooked-courses="false"
+        :isEditable="isEditable"
+      />
       </div>
       <div>
-        <button class="edit" @click="isEditable=true" :disabled="isEditable" >
+        <button class="edit" @click="isEditable=true" :disabled="isEditable">
           Ändern
         </button>
         <button @click="resetCourseSelection" class="reset" :disabled="!isEditable">
@@ -41,7 +41,7 @@
           Speichern
         </button>
       </div>
-      <p class="instruction">
+        <p class="instruction"> 
           <u class="tooltip">Wiederholer
             <span class="tooltiptext">Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal belegt wurde. Weitere Informationen finden Sie auf der Hilfe Seite.</span>
           </u>
@@ -58,6 +58,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
+
 export default {
   setup() {
     return { v$: useVuelidate() };
@@ -131,18 +132,17 @@ $htwGruen: #76b900;
   font-size: x-small;
   color:rgb(34, 34, 34);
   max-width: 20rem;
-  //justify-content: right;
 }
 .error-message {
   color: #f8153d;
   margin-bottom: 30px;
   margin-top: 0;
 }
-.button {
+.button{
   text-decoration: none;
   background: white;
   border: none;
-  padding: 0px;
+  padding:0px;
   border-radius: 5rem;
 }
 .button:hover {
@@ -155,6 +155,7 @@ $htwGruen: #76b900;
   grid-column-start: 2;
   grid-column-end: 2;
   flex: auto;
+  //padding-bottom: 0.5rem;
   min-width: 20rem;
   border-radius: 0.5rem;
   margin: 0.75rem;

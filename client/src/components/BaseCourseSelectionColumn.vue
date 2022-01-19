@@ -2,19 +2,20 @@
   <div @drop.stop="moveCourse($event, 0)" @dragover.prevent @dragenter.prevent>
     <h3>Internationaler Studiengang Medieninformatik</h3>
     <div class="border">
-      <div
-        v-for="(course, $courseIndex) in courses"
-        :key="$courseIndex"
-        :draggable="isEditable"
-        @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
-        @drop.stop="moveCourse($event, $courseIndex)"    
-      >
-        <div>
-         <p class="ub-content">
-            {{ course.code }} {{ course.name }}
-          </p>
-        </div>
+    <div
+      v-for="(course, $courseIndex) in courses"
+      :key="$courseIndex"
+      :draggable="isEditable"
+      @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
+      @drop.stop="moveCourse($event, $courseIndex)"
+      
+    >
+      <div>
+        <p class="ub-content">
+          {{ course.code }} {{ course.name }}
+        </p>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -23,10 +24,10 @@
 import { mapState } from "vuex";
 
 export default {
-  isEditable:{
+  props: {
+    isEditable:{
     type: Boolean,
   },
-  props: {
     courses: {
       type: Array,
       default: () => [],
