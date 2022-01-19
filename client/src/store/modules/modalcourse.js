@@ -161,7 +161,7 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async removeUserfromCourses({commit, rootGetters}, {coursesToRemoveUserFrom, user}){
+  async removeUserfromCourses({commit, rootGetters, dispatch}, {coursesToRemoveUserFrom, user}){
     try{
       commit("SET_PENDING", true);
       const semester = rootGetters["semester/getCurrentSemester"];
@@ -174,6 +174,7 @@ export const actions = {
        // if(index != -1)state.modalCourses.splice(index, 1, response.data);
        console.log("response:")
        console.log(response.data);
+       await dispatch("fetchCourses");
       });
       console.log(state.modalCourses);
     } catch (error) {
@@ -184,6 +185,7 @@ export const actions = {
           error.message,
       };
       console.log(notification);
+      
     } finally {
       commit("SET_PENDING", false);
     }
