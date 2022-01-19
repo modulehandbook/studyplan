@@ -1,21 +1,17 @@
 <template>
   <div @drop.stop="moveCourse($event, 0)" @dragover.prevent @dragenter.prevent>
     <h3>Internationaler Studiengang Medieninformatik</h3>
-    <div class="border">
     <div
+      class="courses"
       v-for="(course, $courseIndex) in courses"
       :key="$courseIndex"
       :draggable="isEditable"
       @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
       @drop.stop="moveCourse($event, $courseIndex)"
-      
     >
       <div>
-        <p class="ub-content">
-          {{ course.code }} {{ course.name }}
-        </p>
+        <p>{{ course.code }}<br />{{ course.name }}</p>
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -25,9 +21,9 @@ import { mapState } from "vuex";
 
 export default {
   props: {
-    isEditable:{
-    type: Boolean,
-  },
+    isEditable: {
+      type: Boolean,
+    },
     courses: {
       type: Array,
       default: () => [],
@@ -86,16 +82,18 @@ export default {
 <style lang="scss" scoped>
 $htwGruen: #76b900;
 $belegtBackground: rgba(253, 177, 62, 0.55);
-.ub-content{
-  display: flex;
-  align-items: center;
-  padding-bottom: 10px;
-}
-.border{
-  border-left-style: solid;
-  border-right-style: solid;
-  padding-left: 5px;
-  border-width: 1px;
-  border-color: #b3b3b3;
+
+.courses {
+  margin-left: auto;
+  margin-right: auto;
+  width: 12rem;
+  border-style: solid;
+  border-radius: 20px;
+  border-width: 0.125rem;
+  border-color: #7c7c7c;
+  color: black;
+  text-align: center;
+  padding: 0.5rem 0.5rem;
+  margin-bottom: 1rem;
 }
 </style>
