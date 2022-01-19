@@ -56,14 +56,12 @@ export default {
       .catch((e) => {
         console.log(e);
       });
-    console.log({_id: this.user._id, id: this.user.id});
     await this.$store.dispatch("modalcourse/fetchCourses");
      await this.$store.dispatch("semester/fetchSemesters");
     this.pending = false;
   
    // this.assignedCourses = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id || this.user._id);
     //console.log( this.assignedcourses(this.user.id));
-    console.log(this.assignedCourses(this.user.id));
     //console.log(this.courseSelection);
   },
   data(){

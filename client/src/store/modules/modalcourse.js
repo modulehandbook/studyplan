@@ -165,10 +165,6 @@ export const actions = {
     try{
       commit("SET_PENDING", true);
       const semester = rootGetters["semester/getCurrentSemester"];
-     // let responses = [];
-      console.log(coursesToRemoveUserFrom);
-      console.log("semester:");
-      console.log(semester);
       coursesToRemoveUserFrom.forEach(async (courseToRemoveFrom) => {
         const response = await ModalCourseService.removeUserFromCourse(user, semester, courseToRemoveFrom.code);
        // const index = state.modalCourses.findIndex((course) => course._id === response.data._id);
