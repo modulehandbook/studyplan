@@ -58,6 +58,7 @@ export default {
       });
     console.log({_id: this.user._id, id: this.user.id});
     await this.$store.dispatch("modalcourse/fetchCourses");
+     await this.$store.dispatch("semester/fetchSemesters");
     this.pending = false;
   
    // this.assignedCourses = this.$store.getters["modalcourse/getCoursesByUser"](this.user.id || this.user._id);
@@ -83,7 +84,7 @@ export default {
     async removeChosenCourses(){
       let helperArray = []
       this.coursesToRemove.forEach((course, index) => {
-        if(course)helperArray.push(this.assignedCourses(this.user.id)[index]);
+        if(course)helperArray.push(this.assignedCourses(this.user.id || this.user._id)[index]);
       });
       await this.$store.dispatch("modalcourse/removeUserfromCourses", {coursesToRemoveUserFrom: helperArray, user: this.user.id || this.user._id,});
       this.coursesToRemove = [];
