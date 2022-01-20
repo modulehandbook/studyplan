@@ -78,9 +78,7 @@ export const actions = {
     try {
       commit("SET_PENDING", true);
       state.courseSelection = {
-        testNumber: 55,
       };
-      state.courseSelection.testNumber = 55;
       const response = await CourseSelectionService.createCourseSelection(
         state.courseSelection
       );
@@ -91,6 +89,7 @@ export const actions = {
         {
           unbookedCourses: [],
           bookedCourses: [],
+          selectionReasons: [],
         },
       ];
       await dispatch("resetCoursePriority2", {});
