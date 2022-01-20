@@ -1,5 +1,4 @@
 <!--source https://www.digitalocean.com/community/tutorials/vuejs-vue-modal-component -->
-
 <template>
   <div>
     <BaseModal :route="'/courseselection'">
@@ -18,6 +17,7 @@
         <BaseCourseSelectionWindowContent
           v-if="!pending"
           :course="modalcourse"
+          :semester="semester"
         />
       </template>
     </BaseModal>
@@ -31,7 +31,7 @@ export default {
   emits: ["close"],
   data() {
     return {
-      semester: {
+        semester: {
         type: Object,
       },
       pending: false,
@@ -40,13 +40,16 @@ export default {
   },
   computed: {
     ...mapState("modalcourse", ["modalcourse"]),
+    ...mapGetters("semester", ["getSemesterByName"]),
   },
   async created() {
     this.pending = true;
     document.documentElement.style.overflow = "hidden";
+    this.semester = this.getSemesterByName(this.$route.params.semester);
 
     await this.$store.dispatch("modalcourse/fetchCourse", {
       code: this.$route.params.code,
+      semester: this.semester ? this.semester.name : undefined,
     });
     this.pending = false;
   },

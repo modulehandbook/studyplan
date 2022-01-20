@@ -12,15 +12,16 @@
       <router-link
         class="courseContentContainer"
         :to="{
-          name: 'baseCourseSelectionDetails',
+          name:'baseCourseSelectionDetails',
           params: {
             code: course.code,
+            semester: semester,
           },
         }"
       >
-        <div>
-          <p>{{ course.code }}<br />{{ course.name }}</p>
-        </div>
+      <div>
+        <p>{{ course.code }}<br />{{ course.name }}</p>
+      </div>
       </router-link>
     </div>
   </div>
@@ -31,6 +32,9 @@ import { mapState } from "vuex";
 
 export default {
   props: {
+    semester: {
+      type: Object,
+    },
     isEditable: {
       type: Boolean,
     },
@@ -106,4 +110,15 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   padding: 0.5rem 0.5rem;
   margin-bottom: 1rem;
 }
+.courseContentContainer{
+  transform: translate(0, 0);
+  min-height: 87px;
+  border-radius: 14px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+}
 </style>
+

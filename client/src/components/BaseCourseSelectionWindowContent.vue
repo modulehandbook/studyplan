@@ -17,6 +17,10 @@ export default {
       type: Object,
       required: true,
     },
+    semester: {
+      type: Object,
+      required: false,
+    },
   },
   data() {
     return {

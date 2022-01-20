@@ -93,7 +93,7 @@ const routes = [
     component: CourseSelection,
     children: [
       {
-        path: ":code",
+        path: ":semester/:code",
         component: BaseCourseSelectionDetailsWindow,
         name: "baseCourseSelectionDetails",
       },

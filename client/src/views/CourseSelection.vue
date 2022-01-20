@@ -1,6 +1,6 @@
 <template>
   <div v-if="!pending">
-    <div v-if="stage.currentStage === 'COURSE-SELECTION'">
+    <!-- <div v-if="stage.currentStage === 'COURSE-SELECTION'"> -->
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
       >
@@ -8,10 +8,11 @@
           v-show="!pending"
           :courses="courseSelection.semesterPlans[0].unbookedCourses"
           :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
+          :semester="currSemester"
         />
       </div>
-      <router-view></router-view>
-      <div>Verbleibende Zeit: {{ time }}</div>
+      <router-view></router-view> 
+      <!-- <div>Verbleibende Zeit: {{ time }}</div> -->
       <div v-if="courseSelection == null">
         <button
           @click="addCourseSelection"
@@ -20,15 +21,15 @@
         </button>
         <p>Kurswahl hinzufuegen</p>
       </div>
-    </div>
-    <div v-if="stage.currentStage !== 'COURSE-SELECTION'">
+    <!-- </div> -->
+    <!-- <div v-if="stage.currentStage !== 'COURSE-SELECTION'">
       <p>Die Belegungsphase ist geschlossen</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { mapState, useStore } from "vuex";
+import { mapState, useStore, mapGetters } from "vuex";
 import { computed } from "vue";
 import moment from "moment";
 
@@ -50,6 +51,9 @@ export default {
     ...mapState("program", ["program"]),
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user", ["user"]),
+    ...mapGetters({
+      currSemester: "semester/getCurrentSemester"
+    }),
 
     time() {
       const deadline = new Date(this.stage.nextDates.evaluation.date);
@@ -73,6 +77,7 @@ export default {
       console.log(this.modalCourses);
     }
     this.pending = false;
+    console.log(this.currSemester);
   },
   methods: {
     addCourseSelection() {
