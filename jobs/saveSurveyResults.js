@@ -2,8 +2,6 @@ const Stage = require("../model/stage");
 const ModalCourse = require("../model/modalCourse");
 const User = require("../model/user");
 require("../model/semester");
-require("../model/studyPlan");
-require("../model/courseSelection");
 
 module.exports.saveSurveyResults = async () => {
   const stage = await Stage.find()
@@ -63,7 +61,6 @@ module.exports.saveSurveyResults = async () => {
       if (semPlan == undefined) return;
       parseReasons(finalReasons, semPlan.selectionReasons);
     });
-  console.log(finalReasons);
 
   for (const course in finalReasons) {
     await ModalCourse.updateOne(
