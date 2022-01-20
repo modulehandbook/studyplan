@@ -9,9 +9,19 @@
       @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
       @drop.stop="moveCourse($event, $courseIndex)"
     >
+      <router-link
+        class="courseContentContainer"
+        :to="{
+          name:'baseCourseSelectionDetails',
+          params: {
+            code: course.code,
+          },
+        }"
+      >
       <div>
         <p>{{ course.code }}<br />{{ course.name }}</p>
       </div>
+      </router-link>
     </div>
   </div>
 </template>
