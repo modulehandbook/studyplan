@@ -36,6 +36,8 @@ const mongoose = require("mongoose"),
         other: Number,
       },
       availablePlaces: Number,
+      program: String,
+      semesterInProgram: [Number],
     },
     {
       timestamps: true,

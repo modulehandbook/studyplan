@@ -212,6 +212,8 @@ async function loadUser() {
       other: 0,
     };
     course.semester = sem._id;
+    course.program = "IMI-B";
+    course.semesterInProgram = [5, 6];
 
     await ModalCourse.create(course);
   }
