@@ -3,7 +3,7 @@ ModalCourse = require("../model/modalCourse"),
 CourseSelection = require("../model/courseSelection"),
 Semester = require("../model/semester"),
 
-mongoose = require("mongoose"),
+mongoose = require("mongoose");
 
 const mongo = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
 mongoose
@@ -18,8 +18,45 @@ mongoose
 
   async function loadCourseSelection(){
     await CourseSelection.deleteMany({});
+    await Semester.findOne({name: "SoSe22"})
+    .then(async (semester) => {
+      let users = await User.find();
+      const courses = await ModalCourse.find();
+      let unbookedCourses = [];
+      courses.forEach((course) => {
+        unbookedCourses.push({code: course.code, name: course.name, ects: 5});
+      });
+      let newCourseSelection = {
+        semesterPlans: [
+          {
+            semester: semester._id,
+            unbookedCourses: unbookedCourses,
+            bookedCourses: [],
+            selectionReasons: [],
+          },
+        ],
+      };
+      const courseSelection = await (await CourseSelection.create(newCourseSelection)).populate("semesterPlans.semester");
+      console.log(JSON.stringify(courseSelection));
+      /*users.forEach(async (user) =>{
+        const test = await User.findByIdAndUpdate(user._id, 
+          {
+            $set: {
+              courseSelection: newCourseSelection,
+            },
+          },
+          {new: true}).populate("courseSelection");
+          console.log(test)
+      });*/
+      console.log(users);
+    });
+    //console.log(`found the current semester: ${currSemester.name}`);
 
-    
 
 
   }
+  loadCourseSelection().then(() => {
+    mongoose.disconnect();
+    console.log("database connection closed after seeding.");
+  });
+  
