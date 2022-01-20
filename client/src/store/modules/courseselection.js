@@ -157,7 +157,7 @@ export const actions = {
     try{
       let selectionReasonsHelper = [];
       mappedCourses.forEach((mappedCourse) => {
-        selectionReasonsHelper.push({code: mappedCourse.code, reason: mappedCourse.selectionReason});
+        selectionReasonsHelper.push({code: mappedCourse.code, reasons: [mappedCourse.selectionReason], other: undefined });
       });
       state.courseSelection.semesterPlans[0].selectionReasons = selectionReasonsHelper;
       await dispatch("updateCourseSelection");

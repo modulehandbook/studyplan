@@ -87,7 +87,10 @@ module.exports = {
     });
     */
   },
-  update: (req, res) => {
+  /*************************************************************************************
+   * Deprecated because the Survey results are saved later in a Job
+   */
+  /*update: (req, res) => {
     ModalCourse.findOne({ code: req.body.code, semester: req.body.semester })
       .then((modalCourse) => {
         let selectionReasons = modalCourse.reasonsForSelection;
@@ -112,7 +115,6 @@ module.exports = {
               res.json(modalCourso);
             }
           });
-        /*
       modalCourse.save((err) => {
         if (err) {
           console.log(err.message);
@@ -121,12 +123,11 @@ module.exports = {
           res.json(modalCourse);
         }
       });
-      */
       })
       .catch((error) => {
         console.log(`error updating modalCourse: ${error.message}`);
       });
-  },
+  },/*
   //////////////////////////////////////////////
   // create and delete are deprecated for now. Courses will be added directly to th Database via Seed.
   //////////////////////////////////////////////
