@@ -229,11 +229,9 @@ async function loadUser() {
         { date: "2022-01-14" },
       ],
       courseResult: [{ date: "2022-01-18" }],
-      currentStage: sem._id,
     },
+    currentSemester: sem._id,
   });
-
-  
 
   console.log("----");
   console.log("database seeded with:");

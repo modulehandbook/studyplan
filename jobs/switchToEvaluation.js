@@ -28,8 +28,8 @@ const { algo } = require("./algorithm/algoV1");
       console.log(err);
     });
 
-  const data = await getData(mongoose);
-  updateDB(mongoose, algo(data));
+  const data = await getData();
+  updateDB(algo(data));
 
   if (parentPort) parentPort.postMessage("done");
   else process.exit(0);
