@@ -262,7 +262,7 @@ export const actions = {
     const coursesInThisSemester = rootGetters["modalcourse/getCourses"].filter(
       (course) => course.semester.name == currSemester.name
     );
-    state.courseSelection.semesterPlans[0].semester;
+    state.courseSelection.semesterPlans[0].semester = currSemester;
     coursesInThisSemester.forEach((modalCourse) => {
       test.push({
         code: modalCourse.code,
