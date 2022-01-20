@@ -10,6 +10,7 @@
           :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
         />
       </div>
+      <router-view></router-view>
       <div>Verbleibende Zeit: {{ time }}</div>
       <div v-if="courseSelection == null">
         <button

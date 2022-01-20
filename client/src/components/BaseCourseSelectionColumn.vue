@@ -12,15 +12,15 @@
       <router-link
         class="courseContentContainer"
         :to="{
-          name:'baseCourseSelectionDetails',
+          name: 'baseCourseSelectionDetails',
           params: {
             code: course.code,
           },
         }"
       >
-      <div>
-        <p>{{ course.code }}<br />{{ course.name }}</p>
-      </div>
+        <div>
+          <p>{{ course.code }}<br />{{ course.name }}</p>
+        </div>
       </router-link>
     </div>
   </div>

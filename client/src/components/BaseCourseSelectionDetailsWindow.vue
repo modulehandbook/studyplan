@@ -17,7 +17,7 @@
         <pulse-loader :loading="pending" :color="color"></pulse-loader>
         <BaseCourseSelectionWindowContent
           v-if="!pending"
-          :course="course"
+          :course="modalcourse"
         />
       </template>
     </BaseModal>
@@ -39,13 +39,13 @@ export default {
     };
   },
   computed: {
-    ...mapState("course", ["course"]),
+    ...mapState("modalcourse", ["modalcourse"]),
   },
   async created() {
     this.pending = true;
     document.documentElement.style.overflow = "hidden";
 
-    await this.$store.dispatch("course/fetchCourse", {
+    await this.$store.dispatch("modalcourse/fetchCourse", {
       code: this.$route.params.code,
     });
     this.pending = false;
