@@ -19,6 +19,7 @@
         @drop.stop="moveCourse($event, $courseIndex)"
       >
       <router-link
+        v-if="course.code != ''"
         class="courseContentContainer"
         :to="{
           name:'baseCourseSelectionDetails',
@@ -244,5 +245,15 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   color: #f8153d;
   margin-bottom: 30px;
   margin-top: 0;
+}
+.courseContentContainer{
+  transform: translate(0, 0);
+  min-height: 87px;
+  border-radius: 14px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
 }
 </style>
