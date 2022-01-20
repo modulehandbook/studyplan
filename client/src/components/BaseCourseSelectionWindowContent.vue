@@ -2,9 +2,43 @@
   <div class="course-details">
     <h1 class="course-details-code">{{ course.code }}</h1>
     <h2 class="course-details-name">{{ course.name }}</h2>
-
+    <h2 v-if="semester" class="course-details-semestername">
+      {{ semester.name }}
+    </h2>
     <!-- Allgemeine Informationen -->
+   
+    <div v-if="course.info.professor">
+      <h3>Zuständige Person</h3>
+      <p>{{ course.info.professor }}</p>
+    </div>
 
+    <div v-if="course.info.room">
+      <h3>Raum</h3>
+      <p>{{ course.info.room }}</p>
+    </div>
+
+    <div v-if="course.info.contents">
+      <h3>Inhalte</h3>
+      <p>{{ course.info.contents }}</p>
+    </div>
+    <div v-if="course.info.CTS">
+      <h3>CTS</h3>
+      <p>{{ course.info.CTS }}</p>
+    </div>
+    <div v-if="course.info.learningOutcomes">
+      <h3>Gewünschte Ergebnisse</h3>
+      <p>{{ course.info.learningOutcomes }}</p>
+    </div>
+
+    <div v-if="course.info.examType">
+      <h3>Prüfungsform</h3>
+      <p>{{ course.info.examType }}</p>
+    </div>
+
+    <div v-if="course.info.recommendRequirements">
+      <h3>Voraussetzungen</h3>
+      <p>{{ course.info.recommendRequirements }}</p>
+    </div>
 
     <router-view></router-view>
   </div>
