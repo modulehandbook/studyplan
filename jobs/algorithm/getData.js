@@ -1,9 +1,9 @@
 const Stage = require("../../model/stage");
 const ModalCourse = require("../../model/modalCourse");
 const User = require("../../model/user");
-const CourseSelection = require("../../model/courseSelection");
 const Semester = require("../../model/semester");
-const Studyplan = require("../../model/studyPlan");
+require("../../model/studyPlan");
+require("../../model/courseSelection");
 
 module.exports.getData = async () => {
   const data = {};
@@ -43,13 +43,17 @@ module.exports.getData = async () => {
       console.log(err);
     });
 
+  const modalCourse = await ModalCourse.find()
+    .populate("semester")
+    .exec()
+    .catch((err) => {
+      console.log(err);
+    });
+
   // add current Semester
   data.currentSemester = stage[0].currentSemester.name;
-  data.users = [];
 
-  console.log(semesters);
-  console.log(stage);
-  console.log(users[0].courseSelection.semesterPlans);
+  data.users = [];
   users
     .filter((user) => user.courseSelection !== undefined)
     .filter((user) => user.courseSelection.semesterPlans !== undefined)
@@ -58,27 +62,40 @@ module.exports.getData = async () => {
       const newUser = {};
       newUser.email = user.email;
       newUser.isPreferred = user.isPreferred;
+      newUser.program = user.studyPlan.program.code;
+      newUser.maxCourses = undefined; //TODO
       newUser.semester = calcSemesterDiff(
         user.startOfStudy.name,
         data.currentSemester,
         semesters
       );
-      newUser.program = user.studyPlan.program.code;
       newUser.bookedCourses = {};
       const semPlan = user.courseSelection.semesterPlans.find((plan) => {
         if (plan.semester == undefined) return false;
         return plan.semester.name == data.currentSemester;
       });
+      if (semPlan == undefined) return;
       newUser.bookedCourses = semPlan.bookedCourses.map((course) => {
-        const o = {};
-        o.code = course.code;
-        o.priority = course.priority;
-        o.isRepeater = undefined; //TODO
-        return o;
+        return {
+          code: course.code,
+          priority: course.priority,
+          isRepeater: undefined, //TODO
+        };
       });
       data.users.push(newUser);
     });
-  console.log(data);
+
+  data.courses = [];
+  modalCourse
+    .filter((course) => course.semester.name == data.currentSemester)
+    .forEach((course) => {
+      const newCousre = {};
+      newCousre.code = course.code;
+      newCousre.availablePlaces = course.availablePlaces;
+      newCousre.program = course.program;
+      newCousre.semesterInProgram = course.semesterInProgram;
+      data.courses.push(newCousre);
+    });
   return data;
 };
 

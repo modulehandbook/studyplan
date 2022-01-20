@@ -29,7 +29,7 @@ const { algo } = require("./algorithm/algoV1");
     });
 
   const data = await getData();
-  updateDB(algo(data));
+  await updateDB(algo(data), data.currentSemester);
 
   if (parentPort) parentPort.postMessage("done");
   else process.exit(0);
