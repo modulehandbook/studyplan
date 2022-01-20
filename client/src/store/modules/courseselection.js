@@ -78,9 +78,7 @@ export const actions = {
     try {
       commit("SET_PENDING", true);
       state.courseSelection = {
-        testNumber: 55,
       };
-      state.courseSelection.testNumber = 55;
       const response = await CourseSelectionService.createCourseSelection(
         state.courseSelection
       );
@@ -91,6 +89,7 @@ export const actions = {
         {
           unbookedCourses: [],
           bookedCourses: [],
+          selectionReasons: [],
         },
       ];
       await dispatch("resetCoursePriority2", {});
@@ -147,6 +146,26 @@ export const actions = {
         type: "error",
         message:
           "There was a problem updating a courseSelection: " + error.message,
+      };
+      console.log(notification);
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },
+  async updateCourseSelectionReasons({state, commit, dispatch}, {mappedCourses}){
+    commit("SET_PENDING", true);
+    try{
+      let selectionReasonsHelper = [];
+      mappedCourses.forEach((mappedCourse) => {
+        selectionReasonsHelper.push({code: mappedCourse.code, reason: mappedCourse.selectionReason});
+      });
+      state.courseSelection.semesterPlans[0].selectionReasons = selectionReasonsHelper;
+      await dispatch("updateCourseSelection");
+    }catch (error) {
+      const notification = {
+        type: "error",
+        message:
+          "There was a problem updating a reason for courseSelection: " + error.message,
       };
       console.log(notification);
     } finally {
@@ -366,5 +385,14 @@ export const getters = {
     return state.courseSelection.semesterPlans[0].bookedCourses.find(
       (course) => course.priority === priority
     );
+  },
+  getSurveyState: (state) => {
+    if(!state.courseSelection || !state.courseSelection.semesterPlans ||
+      state.courseSelection.semesterPlans[0].selectionReasons.length !=state.courseSelection.semesterPlans[0].bookedCourses.length)return false;
+    let reti = true;
+    state.courseSelection.semesterPlans[0].selectionReasons.forEach((course, index) => {
+      if(course.code !== state.courseSelection.semesterPlans[0].bookedCourses[index].code) reti = false;
+    });
+    return reti;
   },
 };
