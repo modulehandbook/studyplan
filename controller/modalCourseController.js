@@ -27,17 +27,19 @@ module.exports = {
     const courseCode = req.body.courseCode;
     const user = req.body.user;
 
-    ModalCourse.updateOne({semester: semester, code: courseCode},
+    ModalCourse.updateOne(
+      { semester: semester, code: courseCode },
       {
-        $pullAll:{
+        $pullAll: {
           students: [user],
         },
       },
-      {new: true})
-    .populate("semester students")
-    .then((modalCourse) => {
-      res.json(modalCourse);
-    });
+      { new: true }
+    )
+      .populate("semester students")
+      .then((modalCourse) => {
+        res.json(modalCourse);
+      });
     //res.json({semester: semester, courseCode, courseCode, user: user});
     /*
     ModalCourse.findOneAndUpdate({code: courseCode, semester: semester},
