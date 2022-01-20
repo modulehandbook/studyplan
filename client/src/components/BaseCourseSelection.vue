@@ -6,6 +6,7 @@
       :other-courses="bookedCourses"
       :is-unbooked-courses="true"
       :isEditable="isEditable"
+      :semester="semester"
       class="allCourses"
     />
     <div class="prioritiesBox">
@@ -69,6 +70,9 @@ export default {
     };
   },
   props: {
+    semester: {
+      type: Object,
+    },
     courses: {
       type: Array,
       default: () => [],
@@ -188,7 +192,7 @@ $htwGruen: #76b900;
     font-weight: 600;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
-  .save {
+    .save {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     margin-left: 1.5rem;
@@ -200,8 +204,8 @@ $htwGruen: #76b900;
     background:rgb(163, 223, 145);
     font-weight: 600;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  }
-  .edit {
+    }
+    .edit {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     padding:0.5rem;
@@ -210,7 +214,7 @@ $htwGruen: #76b900;
     background:rgb(145, 201, 223);
     font-weight: 600;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  }
+    }
 }
 
 .allCourses {
