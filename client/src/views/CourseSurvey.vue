@@ -3,7 +3,7 @@
     <div v-if="this.hasTakenSurvey" class="no-course-wrapper">
       <BaseHeading>
         <h2 class="no-course-headline">
-          Danke Für Das Teilnehmen an der Umfrage!
+          Danke für die Teilnahme an der Umfrage!
         </h2></BaseHeading
       >
       <span class="no-course-text">
