@@ -37,13 +37,14 @@ async function loadUser() {
     await Semester.create(semesterData[semester]);
   }
 
-  const userData = [
+  let userData = [
     new User({
       username: "test",
       password: bcrypt.hashSync("test", 8),
       email: "test@mail.de",
       isVerified: true,
     }),
+  
     new User({
       username: "admin",
       password: bcrypt.hashSync("admin", 8),
@@ -52,7 +53,15 @@ async function loadUser() {
       isAdmin: true,
     }),
   ];
-
+  for(let i = 0; i < 10; i++){
+    userData.push(new User({
+      username: `test${i}`,
+      password: bcrypt.hashSync("test", 8),
+      email: `test${i}@mail.de`,
+      isVerified: true,
+      isAdmin: false,
+    }));
+  }
   const users = await User.create(userData);
   const ModalCourseData = [
     {

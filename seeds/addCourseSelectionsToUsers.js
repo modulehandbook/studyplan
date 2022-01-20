@@ -39,7 +39,13 @@ mongoose
       const courseSelection = await (await CourseSelection.create(newCourseSelection)).populate("semesterPlans.semester");
       console.log(JSON.stringify(courseSelection));
       users.forEach(async (user) =>{
-      console.log(users[0]._id);
+        await User.findByIdAndUpdate(user._id, 
+          {
+            $set: {
+              courseSelection: courseSelection._id,
+            },
+          },
+          {new: true});
       });
       await User.findByIdAndUpdate(users[0]._id, 
         {
