@@ -38,20 +38,18 @@ mongoose
       };
       const courseSelection = await (await CourseSelection.create(newCourseSelection)).populate("semesterPlans.semester");
       console.log(JSON.stringify(courseSelection));
-      /*users.forEach(async (user) =>{
-        const test = await User.findByIdAndUpdate(user._id, 
-          {
-            $set: {
-              courseSelection: newCourseSelection,
-            },
+      users.forEach(async (user) =>{
+      console.log(users[0]._id);
+      });
+      await User.findByIdAndUpdate(users[0]._id, 
+        {
+          $set: {
+            courseSelection: courseSelection._id,
           },
-          {new: true}).populate("courseSelection");
-          console.log(test)
-      });*/
-      console.log(users);
-    });
+        },
+        {new: true});
     //console.log(`found the current semester: ${currSemester.name}`);
-
+    });
 
 
   }
