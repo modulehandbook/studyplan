@@ -1,11 +1,11 @@
-const Stage = require("../../model/stage");
-const ModalCourse = require("../../model/modalCourse");
-const User = require("../../model/user");
-require("../../model/semester");
-require("../../model/studyPlan");
-require("../../model/courseSelection");
+const Stage = require("../model/stage");
+const ModalCourse = require("../model/modalCourse");
+const User = require("../model/user");
+require("../model/semester");
+require("../model/studyPlan");
+require("../model/courseSelection");
 
-module.exports.getData = async () => {
+module.exports.saveSurveyResults = async () => {
   const stage = await Stage.find()
     .populate("currentSemester")
     .exec()
@@ -35,24 +35,21 @@ module.exports.getData = async () => {
       console.log(err);
     });
 
-  const finalReasons = [];
+  const currentSemester = stage[0].currentSemester.name;
+  const finalReasons = {};
 
   modalCourse
     .filter((course) => course.semester.name == currentSemester)
     .forEach((course) => {
-      finalReasons.push({
-        code: course.code,
-        reasons: {
-          teacher: 0,
-          time: 0,
-          interest: 0,
-          easy: 0,
-          careerRelevant: 0,
-          other: [],
-        },
-      });
+      finalReasons[course.code] = {
+        teacher: 0,
+        time: 0,
+        interest: 0,
+        easy: 0,
+        careerRelevant: 0,
+        other: [],
+      };
     });
-  const currentSemester = stage[0].currentSemester.name;
 
   users
     .filter((user) => user.courseSelection !== undefined)
@@ -66,18 +63,32 @@ module.exports.getData = async () => {
       if (semPlan == undefined) return;
       parseReasons(finalReasons, semPlan.selectionReasons);
     });
+  console.log(finalReasons);
 
-  for (const finalReason of finalReasons) {
+  for (const course in finalReasons) {
     await ModalCourse.updateOne(
       {
-        code: finalReason.code,
+        code: course,
         semester: stage[0].currentSemester._id,
       },
       {
         $set: {
-          reasonsForSelection: finalReason.reasons,
+          reasonsForSelection: finalReasons[course],
         },
       }
     );
   }
+};
+
+const parseReasons = function (finalReasons, input) {
+  input.forEach((course) => {
+    if (course.code == undefined || course.code == "") return;
+    if (course.other != undefined) {
+      finalReasons[course.code].other = course.other;
+    }
+    course.reasons.forEach((reason) => {
+      if (finalReasons[course.code][reason] != undefined)
+        finalReasons[course.code][reason]++;
+    });
+  });
 };
