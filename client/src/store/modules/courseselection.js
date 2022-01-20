@@ -282,7 +282,7 @@ export const actions = {
     const coursesInThisSemester = rootGetters["modalcourse/getCourses"].filter(
       (course) => course.semester.name == currSemester.name
     );
-    state.courseSelection.semesterPlans[0].semester;
+    state.courseSelection.semesterPlans[0].semester = currSemester;
     coursesInThisSemester.forEach((modalCourse) => {
       test.push({
         code: modalCourse.code,
@@ -386,5 +386,14 @@ export const getters = {
     return state.courseSelection.semesterPlans[0].bookedCourses.find(
       (course) => course.priority === priority
     );
+  },
+  getSurveyState: (state) => {
+    if(!state.courseSelection || !state.courseSelection.semesterPlans ||
+      state.courseSelection.semesterPlans[0].selectionReasons.length !=state.courseSelection.semesterPlans[0].bookedCourses.length)return false;
+    let reti = true;
+    state.courseSelection.semesterPlans[0].selectionReasons.forEach((course, index) => {
+      if(course.code !== state.courseSelection.semesterPlans[0].bookedCourses[index].code) reti = false;
+    });
+    return reti;
   },
 };

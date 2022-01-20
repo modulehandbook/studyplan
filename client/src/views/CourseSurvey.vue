@@ -1,7 +1,18 @@
 <template>
   <div v-if="!pending">
+    <div v-if="this.hasTakenSurvey" class="no-course-wrapper">
+      <BaseHeading>
+        <h2 class="no-course-headline">
+          Danke Für Das Teilnehmen an der Umfrage!
+        </h2></BaseHeading
+      >
+      <span class="no-course-text">
+        Mit der Teilnahme an der Umfrage machst du zukünftige Belegphasen besser!
+        Wenn du deine Kurswahl nochmal änderst kannst du auch die Umfrage neu machen.
+      </span>
+    </div>
     <form
-      v-if="
+      v-else-if="
         courseSelection != null &&
         courseSelection.semesterPlans != null &&
         courseSelection.semesterPlans[0].bookedCourses.length > 0
@@ -9,7 +20,7 @@
       name="form"
       @submit.prevent="updateCourses"
     >
-      <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
+      <BaseHeading><h1>Wieso hast du den Kurs gewählt?</h1></BaseHeading>
       <div
         v-for="(course, index) in courseSelection.semesterPlans[0]
           .bookedCourses"
@@ -155,13 +166,16 @@ survey2: zeitlich bedingt
 -->
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import BaseHeading from "../components/BaseHeading.vue";
 export default {
   components: { BaseHeading },
   computed: {
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user", ["user"]),
+    ...mapGetters({
+      hasTakenSurvey: "courseselection/getSurveyState"
+    }),
   },
   async mounted() {
     this.pending = true;
@@ -169,15 +183,16 @@ export default {
       .dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       })
-      .then((test) => {
-        console.log(test);
+      .then(() => {
+        console.log("did user take survey");
+        console.log(this.hasTakenSurvey);
         this.pending = false;
       })
       .catch((e) => {
         console.log(e);
       });
 
-    //console.log(this.courseSelection);
+    
   },
   data() {
     const defaultCourses = [
@@ -254,6 +269,7 @@ export default {
       });
       console.log("courseselection");
       console.log(this.courseSelection);
+      this.surveyTaken = true;
     },
   },
 };
