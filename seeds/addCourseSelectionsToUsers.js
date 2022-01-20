@@ -18,46 +18,49 @@ mongoose
 
   async function loadCourseSelection(){
     await CourseSelection.deleteMany({});
-    await Semester.findOne({name: "SoSe22"})
-    .then(async (semester) => {
-      let users = await User.find();
-      const courses = await ModalCourse.find();
-      let unbookedCourses = [];
+    const semester = await Semester.findOne({name: "SoSe22"})
+    let users = await User.find();
+    const courses = await ModalCourse.find();
+      let coursesForSelection = [];
       courses.forEach((course) => {
-        unbookedCourses.push({code: course.code, name: course.name, ects: 5});
+        coursesForSelection.push({code: course.code, name: course.name, ects: 5});
       });
-      let newCourseSelection = {
-        semesterPlans: [
-          {
-            semester: semester._id,
-            unbookedCourses: unbookedCourses,
-            bookedCourses: [],
-            selectionReasons: [],
-          },
-        ],
-      };
-      const courseSelection = await (await CourseSelection.create(newCourseSelection)).populate("semesterPlans.semester");
-      console.log(JSON.stringify(courseSelection));
-      users.forEach(async (user) =>{
-        await User.findByIdAndUpdate(user._id, 
+      
+
+      console.log("test");
+      
+      for(let i = 0; i < users.length; i++){
+        let unbookedCourses = coursesForSelection;
+        let bookedcourses = unbookedCourses.splice(0,(Math.floor(Math.random() * unbookedCourses.length)));
+        bookedcourses.forEach((element, index) => bookedcourses[index] ={name: element.name, code: element.code,ects: element.ects, priority: index + 1});
+        let newCourseSelection = {
+          semesterPlans: [
+            {
+              semester: semester._id,
+              unbookedCourses: unbookedCourses,
+              bookedCourses: bookedcourses,
+              selectionReasons: [],
+            },
+          ],
+        };
+        const courseSelection = await CourseSelection.create(newCourseSelection);
+        let test = await User.findByIdAndUpdate(users[i]._id, 
           {
             $set: {
               courseSelection: courseSelection._id,
             },
           },
-          {new: true});
-      });
-      await User.findByIdAndUpdate(users[0]._id, 
-        {
-          $set: {
-            courseSelection: courseSelection._id,
-          },
-        },
-        {new: true});
+          {new: true},
+        ).populate("courseSelection");
+        console.log(test);
+
+      }
+
+      //console.log(JSON.stringify(courseSelection));
+      console.log("finished");
+      
     //console.log(`found the current semester: ${currSemester.name}`);
-    });
-
-
+    return ".";
   }
   loadCourseSelection().then(() => {
     mongoose.disconnect();
