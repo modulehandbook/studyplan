@@ -115,6 +115,9 @@ a {
   padding: 0.5rem 0.5rem;
   margin-bottom: 1rem;
 }
+.courses:hover {
+  background: rgba(245, 243, 243, 0.7);
+}
 .courseContentContainer{
   transform: translate(0, 0);
   min-height: 87px;

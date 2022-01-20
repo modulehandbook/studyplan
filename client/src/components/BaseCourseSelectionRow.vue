@@ -225,6 +225,12 @@ a {
   text-align: center;
   padding: 0.5rem 0.5rem;
   margin-bottom: 1rem;
+  border-color: #7c7c7c;
+  border-style: solid;
+  border-width: 0.125rem;
+}
+.gridItem2:hover {
+  background: rgba(224, 223, 223, 0.7);
 }
 
 .gridItem2Alt {
