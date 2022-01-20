@@ -3,6 +3,7 @@ const ModalCourse = require("../../model/modalCourse");
 const User = require("../../model/user");
 const CourseSelection = require("../../model/courseSelection");
 const Semester = require("../../model/semester");
+const Studyplan = require("../../model/studyPlan");
 
 module.exports.getData = async () => {
   const data = {};
@@ -26,7 +27,13 @@ module.exports.getData = async () => {
       path: "courseSelection",
       populate: {
         path: "semesterPlans",
+        populate: {
+          path: "semester",
+        },
       },
+    })
+    .populate({
+      path: "studyPlan",
     })
     .populate({
       path: "startOfStudy",
@@ -40,6 +47,9 @@ module.exports.getData = async () => {
   data.currentSemester = stage[0].currentSemester.name;
   data.users = [];
 
+  console.log(semesters);
+  console.log(stage);
+  console.log(users[0].courseSelection.semesterPlans);
   users
     .filter((user) => user.courseSelection !== undefined)
     .filter((user) => user.courseSelection.semesterPlans !== undefined)
@@ -53,11 +63,21 @@ module.exports.getData = async () => {
         data.currentSemester,
         semesters
       );
+      newUser.program = user.studyPlan.program.code;
+      newUser.bookedCourses = {};
+      const semPlan = user.courseSelection.semesterPlans.find((plan) => {
+        if (plan.semester == undefined) return false;
+        return plan.semester.name == data.currentSemester;
+      });
+      newUser.bookedCourses = semPlan.bookedCourses.map((course) => {
+        const o = {};
+        o.code = course.code;
+        o.priority = course.priority;
+        o.isRepeater = undefined; //TODO
+        return o;
+      });
       data.users.push(newUser);
     });
-  console.log(semesters);
-  console.log(stage);
-  console.log(users);
   console.log(data);
   return data;
 };
