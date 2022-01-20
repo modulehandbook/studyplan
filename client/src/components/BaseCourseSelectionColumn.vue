@@ -15,7 +15,7 @@
           name:'baseCourseSelectionDetails',
           params: {
             code: course.code,
-            semester: semester,
+            semester: semester.name,
           },
         }"
       >

@@ -16,7 +16,7 @@
         <pulse-loader :loading="pending" :color="color"></pulse-loader>
         <BaseCourseSelectionWindowContent
           v-if="!pending"
-          :course="modalcourse"
+          :course="modalCourse"
           :semester="semester"
         />
       </template>
@@ -39,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("modalcourse", ["modalcourse"]),
+    ...mapState("modalcourse", ["modalCourse"]),
     ...mapGetters("semester", ["getSemesterByName"]),
   },
   async created() {
@@ -51,7 +51,10 @@ export default {
       code: this.$route.params.code,
       semester: this.semester ? this.semester.name : undefined,
     });
+    console.log(this.modalCourse);
     this.pending = false;
+    console.log(this.$route.params.code);
+    console.log(this.semester);
   },
   async beforeUnmount() {
     document.documentElement.style.overflow = "auto";
