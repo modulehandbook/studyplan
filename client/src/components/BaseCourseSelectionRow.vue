@@ -197,6 +197,10 @@ export default {
 $htwGruen: #76b900;
 $belegtBackground: rgba(253, 177, 62, 0.55);
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
 .gridContainer {
   display: inline-grid;
   width: 20rem;
