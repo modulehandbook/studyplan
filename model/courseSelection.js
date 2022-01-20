@@ -2,15 +2,11 @@ const mongoose = require("mongoose"),
   { Schema } = mongoose,
   courseSelectionSchema = new Schema(
     {
-      testNumber: Number,
       semesterPlans: [
         {
           semester: {
             type: Schema.Types.ObjectId,
             ref: "Semester",
-          },
-          currentSemesterCount: {
-            type: Number,
           },
           unbookedCourses: [
             {
