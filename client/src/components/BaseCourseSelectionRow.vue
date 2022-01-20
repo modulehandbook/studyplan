@@ -28,6 +28,7 @@
             semester: semester.name,
           },
         }"
+        draggable="false"
       >
         <div>
           <p>{{ course.code }} {{ course.name }}</p>
