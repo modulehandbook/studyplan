@@ -28,6 +28,7 @@
         :courses="[course]"
         :other-courses="courses"
         :is-unbooked-courses="false"
+        :semester="semester"
         :isEditable="isEditable"
       />
       </div>

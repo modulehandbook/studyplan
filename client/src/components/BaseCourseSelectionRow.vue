@@ -18,9 +18,20 @@
         @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
         @drop.stop="moveCourse($event, $courseIndex)"
       >
+      <router-link
+        class="courseContentContainer"
+        :to="{
+          name:'baseCourseSelectionDetails',
+          params: {
+            code: course.code,
+            semester: semester.name,
+          },
+        }"
+      >
         <div>
           <p>{{ course.code }} {{ course.name }}</p>
         </div>
+        </router-link>
       </div>
     </div>
     <br />
@@ -29,8 +40,30 @@
     :key="$courseIndex"
     >
     <form name="form" v-if="course.code != ''">
-     <div :class="{ error: v$.wiederholer.$error}">
-        <label label for="yes">Wiederholer:      Ja</label>
+      <!-- <label label for="wiederholer">Wiederholer</label>
+      <label for="wiederholer">Wiederholer</label>
+        <select
+          v-model="wiederholer"
+          name="wiederholer"
+          :class="{ error: v$.wiederholer.$error}"
+          @blur="v$.wiederholer.$touch()"
+          :disabled="!isEditable"
+        >
+          <option
+            v-for="option in this.wiederholerOptions"
+            :key="option.name"
+            :value="option.value"
+          >
+            {{ option.name }}
+          </option>
+        </select>
+        <div v-if="v$.wiederholer.$error">
+          <p class="error-message">
+            Gib an, ob du Wiederholer bist.
+          </p>
+        </div> -->
+        <div :class="{ error: v$.wiederholer.$error}">
+        <label label for="yes"> Wiederholer:      Ja</label>
         <input  
                 
           @blur="v$.wiederholer.$touch()"
@@ -54,7 +87,7 @@
         </div>
       </form>
     </div>
-    <button @click="deleteCoursePriority()" :class="{ prioButtonDisable: !isEditable, prioButton: isEditable}" :disabled="!isEditable">
+    <button @click="deleteCoursePriority()" :class="{ prioButtonDisable: !isEditable, prioButton: isEditable}" :disabled="!isEditable" >
       Prio löschen
     </button>
   </div>
@@ -66,13 +99,17 @@ import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 
 export default {
-  setup() {
+    setup() {
     return { v$: useVuelidate() };
   },
   data() {
     return {
-
       wiederholer: null,
+      //wiederholer: [],
+      // wiederholerOptions: [
+      //   { name: "ja", value: true },
+      //   { name: "nein", value: false },
+      // ],
     };
   },
 
@@ -85,6 +122,9 @@ export default {
   },
 
   props: {
+    semester: {
+      type: Object,
+    },
     isEditable: {
       type: Boolean,
     },
@@ -164,8 +204,8 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
 .gridItem1 {
   grid-column-start: 1;
   grid-column-end: 1;
-  width: 10rem;
   padding-top:0.5rem;
+  width: 10rem;
 }
 
 .gridItem2 {
@@ -197,6 +237,7 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
   border:none;
 }
 .prioButton:hover {
+  //background-color: #4CAF50; /* Green */
   color: rgb(56, 55, 55);
 }
 .error-message {
