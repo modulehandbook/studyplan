@@ -23,21 +23,27 @@ module.exports.algo = (data) => {
      currentSemester: "SoSe22"
   };
   */
+  const calcRank = (user, course) => {
+    return; //0-5
+  };
+
   console.log(data);
-  /*
+
   let obj = {};
   data.courses.forEach((course) => {
     obj[course.code] = [];
   });
   data.users.forEach((user) => {
     user.bookeCourses.forEach((chosenCourse) => {
-      
+      obj[chosenCourse.code].push({
+        user: user.email,
+        rank: calcRank(user, chosenCourse.code),
+      });
     });
   });
-  */
+
   const solution = [
     {
-      
       code: "WT1",
       students: ["test@mail.de", "admin@mail.de"],
     },
