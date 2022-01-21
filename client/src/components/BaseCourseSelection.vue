@@ -159,6 +159,8 @@ $htwGruen: #76b900;
   color: white;
   grid-column-start: 2;
   grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
   flex: auto;
   //padding-bottom: 0.5rem;
   min-width: 20rem;
@@ -221,6 +223,8 @@ $htwGruen: #76b900;
 .allCourses {
   grid-column-start: 1;
   grid-column-end: 1;
+  grid-row-start: 1;
+  grid-row-end: 3;
   flex: auto;
   min-width: 20rem;
   margin: 0.75rem;
