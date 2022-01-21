@@ -1,3 +1,6 @@
+const util = require('util')
+
+
 module.exports.algo = (data) => {
   data.length;
   /*
@@ -23,25 +26,50 @@ module.exports.algo = (data) => {
      currentSemester: "SoSe22"
   };
   */
-  const calcRank = (user, course) => {
-    return; //0-5
-  };
-
+  const temp = {};
   console.log(data);
 
   let obj = {};
   data.courses.forEach((course) => {
-    obj[course.code] = [];
+    obj[course.code] = {
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+    };
+    temp[course.code] = course;
   });
+
+  data.courses = temp;
+  const calcRank = (user, course) => {
+    if (user.isPreferred) return 0;
+    const isRightProgram = data.courses[course.code].program === user.program;
+    if (
+      isRightProgram &&
+      data.courses[course.code].semesterInProgram.some(
+        (sem) => sem === user.semester
+      )
+    )
+      return 1; //0-5
+    if (course.isRepeater) return 2;
+    if (isRightProgram) return 3;
+    return 4;
+  };
+
   data.users.forEach((user) => {
-    user.bookeCourses.forEach((chosenCourse) => {
-      obj[chosenCourse.code].push({
-        user: user.email,
-        rank: calcRank(user, chosenCourse.code),
-      });
+    user.bookedCourses.forEach((chosenCourse) => {
+      obj[chosenCourse.code][calcRank(user, chosenCourse)].push(
+        {
+         email: user.email,
+         priority: chosenCourse.priority,
+        }
+        );
     });
   });
 
+  //console.log(obj);
+  console.log(util.inspect(obj, {showHidden: false, depth: null, colors: true}));
   const solution = [
     {
       code: "WT1",

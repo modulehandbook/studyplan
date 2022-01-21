@@ -37,6 +37,7 @@ async function loadUser() {
     await Semester.create(semesterData[semester]);
   }
   const sem = await Semester.findOne({ name: "SoSe22" });
+  const sem2 = await Semester.findOne({ name: "SoSe20" });
   let userData = [
     new User({
       username: "test",
@@ -54,7 +55,7 @@ async function loadUser() {
       isVerified: true,
       isAdmin: true,
       isPreferred: false,
-      startOfStudy: sem._id,
+      startOfStudy: sem2._id,
     }),
   ];
   for(let i = 0; i < 10; i++){
