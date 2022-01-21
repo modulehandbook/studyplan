@@ -3,7 +3,7 @@ const User = require("../model/user"),
 module.exports = {
   create: (req, res) => {
     let courseselectionParams = {
-      testNumber: req.body.testNumber,
+      semesterPlans: [],
     };
     CourseSelection.create(courseselectionParams)
       .then((courseSelection) => {

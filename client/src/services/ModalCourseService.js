@@ -15,10 +15,10 @@ export default {
   fetchModalCourse(semesterId) {
     return server.get(`modalcourse/${semesterId}`);
   },
-  updateModalCourse(code, reason, semester) {
+  removeUserFromCourse(user, semester, courseCode){
     return server.put(
-      "modalcourse/updatesurvey",
-      { code, reason, semester },
+      "modalcourse/removeoneuser",
+      {semester, courseCode, user},
       {
         headers: authHeader(),
       }
@@ -29,6 +29,15 @@ export default {
       headers: authHeader(),
     });
   },
+  /*updateModalCourse(code, reason, semester) {
+    return server.put(
+      "modalcourse/updatesurvey",
+      { code, reason, semester },
+      {
+        headers: authHeader(),
+      }
+    );
+  },*/
   // create and delete are deprecated for now. Courses will be added directly to th Database via Seed.
   /*createModalCourse(modalCourse) {
     return server.post("modalcourse/create", modalCourse, {

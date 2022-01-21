@@ -37,6 +37,23 @@ async function loadUser() {
     await Semester.create(semesterData[semester]);
   }
 
+  const userData = [
+    new User({
+      username: "test",
+      password: bcrypt.hashSync("test", 8),
+      email: "test@mail.de",
+      isVerified: true,
+    }),
+    new User({
+      username: "admin",
+      password: bcrypt.hashSync("admin", 8),
+      email: "admin@mail.de",
+      isVerified: true,
+      isAdmin: true,
+    }),
+  ];
+
+  const users = await User.create(userData);
   const ModalCourseData = [
     {
       name: "AI for Games",
@@ -185,7 +202,7 @@ async function loadUser() {
   const sem = await Semester.findOne({ name: "SoSe22" });
 
   for (let course of ModalCourseData) {
-    course.students = [];
+    course.students = [userData[0]._id];
     course.reasonsForSelection = {
       teacher: 0,
       time: 0,
@@ -195,6 +212,9 @@ async function loadUser() {
       other: 0,
     };
     course.semester = sem._id;
+    course.program = "IMI-B";
+    course.semesterInProgram = [5, 6];
+
     await ModalCourse.create(course);
   }
 
@@ -202,36 +222,18 @@ async function loadUser() {
     //TODO
     currentStage: "COURSE-SELECTION",
     nextDates: {
-      idle: [{ date: "2022-01-15" }],
-      courseSelection: [{ date: "2022-01-16" }],
+      idle: [{ date: "2023-01-15" }],
+      courseSelection: [{ date: "2023-01-16" }],
       evaluation: [
-        { date: "2022-01-17" },
-        { date: "2022-01-16" },
-        { date: "2022-01-15" },
-        { date: "2022-01-14" },
+        { date: "2023-01-17" },
+        { date: "2023-01-16" },
+        { date: "2023-01-15" },
+        { date: "2023-01-14" },
       ],
-      courseResult: [{ date: "2022-01-18" }],
-      currentStage: sem._id,
+      courseResult: [{ date: "2023-01-18" }],
     },
+    currentSemester: sem._id,
   });
-
-  const userData = [
-    new User({
-      username: "test",
-      password: bcrypt.hashSync("test", 8),
-      email: "test@mail.de",
-      isVerified: true,
-    }),
-    new User({
-      username: "admin",
-      password: bcrypt.hashSync("admin", 8),
-      email: "admin@mail.de",
-      isVerified: true,
-      isAdmin: true,
-    }),
-  ];
-
-  const users = await User.create(userData);
 
   console.log("----");
   console.log("database seeded with:");

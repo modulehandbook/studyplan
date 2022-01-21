@@ -1,7 +1,18 @@
 <template>
   <div v-if="!pending">
+    <div v-if="this.hasTakenSurvey" class="no-course-wrapper">
+      <BaseHeading>
+        <h2 class="no-course-headline">
+          Danke für die Teilnahme an der Umfrage!
+        </h2></BaseHeading
+      >
+      <span class="no-course-text">
+        Mit der Teilnahme an der Umfrage machst du zukünftige Belegphasen besser!
+        Wenn du deine Kurswahl nochmal änderst kannst du auch die Umfrage neu machen.
+      </span>
+    </div>
     <form
-      v-if="
+      v-else-if="
         courseSelection != null &&
         courseSelection.semesterPlans != null &&
         courseSelection.semesterPlans[0].bookedCourses.length > 0
@@ -9,7 +20,7 @@
       name="form"
       @submit.prevent="updateCourses"
     >
-      <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
+      <BaseHeading><h1>Wieso hast du den Kurs gewählt?</h1></BaseHeading>
       <div
         v-for="(course, index) in courseSelection.semesterPlans[0]
           .bookedCourses"
@@ -126,7 +137,16 @@
         <p class="survey-time">Umfrageschluss: dd/mm/yyyy</p>
       </div>
     </form>
-    <p v-else>komm wieder wenn du kurse gewaehlt hast</p>
+    <div v-else class="no-course-wrapper">
+      <BaseHeading>
+        <h2 class="no-course-headline">
+          Noch keine Kurse gewählt.
+        </h2></BaseHeading
+      >
+      <span class="no-course-text">
+        Bitte wähle zuerst welche unter „Kursbelegung“.
+      </span>
+    </div>
   </div>
 </template>
 
@@ -146,13 +166,16 @@ survey2: zeitlich bedingt
 -->
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import BaseHeading from "../components/BaseHeading.vue";
 export default {
   components: { BaseHeading },
   computed: {
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user", ["user"]),
+    ...mapGetters({
+      hasTakenSurvey: "courseselection/getSurveyState"
+    }),
   },
   async mounted() {
     this.pending = true;
@@ -160,15 +183,16 @@ export default {
       .dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       })
-      .then((test) => {
-        console.log(test);
+      .then(() => {
+        console.log("did user take survey");
+        console.log(this.hasTakenSurvey);
         this.pending = false;
       })
       .catch((e) => {
         console.log(e);
       });
 
-    //console.log(this.courseSelection);
+    
   },
   data() {
     const defaultCourses = [
@@ -190,6 +214,7 @@ export default {
     */
     return {
       pending: false,
+      surveyTaken: false,
       courses: defaultCourses,
       test: [],
       surveys: [
@@ -239,9 +264,12 @@ export default {
         });
       });
       console.log(mappedCourses);
-      await this.$store.dispatch("modalcourse/updateSelectionReasons", {
+      await this.$store.dispatch("courseselection/updateCourseSelectionReasons", {
         mappedCourses,
       });
+      console.log("courseselection");
+      console.log(this.courseSelection);
+      this.surveyTaken = true;
     },
   },
 };
@@ -330,5 +358,22 @@ export default {
 
 .input-text {
   margin-left: 10px;
+}
+
+.no-course-wrapper {
+  width: 700px;
+  border-radius: 20px;
+  color: black;
+  text-align: center;
+  padding: 10px 10px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  background: #ffffff;
+  border: 5px solid #7eb726;
+  box-sizing: border-box;
+  box-shadow: 6px 6px 18px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
 }
 </style>

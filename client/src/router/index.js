@@ -1,9 +1,10 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import ExampleStudyPlan from "../views/ExampleStudyPlan.vue";
 import Login from "../views/Login.vue";
 import StudyPlan from "../views/StudyPlan.vue";
 import Help from "../views/Help.vue";
 import CourseSelection from "../views/CourseSelection.vue";
+import ChosenCourses from "../views/ChosenCourses.vue";
 import CourseSurvey from "../views/CourseSurvey.vue";
 import ModalCourse from "../views/ModalCourse.vue";
 import Profile from "../views/Profile.vue";
@@ -100,6 +101,11 @@ const routes = [
     ],
   },
   {
+    path: "/mycourses",
+    name: "myCourses",
+    component: ChosenCourses,
+  },
+  {
     path: "/coursesurvey",
     name: "CourseSurvey",
     component: CourseSurvey,
@@ -151,7 +157,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(""),
+  history: createWebHistory(""),
   routes,
 });
 
