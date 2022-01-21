@@ -36,13 +36,15 @@ async function loadUser() {
   for (let semester in semesterData) {
     await Semester.create(semesterData[semester]);
   }
-
+  const sem = await Semester.findOne({ name: "SoSe22" });
   let userData = [
     new User({
       username: "test",
       password: bcrypt.hashSync("test", 8),
       email: "test@mail.de",
+      isPreferred: true,
       isVerified: true,
+      startOfStudy: sem._id,
     }),
   
     new User({
@@ -51,6 +53,8 @@ async function loadUser() {
       email: "admin@mail.de",
       isVerified: true,
       isAdmin: true,
+      isPreferred: false,
+      startOfStudy: sem._id,
     }),
   ];
   for(let i = 0; i < 10; i++){
@@ -60,6 +64,8 @@ async function loadUser() {
       email: `test${i}@mail.de`,
       isVerified: true,
       isAdmin: false,
+      isPreferred: false,
+      startOfStudy: sem._id,
     }));
   }
   const users = await User.create(userData);
@@ -208,7 +214,7 @@ async function loadUser() {
     },
   ];
 
-  const sem = await Semester.findOne({ name: "SoSe22" });
+ 
 
   for (let course of ModalCourseData) {
     course.students = [userData[0]._id];

@@ -26,7 +26,15 @@ mongoose
       courses.forEach((course) => {
         coursesForSelection.push({code: course.code, name: course.name, ects: 5});
       });
-      
+     
+      const studyplan = {
+        program:  {
+          code:"IMI-B",
+          name:"Internationale Medieninformatik B",
+          version:"StuPo 28/12"
+          },
+          semesterPlans: [],
+      };
       for(let i = 0; i < users.length; i++){
         let unbookedCourses = [];
         coursesForSelection.forEach((course) => unbookedCourses.push(course));
@@ -42,11 +50,13 @@ mongoose
             },
           ],
         };
+        const createdStudyPlan = await StudyPlan.create(studyplan);
         const courseSelection = await CourseSelection.create(newCourseSelection);
         let test = await User.findByIdAndUpdate(users[i]._id, 
           {
             $set: {
               courseSelection: courseSelection._id,
+              studyPlan: createdStudyPlan._id,
             },
           },
           {new: true},
