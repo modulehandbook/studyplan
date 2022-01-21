@@ -243,7 +243,7 @@ async function loadUser() {
     },
     currentSemester: sem._id,
   });
-
+  //console.log(sem);
   console.log("----");
   console.log("database seeded with:");
   console.log("----");

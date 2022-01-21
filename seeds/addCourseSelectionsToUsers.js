@@ -2,7 +2,7 @@ const User = require("../model/user"),
 ModalCourse = require("../model/modalCourse"),
 CourseSelection = require("../model/courseSelection"),
 Semester = require("../model/semester"),
-
+StudyPlan = require("../model/studyPlan"),
 mongoose = require("mongoose");
 
 const mongo = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
@@ -18,6 +18,7 @@ mongoose
 
   async function loadCourseSelection(){
     await CourseSelection.deleteMany({});
+    await StudyPlan.deleteMany({});
     const semester = await Semester.findOne({name: "SoSe22"})
     let users = await User.find();
     const courses = await ModalCourse.find();

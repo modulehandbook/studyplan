@@ -13,15 +13,18 @@ module.exports.getData = async () => {
     .catch((err) => {
       console.log(err);
     });
+  //only Semester Names remain
   semesters = semesters.map((sem) => sem.name);
-
+  //I guess all Stages get fetched. to retrieve the current semester
+  //
   const stage = await Stage.find()
     .populate("currentSemester")
     .exec()
     .catch((err) => {
       console.log(err);
     });
-
+  /*
+  */
   const users = await User.find()
     .populate({
       path: "courseSelection",
@@ -50,7 +53,8 @@ module.exports.getData = async () => {
       console.log(err);
     });
 
-  // add current Semester
+  // add current Semester - damn(leonard)
+  //console.log(stage[0]);
   data.currentSemester = stage[0].currentSemester.name;
 
   data.users = [];
@@ -69,7 +73,6 @@ module.exports.getData = async () => {
         data.currentSemester,
         semesters
       );
-      newUser.bookedCourses = {};
       const semPlan = user.courseSelection.semesterPlans.find((plan) => {
         if (plan.semester == undefined) return false;
         return plan.semester.name == data.currentSemester;
