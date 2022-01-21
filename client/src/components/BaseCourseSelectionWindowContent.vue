@@ -6,7 +6,7 @@
       {{ semester.name }}
     </h2>
     <!-- Allgemeine Informationen -->
-   
+
     <div v-if="course.info.professor">
       <h3>Zuständige Person</h3>
       <p>{{ course.info.professor }}</p>
@@ -19,7 +19,9 @@
 
     <div v-if="course.info.contents">
       <h3>Inhalte</h3>
-      <p>{{ course.info.contents }}</p>
+      <div v-for="content in course.info.contents" :key="content.id">
+        <p>{{ content }}</p>
+      </div>
     </div>
     <div v-if="course.info.CTS">
       <h3>CTS</h3>
@@ -27,7 +29,9 @@
     </div>
     <div v-if="course.info.learningOutcomes">
       <h3>Gewünschte Ergebnisse</h3>
-      <p>{{ course.info.learningOutcomes }}</p>
+      <div v-for="content in course.info.learningOutcomes" :key="content.id">
+        <p>{{ content }}</p>
+      </div>
     </div>
 
     <div v-if="course.info.examType">
