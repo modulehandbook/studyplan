@@ -225,9 +225,10 @@ a {
   text-align: center;
   padding: 0.5rem 0.5rem;
   margin-bottom: 1rem;
-  border-color: #7c7c7c;
-  border-style: solid;
-  border-width: 0.125rem;
+  // border-color: #7c7c7c;
+  // border-style: solid;
+  // border-width: 0.125rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 .gridItem2:hover {
   background: rgba(224, 223, 223, 0.7);
