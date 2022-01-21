@@ -30,8 +30,9 @@ mongoose
       console.log("test");
       
       for(let i = 0; i < users.length; i++){
-        let unbookedCourses = coursesForSelection;
-        let bookedcourses = unbookedCourses.sort((a, b) => 0.5 - Math.random()).splice(0,(Math.floor(Math.random() * unbookedCourses.length)));
+        let unbookedCourses = [];
+        coursesForSelection.forEach((course) => unbookedCourses.push(course));
+        let bookedcourses = unbookedCourses.sort((a, b) => 0.5 - Math.random()).splice(0,(Math.floor(Math.random() * (unbookedCourses.length) + 1)));
         bookedcourses.forEach((element, index) => bookedcourses[index] ={name: element.name, code: element.code,ects: element.ects, priority: index + 1});
         let newCourseSelection = {
           semesterPlans: [
