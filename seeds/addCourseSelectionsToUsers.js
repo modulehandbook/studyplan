@@ -26,9 +26,6 @@ mongoose
         coursesForSelection.push({code: course.code, name: course.name, ects: 5});
       });
       
-
-      console.log("test");
-      
       for(let i = 0; i < users.length; i++){
         let unbookedCourses = [];
         coursesForSelection.forEach((course) => unbookedCourses.push(course));
