@@ -27,11 +27,10 @@ module.exports.algo = (data) => {
   };
   */
   const temp = {};
-  console.log(data);
 
-  let obj = {};
+  let rankedCourses = {};
   data.courses.forEach((course) => {
-    obj[course.code] = {
+    rankedCourses[course.code] = {
       0: [],
       1: [],
       2: [],
@@ -59,7 +58,7 @@ module.exports.algo = (data) => {
 
   data.users.forEach((user) => {
     user.bookedCourses.forEach((chosenCourse) => {
-      obj[chosenCourse.code][calcRank(user, chosenCourse)].push(
+      rankedCourses[chosenCourse.code][calcRank(user, chosenCourse)].push(
         {
          email: user.email,
          priority: chosenCourse.priority,
@@ -67,9 +66,26 @@ module.exports.algo = (data) => {
         );
     });
   });
-
-  //console.log(obj);
-  console.log(util.inspect(obj, {showHidden: false, depth: null, colors: true}));
+/*
+for (const item of Object.entries(items)) {
+  console.log(item)
+}*/
+  for(const [courseCode, course] of Object.entries(rankedCourses)){
+    studentsInCourse = [];
+    //console.log(course);
+    //console.log(rankedCourses[courseCode]);
+    for(const [rank, studentList] of Object.entries(course)){
+      //console.log(studentList[1]);
+      let remainingPlaces = data.courses[courseCode].availablePlaces - studentsInCourse.length;
+      //console.log(remainingPlaces);
+      const sortedStudents = studentList.sort(() => 0.5 - Math.random()).sort((student1, student2) => student1.priority - student2.priority);
+      //console.log(sortedStudents);
+      studentsInCourse.push(...sortedStudents.splice(0, remainingPlaces));
+    }
+    console.log(studentsInCourse);
+  }
+  //console.log(rankedCourses);
+  console.log(util.inspect(data, {showHidden: false, depth: null, colors: true}));
   const solution = [
     {
       code: "WT1",
