@@ -11,13 +11,7 @@
     />
     <div class="prioritiesBox">
       <div class="addPriorities">
-        <h3>Ziehe deine Kurse per Drag&amp;Drop hier rein</h3>
-        <div>
-          <button @click="addPriority" class="button" :disabled="!isEditable">
-            <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
-          </button>
-          <p>Prio hinzufügen</p>
-        </div>
+        <h3>Kursauswahl</h3>
       </div>
       <div class="scroll">
       <BaseCourseSelectionRow
@@ -33,6 +27,12 @@
       />
       </div>
       <div>
+        <div>
+          <button @click="addPriority" class="button" :disabled="!isEditable">
+            <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
+          </button>
+          <p>Prio hinzufügen</p>
+        </div>
         <button class="edit" @click="isEditable=true" :disabled="isEditable">
           Ändern
         </button>
@@ -43,18 +43,30 @@
           Speichern
         </button>
       </div>
-        <p class="instruction"> 
-          <u class="tooltip">Wiederholer
-            <span class="tooltiptext">Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal belegt wurde. Weitere Informationen finden Sie auf der Hilfe Seite.</span>
-          </u>
-          <br> <br>
-          Bitte tätige alle Angaben wahrheitsgemäß!
-          Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
-          Angaben führen zur Abmeldung aller Kurse.
-          <br> <br>
-        	<u>Bitte fülle alle Felder aus oder entferne leere Felder.</u>
-        </p>
     </div>
+    <button class="infoButton" @click="showInfo=true">
+      Mehr Informationen
+    </button>
+    <transition name="slide" appear >
+      <div class="info" v-if="showInfo"> 
+        <h2>Wiederholer</h2>
+        <p>Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal belegt wurde. Weitere Informationen finden Sie auf der Hilfe Seite.</p>
+        <br> <br>
+        <h2>Funktion</h2>
+        <p>Per Drag&amp;Drop kannst du deine gewünschten Kurse hinzufügen.</p>
+        <br> <br>
+        <h2>Achtung!</h2>
+        <p>Bitte tätige alle Angaben wahrheitsgemäß!
+        Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
+        Angaben führen zur Abmeldung aller Kurse.
+        <br> <br>
+      	Zudem sollten alle Felder ausgefüllt oder entfernt werden, um Änderungen speichern zu können
+        </p>
+        <button class="infoButton" @click="showInfo=false">
+          Schließen
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -68,6 +80,7 @@ export default {
   data() {
     return {
       isEditable: false,
+      showInfo: true,
     };
   },
   props: {
@@ -86,6 +99,7 @@ export default {
   async mounted() {
     console.log("test");
     this.scrollToEnd();
+    isEditable=false;
   },
   updated() {
     this.scrollToEnd();
@@ -108,22 +122,47 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
-.tooltip {
-  color:rgb(24, 24, 156);
+.infoButton{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  padding:0.5rem;
+  border:none;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  align-items: center;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 200px;
-  background-color: black;
-  color: #fff;
-  text-align: left;
-  border-radius: 6px;
-  //padding: 5px 0;
-  padding: 5px;
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
+.infoButton:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.info{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  width: 100%;
+  max-width: 30rem;
+  transition: max-height 0.3s ease-in-out;
+  border: 1px solid #c1c1c1;
+  overflow: hidden;
+  border-width: 0.25rem;
+  border-color: #76b900;
+  background-color: #FFF;
+  border-radius: 16 px;
+  padding: 25px;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.slide-enter-active,
+.slide-leave-active{
+  transition: opacity .5s;
+}
+.slide-enter,
+.slide-leave-to{
+  opacity: 0;
 }
 
 .tooltip:hover .tooltiptext {
@@ -148,6 +187,7 @@ $htwGruen: #76b900;
   background: white;
   border: none;
   padding:0px;
+  margin-top:0.5rem;
   border-radius: 5rem;
 }
 .button:hover {
@@ -163,7 +203,7 @@ $htwGruen: #76b900;
   grid-row-end: 2;
   flex: auto;
   //padding-bottom: 0.5rem;
-  min-width: 20rem;
+  min-width: 25rem;
   border-radius: 0.5rem;
   margin: 0.75rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -183,7 +223,7 @@ $htwGruen: #76b900;
     padding: 1rem;
   }
   .reset {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     margin-right: 2rem;
     margin-left: 1rem;
@@ -199,7 +239,7 @@ $htwGruen: #76b900;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
   } 
   .save {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     margin-left: 1.5rem;
     // padding-top: 0.5rem;
@@ -215,8 +255,8 @@ $htwGruen: #76b900;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
   } 
   .edit {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
     padding:0.5rem;
     border:none;
     border-radius: 0.25rem;
@@ -233,7 +273,7 @@ $htwGruen: #76b900;
   grid-column-start: 1;
   grid-column-end: 1;
   grid-row-start: 1;
-  grid-row-end: 3;
+  grid-row-end: 4;
   flex: auto;
   min-width: 20rem;
   margin: 0.75rem;
@@ -248,7 +288,7 @@ $htwGruen: #76b900;
 }
 
 .scroll {
-  max-height: 20rem;
+  max-height: 30rem;
   overflow-y: auto;
 }
 </style>
