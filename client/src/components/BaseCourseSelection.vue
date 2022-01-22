@@ -12,6 +12,11 @@
     <div class="prioritiesBox">
       <div class="addPriorities">
         <h3>Kursauswahl</h3>
+        <div class="maxCourse">
+          <button class="minus" @click="maxCourse -= 1">-</button>
+          <p class="maxCourseContent">{{maxCourse}}</p>
+          <button class="plus" @click="maxCourse += 1">+</button>
+        </div>
       </div>
       <div class="scroll">
       <BaseCourseSelectionRow
@@ -81,6 +86,7 @@ export default {
     return {
       isEditable: false,
       showInfo: true,
+      maxCourse: 0,
     };
   },
   props: {
@@ -122,6 +128,29 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
+.maxCourse{
+  display: grid;
+}
+.plus{
+  text-align: left;
+  grid-column: 3;
+  grid-row:1;
+  border:none;
+  background-color: #b3b3b3;
+}
+.minus{
+  text-align: right;
+  grid-column: 1;
+  grid-row:1;
+  border:none;
+  background-color: #b3b3b3;
+}
+.maxCourseContent{
+  grid-column: 2;
+  grid-row:1;
+  padding-left: 0;
+  padding-right: 0;
+}
 .infoButton{
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
