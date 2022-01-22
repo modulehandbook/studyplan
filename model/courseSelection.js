@@ -20,9 +20,14 @@ const mongoose = require("mongoose"),
               code: String,
               name: String,
               ects: Number,
+              isRepeater: {
+                type: Boolean,
+                default: false,
+              },
               priority: Number,
             },
           ],
+          maxCourses: Number,
           selectionReasons: [
             {
               code: String,

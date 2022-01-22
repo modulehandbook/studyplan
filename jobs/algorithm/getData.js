@@ -67,7 +67,6 @@ module.exports.getData = async () => {
       newUser.email = user.email;
       newUser.isPreferred = user.isPreferred;
       newUser.program = user.studyPlan.program.code;
-      newUser.maxCourses = undefined; //TODO
       newUser.semester = calcSemesterDiff(
         user.startOfStudy.name,
         data.currentSemester,
@@ -82,9 +81,10 @@ module.exports.getData = async () => {
         return {
           code: course.code,
           priority: course.priority,
-          isRepeater: undefined, //TODO
+          isRepeater: course.isRepeater, 
         };
       });
+      newUser.maxCourses = semPlan.maxCourses;
       data.users.push(newUser);
     });
 
