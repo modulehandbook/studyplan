@@ -1,5 +1,4 @@
-const util = require('util')
-
+const util = require("util");
 
 module.exports.algo = (data) => {
   data.length;
@@ -18,7 +17,7 @@ module.exports.algo = (data) => {
       }],
     }], 
     courses: [{
-      code: "VC1";
+      code: "VC1";isRepeater
       availablePlaces: 22-55,
       program: "IMI-B";
       semesterInProgram: [5,6];
@@ -50,7 +49,7 @@ module.exports.algo = (data) => {
         (sem) => sem === user.semester
       )
     )
-      return 1; //0-5
+      return 1;
     if (course.isRepeater) return 2;
     if (isRightProgram) return 3;
     return 4;
@@ -58,39 +57,72 @@ module.exports.algo = (data) => {
 
   data.users.forEach((user) => {
     user.bookedCourses.forEach((chosenCourse) => {
-      rankedCourses[chosenCourse.code][calcRank(user, chosenCourse)].push(
-        {
-         email: user.email,
-         priority: chosenCourse.priority,
-        }
-        );
+      //if(calcRank(user,chosenCourse) < 3)console.log("user is in right rank");
+      rankedCourses[chosenCourse.code][calcRank(user, chosenCourse)].push({
+        email: user.email,
+        priority: chosenCourse.priority,
+      });
     });
+
+    //console.log(user);
   });
-/*
+  /*
 for (const item of Object.entries(items)) {
   console.log(item)
 }*/
-  for(const [courseCode, course] of Object.entries(rankedCourses)){
-    studentsInCourse = [];
+  //console.log(util.inspect(rankedCourses, {showHidden: false, depth: null, colors: true}));
+  let solution = {};
+  for (const [courseCode, course] of Object.entries(rankedCourses)) {
+    let studentsInCourse = [];
     //console.log(course);
     //console.log(rankedCourses[courseCode]);
-    for(const [rank, studentList] of Object.entries(course)){
+    for (const [rank, studentList] of Object.entries(course)) {
       //console.log(studentList[1]);
-      let remainingPlaces = data.courses[courseCode].availablePlaces - studentsInCourse.length;
+      let remainingPlaces =
+        data.courses[courseCode].availablePlaces - studentsInCourse.length;
       //console.log(remainingPlaces);
-      const sortedStudents = studentList.sort(() => 0.5 - Math.random()).sort((student1, student2) => student1.priority - student2.priority);
+      const sortedStudents = studentList
+        .sort(() => 0.5 - Math.random())
+        .sort((student1, student2) => student1.priority - student2.priority);
       //console.log(sortedStudents);
       studentsInCourse.push(...sortedStudents.splice(0, remainingPlaces));
     }
-    console.log(studentsInCourse);
+    //console.log(courseCode + ":")
+    solution[courseCode] = studentsInCourse; //.map((student) => student.email);
+    //console.log(studentsInCourse);
   }
+  console.log(solution);
+  let usersToDo = users;
+  data.users.forEach((user) => {
+    let assignedCourses = [];
+    for (const [courseCode, course] of Object.entries(solution)) {
+      course.forEach((userInCourse) => {
+        if (userInCourse.email === user.email)
+          assignedCourses.push({
+            code: courseCode,
+            priority: userInCourse.priority,
+          });
+      });
+    }
+    //console.log(util.inspect({email: user.email, numOfCourses: assignedCourses, maxCourses: user.maxCourses}, {showHidden: false, depth: null, colors: true}));
+
+    const unwantedCourses = assignedCourses
+      .sort((course1, course2) => course2.priority - course1.priority)
+      .splice(0, assignedCourses.length - user.maxCourses);
+      unwantedCourses.forEach((course) => {
+        solution[course.code].splice(solution[course.code].findIndex((userInCourse) => user.email === userInCourse.email), 1)
+      })
+    console.log({
+      email: user.email,
+      courses: assignedCourses,
+      coursesToDelete: unwantedCourses,
+      maxCourses: user.maxCourses,
+    });
+  });
+  console.log(solution);
   //console.log(rankedCourses);
-  console.log(util.inspect(data, {showHidden: false, depth: null, colors: true}));
-  const solution = [
-    {
-      code: "WT1",
-      students: ["test@mail.de", "admin@mail.de"],
-    },
-  ];
+  //console.log(util.inspect(rankedCourses, {showHidden: false, depth: null, colors: true}));
+  // console.log(util.inspect(data.users, {showHidden: false, depth: null, colors: true}));
+
   return solution;
 };
