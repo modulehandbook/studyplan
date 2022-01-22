@@ -67,7 +67,7 @@ export default {
   },
   data() {
     return {
-      isEditable: true,
+      isEditable: false,
     };
   },
   props: {
