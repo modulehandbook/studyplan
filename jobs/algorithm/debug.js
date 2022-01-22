@@ -22,6 +22,6 @@ mongoose
 
 async function debug() {
   const data = await getData();
-  algo(data);
+  await updateDB(algo(data), data.currentSemester);
   return ".";
 }
