@@ -27,9 +27,9 @@ module.exports.algo = (data) => {
   */
   const temp = {};
 
-  let rankedCourses = {};
+  let openCourseWishes = {};
   data.courses.forEach((course) => {
-    rankedCourses[course.code] = {
+    openCourseWishes[course.code] = {
       0: [],
       1: [],
       2: [],
@@ -58,7 +58,7 @@ module.exports.algo = (data) => {
   data.users.forEach((user) => {
     user.bookedCourses.forEach((chosenCourse) => {
       //if(calcRank(user,chosenCourse) < 3)console.log("user is in right rank");
-      rankedCourses[chosenCourse.code][calcRank(user, chosenCourse)].push({
+      openCourseWishes[chosenCourse.code][calcRank(user, chosenCourse)].push({
         email: user.email,
         priority: chosenCourse.priority,
       });
@@ -70,29 +70,52 @@ module.exports.algo = (data) => {
 for (const item of Object.entries(items)) {
   console.log(item)
 }*/
-  //console.log(util.inspect(rankedCourses, {showHidden: false, depth: null, colors: true}));
+  //console.log(util.inspect(openCourseWishes, {showHidden: false, depth: null, colors: true}));
+
+  //init solution
   let solution = {};
-  for (const [courseCode, course] of Object.entries(rankedCourses)) {
-    let studentsInCourse = [];
-    //console.log(course);
-    //console.log(rankedCourses[courseCode]);
+  for (const courseCode in openCourseWishes) {
+    solution[courseCode] = [];
+  }
+  
+  //main loop
+  while(true){  //lol
+    assignOpenWishesToSolution(data, openCourseWishes,solution);
+    removeOverheadCourses(data, solution)
+  }
+
+  //console.log(solution);
+  //console.log(openCourseWishes);
+  //console.log(util.inspect(openCourseWishes, {showHidden: false, depth: null, colors: true}));
+  // console.log(util.inspect(data.users, {showHidden: false, depth: null, colors: true}));
+
+  return solution;
+};
+
+const assignOpenWishesToSolution = (data, openCourseWishes,solution) => {
+  //for all courses
+  for (const [courseCode, course] of Object.entries(openCourseWishes)) {
+    //for all ranks
     for (const [rank, studentList] of Object.entries(course)) {
-      //console.log(studentList[1]);
-      let remainingPlaces =
-        data.courses[courseCode].availablePlaces - studentsInCourse.length;
-      //console.log(remainingPlaces);
+      
+      //sort the studentlist
       const sortedStudents = studentList
         .sort(() => 0.5 - Math.random())
         .sort((student1, student2) => student1.priority - student2.priority);
-      //console.log(sortedStudents);
-      studentsInCourse.push(...sortedStudents.splice(0, remainingPlaces));
+
+        //calac how may places remain
+        let remainingPlaces =
+        data.courses[courseCode].availablePlaces - solution[courseCode].length;
+      
+      //assign as many students as possible
+      solution[courseCode].push(...sortedStudents.splice(0, remainingPlaces));
     }
-    //console.log(courseCode + ":")
-    solution[courseCode] = studentsInCourse; //.map((student) => student.email);
-    //console.log(studentsInCourse);
   }
-  console.log(solution);
-  let usersToDo = users;
+}
+
+const removeOverheadCourses = (data, solution) => {
+
+let usersToDo = users;
   data.users.forEach((user) => {
     let assignedCourses = [];
     for (const [courseCode, course] of Object.entries(solution)) {
@@ -119,10 +142,4 @@ for (const item of Object.entries(items)) {
       maxCourses: user.maxCourses,
     });
   });
-  console.log(solution);
-  //console.log(rankedCourses);
-  //console.log(util.inspect(rankedCourses, {showHidden: false, depth: null, colors: true}));
-  // console.log(util.inspect(data.users, {showHidden: false, depth: null, colors: true}));
-
-  return solution;
-};
+}
