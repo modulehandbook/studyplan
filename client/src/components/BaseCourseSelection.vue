@@ -13,6 +13,7 @@
       <div class="addPriorities">
         <h3>Kursauswahl</h3>
         <div class="maxCourse">
+          <p class="hMax">max. Kurse</p>
           <button class="minus" @click="maxCourse -= 1">-</button>
           <p class="maxCourseContent">{{maxCourse}}</p>
           <button class="plus" @click="maxCourse += 1">+</button>
@@ -34,9 +35,9 @@
       <div>
         <div>
           <button @click="addPriority" class="button" :disabled="!isEditable">
-            <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
+            <font-awesome-icon :icon="['fas', 'plus-circle']" size="2x" />
           </button>
-          <p>Prio hinzufügen</p>
+          <p style="margin-top:0.5rem;">Prio hinzufügen</p>
         </div>
         <button class="edit" @click="isEditable=true" :disabled="isEditable">
           Ändern
@@ -85,7 +86,7 @@ export default {
   data() {
     return {
       isEditable: false,
-      showInfo: true,
+      showInfo: false,
       maxCourse: 0,
     };
   },
@@ -105,7 +106,7 @@ export default {
   async mounted() {
     console.log("test");
     this.scrollToEnd();
-    this.isEditable=false;
+    isEditable=false;
   },
   updated() {
     this.scrollToEnd();
@@ -131,23 +132,33 @@ $htwGruen: #76b900;
 .maxCourse{
   display: grid;
 }
+.hMax{
+  grid-row:1;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
 .plus{
   text-align: left;
   grid-column: 3;
-  grid-row:1;
+  grid-row:2;
   border:none;
   background-color: #b3b3b3;
+  font-size: x-large;
 }
 .minus{
   text-align: right;
   grid-column: 1;
-  grid-row:1;
+  grid-row:2;
   border:none;
   background-color: #b3b3b3;
+  font-size: x-large;
 }
 .maxCourseContent{
   grid-column: 2;
-  grid-row:1;
+  grid-row:2;
   padding-left: 0;
   padding-right: 0;
 }
@@ -312,6 +323,7 @@ $htwGruen: #76b900;
   // align-items: stretch;
   display: inline-grid;
   padding: 2rem;
+  padding-top: 0rem;
   justify-content: start;
   align-items: left;
 }
