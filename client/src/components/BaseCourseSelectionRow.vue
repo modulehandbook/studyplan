@@ -72,9 +72,9 @@
           @blur="v$.wiederholer.$touch()"
           :disabled="!isEditable"
                 type="radio"
-                v-model="wiederholer"
-                :id="ja+$courseIndex"
-                :name="test+$courseIndex"
+                v-model="course.isRepeater"
+                :id="ja+index"
+                :name="test+index"
                 :value="true"
               />
         <label label for="no">Nein</label>
@@ -83,9 +83,9 @@
                 @change="courseRepeaterChanged($event)" 
                 :disabled="!isEditable"
                 type="radio"
-                v-model="wiederholer"
-                :id="nein+$courseIndex"
-                :name="test+$courseIndex"
+                v-model="course.isRepeater"
+                :id="nein+index"
+                :name="test+index"
                 :value="false"
               />
         </div>
@@ -108,7 +108,7 @@ export default {
   },
   data() {
     return {
-      wiederholer: null,
+      wiederholer: undefined,
       //wiederholer: [],
       // wiederholerOptions: [
       //   { name: "ja", value: true },
@@ -180,7 +180,7 @@ export default {
     async courseRepeaterChanged(event){
       const isRepeater = event.target.value
       console.log(isRepeater);
-      this.$store.dispatch("courseselection/updateIsRepeater", {index: this.index, isRepeater: isRepeater}); 
+      this.$store.dispatch("courseselection/updateIsRepeater", {index: this.index, isRepeater: isRepeater});
     },
     moveCourse(e, toCourseIndex) {
       e.preventDefault();

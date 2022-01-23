@@ -408,4 +408,13 @@ export const getters = {
     });
     return reti;
   },
+  isEmptyCourse: (state) => {
+    let reti = false;
+    if(!state.courseSelection || !state.courseSelection.semesterPlans ||
+      !state.courseSelection.semesterPlans[0].bookedCourses)return false;
+    state.courseSelection.semesterPlans[0].bookedCourses.forEach((course) => {
+      if(course.ects === 0) reti = true;
+    });
+    return reti;
+  },
 };
