@@ -163,14 +163,15 @@ export const actions = {
           other: surveyResults.other,
         });
       }
-      console.log(selectionReasons);
+      state.courseSelection.semesterPlans[0].selectionReasons = selectionReasons;
       /*
       let selectionReasonsHelper = [];
       mappedCourses.forEach((mappedCourse) => {
         selectionReasonsHelper.push({code: mappedCourse.code, reasons: [mappedCourse.selectionReason], other: undefined });
       });
       state.courseSelection.semesterPlans[0].selectionReasons = selectionReasonsHelper;
-      //await dispatch("updateCourseSelection");*/
+      */
+      await dispatch("updateCourseSelection");
     }catch (error) {
       const notification = {
         type: "error",
