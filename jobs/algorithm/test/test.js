@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { getData } = require("../getData");
 const { updateDB } = require("../updateDB");
 const { algo } = require("../algoV1");
-const { saveSurveyResults } = require("../../saveSurveyResults");
+const { addAlgoTestUsers } = require("./addAlgoTestUsers");
 
 const mongo = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
 mongoose
@@ -21,6 +21,7 @@ mongoose
   });
 
 async function debug() {
+  await addAlgoTestUsers();
   const data = await getData();
   await updateDB(algo(data), data.currentSemester);
   return ".";

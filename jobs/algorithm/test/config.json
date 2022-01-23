@@ -1,0 +1,38 @@
+{
+    "seed": "randomSeed",
+    "modalCourse": {
+        "places": [
+            12,
+            12,
+            24,
+            40,
+            5,
+            12
+        ],
+        "popularity": [
+            1,
+            1,
+            3,
+            1,
+            1,
+            0.5
+        ]
+    },
+    "user": {
+        "count": 15,
+        "propabilities": {
+            "preferred": 0.01,
+            "correctSemester": 0.6,
+            "correctProgram": 0.9,
+            "repeater": 0.3
+        },
+        "maxCoursesPropabilities": {
+            "1": 3,
+            "2": 15,
+            "3": 20,
+            "4": 10,
+            "5": 5,
+            "6": 1
+        }
+    }
+}
