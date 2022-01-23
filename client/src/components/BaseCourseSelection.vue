@@ -105,7 +105,7 @@ export default {
   async mounted() {
     console.log("test");
     this.scrollToEnd();
-    isEditable=false;
+    this.isEditable=false;
   },
   updated() {
     this.scrollToEnd();
