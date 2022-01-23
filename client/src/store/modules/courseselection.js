@@ -152,15 +152,25 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async updateCourseSelectionReasons({state, commit, dispatch}, {mappedCourses}){
+  async updateCourseSelectionReasons({state, commit, dispatch}, {courseReasons}){
     commit("SET_PENDING", true);
     try{
+      let selectionReasons = [];
+      for (const [courseCode, surveyResults] of Object.entries(courseReasons)){
+        selectionReasons.push({
+          code: courseCode,
+          reasons: [...surveyResults.reasons],
+          other: surveyResults.other,
+        });
+      }
+      console.log(selectionReasons);
+      /*
       let selectionReasonsHelper = [];
       mappedCourses.forEach((mappedCourse) => {
         selectionReasonsHelper.push({code: mappedCourse.code, reasons: [mappedCourse.selectionReason], other: undefined });
       });
       state.courseSelection.semesterPlans[0].selectionReasons = selectionReasonsHelper;
-      await dispatch("updateCourseSelection");
+      //await dispatch("updateCourseSelection");*/
     }catch (error) {
       const notification = {
         type: "error",

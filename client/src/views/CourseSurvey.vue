@@ -7,8 +7,9 @@
         </h2></BaseHeading
       >
       <span class="no-course-text">
-        Mit der Teilnahme an der Umfrage machst du zukünftige Belegphasen besser!
-        Wenn du deine Kurswahl nochmal änderst kannst du auch die Umfrage neu machen.
+        Mit der Teilnahme an der Umfrage machst du zukünftige Belegphasen
+        besser! Wenn du deine Kurswahl nochmal änderst kannst du auch die
+        Umfrage neu machen.
       </span>
     </div>
     <form
@@ -40,11 +41,11 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[0].key + index"
-                  v-model="courseReasons[course.code]"
+                  v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[0].value"
-                  @change="getChecked($event, index)"
+      
                 />
                 <label :for="surveys[0].key + index">{{
                   surveys[0].name
@@ -53,11 +54,10 @@
               <div class="survey-radio right">
                 <input
                   :id="surveys[1].key + index"
-                  v-model="courseReasons[course.code]"
+                  v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'checkbox' + index"
                   :value="surveys[1].value"
-                 
                 />
                 <label :for="surveys[1].key + index">{{
                   surveys[1].name
@@ -68,11 +68,10 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[2].key + index"
-                  v-model="courseReasons[course.code]"
+                   v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[2].value"
-                  
                 />
                 <label :for="surveys[2].key + index">{{
                   surveys[2].name
@@ -82,11 +81,10 @@
               <div class="survey-radio right">
                 <input
                   :id="surveys[3].key + index"
-                  v-model="courseReasons[course.code]"
+                   v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[3].value"
-                 
                 />
                 <label :for="surveys[3].key + index">{{
                   surveys[3].name
@@ -97,11 +95,10 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[4].key + index"
-                  v-model="courseReasons[course.code]"
+                   v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[4].value"
-               
                 />
                 <label :for="surveys[4].key + index">{{
                   surveys[4].name
@@ -109,18 +106,12 @@
               </div>
 
               <div class="survey-radio right">
-                <input
-                  :id="surveys[5].key + index"
-                  v-model="courseReasons[course.code]"
-                  type="checkbox"
-                  :name="'survey' + index"
-                 
-                />
+             
                 <label :for="surveys[5].key + index">{{
                   surveys[5].name
                 }}</label>
                 <input
-                  v-model="courseReasons[course.code]"
+                  v-model="courseReasons[course.code].other"
                   class="input-text"
                   type="text"
                   name=""
@@ -148,20 +139,6 @@
   </div>
 </template>
 
-<!--
-Frage an Backend guys
-
-
-option 2
-{
-course1: informatik
-survey1: relevant für Berufslaufbahn
-course2: mathematik
-survey2: zeitlich bedingt
-}
-..
-..
--->
 
 <script>
 import { mapState, mapGetters } from "vuex";
@@ -172,7 +149,7 @@ export default {
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user", ["user"]),
     ...mapGetters({
-      hasTakenSurvey: "courseselection/getSurveyState"
+      hasTakenSurvey: "courseselection/getSurveyState",
     }),
   },
   async mounted() {
@@ -184,16 +161,16 @@ export default {
       .then(() => {
         console.log("did user take survey");
         console.log(this.hasTakenSurvey);
-        this.courseSelection.semesterPlans[0].bookedCourses.forEach((course) => {
-          this.courseReasons[course.code] = [];
-        });
+        this.courseSelection.semesterPlans[0].bookedCourses.forEach(
+          (course) => {
+            this.courseReasons[course.code] = {reasons: [], other: ""};
+          }
+        );
         this.pending = false;
       })
       .catch((e) => {
         console.log(e);
       });
-
-    
   },
   data() {
     const defaultCourses = [
@@ -239,38 +216,20 @@ export default {
     };
   },
   methods: {
-    /*
-     * function to check if the sonstiges input field is checked or not
-     * and set the isEnabledValue of its certain index of the courses
-     */
-    getChecked: function (event, index) {
-      if (event.target.id.includes("so")) {
-        this.isEnabledArray[index] = true;
-      } else {
-        this.isEnabledArray[index] = false;
-      }
-      // console.log(event.target.id, index, this.isEnabledArray);
-    },
-    //Get value of the user input
-    getTextFieldValue: function (event, id) {
-      // console.log(event);
-      document.getElementById(id).value = event.target.value;
-    },
+
     async updateCourses() {
-      let mappedCourses = [];
-      this.courseReasons.forEach((element, index) => {
-        mappedCourses.push({
-          code: this.courseSelection.semesterPlans[0].bookedCourses[index].code,
-          selectionReason: element,
-        });
-      });
-      console.log(mappedCourses);
-      await this.$store.dispatch("courseselection/updateCourseSelectionReasons", {
-        mappedCourses,
-      });
-      console.log("courseselection");
-      console.log(this.courseSelection);
-      this.surveyTaken = true;
+    
+      await this.$store.dispatch(
+        "courseselection/updateCourseSelectionReasons",
+        {
+          courseReasons: this.courseReasons,
+        }
+      );
+  
+     console.log(this.courseReasons);
+      // console.log("courseselection");
+      //  console.log(this.courseSelection);
+      // this.surveyTaken = true;
     },
   },
 };
