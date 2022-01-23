@@ -14,11 +14,11 @@
         <h3>Kursauswahl</h3>
         <div class="maxCourse">
           <p class="hMax">max. Kurse</p>
-          <button class="minus" @click="updateMaxCourses(maxCourses - 1)">
+          <button class="minus" :disabled="!isEditable" @click="updateMaxCourses(maxCourses - 1)">
             -
           </button>
           <p class="maxCourseContent">{{ maxCourses }}</p>
-          <button class="plus" @click="updateMaxCourses(maxCourses + 1)">
+          <button class="plus" :disabled="!isEditable" @click="updateMaxCourses(maxCourses + 1)">
             +
           </button>
         </div>
