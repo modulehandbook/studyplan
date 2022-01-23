@@ -1,14 +1,11 @@
-const util = require("util");
 
-module.exports.algo = (data) => {
-  data.length;
-  /*
+/*
   data {
     users: [{
       email = user.email;
       isPreferred = true || false;
       program = "IMI-B";
-      maxCourses = 100; //TODO 1- 6
+      maxCourses = 100; //
       semester = 0-99999,
       bookedCourses: [{
           code: "VC1",
@@ -16,34 +13,38 @@ module.exports.algo = (data) => {
           isRepeater: true || false, //
       }],
     }], 
-    courses: [{
-      code: "VC1";isRepeater
-      availablePlaces: 22-55,
-      program: "IMI-B";
-      semesterInProgram: [5,6];
-    }],
+    courses: {
+      VC1: {
+        isRepeater = true;
+        availablePlaces: 22-55,
+        program: "IMI-B";
+        semesterInProgram: [5,6];
+      },
+      VC2: {
+        ...
+      },
+    },
      currentSemester: "SoSe22"
   };
   */
-  const temp = {};
 
+module.exports.algo = (data) => {
+  //init openCourseWishes
   let openCourseWishes = {};
-  data.courses.forEach((course) => {
-    openCourseWishes[course.code] = {
+  for (const courseCode in data.courses) {
+    //add ranks
+    openCourseWishes[courseCode] = {
       0: [],
       1: [],
       2: [],
       3: [],
       4: [],
     };
-    temp[course.code] = course;
-  });
+  }
 
-  data.courses = temp;
-
+  //fill openCourseWishes = { 0: [{email: test@mail.de, priority: 2}, {email,priority:}]}
   data.users.forEach((user) => {
     user.bookedCourses.forEach((chosenCourse) => {
-      //if(calcRank(user,chosenCourse) < 3)console.log("user is in right rank");
       openCourseWishes[chosenCourse.code][
         calcRank(user, chosenCourse, data)
       ].push({
@@ -51,14 +52,7 @@ module.exports.algo = (data) => {
         priority: chosenCourse.priority,
       });
     });
-
-    //console.log(user);
   });
-  /*
-for (const item of Object.entries(items)) {
-  console.log(item)
-}*/
-  //console.log(util.inspect(openCourseWishes, {showHidden: false, depth: null, colors: true}));
 
   //init solution
   let solution = {};
@@ -69,23 +63,16 @@ for (const item of Object.entries(items)) {
   //main loop
   let iterations = 0;
   while (iterations < 10) {
-    //lol
-
     assignOpenWishesToSolution(data, openCourseWishes, solution);
     const satisfiedUsers = removeOverheadCourses(data, solution);
     cleanCourseWishes(openCourseWishes, satisfiedUsers);
     iterations++;
   }
 
-  //console.log(solution);
-  //console.log(openCourseWishes);
-  //console.log(util.inspect(openCourseWishes, {showHidden: false, depth: null, colors: true}));
-  // console.log(util.inspect(data.users, {showHidden: false, depth: null, colors: true}));
-  console.log(solution);
+  //remove priority from solution
   for (const [courseCode, students] of Object.entries(solution)) {
     solution[courseCode] = students.map((student) => student.email);
   }
-  console.log(solution);
   return solution;
 };
 
@@ -93,7 +80,7 @@ const assignOpenWishesToSolution = (data, openCourseWishes, solution) => {
   //for all courses
   for (const [courseCode, course] of Object.entries(openCourseWishes)) {
     //for all ranks
-    for (const [rank, studentList] of Object.entries(course)) {
+    for (const [, studentList] of Object.entries(course)) {
       //sort the studentlist
       const sortedStudents = studentList
         .sort(() => 0.5 - Math.random())
@@ -111,49 +98,62 @@ const assignOpenWishesToSolution = (data, openCourseWishes, solution) => {
 
 const removeOverheadCourses = (data, solution) => {
   let satisfiedUsers = [];
+  //for all users
   data.users.forEach((user) => {
-    let assignedCourses = [];
-    for (const [courseCode, course] of Object.entries(solution)) {
-      course.forEach((userInCourse) => {
-        if (userInCourse.email === user.email)
-          assignedCourses.push({
-            code: courseCode,
-            priority: userInCourse.priority,
-          });
-      });
-    }
-    //console.log(util.inspect({email: user.email, numOfCourses: assignedCourses, maxCourses: user.maxCourses}, {showHidden: false, depth: null, colors: true}));
+    //get all courses in solution, where the user is assigned
+    let assignedCourses = getAssignedCourses(user, solution);
+
     const unwantedCourses = assignedCourses
       .sort((course1, course2) => course2.priority - course1.priority)
       .splice(0, assignedCourses.length - user.maxCourses);
+
     if (unwantedCourses.length > 0) {
       satisfiedUsers.push(user.email);
-      unwantedCourses.forEach((course) => {
-        solution[course.code].splice(
-          solution[course.code].findIndex(
-            (userInCourse) => user.email === userInCourse.email
-          ),
-          1
-        );
-      });
+      removeUnwantedCourses(unwantedCourses, solution, user);
     }
-    console.log({
-      email: user.email,
-      courses: assignedCourses.length,
-      maxCourses: user.maxCourses,
-    });
   });
 
   return satisfiedUsers;
 };
+
+//get all courses in solution, where the user is assigned
+const getAssignedCourses = (user, solution) => {
+  let assignedCourses = [];
+  for (const [courseCode, course] of Object.entries(solution)) {
+    course.forEach((userInCourse) => {
+      if (userInCourse.email === user.email)
+        assignedCourses.push({
+          code: courseCode,
+          priority: userInCourse.priority,
+        });
+    });
+  }
+  return assignedCourses;
+};
+
+const removeUnwantedCourses = (unwantedCourses, solution, user) => {
+  unwantedCourses.forEach((course) => {
+    solution[course.code].splice(
+      solution[course.code].findIndex(
+        (userInCourse) => user.email === userInCourse.email
+      ),
+      1
+    );
+  });
+};
+
 const cleanCourseWishes = (openCourseWishes, satisfiedUsers) => {
+  //for all courses
   for (const [courseCode, course] of Object.entries(openCourseWishes)) {
     //for all ranks
     for (const [rank, studentList] of Object.entries(course)) {
-      openCourseWishes[courseCode][rank] = studentList.filter((student) => !satisfiedUsers.some((user) => student.email === user));
+      //remove CourseWishes from satisfied users
+      openCourseWishes[courseCode][rank] = studentList.filter(
+        (student) => !satisfiedUsers.some((user) => student.email === user)
+      );
     }
   }
-}
+};
 
 const calcRank = (user, course, data) => {
   if (user.isPreferred) return 0;

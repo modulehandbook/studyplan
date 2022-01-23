@@ -24,7 +24,7 @@ module.exports.getData = async () => {
       console.log(err);
     });
   /*
-  */
+   */
   const users = await User.find()
     .populate({
       path: "courseSelection",
@@ -81,25 +81,52 @@ module.exports.getData = async () => {
         return {
           code: course.code,
           priority: course.priority,
-          isRepeater: course.isRepeater, 
+          isRepeater: course.isRepeater,
         };
       });
       newUser.maxCourses = semPlan.maxCourses;
       data.users.push(newUser);
     });
 
-  data.courses = [];
+  data.courses = {};
   modalCourse
     .filter((course) => course.semester.name == data.currentSemester)
     .forEach((course) => {
       const newCousre = {};
-      newCousre.code = course.code;
       newCousre.availablePlaces = course.availablePlaces;
       newCousre.program = course.program;
       newCousre.semesterInProgram = course.semesterInProgram;
-      data.courses.push(newCousre);
+      data.courses[course.code] = newCousre;
     });
   return data;
+  /*
+  data {
+    users: [{
+      email = user.email;
+      isPreferred = true || false;
+      program = "IMI-B";
+      maxCourses = 100; //
+      semester = 0-99999,
+      bookedCourses: [{
+          code: "VC1",
+          priority: 1 - 6,
+          isRepeater: true || false, //
+      }],
+    }], 
+    courses: {
+      VC1: {
+        isRepeater = true;
+        availablePlaces: 22-55,
+        program: "IMI-B";
+        semesterInProgram: [5,6];
+      },
+      VC2: {
+        ...
+      },
+    },
+     currentSemester: "SoSe22"
+  };
+  */
 };
 
 const calcSemesterDiff = function (from, to, semesters) {

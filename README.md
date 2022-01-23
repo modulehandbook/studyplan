@@ -84,6 +84,11 @@ npm run lint-all
 npm run test
 ```
 
+### Test the algorithm (warnig: this will nuke the database)
+```bash
+npm run testAlgo
+```
+
 ### Clean reset the enviroment
 #### If you have, for example, problems with not installed node packages run this command to completely rebuild the docker images:
 ```bash
