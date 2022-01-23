@@ -107,7 +107,7 @@
 
               <div class="survey-radio right">
                 <input v-if="courseReasons[course.code]"
-                  @change="toggleTextBox($event)"
+                  @change="toggleTextBox($event, course.code, index)"
                   :id="surveys[4].key + index"
 
                   type="checkbox"
@@ -119,7 +119,7 @@
                 }}</label>
                 <input v-if="courseReasons[course.code]"
                   v-model="courseReasons[course.code].other"
-                  :disabled="textEnabled[index]"
+                  :disabled="!textEnabled[index]"
                   class="input-text"
                   type="text"
                   name=""
@@ -220,8 +220,9 @@ export default {
     };
   },
   methods: {
-    toggleTextBox(event) {
-      console.log(event);
+    toggleTextBox(event, courseCode, index) {
+      this.textEnabled[index] = this.textEnabled[index] == undefined ? true : !this.textEnabled[index]
+      this.courseReasons[courseCode].other = "";
     },
     async updateCourses() {
     
