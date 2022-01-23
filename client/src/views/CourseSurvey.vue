@@ -40,8 +40,8 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[0].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[index]"
+                  type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[0].value"
                   @change="getChecked($event, index)"
@@ -53,9 +53,9 @@
               <div class="survey-radio right">
                 <input
                   :id="surveys[1].key + index"
-                  v-model="test[index]"
-                  type="radio"
-                  :name="'survey' + index"
+                  v-model="courseReasons[index]"
+                  type="checkbox"
+                  :name="'checkbox' + index"
                   :value="surveys[1].value"
                   @change="getChecked($event, index)"
                 />
@@ -68,8 +68,8 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[2].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[index]"
+                  type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[2].value"
                   @change="getChecked($event, index)"
@@ -82,8 +82,8 @@
               <div class="survey-radio right">
                 <input
                   :id="surveys[3].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[index]"
+                  type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[3].value"
                   @change="getChecked($event, index)"
@@ -97,8 +97,8 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[4].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[index]"
+                  type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[4].value"
                   @change="getChecked($event, index)"
@@ -111,8 +111,8 @@
               <div class="survey-radio right">
                 <input
                   :id="surveys[5].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[index]"
+                  type="checkbox"
                   :name="'survey' + index"
                   @change="getChecked($event, index)"
                 />
@@ -120,7 +120,7 @@
                   surveys[5].name
                 }}</label>
                 <input
-                  v-model="test[index]"
+                  v-model="courseReasons[index]"
                   class="input-text"
                   type="text"
                   name=""
@@ -216,7 +216,7 @@ export default {
       pending: false,
       surveyTaken: false,
       courses: defaultCourses,
-      test: [],
+      courseReasons: [],
       surveys: [
         { key: "lb", name: "Lehrer bedingt", value: "teacher" },
         { key: "zb", name: "zeitlich bedingt", value: "time" },
@@ -257,7 +257,7 @@ export default {
     },
     async updateCourses() {
       let mappedCourses = [];
-      this.test.forEach((element, index) => {
+      this.courseReasons.forEach((element, index) => {
         mappedCourses.push({
           code: this.courseSelection.semesterPlans[0].bookedCourses[index].code,
           selectionReason: element,
