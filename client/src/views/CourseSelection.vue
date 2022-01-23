@@ -1,5 +1,8 @@
 <template>
   <div v-if="!pending">
+    <BaseHeading>
+        <h1>Kursbelegung</h1>
+    </BaseHeading>
     <!-- <div v-if="stage.currentStage === 'COURSE-SELECTION'"> -->
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
