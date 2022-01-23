@@ -27,6 +27,7 @@
         <BaseCourseSelectionRow
           class="priorities"
           v-for="(course, index) in bookedCourses"
+          :bookedCourses="bookedCourses"
           :key="course"
           :course-priority="course.priority"
           :courses="[course]"
@@ -35,6 +36,7 @@
           :semester="semester"
           :isEditable="isEditable"
           :index="index"
+          :maxCourses="maxCourses"
         />
       </div>
       <div>
@@ -106,7 +108,6 @@ export default {
     return {
       isEditable: false,
       showInfo: false,
-      maxCourse: 0,
     };
   },
   computed: {
@@ -128,6 +129,7 @@ export default {
     },
     maxCourses: {
       type: Number,
+      default: 0,
     },
   },
   async mounted() {

@@ -126,6 +126,10 @@ export default {
   },
 
   props: {
+    bookedCourses: {
+      type: Array,
+      default: () => [],
+    },
     semester: {
       type: Object,
     },
@@ -151,7 +155,11 @@ export default {
     index: {
       type: Number,
       default: 0,
-    }
+    },
+    maxCourses: {
+      type: Number,
+      default: 0,
+    },
   },
 
   computed: {
@@ -164,6 +172,11 @@ export default {
     deleteCoursePriority() {
       this.$store.dispatch("courseselection/deleteCoursePriority", {
         priority: this.coursePriority,
+      });
+      var updateAmount = this.maxCourses;
+      if (updateAmount > this.bookedCourses.length) updateAmount = this.bookedCourses.length;
+      this.$store.dispatch("courseselection/updateMaxCourses", {
+        maxCourses: updateAmount,
       });
     },
 
