@@ -1,4 +1,3 @@
-const util = require("util");
 
 /*
   data {
@@ -112,12 +111,6 @@ const removeOverheadCourses = (data, solution) => {
       satisfiedUsers.push(user.email);
       removeUnwantedCourses(unwantedCourses, solution, user);
     }
-
-    console.log({
-      email: user.email,
-      courses: assignedCourses.length,
-      maxCourses: user.maxCourses,
-    });
   });
 
   return satisfiedUsers;
