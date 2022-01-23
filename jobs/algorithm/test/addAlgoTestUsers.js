@@ -49,12 +49,11 @@ const addCourseSelection = async (config, semester) => {
     coursesForSelection.push({ code: course.code, name: course.name, ects: 5 });
   });
 
-  await User.updateMany({}, {});
   for (let i = 0; i < users.length; i++) {
     const maxCourses = pickPropability(config.user.maxCoursesPropabilities);
 
     const numOfCoursesToPick =
-      maxCourses + Math.random * (courses.length - maxCourses);
+      Number(maxCourses) + Math.floor(Math.random() * (coursesForSelection.length - maxCourses));
 
     const [booked, unbooked] = pickCourses(
       config.user.propabilities,
@@ -102,7 +101,7 @@ const pickPropability = (propabilities) => {
 };
 
 const normalize = (propabilities) => {
-  const sum = Object.values(propabilities).reduce((acc, curr) => acc + curr);
+  const sum = Object.values(propabilities).reduce((acc, curr) => acc + curr, 0);
   Object.keys(propabilities).map((key) => {
     propabilities[key] = propabilities[key] / sum;
   });
@@ -119,14 +118,15 @@ const pickCourses = (
   const picked = [];
   for (let i = 0; i < numOfCoursesToPick; i++) {
     normalize(popCopy);
-    const pick = pickPropability(popCopy);
-    picked.push(avaibleCourses[pick]);
-    avaibleCourses.splice(pick, 1);
-    popCopy.splice(pick, 1);
+    const code = pickPropability(popCopy);
+    const pick = avaibleCourses.find((e) => e.code == code);
+    picked.push(pick);
+    avaibleCourses.splice(avaibleCourses.indexOf(pick), 1);
+    delete popCopy[code];
   }
 
   for (const [index, course] of Object.entries(picked)) {
-    course.isRepeater = Math.random() < config.preferred;
+    course.isRepeater = Math.random() < config.repeater;
     course.priority = index;
   }
   return [picked, avaibleCourses];
@@ -150,18 +150,21 @@ const addSemesterPlans = async (config) => {
   };
   const createdStudyPlan = await StudyPlan.create(studyplan);
   const createdCorrectStudyPlan = await StudyPlan.create(correctStudyplan);
-
-  await User.updateMany(
-    {},
-    {
-      $set: {
-        studyPlan:
-          Math.random() < config.propabilities.correctProgram
-            ? createdCorrectStudyPlan._id
-            : createdStudyPlan._id,
+  for (let i = 0; i < config.count; i++) {
+    await User.findOneAndUpdate(
+      {
+        username: `test${i}`,
       },
-    }
-  );
+      {
+        $set: {
+          studyPlan:
+            Math.random() < config.propabilities.correctProgram
+              ? createdCorrectStudyPlan._id
+              : createdStudyPlan._id,
+        },
+      }
+    );
+  }
 };
 
 const addModalCourses = async (semester, config) => {
@@ -171,32 +174,32 @@ const addModalCourses = async (semester, config) => {
     {
       name: "AI for Games",
       code: "GT1",
-      availablePlaces: config.places[0],
+      availablePlaces: config.places["GT1"],
     },
     {
       name: "Game Technology & Interactive Systems",
       code: "GTAT1",
-      availablePlaces: config.places[0],
+      availablePlaces: config.places["GTAT1"],
     },
     {
       name: "Bild- und Videokompression",
       code: "VC1",
-      availablePlaces: config.places[0],
+      availablePlaces: config.places["VC1"],
     },
     {
       name: "Visual Computing",
       code: "VCAT1",
-      availablePlaces: config.places[0],
+      availablePlaces: config.places["VCAT1"],
     },
     {
       name: "Verteilte Systeme",
       code: "WT1",
-      availablePlaces: config.places[0],
+      availablePlaces: config.places["WT1"],
     },
     {
       name: "Web Technology",
       code: "WTAT1",
-      availablePlaces: config.places[0],
+      availablePlaces: config.places["WTAT1"],
     },
   ];
 

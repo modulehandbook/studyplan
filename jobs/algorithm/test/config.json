@@ -1,25 +1,25 @@
 {
     "seed": "randomSeed",
     "modalCourse": {
-        "places": [
-            12,
-            12,
-            24,
-            40,
-            5,
-            12
-        ],
-        "popularity": [
-            1,
-            1,
-            3,
-            1,
-            1,
-            0.5
-        ]
+        "places": {
+            "VC1":12,
+            "WTAT1":12,
+            "GT1":24,
+            "VCAT1":40,
+            "GTAT1":5,
+            "WT1":12
+        },
+        "popularity": {
+            "VC1":1,
+            "WTAT1":1,
+            "GT1":3,
+            "VCAT1":1,
+            "GTAT1":2,
+            "WT1":0.5
+        }
     },
     "user": {
-        "count": 15,
+        "count": 50,
         "propabilities": {
             "preferred": 0.01,
             "correctSemester": 0.6,
