@@ -14,9 +14,9 @@
         <h3>Kursauswahl</h3>
         <div class="maxCourse">
           <p class="hMax">max. Kurse</p>
-          <button class="minus" @click="maxCourse -= 1">-</button>
-          <p class="maxCourseContent">{{maxCourse}}</p>
-          <button class="plus" @click="maxCourse += 1">+</button>
+          <button class="minus" @click="updateMaxCourses(maxCourses - 1)">-</button>
+          <p class="maxCourseContent">{{maxCourses}}</p>
+          <button class="plus" @click="updateMaxCourses(maxCourses + 1)">+</button>
         </div>
       </div>
       <div class="scroll">
@@ -102,6 +102,9 @@ export default {
       type: Array,
       default: () => [],
     },
+    maxCourses: {
+      type: Number,
+    }
   },
   async mounted() {
     console.log("test");
@@ -112,6 +115,12 @@ export default {
     this.scrollToEnd();
   },
   methods: {
+    updateMaxCourses(amount){
+      let updateAmount = amount;
+      if(amount < 0) updateAmount = 0;
+      if(amount > this.bookedCourses.length) updateAmount = this.bookedCourses.length; 
+      this.$store.dispatch("courseselection/updateMaxCourses", {maxCourses: updateAmount});
+    },
     scrollToEnd() {
       var container = document.querySelector(".scroll");
       var scrollHeight = container.scrollHeight;

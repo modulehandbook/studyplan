@@ -253,6 +253,11 @@ export const actions = {
     console.table(state.courseSelection.semesterPlans[0].bookedCourses);
     await dispatch("updateCourseSelection");
   },
+  async updateMaxCourses({dispatch}, {maxCourses}){
+    state.courseSelection.semesterPlans[0].maxCourses = maxCourses;
+    console.log(state.courseSelection.semesterPlans[0].maxCourses);
+    await dispatch("updateCourseSelection");
+  },
   async addCoursePriority({ dispatch }) {
     state.courseSelection.testNumber++;
     var test = state.courseSelection.semesterPlans[0].bookedCourses[0];
@@ -385,6 +390,9 @@ export const getters = {
     return state.courseSelection.semesterPlans[0].bookedCourses.find(
       (course) => course.priority === priority
     );
+  },
+  getMaxCourses: (state) => {
+    return state.semesterPlans[0].maxCourses;
   },
   getSurveyState: (state) => {
     if(!state.courseSelection || !state.courseSelection.semesterPlans ||
