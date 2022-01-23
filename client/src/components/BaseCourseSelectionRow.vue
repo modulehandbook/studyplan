@@ -73,8 +73,8 @@
           :disabled="!isEditable"
                 type="radio"
                 v-model="course.isRepeater"
-                :id="ja+index"
-                :name="test+index"
+                :id="'ja'+index"
+                :name="'test'+index"
                 :value="true"
               />
         <label label for="no">Nein</label>
@@ -84,8 +84,8 @@
                 :disabled="!isEditable"
                 type="radio"
                 v-model="course.isRepeater"
-                :id="nein+index"
-                :name="test+index"
+                :id="'nein'+index"
+                :name="'test'+index"
                 :value="false"
               />
         </div>
