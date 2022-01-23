@@ -40,7 +40,7 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[0].key + index"
-                  v-model="courseReasons[index]"
+                  v-model="courseReasons[course.code]"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[0].value"
@@ -53,11 +53,11 @@
               <div class="survey-radio right">
                 <input
                   :id="surveys[1].key + index"
-                  v-model="courseReasons[index]"
+                  v-model="courseReasons[course.code]"
                   type="checkbox"
                   :name="'checkbox' + index"
                   :value="surveys[1].value"
-                  @change="getChecked($event, index)"
+                 
                 />
                 <label :for="surveys[1].key + index">{{
                   surveys[1].name
@@ -68,11 +68,11 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[2].key + index"
-                  v-model="courseReasons[index]"
+                  v-model="courseReasons[course.code]"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[2].value"
-                  @change="getChecked($event, index)"
+                  
                 />
                 <label :for="surveys[2].key + index">{{
                   surveys[2].name
@@ -82,11 +82,11 @@
               <div class="survey-radio right">
                 <input
                   :id="surveys[3].key + index"
-                  v-model="courseReasons[index]"
+                  v-model="courseReasons[course.code]"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[3].value"
-                  @change="getChecked($event, index)"
+                 
                 />
                 <label :for="surveys[3].key + index">{{
                   surveys[3].name
@@ -97,11 +97,11 @@
               <div class="survey-radio left">
                 <input
                   :id="surveys[4].key + index"
-                  v-model="courseReasons[index]"
+                  v-model="courseReasons[course.code]"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[4].value"
-                  @change="getChecked($event, index)"
+               
                 />
                 <label :for="surveys[4].key + index">{{
                   surveys[4].name
@@ -111,21 +111,19 @@
               <div class="survey-radio right">
                 <input
                   :id="surveys[5].key + index"
-                  v-model="courseReasons[index]"
+                  v-model="courseReasons[course.code]"
                   type="checkbox"
                   :name="'survey' + index"
-                  @change="getChecked($event, index)"
+                 
                 />
                 <label :for="surveys[5].key + index">{{
                   surveys[5].name
                 }}</label>
                 <input
-                  v-model="courseReasons[index]"
+                  v-model="courseReasons[course.code]"
                   class="input-text"
                   type="text"
                   name=""
-                  :disabled="!isEnabledArray[index]"
-                  @change="getTextFieldValue($event, surveys[5].key + index)"
                 />
               </div>
             </div>
@@ -186,6 +184,9 @@ export default {
       .then(() => {
         console.log("did user take survey");
         console.log(this.hasTakenSurvey);
+        this.courseSelection.semesterPlans[0].bookedCourses.forEach((course) => {
+          this.courseReasons[course.code] = [];
+        });
         this.pending = false;
       })
       .catch((e) => {
@@ -216,7 +217,7 @@ export default {
       pending: false,
       surveyTaken: false,
       courses: defaultCourses,
-      courseReasons: [],
+      courseReasons: {},
       surveys: [
         { key: "lb", name: "Lehrer bedingt", value: "teacher" },
         { key: "zb", name: "zeitlich bedingt", value: "time" },
