@@ -29,7 +29,11 @@
              <br>
            </div>
          </div>
-         <button class="delete-button" type="submit"> Delete marked courses</button>
+              <div class="delete-button-wrapper">
+          <button class="delete-button" type="submit">
+            Markierte Kurse abwählen
+          </button>
+        </div>
           </div>
         </form>
        </div>
@@ -98,6 +102,29 @@ export default {
 </script>
 
 <style lang="scss">
+.delete-button-wrapper {
+  width: 100%;
+}
+.delete-button {
+  margin-left: 875px;
+  margin-top: 25px;
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 10px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  background: #000000;
+  padding: 5px 40px;
+  text-decoration: none;
+  border: 0;
+}
+
+.delete-button:hover {
+  background: #292c2e;
+  text-decoration: none;
+  cursor: pointer;
+}
 .courses{
   $space : 15px;
   $htw-green: #3d5814;

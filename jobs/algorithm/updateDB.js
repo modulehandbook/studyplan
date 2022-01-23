@@ -19,8 +19,8 @@ module.exports.updateDB = async (solution, currentSemester) => {
       }
     ).catch((err) => console.log(err));
   };
-
-  for (const course of solution) {
-    await updateCourse(course.code, course.students);
+  for (const [code, students] of Object.entries(solution)){
+    await updateCourse(code, students);
   }
+
 };

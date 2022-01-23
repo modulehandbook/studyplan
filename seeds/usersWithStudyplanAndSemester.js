@@ -36,23 +36,39 @@ async function loadUser() {
   for (let semester in semesterData) {
     await Semester.create(semesterData[semester]);
   }
-
-  const userData = [
+  const sem = await Semester.findOne({ name: "SoSe22" });
+  const sem2 = await Semester.findOne({ name: "SoSe20" });
+  let userData = [
     new User({
       username: "test",
       password: bcrypt.hashSync("test", 8),
       email: "test@mail.de",
+      isPreferred: true,
       isVerified: true,
+      startOfStudy: sem._id,
     }),
+  
     new User({
       username: "admin",
       password: bcrypt.hashSync("admin", 8),
       email: "admin@mail.de",
       isVerified: true,
       isAdmin: true,
+      isPreferred: false,
+      startOfStudy: sem2._id,
     }),
   ];
-
+  for(let i = 0; i < 10; i++){
+    userData.push(new User({
+      username: `test${i}`,
+      password: bcrypt.hashSync("test", 8),
+      email: `test${i}@mail.de`,
+      isVerified: true,
+      isAdmin: false,
+      isPreferred: false,
+      startOfStudy: sem._id,
+    }));
+  }
   const users = await User.create(userData);
   const ModalCourseData = [
     {
@@ -199,7 +215,7 @@ async function loadUser() {
     },
   ];
 
-  const sem = await Semester.findOne({ name: "SoSe22" });
+ 
 
   for (let course of ModalCourseData) {
     course.students = [userData[0]._id];
@@ -234,7 +250,7 @@ async function loadUser() {
     },
     currentSemester: sem._id,
   });
-
+  //console.log(sem);
   console.log("----");
   console.log("database seeded with:");
   console.log("----");
