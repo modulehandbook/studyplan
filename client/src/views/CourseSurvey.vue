@@ -39,7 +39,7 @@
           <div class="survey-form">
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
-                <input
+                <input v-if="courseReasons[course.code]"
                   :id="surveys[0].key + index"
                   v-model="courseReasons[course.code].reasons"
                   type="checkbox"
@@ -52,7 +52,7 @@
                 }}</label>
               </div>
               <div class="survey-radio right">
-                <input
+                <input v-if="courseReasons[course.code]"
                   :id="surveys[1].key + index"
                   v-model="courseReasons[course.code].reasons"
                   type="checkbox"
@@ -66,7 +66,7 @@
             </div>
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
-                <input
+                <input v-if="courseReasons[course.code]"
                   :id="surveys[2].key + index"
                    v-model="courseReasons[course.code].reasons"
                   type="checkbox"
@@ -79,7 +79,7 @@
               </div>
 
               <div class="survey-radio right">
-                <input
+                <input v-if="courseReasons[course.code]"
                   :id="surveys[3].key + index"
                    v-model="courseReasons[course.code].reasons"
                   type="checkbox"
@@ -93,7 +93,7 @@
             </div>
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
-                <input
+                <input v-if="courseReasons[course.code]"
                   :id="surveys[4].key + index"
                    v-model="courseReasons[course.code].reasons"
                   type="checkbox"
@@ -106,12 +106,20 @@
               </div>
 
               <div class="survey-radio right">
-             
+                <input v-if="courseReasons[course.code]"
+                  @change="toggleTextBox($event)"
+                  :id="surveys[4].key + index"
+
+                  type="checkbox"
+                  :name="'survey' + index"
+                  :value="surveys[5].value"
+                />
                 <label :for="surveys[5].key + index">{{
                   surveys[5].name
                 }}</label>
-                <input
+                <input v-if="courseReasons[course.code]"
                   v-model="courseReasons[course.code].other"
+                  :disabled="textEnabled[index]"
                   class="input-text"
                   type="text"
                   name=""
@@ -150,12 +158,14 @@ export default {
     ...mapState("user", ["user"]),
     ...mapGetters({
       hasTakenSurvey: "courseselection/getSurveyState",
-      courseReasons: "courseselection/getCourseBookedCoursesForForm",
     }),
 
   },
   async mounted() {
     this.pending = true;
+    this.courseReasons = {};
+    console.log("mounted ist called");
+    console.log(this.courseReasons);
     await this.$store
       .dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
@@ -188,6 +198,7 @@ export default {
       pending: false,
       surveyTaken: false,
       courseReasons: {},
+      textEnabled: [],
       surveys: [
         { key: "lb", name: "Lehrer bedingt", value: "teacher" },
         { key: "zb", name: "zeitlich bedingt", value: "time" },
@@ -209,16 +220,18 @@ export default {
     };
   },
   methods: {
-
+    toggleTextBox(event) {
+      console.log(event);
+    },
     async updateCourses() {
     
-      await this.$store.dispatch(
+     /* await this.$store.dispatch(
         "courseselection/updateCourseSelectionReasons",
         {
           courseReasons: this.courseReasons,
         }
       );
-  
+    */
      console.log(this.courseReasons);
       // console.log("courseselection");
       //  console.log(this.courseSelection);
@@ -297,14 +310,14 @@ export default {
   font-family: Arial;
   color: #ffffff;
   font-size: 20px;
-  background: #000000;
+  background: #76b900;
   padding: 5px 80px;
   text-decoration: none;
   border: 0;
 }
 
 .survey-button:hover {
-  background: #292c2e;
+  background: #8ddf00;
   text-decoration: none;
   cursor: pointer;
 }
