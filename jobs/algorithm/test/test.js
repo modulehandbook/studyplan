@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const { getData } = require("./getData");
-const { updateDB } = require("./updateDB");
-const { algo } = require("./algoV1");
-const { saveSurveyResults } = require(".././saveSurveyResults");
+const { getData } = require("../getData");
+const { updateDB } = require("../updateDB");
+const { algo } = require("../algoV1");
+const { saveSurveyResults } = require("../../saveSurveyResults");
 
 const mongo = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
 mongoose
