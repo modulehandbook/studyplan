@@ -258,6 +258,11 @@ export const actions = {
     console.log(state.courseSelection.semesterPlans[0].maxCourses);
     await dispatch("updateCourseSelection");
   },
+  async updateIsRepeater({dispatch}, {index, isRepeater}){
+
+    state.courseSelection.semesterPlans[0].bookedCourses[index].isRepeater = isRepeater;
+    await dispatch("updateCourseSelection")
+  },
   async addCoursePriority({ dispatch }) {
     state.courseSelection.testNumber++;
     var test = state.courseSelection.semesterPlans[0].bookedCourses[0];

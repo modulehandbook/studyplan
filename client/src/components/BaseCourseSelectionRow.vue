@@ -41,7 +41,8 @@
     v-for="(course, $courseIndex) in courses" 
     :key="$courseIndex"
     >
-    <form name="form" v-if="course.code != ''">
+    <form name="form" v-if="course.code != ''" 
+     @submit.prevent="updateCourses">
       <!-- <label label for="wiederholer">Wiederholer</label>
       <label for="wiederholer">Wiederholer</label>
         <select
@@ -67,7 +68,7 @@
         <div :class="{ error: v$.wiederholer.$error}">
         <label label for="yes"> Wiederholer:      Ja</label>
         <input  
-                
+          @change="courseRepeaterChanged($event)"     
           @blur="v$.wiederholer.$touch()"
           :disabled="!isEditable"
                 type="radio"
@@ -79,6 +80,7 @@
         <label label for="no">Nein</label>
         <input
                 @blur="v$.wiederholer.$touch()"
+                @change="courseRepeaterChanged($event)" 
                 :disabled="!isEditable"
                 type="radio"
                 v-model="wiederholer"
@@ -146,6 +148,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    index: {
+      type: Number,
+      default: 0,
+    }
   },
 
   computed: {
@@ -171,7 +177,11 @@ export default {
       e.dataTransfer.setData("from-course-index", fromCourseIndex);
       e.dataTransfer.setData("from-course-priority", fromCoursePriority);
     },
-
+    async courseRepeaterChanged(event){
+      const isRepeater = event.target.value
+      console.log(isRepeater);
+      this.$store.dispatch("courseselection/updateIsRepeater", {index: this.index, isRepeater: isRepeater}); 
+    },
     moveCourse(e, toCourseIndex) {
       e.preventDefault();
       const fromCoursePriority = parseInt(

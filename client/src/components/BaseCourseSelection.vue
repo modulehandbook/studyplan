@@ -22,7 +22,7 @@
       <div class="scroll">
       <BaseCourseSelectionRow
         class="priorities"
-        v-for="course in bookedCourses"
+        v-for="(course, index) in bookedCourses"
         :key="course"
         :course-priority="course.priority"
         :courses="[course]"
@@ -30,6 +30,7 @@
         :is-unbooked-courses="false"
         :semester="semester"
         :isEditable="isEditable"
+        :index="index"
       />
       </div>
       <div>
