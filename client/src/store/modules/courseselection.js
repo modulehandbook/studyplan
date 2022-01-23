@@ -152,14 +152,25 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async updateCourseSelectionReasons({state, commit, dispatch}, {mappedCourses}){
+  async updateCourseSelectionReasons({state, commit, dispatch}, {courseReasons}){
     commit("SET_PENDING", true);
     try{
+      let selectionReasons = [];
+      for (const [courseCode, surveyResults] of Object.entries(courseReasons)){
+        selectionReasons.push({
+          code: courseCode,
+          reasons: [...surveyResults.reasons],
+          other: surveyResults.other,
+        });
+      }
+      state.courseSelection.semesterPlans[0].selectionReasons = selectionReasons;
+      /*
       let selectionReasonsHelper = [];
       mappedCourses.forEach((mappedCourse) => {
         selectionReasonsHelper.push({code: mappedCourse.code, reasons: [mappedCourse.selectionReason], other: undefined });
       });
       state.courseSelection.semesterPlans[0].selectionReasons = selectionReasonsHelper;
+      */
       await dispatch("updateCourseSelection");
     }catch (error) {
       const notification = {
@@ -417,4 +428,14 @@ export const getters = {
     });
     return reti;
   },
+  getCourseBookedCoursesForForm: (state) => {
+    let courseReasons = {};
+    state.courseSelection.semesterPlans[0].bookedCourses.forEach(
+      (course) => {
+        courseReasons[course.code] = {reasons: [], other: ""};
+      }
+    );
+    return courseReasons;
+  },
+
 };
