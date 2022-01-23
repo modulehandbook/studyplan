@@ -406,4 +406,14 @@ export const getters = {
     });
     return reti;
   },
+  getCourseBookedCoursesForForm: (state) => {
+    let courseReasons = {};
+    state.courseSelection.semesterPlans[0].bookedCourses.forEach(
+      (course) => {
+        courseReasons[course.code] = {reasons: [], other: ""};
+      }
+    );
+    return courseReasons;
+  },
+
 };
