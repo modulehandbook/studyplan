@@ -226,14 +226,14 @@ export default {
     },
     async updateCourses() {
     
-     /* await this.$store.dispatch(
+     await this.$store.dispatch(
         "courseselection/updateCourseSelectionReasons",
         {
           courseReasons: this.courseReasons,
         }
       );
-    */
-     console.log(this.courseReasons);
+  
+     //console.log(this.courseReasons);
       // console.log("courseselection");
       //  console.log(this.courseSelection);
       // this.surveyTaken = true;
