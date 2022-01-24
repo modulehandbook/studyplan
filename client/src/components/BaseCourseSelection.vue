@@ -14,63 +14,83 @@
         <h3>Kursauswahl</h3>
         <div class="maxCourse">
           <p class="hMax">max. Kurse</p>
-          <button class="minus" @click="maxCourse -= 1">-</button>
-          <p class="maxCourseContent">{{maxCourse}}</p>
-          <button class="plus" @click="maxCourse += 1">+</button>
+          <button class="minus" :disabled="!isEditable" @click="updateMaxCourses(maxCourses - 1)">
+            -
+          </button>
+          <p class="maxCourseContent">{{ maxCourses }}</p>
+          <button class="plus" :disabled="!isEditable" @click="updateMaxCourses(maxCourses + 1)">
+            +
+          </button>
         </div>
       </div>
       <div class="scroll">
-      <BaseCourseSelectionRow
-        class="priorities"
-        v-for="course in bookedCourses"
-        :key="course"
-        :course-priority="course.priority"
-        :courses="[course]"
-        :other-courses="courses"
-        :is-unbooked-courses="false"
-        :semester="semester"
-        :isEditable="isEditable"
-      />
+        <BaseCourseSelectionRow
+          class="priorities"
+          v-for="(course, index) in bookedCourses"
+          :bookedCourses="bookedCourses"
+          :key="course"
+          :course-priority="course.priority"
+          :courses="[course]"
+          :other-courses="courses"
+          :is-unbooked-courses="false"
+          :semester="semester"
+          :isEditable="isEditable"
+          :index="index"
+          :maxCourses="maxCourses"
+        />
       </div>
       <div>
         <div>
           <button @click="addPriority" class="button" :disabled="!isEditable">
             <font-awesome-icon :icon="['fas', 'plus-circle']" size="2x" />
           </button>
-          <p style="margin-top:0.5rem;">Prio hinzufügen</p>
+          <p style="margin-top: 0.5rem">Prio hinzufügen</p>
         </div>
-        <button class="edit" @click="isEditable=true" :disabled="isEditable">
+        <button class="edit" @click="isEditable = true" :disabled="isEditable">
           Ändern
         </button>
-        <button @click="resetCourseSelection" class="reset" :disabled="!isEditable">
+        <button
+          @click="resetCourseSelection"
+          class="reset"
+          :disabled="!isEditable"
+        >
           Zurücksetzen
         </button>
-        <button :disabled="v$.$invalid || !isEditable" class="save" @click="isEditable=false">
+        <button
+          :disabled="isEmptyCourse || !isEditable"
+          class="save"
+          @click="isEditable = false"
+        >
           Speichern
         </button>
       </div>
     </div>
-    <button class="infoButton" @click="showInfo=true">
+    <button class="infoButton" @click="showInfo = true">
       Mehr Informationen
     </button>
-    <transition name="slide" appear >
-      <div class="info" v-if="showInfo"> 
+    <transition name="slide" appear>
+      <div class="info" v-if="showInfo">
         <h2>Wiederholer</h2>
-        <p>Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal belegt wurde. Weitere Informationen finden Sie auf der Hilfe Seite.</p>
-        <br> <br>
+        <p>
+          Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal
+          belegt wurde. Weitere Informationen finden Sie auf der Hilfe Seite.
+        </p>
+        <br />
+        <br />
         <h2>Funktion</h2>
         <p>Per Drag&amp;Drop kannst du deine gewünschten Kurse hinzufügen.</p>
-        <br> <br>
+        <br />
+        <br />
         <h2>Achtung!</h2>
-        <p>Bitte tätige alle Angaben wahrheitsgemäß!
-        Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
-        Angaben führen zur Abmeldung aller Kurse.
-        <br> <br>
-      	Zudem sollten alle Felder ausgefüllt oder entfernt werden, um Änderungen speichern zu können
+        <p>
+          Bitte tätige alle Angaben wahrheitsgemäß! Diese werden nach der
+          Belegungsphase auf Richtigkeit überprüft. Falsche Angaben führen zur
+          Abmeldung aller Kurse. <br />
+          <br />
+          Zudem sollten alle Felder ausgefüllt oder entfernt werden, um
+          Änderungen speichern zu können
         </p>
-        <button class="infoButton" @click="showInfo=false">
-          Schließen
-        </button>
+        <button class="infoButton" @click="showInfo = false">Schließen</button>
       </div>
     </transition>
   </div>
@@ -78,6 +98,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
+import { mapGetters } from "vuex";
 
 export default {
   setup() {
@@ -87,8 +108,12 @@ export default {
     return {
       isEditable: false,
       showInfo: false,
-      maxCourse: 0,
     };
+  },
+  computed: {
+      ...mapGetters({
+      isEmptyCourse: "courseselection/isEmptyCourse"
+    }),
   },
   props: {
     semester: {
@@ -102,16 +127,29 @@ export default {
       type: Array,
       default: () => [],
     },
+    maxCourses: {
+      type: Number,
+      default: 0,
+    },
   },
   async mounted() {
     console.log("test");
     this.scrollToEnd();
-    this.isEditable=false;
+    this.isEditable = false;
   },
   updated() {
     this.scrollToEnd();
   },
   methods: {
+    updateMaxCourses(amount) {
+      let updateAmount = amount;
+      if (amount < 0) updateAmount = 0;
+      if (amount > this.bookedCourses.length)
+        updateAmount = this.bookedCourses.length;
+      this.$store.dispatch("courseselection/updateMaxCourses", {
+        maxCourses: updateAmount,
+      });
+    },
     scrollToEnd() {
       var container = document.querySelector(".scroll");
       var scrollHeight = container.scrollHeight;
@@ -129,55 +167,56 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
-.maxCourse{
+.maxCourse {
   display: grid;
 }
-.hMax{
-  grid-row:1;
+.hMax {
+  grid-row: 1;
   grid-column-start: 1;
   grid-column-end: 4;
   padding-bottom: 0;
   margin-bottom: 0;
   margin-top: 0;
 }
-.plus{
+.plus {
   text-align: left;
   grid-column: 3;
-  grid-row:2;
-  border:none;
+  grid-row: 2;
+  border: none;
   background-color: #b3b3b3;
   font-size: x-large;
 }
-.minus{
+.minus {
   text-align: right;
   grid-column: 1;
-  grid-row:2;
-  border:none;
+  grid-row: 2;
+  border: none;
   background-color: #b3b3b3;
   font-size: x-large;
 }
-.maxCourseContent{
+.maxCourseContent {
   grid-column: 2;
-  grid-row:2;
+  grid-row: 2;
   padding-left: 0;
   padding-right: 0;
 }
-.infoButton{
+.infoButton {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   margin-right: 2rem;
   margin-left: 2rem;
-  padding:0.5rem;
-  border:none;
+  padding: 0.5rem;
+  border: none;
   border-radius: 0.25rem;
   font-weight: 600;
   align-items: center;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 .infoButton:hover {
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
-.info{
+.info {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -190,31 +229,31 @@ $htwGruen: #76b900;
   overflow: hidden;
   border-width: 0.25rem;
   border-color: #76b900;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 16 px;
   padding: 25px;
   border-radius: 1rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 .slide-enter-active,
-.slide-leave-active{
-  transition: opacity .5s;
+.slide-leave-active {
+  transition: opacity 0.5s;
 }
 .slide-enter,
-.slide-leave-to{
+.slide-leave-to {
   opacity: 0;
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
-.instruction{
+.instruction {
   margin-bottom: 1.5rem;
   margin-left: 3rem;
   //padding-right: 2rem;
   text-align: justify;
   font-size: x-small;
-  color:rgb(34, 34, 34);
+  color: rgb(34, 34, 34);
   max-width: 20rem;
 }
 .error-message {
@@ -222,12 +261,12 @@ $htwGruen: #76b900;
   margin-bottom: 30px;
   margin-top: 0;
 }
-.button{
+.button {
   text-decoration: none;
   background: white;
   border: none;
-  padding:0px;
-  margin-top:0.5rem;
+  padding: 0px;
+  margin-top: 0.5rem;
   border-radius: 5rem;
 }
 .button:hover {
@@ -269,43 +308,49 @@ $htwGruen: #76b900;
     margin-left: 1rem;
     // padding-top: 0.5rem;
     // padding-bottom: 0.5rem;
-    padding:0.5rem;
-    border:none;
+    padding: 0.5rem;
+    border: none;
     border-radius: 0.25rem;
     font-weight: 600;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
   .reset:hover:enabled {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-  } 
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  }
   .save {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     margin-left: 1.5rem;
     // padding-top: 0.5rem;
     // padding-bottom: 0.5rem;
-    padding:0.5rem;
-    border:none;
+    padding: 0.5rem;
+    border: none;
     border-radius: 0.25rem;
-    background:rgb(163, 223, 145);
+    background: rgb(163, 223, 145);
     font-weight: 600;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
   .save:hover:enabled {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-  } 
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  }
   .edit {
     margin-top: 0.5rem;
     margin-bottom: 1rem;
-    padding:0.5rem;
-    border:none;
+    padding: 0.5rem;
+    border: none;
     border-radius: 0.25rem;
-    background:rgb(145, 201, 223);
+    background: rgb(145, 201, 223);
     font-weight: 600;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
   .edit:hover:enabled {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0.19);
   }
 }
 

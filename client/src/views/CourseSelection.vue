@@ -12,6 +12,7 @@
           :courses="courseSelection.semesterPlans[0].unbookedCourses"
           :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
           :semester="currSemester"
+          :maxCourses="courseSelection.semesterPlans[0].maxCourses"
         />
       </div>
       <router-view></router-view> 

@@ -264,6 +264,16 @@ export const actions = {
     console.table(state.courseSelection.semesterPlans[0].bookedCourses);
     await dispatch("updateCourseSelection");
   },
+  async updateMaxCourses({dispatch}, {maxCourses}){
+    state.courseSelection.semesterPlans[0].maxCourses = maxCourses;
+    console.log(state.courseSelection.semesterPlans[0].maxCourses);
+    await dispatch("updateCourseSelection");
+  },
+  async updateIsRepeater({dispatch}, {index, isRepeater}){
+
+    state.courseSelection.semesterPlans[0].bookedCourses[index].isRepeater = isRepeater;
+    await dispatch("updateCourseSelection")
+  },
   async addCoursePriority({ dispatch }) {
     state.courseSelection.testNumber++;
     var test = state.courseSelection.semesterPlans[0].bookedCourses[0];
@@ -397,12 +407,24 @@ export const getters = {
       (course) => course.priority === priority
     );
   },
+  getMaxCourses: (state) => {
+    return state.semesterPlans[0].maxCourses;
+  },
   getSurveyState: (state) => {
     if(!state.courseSelection || !state.courseSelection.semesterPlans ||
       state.courseSelection.semesterPlans[0].selectionReasons.length !=state.courseSelection.semesterPlans[0].bookedCourses.length)return false;
     let reti = true;
     state.courseSelection.semesterPlans[0].selectionReasons.forEach((course, index) => {
       if(course.code !== state.courseSelection.semesterPlans[0].bookedCourses[index].code) reti = false;
+    });
+    return reti;
+  },
+  isEmptyCourse: (state) => {
+    let reti = false;
+    if(!state.courseSelection || !state.courseSelection.semesterPlans ||
+      !state.courseSelection.semesterPlans[0].bookedCourses)return false;
+    state.courseSelection.semesterPlans[0].bookedCourses.forEach((course) => {
+      if(course.ects === 0) reti = true;
     });
     return reti;
   },
