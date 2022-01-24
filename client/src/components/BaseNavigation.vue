@@ -13,7 +13,7 @@
             >
             <router-link
               class="link"
-              v-if="
+              v-if="currentUser.isAdmin ||
                 stage.currentStage === 'COURSE-RESULT' ||
                 stage.currentStage === 'EVALUATION'
               "
@@ -23,13 +23,13 @@
             </router-link>
             <router-link
               class="link"
-              v-if="stage.currentStage === 'COURSE-SELECTION'"
+              v-if="currentUser.isAdmin || stage.currentStage === 'COURSE-SELECTION'"
               to="/courseselection"
               >Kursbelegung</router-link
             >
             <router-link
               class="link"
-              v-if="stage.currentStage === 'COURSE-SELECTION'"
+              v-if="currentUser.isAdmin || stage.currentStage === 'COURSE-SELECTION'"
               to="/coursesurvey"
               >Umfrage</router-link
             >
@@ -38,7 +38,7 @@
               class="link"
               to="/modalcourse"
             >
-              Wahlpflichtkurse
+              Admin
             </router-link>
             <router-link class="link" to="/hilfe">Hilfe</router-link>
           </div>

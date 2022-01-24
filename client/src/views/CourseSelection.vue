@@ -1,9 +1,9 @@
 <template>
   <div v-if="!pending">
-    <BaseHeading>
-      <h1>Kursbelegung</h1>
-    </BaseHeading>
     <div v-if="stage.currentStage === 'COURSE-SELECTION'">
+      <BaseHeading>
+        <h1>Kursbelegung</h1>
+      </BaseHeading>
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
       >
@@ -31,7 +31,7 @@
         </h2></BaseHeading
       >
       <span class="wrong-stage-text">
-        Die nächste Belegphase startet {{ time("courseSelection",true) }}.
+        Die nächste Belegphase startet {{ time("courseSelection", true) }}.
       </span>
     </div>
   </div>

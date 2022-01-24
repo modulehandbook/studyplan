@@ -18,11 +18,11 @@
     >
       <BaseHeading>
         <h2 class="no-course-headline">
-          Aktuell ist keine Belegphase.
+          Aktuell ist keine Belegungsphase.
         </h2></BaseHeading
       >
       <span class="no-course-text">
-        Die nächste Belegphase startet {{ time("courseSelection", true) }}.
+         Die nächste Belegphase startet {{ time("courseSelection", true) }}. 
       </span>
     </div>
     <form
@@ -149,7 +149,7 @@
       </div>
       <div class="button-wrapper">
         <button class="survey-button" type="submit">Submit</button>
-        <p class="survey-time">Umfrageschluss {{ time("evaluation",true) }}.</p>
+        <p class="survey-time">Umfrageschluss {{ time("evaluation",true) }}.</p> 
       </div>
     </form>
     <div v-else class="no-course-wrapper">
@@ -206,11 +206,19 @@ export default {
       .then(() => {
         console.log("did user take survey");
         console.log(this.hasTakenSurvey);
+        if (this.courseSelection) {
+          if (this.courseSelection.semesterPlans) {
+            if (this.courseSelection.semesterPlans[0]) {
+              if (this.courseSelection.semesterPlans[0].bookedCourses) {
         this.courseSelection.semesterPlans[0].bookedCourses.forEach(
           (course) => {
             this.courseReasons[course.code] = { reasons: [], other: "" };
           }
         );
+              }
+            }
+          }
+        }
         this.pending = false;
       })
       .catch((e) => {

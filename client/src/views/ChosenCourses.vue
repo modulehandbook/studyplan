@@ -1,24 +1,36 @@
 <template>
-  <div
-    v-if="
-      !pending && this.courseSelection && this.courseSelection.semesterPlans
-    "
-  >
+  <div v-if="!pending">
     <div
-      v-if="
+      v-if="!this.courseSelection || !this.courseSelection.semesterPlans"
+      class="wrong-stage-wrapper"
+    >
+      <BaseHeading>
+        <h2 class="wrong-stage-headline">
+          Du hast keine Kurse gewählt.
+        </h2></BaseHeading
+      >
+      <span class="wrong-stage-text">
+        In der Belegungsphase hast du keine Kurse gewählt.
+      </span>
+    </div>
+    <div
+      v-else-if="
         stage.currentStage === 'EVALUATION' ||
         stage.currentStage === 'COURSE-RESULT'
       "
     >
-      <BaseHeading><h1>Meine Kurse</h1></BaseHeading>
-    <div class="info-wrapper">
-      <p><b>Hinweis:</b> Die Kursbelegungs-Phase ist beendet.</p>
-      <p>
-        Aktuell werden die Kurse verteilt.<br> In Kürze kannst du hier sehen, für
-        welche Kurse du zugelassen wurdest.
-      </p>
-    </div>
-    <p><br></p>
+      <div v-if="stage.currentStage === 'EVALUATION'">
+        <BaseHeading><h1>Meine Kurse</h1></BaseHeading>
+        <div class="info-wrapper">
+          <p><b>Hinweis:</b> Die Kursbelegungs-Phase ist beendet.</p>
+          <p>
+            Aktuell werden die Kurse verteilt.<br />
+            In Kürze kannst du hier sehen, für welche Kurse du zugelassen
+            wurdest.
+          </p>
+        </div>
+        <p><br /></p>
+      </div>
       <div class="courses-selection">
         <form @submit.prevent="removeChosenCourses">
           <div class="courses-wrapper">
