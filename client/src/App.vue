@@ -15,6 +15,7 @@ html,
 body {
   max-height: 100vh;
   max-width: 100vw;
+  margin: -0px !important;
 }
 #app {
   font-family: Roboto, Helvetica, Arial, sans-serif;
