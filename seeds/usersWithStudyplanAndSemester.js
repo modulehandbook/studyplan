@@ -236,7 +236,7 @@ async function loadUser() {
 
   await Stage.create({
     //TODO
-    currentStage: "COURSE-SELECTION",
+    currentStage: "COURSE-RESULT",
     nextDates: {
       idle: [{ date: "2023-01-15" }],
       courseSelection: [{ date: "2023-01-16" }],

@@ -1,9 +1,9 @@
 <template>
   <div v-if="!pending">
-    <BaseHeading>
+    <div v-if="stage.currentStage === 'COURSE-SELECTION'">
+      <BaseHeading>
         <h1>Kursbelegung</h1>
-    </BaseHeading>
-    <!-- <div v-if="stage.currentStage === 'COURSE-SELECTION'"> -->
+      </BaseHeading>
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
       >
@@ -15,20 +15,25 @@
           :maxCourses="courseSelection.semesterPlans[0].maxCourses"
         />
       </div>
-      <router-view></router-view> 
-      <!-- <div>Verbleibende Zeit: {{ time }}</div> -->
+      <router-view></router-view>
+      <!-- <div>Verbleibende Zeit: {{ time("evaluation",false) }}</div> -->
       <div v-if="courseSelection == null">
-        <button
-          @click="addCourseSelection"
-        >
+        <button @click="addCourseSelection">
           <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
         </button>
         <p>Kurswahl hinzufuegen</p>
       </div>
-    <!-- </div> -->
-    <!-- <div v-if="stage.currentStage !== 'COURSE-SELECTION'">
-      <p>Die Belegungsphase ist geschlossen</p>
-    </div> -->
+    </div>
+    <div v-else class="wrong-stage-wrapper">
+      <BaseHeading>
+        <h2 class="wrong-stage-headline">
+          Aktuell ist keine Belegphase.
+        </h2></BaseHeading
+      >
+      <span class="wrong-stage-text">
+        Die nächste Belegphase startet {{ time("courseSelection", true) }}.
+      </span>
+    </div>
   </div>
 </template>
 
@@ -56,14 +61,15 @@ export default {
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user", ["user"]),
     ...mapGetters({
-      currSemester: "semester/getCurrentSemester"
+      currSemester: "semester/getCurrentSemester",
     }),
 
     time() {
-      const deadline = new Date(this.stage.nextDates.evaluation.date);
-      //return deadline.getTime() - Date.now()
-      const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
-      return gap.locale("de").humanize();
+      return (stage, withPrefix) => {
+        const deadline = new Date(this.stage.nextDates[stage].date);
+        const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
+        return gap.locale("de").humanize(withPrefix);
+      };
     },
   },
 
@@ -73,7 +79,6 @@ export default {
     } else {
       this.pending = true;
       await this.$store.dispatch("semester/fetchSemesters");
-      await this.$store.dispatch("stage/fetchStage");
       await this.$store.dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       });
@@ -94,5 +99,20 @@ export default {
 </script>
 
 <style lang="scss">
-
+.wrong-stage-wrapper {
+  width: 700px;
+  border-radius: 20px;
+  color: black;
+  text-align: center;
+  padding: 10px 10px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  background: #ffffff;
+  border: 5px solid #7eb726;
+  box-sizing: border-box;
+  box-shadow: 6px 6px 18px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
 </style>
