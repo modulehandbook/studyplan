@@ -12,6 +12,19 @@
         Umfrage neu machen.
       </span>
     </div>
+    <div
+      v-else-if="stage.currentStage !== 'COURSE-SELECTION'"
+      class="no-course-wrapper"
+    >
+      <BaseHeading>
+        <h2 class="no-course-headline">
+          Aktuell ist keine Belegphase.
+        </h2></BaseHeading
+      >
+      <span class="no-course-text">
+        Die nächste Belegphase startet {{ time("courseSelection", true) }}.
+      </span>
+    </div>
     <form
       v-else-if="
         courseSelection != null &&
@@ -39,20 +52,21 @@
           <div class="survey-form">
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
-                <input v-if="courseReasons[course.code]"
+                <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[0].key + index"
                   v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[0].value"
-      
                 />
                 <label :for="surveys[0].key + index">{{
                   surveys[0].name
                 }}</label>
               </div>
               <div class="survey-radio right">
-                <input v-if="courseReasons[course.code]"
+                <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[1].key + index"
                   v-model="courseReasons[course.code].reasons"
                   type="checkbox"
@@ -66,9 +80,10 @@
             </div>
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
-                <input v-if="courseReasons[course.code]"
+                <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[2].key + index"
-                   v-model="courseReasons[course.code].reasons"
+                  v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[2].value"
@@ -79,9 +94,10 @@
               </div>
 
               <div class="survey-radio right">
-                <input v-if="courseReasons[course.code]"
+                <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[3].key + index"
-                   v-model="courseReasons[course.code].reasons"
+                  v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[3].value"
@@ -93,9 +109,10 @@
             </div>
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
-                <input v-if="courseReasons[course.code]"
+                <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[4].key + index"
-                   v-model="courseReasons[course.code].reasons"
+                  v-model="courseReasons[course.code].reasons"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[4].value"
@@ -106,10 +123,10 @@
               </div>
 
               <div class="survey-radio right">
-                <input v-if="courseReasons[course.code]"
+                <input
+                  v-if="courseReasons[course.code]"
                   @change="toggleTextBox($event, course.code, index)"
                   :id="surveys[4].key + index"
-
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[5].value"
@@ -117,7 +134,8 @@
                 <label :for="surveys[5].key + index">{{
                   surveys[5].name
                 }}</label>
-                <input v-if="courseReasons[course.code]"
+                <input
+                  v-if="courseReasons[course.code]"
                   v-model="courseReasons[course.code].other"
                   :disabled="!textEnabled[index]"
                   class="input-text"
@@ -131,7 +149,7 @@
       </div>
       <div class="button-wrapper">
         <button class="survey-button" type="submit">Submit</button>
-        <p class="survey-time">Umfrageschluss: dd/mm/yyyy</p>
+        <p class="survey-time">Umfrageschluss {{ time("evaluation",true) }}.</p>
       </div>
     </form>
     <div v-else class="no-course-wrapper">
@@ -147,11 +165,20 @@
   </div>
 </template>
 
+export default { },
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, useStore, mapGetters } from "vuex";
+import { computed } from "vue";
+import moment from "moment";
 import BaseHeading from "../components/BaseHeading.vue";
 export default {
+  setup() {
+    const store = useStore();
+    return {
+      stage: computed(() => store.state.stage),
+    };
+  },
   components: { BaseHeading },
   computed: {
     ...mapState("courseselection", ["courseSelection"]),
@@ -159,7 +186,13 @@ export default {
     ...mapGetters({
       hasTakenSurvey: "courseselection/getSurveyState",
     }),
-
+    time() {
+      return (stage, withPrefix) => {
+        const deadline = new Date(this.stage.nextDates[stage].date);
+        const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
+        return gap.locale("de").humanize(withPrefix);
+      };
+    },
   },
   async mounted() {
     this.pending = true;
@@ -175,7 +208,7 @@ export default {
         console.log(this.hasTakenSurvey);
         this.courseSelection.semesterPlans[0].bookedCourses.forEach(
           (course) => {
-            this.courseReasons[course.code] = {reasons: [], other: ""};
+            this.courseReasons[course.code] = { reasons: [], other: "" };
           }
         );
         this.pending = false;
@@ -186,7 +219,7 @@ export default {
   },
   data() {
     /*
-      reasonsForSelecton: { 
+      reasonsForSelecton: {
         teacher: Number,
         time: Number,
         interest: Number,
@@ -216,27 +249,21 @@ export default {
         { key: "so", name: "sonstiges", value: "" },
       ],
       // array of the enabled status for the text input field
-  
     };
   },
   methods: {
     toggleTextBox(event, courseCode, index) {
-      this.textEnabled[index] = this.textEnabled[index] == undefined ? true : !this.textEnabled[index]
+      this.textEnabled[index] =
+        this.textEnabled[index] == undefined ? true : !this.textEnabled[index];
       this.courseReasons[courseCode].other = "";
     },
     async updateCourses() {
-    
-     await this.$store.dispatch(
+      await this.$store.dispatch(
         "courseselection/updateCourseSelectionReasons",
         {
           courseReasons: this.courseReasons,
         }
       );
-  
-     //console.log(this.courseReasons);
-      // console.log("courseselection");
-      //  console.log(this.courseSelection);
-      // this.surveyTaken = true;
     },
   },
 };
@@ -244,7 +271,7 @@ export default {
 
 <style>
 .survey-time {
-  font-size: xx-small;
+  font-size: x-small;
   text-align: right;
 }
 
