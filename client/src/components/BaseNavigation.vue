@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!pending">
     <div v-if="!mobileView" class="navigation">
       <div class="navigation-container">
         <div v-if="currentUser">
@@ -11,9 +11,26 @@
             <router-link class="link" to="/example-studyplan"
               >Plan nach Studienordnung</router-link
             >
-            <router-link class="link" to="/mycourses"> gewaehlte kurse </router-link>
-            <router-link class="link" to="/coursesurvey">Umfrage</router-link>
-            <router-link class="link" to="/courseselection"
+            <router-link
+              class="link"
+              v-if="
+                stage.currentStage === 'COURSE-RESULT' ||
+                stage.currentStage === 'EVALUATION'
+              "
+              to="/mycourses"
+            >
+              gewaehlte kurse
+            </router-link>
+            <router-link
+              class="link"
+              v-if="stage.currentStage === 'COURSE-SELECTION'"
+              to="/coursesurvey"
+              >Umfrage</router-link
+            >
+            <router-link
+              class="link"
+              v-if="stage.currentStage === 'COURSE-SELECTION'"
+              to="/courseselection"
               >Kursbelegung</router-link
             >
             <router-link
@@ -88,9 +105,18 @@
 </template>
 
 <script>
+import { mapState, useStore, mapGetters } from "vuex";
+import { computed } from "vue";
 export default {
+  setup() {
+    const store = useStore();
+    return {
+      stage: computed(() => store.state.stage),
+    };
+  },
   data() {
     return {
+      pending: true,
       mobileView: false,
       showMobileNavMenu: false,
     };
@@ -100,6 +126,11 @@ export default {
       console.log(this.$store.state.user);
       return this.$store.state.user.user;
     },
+  },
+  async mounted() {
+      this.pending = true;
+      await this.$store.dispatch("stage/fetchStage");
+      this.pending = false;
   },
   created() {
     this.mobileView = window.innerWidth <= 600;
