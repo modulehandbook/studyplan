@@ -68,6 +68,12 @@
     <button class="infoButton" @click="showInfo = true">
       Mehr Informationen
     </button>
+    <transition name="fade" appear>
+      <div :class="{
+        overlay: showInfo,
+      }">
+      </div>
+    </transition>
     <transition name="slide" appear>
       <div class="info" v-if="showInfo">
         <h2>Wiederholer</h2>
@@ -234,6 +240,7 @@ $htwGruen: #76b900;
   padding: 25px;
   border-radius: 1rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  backdrop-filter: blur(2px);
 }
 .slide-enter-active,
 .slide-leave-active {
@@ -376,5 +383,26 @@ $htwGruen: #76b900;
 .scroll {
   max-height: 30rem;
   overflow-y: auto;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
