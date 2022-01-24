@@ -1,5 +1,8 @@
 <template>
   <div v-if="!pending">
+    <BaseHeading>
+        <h1>Kursbelegung</h1>
+    </BaseHeading>
     <!-- <div v-if="stage.currentStage === 'COURSE-SELECTION'"> -->
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
@@ -9,6 +12,7 @@
           :courses="courseSelection.semesterPlans[0].unbookedCourses"
           :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
           :semester="currSemester"
+          :maxCourses="courseSelection.semesterPlans[0].maxCourses"
         />
       </div>
       <router-view></router-view> 

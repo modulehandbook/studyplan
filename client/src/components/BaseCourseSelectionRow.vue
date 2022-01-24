@@ -41,7 +41,8 @@
     v-for="(course, $courseIndex) in courses" 
     :key="$courseIndex"
     >
-    <form name="form" v-if="course.code != ''">
+    <form name="form" v-if="course.code != ''" 
+     @submit.prevent="updateCourses">
       <!-- <label label for="wiederholer">Wiederholer</label>
       <label for="wiederholer">Wiederholer</label>
         <select
@@ -67,23 +68,24 @@
         <div :class="{ error: v$.wiederholer.$error}">
         <label label for="yes"> Wiederholer:      Ja</label>
         <input  
-                
+          @change="courseRepeaterChanged($event)"     
           @blur="v$.wiederholer.$touch()"
           :disabled="!isEditable"
                 type="radio"
-                v-model="wiederholer"
-                :id="ja+$courseIndex"
-                :name="test+$courseIndex"
+                v-model="course.isRepeater"
+                :id="'ja'+index"
+                :name="'test'+index"
                 :value="true"
               />
         <label label for="no">Nein</label>
         <input
                 @blur="v$.wiederholer.$touch()"
+                @change="courseRepeaterChanged($event)" 
                 :disabled="!isEditable"
                 type="radio"
-                v-model="wiederholer"
-                :id="nein+$courseIndex"
-                :name="test+$courseIndex"
+                v-model="course.isRepeater"
+                :id="'nein'+index"
+                :name="'test'+index"
                 :value="false"
               />
         </div>
@@ -106,7 +108,7 @@ export default {
   },
   data() {
     return {
-      wiederholer: null,
+      wiederholer: undefined,
       //wiederholer: [],
       // wiederholerOptions: [
       //   { name: "ja", value: true },
@@ -124,6 +126,10 @@ export default {
   },
 
   props: {
+    bookedCourses: {
+      type: Array,
+      default: () => [],
+    },
     semester: {
       type: Object,
     },
@@ -146,6 +152,14 @@ export default {
       type: Boolean,
       required: true,
     },
+    index: {
+      type: Number,
+      default: 0,
+    },
+    maxCourses: {
+      type: Number,
+      default: 0,
+    },
   },
 
   computed: {
@@ -159,6 +173,11 @@ export default {
       this.$store.dispatch("courseselection/deleteCoursePriority", {
         priority: this.coursePriority,
       });
+      var updateAmount = this.maxCourses;
+      if (updateAmount > this.bookedCourses.length) updateAmount = this.bookedCourses.length;
+      this.$store.dispatch("courseselection/updateMaxCourses", {
+        maxCourses: updateAmount,
+      });
     },
 
     courseWidth(course) {
@@ -171,7 +190,11 @@ export default {
       e.dataTransfer.setData("from-course-index", fromCourseIndex);
       e.dataTransfer.setData("from-course-priority", fromCoursePriority);
     },
-
+    async courseRepeaterChanged(event){
+      const isRepeater = event.target.value
+      console.log(isRepeater);
+      this.$store.dispatch("courseselection/updateIsRepeater", {index: this.index, isRepeater: isRepeater});
+    },
     moveCourse(e, toCourseIndex) {
       e.preventDefault();
       const fromCoursePriority = parseInt(

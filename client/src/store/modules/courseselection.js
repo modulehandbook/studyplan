@@ -152,14 +152,25 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async updateCourseSelectionReasons({state, commit, dispatch}, {mappedCourses}){
+  async updateCourseSelectionReasons({state, commit, dispatch}, {courseReasons}){
     commit("SET_PENDING", true);
     try{
+      let selectionReasons = [];
+      for (const [courseCode, surveyResults] of Object.entries(courseReasons)){
+        selectionReasons.push({
+          code: courseCode,
+          reasons: [...surveyResults.reasons],
+          other: surveyResults.other,
+        });
+      }
+      state.courseSelection.semesterPlans[0].selectionReasons = selectionReasons;
+      /*
       let selectionReasonsHelper = [];
       mappedCourses.forEach((mappedCourse) => {
         selectionReasonsHelper.push({code: mappedCourse.code, reasons: [mappedCourse.selectionReason], other: undefined });
       });
       state.courseSelection.semesterPlans[0].selectionReasons = selectionReasonsHelper;
+      */
       await dispatch("updateCourseSelection");
     }catch (error) {
       const notification = {
@@ -252,6 +263,16 @@ export const actions = {
     }
     console.table(state.courseSelection.semesterPlans[0].bookedCourses);
     await dispatch("updateCourseSelection");
+  },
+  async updateMaxCourses({dispatch}, {maxCourses}){
+    state.courseSelection.semesterPlans[0].maxCourses = maxCourses;
+    console.log(state.courseSelection.semesterPlans[0].maxCourses);
+    await dispatch("updateCourseSelection");
+  },
+  async updateIsRepeater({dispatch}, {index, isRepeater}){
+
+    state.courseSelection.semesterPlans[0].bookedCourses[index].isRepeater = isRepeater;
+    await dispatch("updateCourseSelection")
   },
   async addCoursePriority({ dispatch }) {
     state.courseSelection.testNumber++;
@@ -386,6 +407,9 @@ export const getters = {
       (course) => course.priority === priority
     );
   },
+  getMaxCourses: (state) => {
+    return state.semesterPlans[0].maxCourses;
+  },
   getSurveyState: (state) => {
     if(!state.courseSelection || !state.courseSelection.semesterPlans ||
       state.courseSelection.semesterPlans[0].selectionReasons.length !=state.courseSelection.semesterPlans[0].bookedCourses.length)return false;
@@ -395,4 +419,23 @@ export const getters = {
     });
     return reti;
   },
+  isEmptyCourse: (state) => {
+    let reti = false;
+    if(!state.courseSelection || !state.courseSelection.semesterPlans ||
+      !state.courseSelection.semesterPlans[0].bookedCourses)return false;
+    state.courseSelection.semesterPlans[0].bookedCourses.forEach((course) => {
+      if(course.ects === 0) reti = true;
+    });
+    return reti;
+  },
+  getCourseBookedCoursesForForm: (state) => {
+    let courseReasons = {};
+    state.courseSelection.semesterPlans[0].bookedCourses.forEach(
+      (course) => {
+        courseReasons[course.code] = {reasons: [], other: ""};
+      }
+    );
+    return courseReasons;
+  },
+
 };
