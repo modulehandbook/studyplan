@@ -59,6 +59,11 @@ async function debug() {
      currentSemester: "SoSe22"
   };
   */
+/*
+    --satisfaction rating--
+    ((gotCoursesAmount / maxCourses) * 10 + foreachCourse((ifGotCourse = ? 1 : 0) * (courseLenght - priority))) / ( 10 + courseLength)
+    0.5 + upperHalf(0-0.5) - downHalf(0-0.5) 
+ */
 const printSolutionStatistics = (data, sol) => {
   const solutionPerUser = {};
   const statsPerUser = {};
@@ -70,15 +75,76 @@ const printSolutionStatistics = (data, sol) => {
       solutionPerUser[user].push(courseCode);
     });
   }
-
+  //console.log(solutionPerUser);
   for (const [user, stats] of Object.entries(statsPerUser)) {
     stats.assignedCourses = solutionPerUser[user].length;
   }
+  //iterating over every user and their assignedCourses
+  for (const [email, assignedCoursesToUser] of Object.entries(
+    solutionPerUser
+  )) {
+    const userData = data.users.find((user) => user.email == email);
+    let satisfactionRating = assignedCoursesToUser.length / userData.maxCourses;
+    const bookedCourses = JSON.parse(JSON.stringify(userData.bookedCourses));
+    let assignedCoursesCopy = JSON.parse(
+      JSON.stringify(assignedCoursesToUser)
+    );
+    const slashsize = Math.ceil(
+      bookedCourses.length -
+        (bookedCourses.length - assignedCoursesToUser.length) / 2
+    );
+    const positveCourses = bookedCourses
+      .splice(0, slashsize)
+      .sort((course1, course2) => course2.priority - course1.priority)
+      .map(
+        (course, index) =>
+          (course = {
+            code: course.code,
+            weight: (index + 3) / (recursiveShit(slashsize) * 2),
+          })
+      );
+    const negativeCourses = bookedCourses.map(
+      (course, index) =>
+        (course = {
+          code: course.code,
+          weight: (index + 3) / (recursiveShit(bookedCourses.length) * -2),
+        })
+    );
 
+    const mappedCourses = [...positveCourses, ...negativeCourses];
+    //console.log(mappedCourses);
+    let baseValue = 0.5;
+    assignedCoursesCopy.forEach((course) => {
+      baseValue += mappedCourses.find(
+        (mappedCourse) => mappedCourse.code === course
+      ).weight;
+    });
+    if (email == "test13@mail.de") {
+      console.log({
+        bookedCourses: userData.bookedCourses,
+        assignedCourses: assignedCoursesCopy,
+        maxcourses: userData.maxCourses,
+        mappedCourses: mappedCourses,
+        baseValue: baseValue,
+        satisfactionRating: satisfactionRating ,
+        sum: (baseValue + satisfactionRating) / 2,
+        slashsize: slashsize,
+
+      });
+    }
+    statsPerUser[email].satisfactionRating =
+      (baseValue + satisfactionRating) / 2;
+    //console.log(userData.bookedCourses);
+    //console.log(slashsize);
+  }
   const avgUserStats = {
     assignedCourses:
       Object.entries(statsPerUser)
         .map((stat) => stat[1].assignedCourses)
+        .reduce((a, b) => a + b, 0) / Object.entries(statsPerUser).length,
+    satisfactionRating:
+      Object.entries(statsPerUser)
+        .map((stat) => stat[1].satisfactionRating)
         .reduce((a, b) => a + b, 0) / Object.entries(statsPerUser).length,
   };
 
@@ -87,7 +153,10 @@ const printSolutionStatistics = (data, sol) => {
   console.log("##########################################################");
   console.log(util.inspect({ avgUserStats: avgUserStats }, false, null, true));
 };
-
+const recursiveShit = (number) => {
+  if (number === 1) return 3;
+  else return number + recursiveShit(number - 1);
+};
 const printStatistics = (data) => {
   const users = {};
   users.count = data.users.length;
@@ -141,3 +210,5 @@ const printStatistics = (data) => {
     )
   );
 };
+
+const calcAverageSatisfaction = (data) => {};
