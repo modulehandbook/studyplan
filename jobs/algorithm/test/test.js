@@ -4,6 +4,7 @@ const { updateDB } = require("../updateDB");
 const { algo } = require("../algoV1");
 const { addAlgoTestUsers } = require("./addAlgoTestUsers");
 const util = require("util");
+const { content_v2_1 } = require("googleapis");
 
 const mongo = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
 mongoose
@@ -64,9 +65,51 @@ async function debug() {
     ((gotCoursesAmount / maxCourses) * 10 + foreachCourse((ifGotCourse = ? 1 : 0) * (courseLenght - priority))) / ( 10 + courseLength)
     0.5 + upperHalf(0-0.5) - downHalf(0-0.5) 
  */
+
+const createCombDict = () => {
+  const aplhabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
+  const dict = {};
+  for (let i = 1; i <= 10; i++) {
+    dict[i] = {};
+    const combs = combinations(
+      aplhabet.filter((e, idx) => idx < i).reduce((a, b) => a + b, "")
+    );
+    for (let f = 1; f <= i; f++) {
+      dict[i][f] = {};
+      const possibleCombs = combs.filter((comb) => comb.length === f);
+      possibleCombs.forEach((comb, idx) => {
+        dict[i][f][comb] =
+          (possibleCombs.length - 1 - idx) / (possibleCombs.length - 1);
+        if (f === i) dict[i][f][comb] = 1;
+      });
+    }
+  }
+  dict[10][10]["ABCDEFGHIJ"] = 1;
+  return dict;
+};
+
+//taken from: https://codereview.stackexchange.com/questions/7001/generating-all-combinations-of-an-array
+const combinations = (str) => {
+  var fn = function (active, rest, a) {
+    if (!active && !rest) return;
+    if (!rest) {
+      a.push(active);
+    } else {
+      fn(active + rest[0], rest.slice(1), a);
+      fn(active, rest.slice(1), a);
+    }
+    return a;
+  };
+  return fn("", str, []);
+};
+
 const printSolutionStatistics = (data, sol) => {
   const solutionPerUser = {};
   const statsPerUser = {};
+
+  const combDict = createCombDict();
+  const alphabet = ["error", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
   for (const [courseCode, users] of Object.entries(sol)) {
     users.forEach((user) => {
@@ -75,7 +118,6 @@ const printSolutionStatistics = (data, sol) => {
       solutionPerUser[user].push(courseCode);
     });
   }
-  //console.log(solutionPerUser);
   for (const [user, stats] of Object.entries(statsPerUser)) {
     stats.assignedCourses = solutionPerUser[user].length;
   }
@@ -84,67 +126,40 @@ const printSolutionStatistics = (data, sol) => {
     solutionPerUser
   )) {
     const userData = data.users.find((user) => user.email == email);
-    let satisfactionRating = assignedCoursesToUser.length / userData.maxCourses;
-    const bookedCourses = JSON.parse(JSON.stringify(userData.bookedCourses));
-    let assignedCoursesCopy = JSON.parse(
-      JSON.stringify(assignedCoursesToUser)
-    );
-    const slashsize = Math.ceil(
-      bookedCourses.length -
-        (bookedCourses.length - assignedCoursesToUser.length) / 2
-    );
-    const positveCourses = bookedCourses
-      .splice(0, slashsize)
-      .sort((course1, course2) => course2.priority - course1.priority)
-      .map(
-        (course, index) =>
-          (course = {
-            code: course.code,
-            weight: (index + 3) / (recursiveShit(slashsize) * 2),
-          })
-      );
-    const negativeCourses = bookedCourses.map(
-      (course, index) =>
-        (course = {
-          code: course.code,
-          weight: (index + 3) / (recursiveShit(bookedCourses.length) * -2),
-        })
-    );
+    const courseCountSatisfaction =
+      assignedCoursesToUser.length / userData.maxCourses;
 
-    const mappedCourses = [...positveCourses, ...negativeCourses];
-    //console.log(mappedCourses);
-    let baseValue = 0.5;
-    assignedCoursesCopy.forEach((course) => {
-      baseValue += mappedCourses.find(
-        (mappedCourse) => mappedCourse.code === course
-      ).weight;
-    });
-    if (email == "test13@mail.de") {
+    const comb = userData.bookedCourses
+      .filter((c1) => assignedCoursesToUser.some((c2) => c2 == c1.code))
+      .reduce((c1, c2) => c1 + alphabet[c2.priority], "");
+
+    const courseCombSatifaction =
+      combDict[userData.bookedCourses.length][assignedCoursesToUser.length][
+        comb
+      ];
+
+    if (email == "test27@mail.de") {
       console.log({
         bookedCourses: userData.bookedCourses,
-        assignedCourses: assignedCoursesCopy,
+        assignedCourses: assignedCoursesToUser,
         maxcourses: userData.maxCourses,
-        mappedCourses: mappedCourses,
-        baseValue: baseValue,
-        satisfactionRating: satisfactionRating ,
-        sum: (baseValue + satisfactionRating) / 2,
-        slashsize: slashsize,
-
+        courseCombSatifaction: courseCombSatifaction,
+        courseCountSatisfaction: courseCountSatisfaction,
+        sum: (courseCombSatifaction + courseCountSatisfaction) / 2,
       });
     }
-    statsPerUser[email].satisfactionRating =
-      (baseValue + satisfactionRating) / 2;
-    //console.log(userData.bookedCourses);
-    //console.log(slashsize);
+
+    statsPerUser[email].satisfaction =
+      (courseCombSatifaction + courseCountSatisfaction) / 2;
   }
   const avgUserStats = {
     assignedCourses:
       Object.entries(statsPerUser)
         .map((stat) => stat[1].assignedCourses)
         .reduce((a, b) => a + b, 0) / Object.entries(statsPerUser).length,
-    satisfactionRating:
+    satisfaction:
       Object.entries(statsPerUser)
-        .map((stat) => stat[1].satisfactionRating)
+        .map((stat) => stat[1].satisfaction)
         .reduce((a, b) => a + b, 0) / Object.entries(statsPerUser).length,
   };
 

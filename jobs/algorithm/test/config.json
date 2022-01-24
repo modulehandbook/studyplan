@@ -19,7 +19,7 @@
         }
     },
     "user": {
-        "count": 50,
+        "count": 200,
         "propabilities": {
             "preferred": 0.01,
             "correctSemester": 0.6,
