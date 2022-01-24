@@ -19,19 +19,19 @@
               "
               to="/mycourses"
             >
-              gewaehlte kurse
+              Meine Kurse
             </router-link>
-            <router-link
-              class="link"
-              v-if="stage.currentStage === 'COURSE-SELECTION'"
-              to="/coursesurvey"
-              >Umfrage</router-link
-            >
             <router-link
               class="link"
               v-if="stage.currentStage === 'COURSE-SELECTION'"
               to="/courseselection"
               >Kursbelegung</router-link
+            >
+            <router-link
+              class="link"
+              v-if="stage.currentStage === 'COURSE-SELECTION'"
+              to="/coursesurvey"
+              >Umfrage</router-link
             >
             <router-link
               v-if="currentUser.isAdmin"
@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { mapState, useStore, mapGetters } from "vuex";
+import { useStore } from "vuex";
 import { computed } from "vue";
 export default {
   setup() {
@@ -127,14 +127,12 @@ export default {
       return this.$store.state.user.user;
     },
   },
-  async mounted() {
-      this.pending = true;
-      await this.$store.dispatch("stage/fetchStage");
-      this.pending = false;
-  },
-  created() {
+  async created() {
     this.mobileView = window.innerWidth <= 600;
     window.addEventListener("resize", this.isMobileView);
+    this.pending = true;
+    await this.$store.dispatch("stage/fetchStage");
+    this.pending = false;
   },
   methods: {
     logOut() {
