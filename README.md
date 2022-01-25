@@ -21,28 +21,19 @@ Based on [studplan](https://github.com/JuliaZamaitat/studyplan) by [Julia Zamait
 
 ## Set up development environment
 
+WARNING: It is highly recommended to use a linux machine. Otherwise a lot of scripts may not run correctly. Also it is recommended to use docker-cli instead of docker-desktop.
+
 ### 1. Install docker and docker-compose
 Further information on [docker.com/get-docker](https://docs.docker.com/get-docker/) and [docker.com/compose/install](https://docs.docker.com/compose/install/).
 
 ### 2. Clone the repo
 Clone this repository to your local machine.
 
-### 3. Build docker container
-Run the following command inside the project-directory.
+### 3. Build docker container and seed the Database
+Run the following command inside the project-root-directory.
 
 ```bash
-sudo docker-compose build
-```
-### 4. Start docker container
-Run the following command inside the project-directory.
-```bash
-sudo docker-compose up
-```
-
-### 5. Seeding the Database
-To set up a test user run (in a second terminal window):
-```bash
-sudo docker exec node-server node seeds/usersWithStudyplanAndSemester.js
+sudo npm run init
 ```
 ## Use the development environment
 
@@ -53,19 +44,44 @@ sudo docker exec node-server node seeds/usersWithStudyplanAndSemester.js
 
 ### Start the environment
 ```bash
-sudo docker-compose up
+sudo npm run start
 ```
-* add ```-d``` flag to run in background
-* open App on [http://localhost:8080](http://localhost:8080) (changes will be applied automatically)
+* Open App on [http://localhost:8080](http://localhost:8080) (changes will be applied automatically)
+* You can login with test/test or admin/admin
 
 ### Stop the environment
 ```bash
-sudo docker-compose down
+sudo npm run stop
 ```
 ### See logs
 ```bash
-sudo docker-compose logs
+sudo npm run logs
 ```
+
+You can also specifie which logs you want to see. To do so just add ( vue-app / node-server / mongo-db )
+
+For example:
+```bash
+sudo npm run logs vue-app
+```
+
+### Seed the Database
+- You can seed everything with: (this will override all data in the  local DB)
+
+    ```bash
+    sudo npm run init-seed
+    ```
+    You can also use ```init-seed-no-warning ```
+
+- You can also seed single files with:
+    ```bash
+    sudo npm run seed <List of files>
+    ```
+    - For example run ``` sudo npm run seed modalCourses testAndAdmin``` to seed the DB with all ModalCourses, test- and admin-user
+    - The seeding-scripts are defined in ```seed```
+    - You can pass ```-- --no-warning``` as first argument to ignore the warnings. 
+        
+        For example: ```sudo npm run seed -- --no-warning semester```
 
 ### Lint and format code
 
