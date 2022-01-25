@@ -241,19 +241,19 @@ export default {
       courseReasons: {},
       textEnabled: [],
       surveys: [
-        { key: "lb", name: "Lehrer bedingt", value: "teacher" },
-        { key: "zb", name: "zeitlich bedingt", value: "time" },
+        { key: "lb", name: "Der/Die Dozent/in lehrt gut", value: "teacher" },
+        { key: "zb", name: "Aufgrund des Zeitslots", value: "time" },
         {
           key: "ki",
-          name: "Kurs ist interessant",
+          name: "Die Thematik spricht mich an",
           value: "interest",
         },
         {
           key: "rb",
-          name: "relevant für Berufslaufbahn",
+          name: "Vertiefendes Wissen für Karriere",
           value: "careerRelevant",
         },
-        { key: "ke", name: "Kurs ist einfach", value: "easy" },
+        { key: "ke", name: "Die Thematik ist leicht verständlich", value: "easy" },
         { key: "so", name: "sonstiges", value: "" },
       ],
       // array of the enabled status for the text input field
