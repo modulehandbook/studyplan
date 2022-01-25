@@ -1,3 +1,6 @@
+/*warning
+This deletes Stage; This requires Semester
+*/
 const Stage = require("../model/stage"),
   Semester = require("../model/semester"),
   mongoose = require("mongoose");

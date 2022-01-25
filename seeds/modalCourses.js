@@ -1,3 +1,6 @@
+/*warning
+This deletes ModalCourses; This requires Semester
+*/
 const Semester = require("../model/semester"),
   ModalCourse = require("../model/modalCourse"),
   mongoose = require("mongoose");

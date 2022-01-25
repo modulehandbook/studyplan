@@ -1,3 +1,6 @@
+/*warning
+This deletes User and Studyplan; This requires Semester
+*/
 const User = require("../model/user"),
   StudyPlan = require("../model/studyPlan"),
   Semester = require("../model/semester"),

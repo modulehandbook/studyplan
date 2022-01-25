@@ -1,3 +1,6 @@
+/*warning
+This deletes Semester
+*/
 const Semester = require("../model/semester"),
   mongoose = require("mongoose");
 
