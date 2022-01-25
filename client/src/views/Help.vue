@@ -33,7 +33,7 @@
         <p class="text-content">
           Die IMI-Module-Selection besteht aus zwei Phasen.
         </p>
-        <p class="subdivision">(Datum)| Phase 1: Belegungssimulation</p>
+        <p class="subdivision">Phase 1: Belegungssimulation</p>
         <p class="text-content">
           Die Phase der Belegungssimulation findet auf der gleichen Webseite wie
           der richtigen Belegung statt und ist <b>unverbindlich</b>. Diese
@@ -41,7 +41,7 @@
           zum Anfang der Belegungsphase bereits alle Kapazitäten der zur
           Verfügung stehenden Übungsgruppen ausgeschöpft werden.
         </p>
-        <p class="subdivision">(Datum)| Phase 2: Belegung</p>
+        <p class="subdivision">Phase 2: Belegung</p>
         <p class="text-content">
           Die zweite Phase ist nun eine verbindliche Kursbelegung und die
           <a
