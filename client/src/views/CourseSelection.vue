@@ -78,6 +78,7 @@ export default {
       this.$router.push("/select-program");
     } else {
       this.pending = true;
+      await this.$store.dispatch("stage/fetchStage");
       await this.$store.dispatch("semester/fetchSemesters");
       await this.$store.dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
