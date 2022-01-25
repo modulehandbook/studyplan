@@ -79,7 +79,7 @@
         <h2>Wiederholer</h2>
         <p>
           Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal
-          belegt wurde. Weitere Informationen finden Sie auf der Hilfe Seite.
+          belegt wurde. Weitere Informationen findest du auf der Hilfe Seite.
         </p>
         <br />
         <br />
@@ -94,7 +94,7 @@
           Abmeldung aller Kurse. <br />
           <br />
           Zudem sollten alle Felder ausgefüllt oder entfernt werden, um
-          Änderungen speichern zu können
+          Änderungen speichern zu können.
         </p>
         <button class="infoButton" @click="showInfo = false">Schließen</button>
       </div>
@@ -365,7 +365,7 @@ $htwGruen: #76b900;
   grid-column-start: 1;
   grid-column-end: 1;
   grid-row-start: 1;
-  grid-row-end: 4;
+  grid-row-end: 5;
   flex: auto;
   min-width: 20rem;
   margin: 0.75rem;
