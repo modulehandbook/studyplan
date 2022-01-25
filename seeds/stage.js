@@ -28,7 +28,7 @@ async function seedStage() {
 
   let result = await Stage.create({
     //TODO
-    currentStage: "COURSE-RESULT",
+    currentStage: "COURSE-SELECTION",
     nextDates: {
       idle: [{ date: "2023-01-15" }],
       courseSelection: [{ date: "2023-01-16" }],
