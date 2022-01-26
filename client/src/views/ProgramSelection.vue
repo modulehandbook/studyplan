@@ -191,7 +191,7 @@ export default {
     ...mapState("studyplan", ["studyPlan"]),
     semestersNotInFuture: function() {
       return this.$store.state.semester.semesters.filter(function (oneSemester){
-          return parseInt(oneSemester.name.substring(4, 6)) <= 22
+          return parseInt(oneSemester.name.substring(4, 6)) <= new Date().getFullYear() - 2000;
       })
     }
   },
