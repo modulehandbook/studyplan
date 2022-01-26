@@ -111,7 +111,7 @@ module.exports = {
             return res.status(500).send({ msg: err.message });
           }
           res.status(200).send(
-            "The account has been verified. Please log in: http://studyplan.f4.htw-berlin.de/login" //TODO change to https
+            "The account has been verified. Please log in: https://studyplan.f4.htw-berlin.de/login"
           );
         });
       });
@@ -293,7 +293,7 @@ module.exports = {
       subject: "Account Verification Token",
       text:
         "Hello,\n\n" +
-        "Please verify your account by clicking the link: \nhttp://" +
+        "Please verify your account by clicking the link: \nhttps://" +
         req.headers.host +
         "/users/confirmation/" +
         res.locals.token.token,
