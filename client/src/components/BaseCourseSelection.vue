@@ -84,7 +84,7 @@
         <br />
         <br />
         <h2>Funktion</h2>
-        <p>Per Drag&amp;Drop kannst du deine gewünschten Kurse hinzufügen.</p>
+        <p>Per Drag &amp; Drop kannst du deine gewünschten Kurse hinzufügen.</p>
         <br />
         <br />
         <h2>Achtung!</h2>

@@ -7,9 +7,9 @@
         </h2></BaseHeading
       >
       <span class="no-course-text">
-        Mit der Teilnahme an der Umfrage machst du zukünftige Belegphasen
-        besser! Wenn du deine Kurswahl nochmal änderst kannst du auch die
-        Umfrage neu machen.
+        Mit der Teilnahme an der Umfrage machst du diese und zukünftige Belegphasen
+        besser! Wenn du deine Kurswahl noch einmal änderst, kannst du auch die
+        Umfrage erneut machen.
       </span>
     </div>
     <div

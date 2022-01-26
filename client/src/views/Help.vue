@@ -7,10 +7,10 @@
       <div class="questions questions-question">
         <section id="willkommen">
           <p class="questions questions-question--text">
-            Willkommen bei IMI-Module-Selection!
+            Willkommen bei Studyplan!
           </p>
           <p class="text-content">
-            IMI-Module-Selection ist eine Webanwendung, die eine Gerechtere und
+            Studyplan ist eine Webanwendung, die eine Gerechtere und
             effizientere Belegung für IMI-Studenten anbietet durch:
           </p>
           <ul class="text-content">
@@ -20,8 +20,8 @@
             <li>Priorisierung</li>
           </ul>
           <p class="text-content">
-            Zudem ermöglicht der Studyplan von Julia Zamaitat, der hier auch
-            aufzufinden ist, den Studenten mehr Überblick über ihre
+            Zudem ermöglicht der Studienplan von Julia Zamaitat, der hier auch
+            aufzufinden ist, den Studenten einen besseren Überblick über ihre
             Studienplanung zu erhalten.
           </p>
         </section>
@@ -31,15 +31,15 @@
           Hast du Fragen zur Belegung?
         </p>
         <p class="text-content">
-          Die IMI-Module-Selection besteht aus zwei Phasen.
+          Die Studyplan Kursbelegung besteht aus zwei Phasen.
         </p>
         <p class="subdivision">Phase 1: Belegungssimulation</p>
         <p class="text-content">
           Die Phase der Belegungssimulation findet auf der gleichen Webseite wie
-          der richtigen Belegung statt und ist <b>unverbindlich</b>. Diese
+          die richtige Belegung statt und ist <b>unverbindlich</b>. Diese
           Ergebnisse dienen zur besseren Koordinierung der Übungsgruppen, damit
           zum Anfang der Belegungsphase bereits alle Kapazitäten der zur
-          Verfügung stehenden Übungsgruppen ausgeschöpft werden.
+          Verfügung stehenden Übungsgruppen ausgeschöpft werden können.
         </p>
         <p class="subdivision">Phase 2: Belegung</p>
         <p class="text-content">
@@ -53,17 +53,17 @@
           zur Zulassung erfolgt wie im LSF. Jeder Student muss eine gewünschte
           Kursanzahl angeben, die er erhalten möchte. Daher sollte die
           Reihenfolge der Prioritäten sehr bewusst gewählt werden. Denn wird die
-          angegebene Kursanzahl erreicht, wird man zu keinen weiteren Kursen
-          zugelassen. Zudem wird je niedriger die Priorisierung des Kurses ist,
+          angegebene Kursanzahl erreicht, wird man zu keinen weiteren Kursen mehr
+          zugelassen. Zudem wird bei niedrigerer Priorisierung des Kurses
           die Wahrscheinlichkeit höher, dass dieser Kurs in das Auslosverfahren
-          gerät bei weniger freien Plätzen als Anmeldungen in der Rangstufe des
-          Studenten.
+          gerät wenn weniger freie Plätze verfügbar sind als es Anmeldungen in der Rangstufe der
+          Studenten gibt.
         </p>
       </div>
       <div class="questions questions-question">
         <section id="prio">
           <p class="questions questions-question--text">
-            Wie funktioniert die IMI-Module-Selection/Priorität?
+            Wie funktioniert die Kursbelegungs Priorität?
           </p>
           <p class="text-content">
             Durch Drag and Drop können die Studenten Ihre Modul-Favoriten in
@@ -71,8 +71,11 @@
             Studenten wichtigste Modul wider. Sie ist in Phase 1 unverbindlich
             aber bestimmt neben der Rangstufe die Zulassung in Phase 2. Sollte
             der Student in einer der höheren Rangstufen sein, so wird er nur in
-            so vielen Kursen zugelassen wie der Student angab. Die offenen
-            Kurse, die eine niedrigere Priorisierung erhiehlten, werden dann
+            so vielen Kursen zugelassen wie er als maximale Anzahl angab. Damit 
+            soll verhindert werden, dass Studenten sich in zu vielen Kursen 
+            anmelden, um eine höhere Auswahl an Möglichkeiten am Ende zu haben, 
+            jedoch somit anderen Studenten gegebenenfalls wichtige Plätze wegnehmen. 
+            Die offenen Kurse, die eine niedrigere Priorisierung erhielten werden dann
             verworfen und andere Studenten erhalten die Chance auf diese Plätze.
             Wenn die letzte Rangstufe erreicht ist, die noch die Möglichkeit auf
             einen Platz hat, so werden zuerst die Studenten mit höheren
