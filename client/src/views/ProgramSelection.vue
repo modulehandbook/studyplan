@@ -65,7 +65,7 @@
             @blur="v$.startOfStudy.$touch()"
           >
             <option
-              v-for="semester in $store.state.semester.semesters"
+              v-for="semester in semestersNotInFuture"
               :key="semester.id"
               :value="semester"
             >
@@ -189,6 +189,11 @@ export default {
   },
   computed: {
     ...mapState("studyplan", ["studyPlan"]),
+    semestersNotInFuture: function() {
+      return this.$store.state.semester.semesters.filter(function (oneSemester){
+          return parseInt(oneSemester.name.substring(4, 6)) <= 22
+      })
+    }
   },
 
   async created() {
