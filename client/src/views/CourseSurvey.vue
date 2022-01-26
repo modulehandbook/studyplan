@@ -22,7 +22,7 @@
         </h2></BaseHeading
       >
       <span class="no-course-text">
-         Die nächste Belegphase startet {{ time("courseSelection", true) }}. 
+        Die nächste Belegphase startet {{ time("courseSelection", true) }}.
       </span>
     </div>
     <form
@@ -149,7 +149,9 @@
       </div>
       <div class="button-wrapper">
         <button class="survey-button" type="submit">Submit</button>
-        <p class="survey-time">Umfrageschluss {{ time("evaluation",true) }}.</p> 
+        <p class="survey-time">
+          Umfrageschluss {{ time("evaluation", true) }}.
+        </p>
       </div>
     </form>
     <div v-else class="no-course-wrapper">
@@ -199,6 +201,7 @@ export default {
     this.courseReasons = {};
     console.log("mounted ist called");
     console.log(this.courseReasons);
+    await this.$store.dispatch("stage/fetchStage");
     await this.$store
       .dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
@@ -210,11 +213,14 @@ export default {
           if (this.courseSelection.semesterPlans) {
             if (this.courseSelection.semesterPlans[0]) {
               if (this.courseSelection.semesterPlans[0].bookedCourses) {
-        this.courseSelection.semesterPlans[0].bookedCourses.forEach(
-          (course) => {
-            this.courseReasons[course.code] = { reasons: [], other: "" };
-          }
-        );
+                this.courseSelection.semesterPlans[0].bookedCourses.forEach(
+                  (course) => {
+                    this.courseReasons[course.code] = {
+                      reasons: [],
+                      other: "",
+                    };
+                  }
+                );
               }
             }
           }
@@ -236,24 +242,28 @@ export default {
       },
     */
     return {
-      pending: false,
+      pending: true,
       surveyTaken: false,
       courseReasons: {},
       textEnabled: [],
       surveys: [
-        { key: "lb", name: "Lehrer bedingt", value: "teacher" },
-        { key: "zb", name: "zeitlich bedingt", value: "time" },
+        { key: "lb", name: "Der/Die Dozent/in lehrt gut", value: "teacher" },
+        { key: "zb", name: "Aufgrund des Zeitslots", value: "time" },
         {
           key: "ki",
-          name: "Kurs ist interessant",
+          name: "Die Thematik spricht mich an",
           value: "interest",
         },
         {
           key: "rb",
-          name: "relevant für Berufslaufbahn",
+          name: "Vertiefendes Wissen für Karriere",
           value: "careerRelevant",
         },
-        { key: "ke", name: "Kurs ist einfach", value: "easy" },
+        {
+          key: "ke",
+          name: "Die Thematik ist leicht verständlich",
+          value: "easy",
+        },
         { key: "so", name: "sonstiges", value: "" },
       ],
       // array of the enabled status for the text input field

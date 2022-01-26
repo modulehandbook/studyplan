@@ -71,11 +71,11 @@
                 </div>
                 <br />
               </div>
-            </div>
-            <div class="delete-button-wrapper">
+               <div class="delete-button-wrapper">
               <button class="delete-button" type="submit">
                 Markierte Kurse abwählen
               </button>
+            </div>
             </div>
           </div>
         </form>
@@ -153,6 +153,7 @@ export default {
       }
     },
     async removeChosenCourses() {
+      if(confirm("Bist du dir sicher, dass du die markierten Kurse abwählen möchtest ?") == true){
       let helperArray = [];
       this.coursesToRemove.forEach((course, index) => {
         if (course)
@@ -165,6 +166,7 @@ export default {
         user: this.user.id || this.user._id,
       });
       this.coursesToRemove = [];
+      }
     },
   },
 };
@@ -175,8 +177,8 @@ export default {
   width: 100%;
 }
 .delete-button {
-  margin-left: 875px;
-  margin-top: 25px;
+  margin-left: auto;
+  margin-top: 20px;
   -webkit-border-radius: 10;
   -moz-border-radius: 10;
   border-radius: 10px;
@@ -236,6 +238,8 @@ export default {
   }
 
   &-wrapper {
+    max-width: 1000px;
+    margin: auto;
     display: flex;
     flex-flow: wrap;
 
