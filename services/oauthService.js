@@ -3,7 +3,7 @@ const OAuth2 = google.auth.OAuth2;
 const nodemailer = require("nodemailer");
 
 let secrets = null;
-if (process.env.TEST_PROD == "true") {
+if (process.env.TEST_PROD == "true" || process.env.NODE_ENV != "production") {
   secrets = process.env;
 } else {
   secrets = require(process.env.SECRET_PATH);

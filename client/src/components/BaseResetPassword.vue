@@ -8,8 +8,8 @@
         <div class="headings">
           <h2>Hast du dein Passwort vergessen?</h2>
           <h3>
-            Fordere eine neues Passwort an mit der Mailadresse, mit der du
-            registriert bist. Denke danach dran, dein Passwort in deinem Profil
+            Fordere ein neues Passwort an mit der E-Mail-Adresse, mit der du
+            registriert bist. Denke danach daran, dein Passwort in deinem Profil
             zu ändern.
           </h3>
         </div>
@@ -105,7 +105,7 @@ export default {
           this.successful = false;
         } else {
           //everything went ok
-          this.message = "Mail mit neuem Passwort erhalten!";
+          this.message = "E-Mail mit neuem Passwort gesendet!";
           this.successful = true;
           this.email = "";
           this.v$.$reset();

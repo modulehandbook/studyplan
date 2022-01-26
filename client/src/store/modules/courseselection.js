@@ -78,9 +78,7 @@ export const actions = {
     try {
       commit("SET_PENDING", true);
       state.courseSelection = {
-        testNumber: 55,
       };
-      state.courseSelection.testNumber = 55;
       const response = await CourseSelectionService.createCourseSelection(
         state.courseSelection
       );
@@ -91,6 +89,7 @@ export const actions = {
         {
           unbookedCourses: [],
           bookedCourses: [],
+          selectionReasons: [],
         },
       ];
       await dispatch("resetCoursePriority2", {});
@@ -147,6 +146,37 @@ export const actions = {
         type: "error",
         message:
           "There was a problem updating a courseSelection: " + error.message,
+      };
+      console.log(notification);
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },
+  async updateCourseSelectionReasons({state, commit, dispatch}, {courseReasons}){
+    commit("SET_PENDING", true);
+    try{
+      let selectionReasons = [];
+      for (const [courseCode, surveyResults] of Object.entries(courseReasons)){
+        selectionReasons.push({
+          code: courseCode,
+          reasons: [...surveyResults.reasons],
+          other: surveyResults.other,
+        });
+      }
+      state.courseSelection.semesterPlans[0].selectionReasons = selectionReasons;
+      /*
+      let selectionReasonsHelper = [];
+      mappedCourses.forEach((mappedCourse) => {
+        selectionReasonsHelper.push({code: mappedCourse.code, reasons: [mappedCourse.selectionReason], other: undefined });
+      });
+      state.courseSelection.semesterPlans[0].selectionReasons = selectionReasonsHelper;
+      */
+      await dispatch("updateCourseSelection");
+    }catch (error) {
+      const notification = {
+        type: "error",
+        message:
+          "There was a problem updating a reason for courseSelection: " + error.message,
       };
       console.log(notification);
     } finally {
@@ -234,6 +264,16 @@ export const actions = {
     console.table(state.courseSelection.semesterPlans[0].bookedCourses);
     await dispatch("updateCourseSelection");
   },
+  async updateMaxCourses({dispatch}, {maxCourses}){
+    state.courseSelection.semesterPlans[0].maxCourses = maxCourses;
+    console.log(state.courseSelection.semesterPlans[0].maxCourses);
+    await dispatch("updateCourseSelection");
+  },
+  async updateIsRepeater({dispatch}, {index, isRepeater}){
+
+    state.courseSelection.semesterPlans[0].bookedCourses[index].isRepeater = isRepeater;
+    await dispatch("updateCourseSelection")
+  },
   async addCoursePriority({ dispatch }) {
     state.courseSelection.testNumber++;
     var test = state.courseSelection.semesterPlans[0].bookedCourses[0];
@@ -262,7 +302,7 @@ export const actions = {
     const coursesInThisSemester = rootGetters["modalcourse/getCourses"].filter(
       (course) => course.semester.name == currSemester.name
     );
-    state.courseSelection.semesterPlans[0].semester;
+    state.courseSelection.semesterPlans[0].semester = currSemester;
     coursesInThisSemester.forEach((modalCourse) => {
       test.push({
         code: modalCourse.code,
@@ -367,4 +407,35 @@ export const getters = {
       (course) => course.priority === priority
     );
   },
+  getMaxCourses: (state) => {
+    return state.semesterPlans[0].maxCourses;
+  },
+  getSurveyState: (state) => {
+    if(!state.courseSelection || !state.courseSelection.semesterPlans ||
+      state.courseSelection.semesterPlans[0].selectionReasons.length !=state.courseSelection.semesterPlans[0].bookedCourses.length)return false;
+    let reti = true;
+    state.courseSelection.semesterPlans[0].selectionReasons.forEach((course, index) => {
+      if(course.code !== state.courseSelection.semesterPlans[0].bookedCourses[index].code) reti = false;
+    });
+    return reti;
+  },
+  isEmptyCourse: (state) => {
+    let reti = false;
+    if(!state.courseSelection || !state.courseSelection.semesterPlans ||
+      !state.courseSelection.semesterPlans[0].bookedCourses)return false;
+    state.courseSelection.semesterPlans[0].bookedCourses.forEach((course) => {
+      if(course.ects === 0) reti = true;
+    });
+    return reti;
+  },
+  getCourseBookedCoursesForForm: (state) => {
+    let courseReasons = {};
+    state.courseSelection.semesterPlans[0].bookedCourses.forEach(
+      (course) => {
+        courseReasons[course.code] = {reasons: [], other: ""};
+      }
+    );
+    return courseReasons;
+  },
+
 };

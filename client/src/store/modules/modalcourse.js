@@ -57,7 +57,57 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
-  async updateSelectionReasons(
+  async assignUsers({ commit, rootGetters, getters }) {
+    try {
+      commit("SET_PENDING", true);
+      const semester = rootGetters["semester/getCurrentSemester"];
+      const test = getters.getCoursesBySemester(semester);
+      console.log(test);
+      //if(semester != undefined) return;
+      const response = await ModalCourseService.updateModalCourses(semester);
+      const modalCourses = response.data;
+      console.log("the following courses from the databese could be found:");
+      console.log(modalCourses);
+      //commit("SET_MODALCOURSES", modalCourses);
+    } catch (error) {
+      const notification = {
+        type: "error",
+        message:
+          "there was a problem assigning users to modal courses: " +
+          error.message,
+      };
+      console.log(notification);
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },
+  async removeUserfromCourses({commit, rootGetters, dispatch}, {coursesToRemoveUserFrom, user}){
+    try{
+      commit("SET_PENDING", true);
+      const semester = rootGetters["semester/getCurrentSemester"];
+      coursesToRemoveUserFrom.forEach(async (courseToRemoveFrom) => {
+        const response = await ModalCourseService.removeUserFromCourse(user, semester, courseToRemoveFrom.code);
+       // const index = state.modalCourses.findIndex((course) => course._id === response.data._id);
+       // console.log(index);
+       // if(index != -1)state.modalCourses.splice(index, 1, response.data);
+       console.log("response:")
+       console.log(response.data);
+       await dispatch("fetchCourses");
+      });
+      console.log(state.modalCourses);
+    } catch (error) {
+      const notification = {
+        type: "error",
+        message:
+          "there was a problem assigning users to modal courses: " +
+          error.message,
+      };
+      console.log(notification);
+    } finally {
+      commit("SET_PENDING", false);
+    }
+  },
+  /*async updateSelectionReasons(
     { state, commit, rootGetters },
     { mappedCourses }
   ) {
@@ -91,31 +141,7 @@ export const actions = {
       };
       console.log(notification);
     }
-  },
-  async assignUsers({ commit, rootGetters, getters }) {
-    try {
-      commit("SET_PENDING", true);
-      const semester = rootGetters["semester/getCurrentSemester"];
-      const test = getters.getCoursesBySemester(semester);
-      console.log(test);
-      //if(semester != undefined) return;
-      const response = await ModalCourseService.updateModalCourses(semester);
-      const modalCourses = response.data;
-      console.log("the following courses from the databese could be found:");
-      console.log(modalCourses);
-      //commit("SET_MODALCOURSES", modalCourses);
-    } catch (error) {
-      const notification = {
-        type: "error",
-        message:
-          "there was a problem assigning users to modal courses: " +
-          error.message,
-      };
-      console.log(notification);
-    } finally {
-      commit("SET_PENDING", false);
-    }
-  },
+  },*/
   // create and delete are deprecated for now. Courses will be added directly to th Database via Seed.
   /*async createCourse(
     { state, commit, dispatch },
@@ -177,5 +203,14 @@ export const getters = {
     return state.modalCourses.filter(
       (modalCourse) => modalCourse.semester.name === semester.name
     );
+  },
+  getCoursesByUser: (state) => (user) => {
+    let returnArray = [];
+    state.modalCourses.forEach((course) => {
+      course.students.forEach((student) => {
+        if(student._id === user) returnArray.push(course);
+      });
+    });
+    return returnArray;
   },
 };

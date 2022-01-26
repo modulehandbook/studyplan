@@ -1,36 +1,44 @@
 <template>
   <div v-if="!pending">
-    <BaseHeading><h1>Hier ist Die Seite zum Belegen</h1></BaseHeading>
     <div v-if="stage.currentStage === 'COURSE-SELECTION'">
-      <div>Verbleibende Zeit: {{ time }}</div>
+      <BaseHeading>
+        <h1>Kursbelegung</h1>
+      </BaseHeading>
       <div
         v-if="courseSelection != null && courseSelection.semesterPlans != null"
       >
-        <p>hier ist der inhalt der seite</p>
         <baseCourseSelection
           v-show="!pending"
           :courses="courseSelection.semesterPlans[0].unbookedCourses"
           :booked-courses="courseSelection.semesterPlans[0].bookedCourses"
+          :semester="currSemester"
+          :maxCourses="courseSelection.semesterPlans[0].maxCourses"
         />
       </div>
-      <div v-if="courseSelection == null" class="addSemester">
-        <button
-          class="addSemester addSemester__button"
-          @click="addCourseSelection"
-        >
+      <router-view></router-view>
+      <!-- <div>Verbleibende Zeit: {{ time("evaluation",false) }}</div> -->
+      <div v-if="courseSelection == null">
+        <button @click="addCourseSelection">
           <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
         </button>
-        <p class="addSemester addSemester__text">Kurswahl hinzufuegen</p>
+        <p>Kurswahl hinzufuegen</p>
       </div>
     </div>
-    <div v-if="stage.currentStage !== 'COURSE-SELECTION'">
-      <p>Die Belegungsphase ist geschlossen</p>
+    <div v-else class="wrong-stage-wrapper">
+      <BaseHeading>
+        <h2 class="wrong-stage-headline">
+          Aktuell ist keine Belegphase.
+        </h2></BaseHeading
+      >
+      <span class="wrong-stage-text">
+        Die nächste Belegphase startet {{ time("courseSelection", true) }}.
+      </span>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, useStore } from "vuex";
+import { mapState, useStore, mapGetters } from "vuex";
 import { computed } from "vue";
 import moment from "moment";
 
@@ -52,12 +60,16 @@ export default {
     ...mapState("program", ["program"]),
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user", ["user"]),
+    ...mapGetters({
+      currSemester: "semester/getCurrentSemester",
+    }),
 
     time() {
-      const deadline = new Date(this.stage.nextDates.evaluation.date);
-      //return deadline.getTime() - Date.now()
-      const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
-      return gap.locale("de").humanize();
+      return (stage, withPrefix) => {
+        const deadline = new Date(this.stage.nextDates[stage].date);
+        const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
+        return gap.locale("de").humanize(withPrefix);
+      };
     },
   },
 
@@ -66,8 +78,8 @@ export default {
       this.$router.push("/select-program");
     } else {
       this.pending = true;
-      await this.$store.dispatch("semester/fetchSemesters");
       await this.$store.dispatch("stage/fetchStage");
+      await this.$store.dispatch("semester/fetchSemesters");
       await this.$store.dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       });
@@ -75,6 +87,7 @@ export default {
       console.log(this.modalCourses);
     }
     this.pending = false;
+    console.log(this.currSemester);
   },
   methods: {
     addCourseSelection() {
@@ -85,3 +98,22 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.wrong-stage-wrapper {
+  width: 700px;
+  border-radius: 20px;
+  color: black;
+  text-align: center;
+  padding: 10px 10px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  background: #ffffff;
+  border: 5px solid #7eb726;
+  box-sizing: border-box;
+  box-shadow: 6px 6px 18px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+</style>

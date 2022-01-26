@@ -10,9 +10,9 @@
           x
         </button>
         <div class="headings">
-          <h2>Hast du keine Mail erhalten oder der Link ist abgelaufen?</h2>
+          <h2>Hast du keine E-Mail erhalten oder der Link ist abgelaufen?</h2>
           <h3>
-            Fordere eine neue Email an mit der Mailadresse, mit der du
+            Fordere eine neue E-Mail an mit der Adresse, mit der du
             registriert bist.
           </h3>
         </div>

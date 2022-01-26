@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!pending">
     <div v-if="!mobileView" class="navigation">
       <div class="navigation-container">
         <div v-if="currentUser">
@@ -11,16 +11,34 @@
             <router-link class="link" to="/example-studyplan"
               >Plan nach Studienordnung</router-link
             >
-            <router-link class="link" to="/coursesurvey">Umfrage</router-link>
-            <router-link class="link" to="/courseselection"
+            <router-link
+              class="link"
+              v-if="currentUser.isAdmin ||
+                stage.currentStage === 'COURSE-RESULT' ||
+                stage.currentStage === 'EVALUATION'
+              "
+              to="/mycourses"
+            >
+              Meine Kurse
+            </router-link>
+            <router-link
+              class="link"
+              v-if="currentUser.isAdmin || stage.currentStage === 'COURSE-SELECTION'"
+              to="/courseselection"
               >Kursbelegung</router-link
+            >
+            <router-link
+              class="link"
+              v-if="currentUser.isAdmin || stage.currentStage === 'COURSE-SELECTION'"
+              to="/coursesurvey"
+              >Umfrage</router-link
             >
             <router-link
               v-if="currentUser.isAdmin"
               class="link"
               to="/modalcourse"
             >
-              Wahlpflichtkurse
+              Admin
             </router-link>
             <router-link class="link" to="/hilfe">Hilfe</router-link>
           </div>
@@ -87,9 +105,18 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
+import { computed } from "vue";
 export default {
+  setup() {
+    const store = useStore();
+    return {
+      stage: computed(() => store.state.stage),
+    };
+  },
   data() {
     return {
+      pending: true,
       mobileView: false,
       showMobileNavMenu: false,
     };
@@ -100,9 +127,12 @@ export default {
       return this.$store.state.user.user;
     },
   },
-  created() {
+  async created() {
     this.mobileView = window.innerWidth <= 600;
     window.addEventListener("resize", this.isMobileView);
+    this.pending = true;
+    await this.$store.dispatch("stage/fetchStage");
+    this.pending = false;
   },
   methods: {
     logOut() {

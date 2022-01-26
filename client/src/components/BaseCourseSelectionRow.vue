@@ -1,60 +1,141 @@
 <template>
-  <div>
-    <div
-      class="semesterRow"
-      @drop.stop="moveCourse($event, 0)"
-      @dragover.prevent
-      @dragenter.prevent
-    >
+  <div @drop.stop="moveCourse($event, 0)" @dragover.prevent @dragenter.prevent>
+    <div class="gridContainer">
       <BaseCourseSelectionRowSidebar
         :priority="coursePriority"
         :is-unbooked-courses="isUnbookedCourses"
+        class="gridItem1"
       />
 
-      <div class="courses">
-        <div
-          v-for="(course, $courseIndex) in courses"
-          :key="$courseIndex"
-          class="course"
-          draggable="true"
-          :style="{
-            width: `${courseWidth(course)}px`,
-          }"
-          @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
-          @drop.stop="moveCourse($event, $courseIndex)"
-        >
-          <div
-            v-if="course.ects != 0"
-            class="course-content-container-content"
-            :class="{
-              'course-content-container-content--booked': true,
-              'course-content-container-content--passed': false,
-            }"
-          >
-            <div class="course-content-container-content-text">
-              <p class="course-content-container-content-text--code">
-                {{ course.code }}
-              </p>
-              <p
-                :style="{
-                  fontSize: courseWidth(course) < 50 ? '9px' : '12px',
-                }"
-              >
-                {{ course.name }}
-              </p>
-            </div>
-          </div>
+      <div
+        :class="{
+          'gridItem2': course.code != '',
+          'gridItem2Alt': course.code == '',
+        }"
+        v-for="(course, $courseIndex) in courses"
+        :key="$courseIndex"
+        :draggable="isEditable"
+        @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
+        @drop.stop="moveCourse($event, $courseIndex)"
+      >
+      <router-link
+        v-if="course.code != ''"
+        class="courseContentContainer"
+        :to="{
+          name:'baseCourseSelectionDetails',
+          params: {
+            code: course.code,
+            semester: semester.name,
+          },
+        }"
+        draggable="false"
+      >
+        <div>
+          <p>{{ course.code }} {{ course.name }}</p>
         </div>
+        </router-link>
       </div>
     </div>
+    <br />
+    <div
+    v-for="(course, $courseIndex) in courses" 
+    :key="$courseIndex"
+    >
+    <form name="form" v-if="course.code != ''" 
+     @submit.prevent="updateCourses">
+      <!-- <label label for="wiederholer">Wiederholer</label>
+      <label for="wiederholer">Wiederholer</label>
+        <select
+          v-model="wiederholer"
+          name="wiederholer"
+          :class="{ error: v$.wiederholer.$error}"
+          @blur="v$.wiederholer.$touch()"
+          :disabled="!isEditable"
+        >
+          <option
+            v-for="option in this.wiederholerOptions"
+            :key="option.name"
+            :value="option.value"
+          >
+            {{ option.name }}
+          </option>
+        </select>
+        <div v-if="v$.wiederholer.$error">
+          <p class="error-message">
+            Gib an, ob du Wiederholer bist.
+          </p>
+        </div> -->
+        <div :class="{ error: v$.wiederholer.$error}">
+        <label label for="yes"> Wiederholer:      Ja</label>
+        <input  
+          @change="courseRepeaterChanged($event)"     
+          @blur="v$.wiederholer.$touch()"
+          :disabled="!isEditable"
+                type="radio"
+                v-model="course.isRepeater"
+                :id="'ja'+index"
+                :name="'test'+index"
+                :value="true"
+              />
+        <label label for="no">Nein</label>
+        <input
+                @blur="v$.wiederholer.$touch()"
+                @change="courseRepeaterChanged($event)" 
+                :disabled="!isEditable"
+                type="radio"
+                v-model="course.isRepeater"
+                :id="'nein'+index"
+                :name="'test'+index"
+                :value="false"
+              />
+        </div>
+      </form>
+    </div>
+    <button @click="deleteCoursePriority()" :class="{ prioButtonDisable: !isEditable, prioButton: isEditable}" :disabled="!isEditable" >
+      Prio löschen
+    </button>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import { required } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 
 export default {
+    setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      wiederholer: undefined,
+      //wiederholer: [],
+      // wiederholerOptions: [
+      //   { name: "ja", value: true },
+      //   { name: "nein", value: false },
+      // ],
+    };
+  },
+
+  validations() {
+    return {
+      wiederholer: {
+        required,
+      },
+    };
+  },
+
   props: {
+    bookedCourses: {
+      type: Array,
+      default: () => [],
+    },
+    semester: {
+      type: Object,
+    },
+    isEditable: {
+      type: Boolean,
+    },
     courses: {
       type: Array,
       default: () => [],
@@ -71,13 +152,34 @@ export default {
       type: Boolean,
       required: true,
     },
+    index: {
+      type: Number,
+      default: 0,
+    },
+    maxCourses: {
+      type: Number,
+      default: 0,
+    },
   },
 
   computed: {
     ...mapState("course", ["course"]),
     ...mapState("courseselection", ["courseSelection"]),
   },
+
+  //Priority oder CoursePriority okay?
   methods: {
+    deleteCoursePriority() {
+      this.$store.dispatch("courseselection/deleteCoursePriority", {
+        priority: this.coursePriority,
+      });
+      var updateAmount = this.maxCourses;
+      if (updateAmount > this.bookedCourses.length) updateAmount = this.bookedCourses.length;
+      this.$store.dispatch("courseselection/updateMaxCourses", {
+        maxCourses: updateAmount,
+      });
+    },
+
     courseWidth(course) {
       return course.ects * 30 + (course.ects / 5 - 1) * 30;
     },
@@ -88,7 +190,11 @@ export default {
       e.dataTransfer.setData("from-course-index", fromCourseIndex);
       e.dataTransfer.setData("from-course-priority", fromCoursePriority);
     },
-
+    async courseRepeaterChanged(event){
+      const isRepeater = event.target.value
+      console.log(isRepeater);
+      this.$store.dispatch("courseselection/updateIsRepeater", {index: this.index, isRepeater: isRepeater});
+    },
     moveCourse(e, toCourseIndex) {
       e.preventDefault();
       const fromCoursePriority = parseInt(
@@ -114,75 +220,75 @@ export default {
 $htwGruen: #76b900;
 $belegtBackground: rgba(253, 177, 62, 0.55);
 
-.semesterRow {
-  max-width: 100%;
-  display: grid;
-  grid-template-columns: 0.2fr 0.8fr;
-  row-gap: 0px;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.gridContainer {
+  display: inline-grid;
+  width: 20rem;
+  place-content: center;
+}
 
-  .courses {
-    min-width: 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
+.gridItem1 {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  padding-top:0.5rem;
+  width: 10rem;
+}
 
-    .course {
-      margin: 20px 25px 20px 0;
-      display: flex;
-      align-items: center;
-      min-height: 87px;
-      transform: translate(0, 0);
+.gridItem2 {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  width: 12rem;
+  place-content: left;
+  border-radius: 20px;
+  background: #c4c4c4;
+  color: black;
+  text-align: center;
+  padding: 0.5rem 0.5rem;
+  margin-bottom: 1rem;
+  // border-color: #7c7c7c;
+  // border-style: solid;
+  // border-width: 0.125rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.gridItem2:hover {
+  background: rgba(224, 223, 223, 0.7);
+}
 
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      &-content-container {
-        transform: translate(0, 0);
-        min-height: 87px;
-        border-radius: 14px;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: 0.2s;
-
-        &-content {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin: 0 auto;
-          width: 100%;
-          min-height: 87px;
-          background: rgba(55, 163, 22, 0.55);
-          background-size: 100px 100px;
-          border: 1px solid rgba(193, 193, 193, 0.3);
-          border-radius: 14px;
-          &:hover {
-            background: rgba(193, 193, 193, 0.7);
-          }
-
-          &-text {
-            max-width: 100%;
-            height: 100%;
-
-            overflow: hidden;
-
-            p {
-              font-size: 12px;
-              font-weight: 700;
-              padding: 3px 5px;
-              margin: 0;
-              max-width: 95%;
-              word-wrap: break-word;
-              border-radius: 14px;
-            }
-          }
-        }
-      }
-    }
-  }
+.gridItem2Alt {
+  margin: 0;
+}
+.prioButton{
+  text-decoration: underline;
+  place-content: center;
+  background: none;
+  border:none;
+}
+.prioButtonDisable{
+  text-decoration: underline;
+  place-content: center;
+  background: none;
+  border:none;
+}
+.prioButton:hover {
+  //background-color: #4CAF50; /* Green */
+  color: rgb(56, 55, 55);
+}
+.error-message {
+  color: #f8153d;
+  margin-bottom: 30px;
+  margin-top: 0;
+}
+.courseContentContainer{
+  transform: translate(0, 0);
+  min-height: 87px;
+  border-radius: 14px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
 }
 </style>

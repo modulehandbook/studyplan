@@ -67,7 +67,7 @@ app.set("view engine", "ejs"); //To use EJS
 
 app.use(serveStatic(__dirname + "/dist"));
 
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV == "production" && process.env.TEST_PROD != "true") {
   app.use("/api", router);
 } else {
   app.use("/", router);

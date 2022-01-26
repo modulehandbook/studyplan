@@ -2,6 +2,7 @@
   <div>
     <h1>Willkommen zu deinem Studyplan!</h1>
     <h2>Plane dein Studium und behalte den Überblick!</h2>
+    <h2>Disclaimer: Diesen Service zu nutzen hat keine weiteren Auswirkungen auf dein Studium und ist somit komplett freiwillig. <br /> Deine angegebenen Daten werden sowohl in unserer Datenbank, als auch lokal bei dir gespeichert.</h2>
     <h3 v-if="!successful">Registriere dich</h3>
     <div v-if="!successful" class="line"></div>
     <form name="form" @submit.prevent="handleRegister">

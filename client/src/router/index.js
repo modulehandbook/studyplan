@@ -4,6 +4,7 @@ import Login from "../views/Login.vue";
 import StudyPlan from "../views/StudyPlan.vue";
 import Help from "../views/Help.vue";
 import CourseSelection from "../views/CourseSelection.vue";
+import ChosenCourses from "../views/ChosenCourses.vue";
 import CourseSurvey from "../views/CourseSurvey.vue";
 import ModalCourse from "../views/ModalCourse.vue";
 import Profile from "../views/Profile.vue";
@@ -14,6 +15,7 @@ import ProgramSelection from "../views/ProgramSelection.vue";
 import BaseModalChildCourse from "../components/BaseModalChildCourse.vue";
 import BaseModalParentCourse from "../components/BaseModalParentCourse.vue";
 import BaseModalCourseDetailsWindow from "../components/BaseModalCourseDetailsWindow.vue";
+import BaseCourseSelectionDetailsWindow from "../components/BaseCourseSelectionDetailsWindow.vue";
 import BaseDeleteStudyplanModal from "../components/BaseDeleteStudyplanModal.vue";
 import BaseChangePasswordModal from "../components/BaseChangePasswordModal.vue";
 import BaseResendVerification from "../components/BaseResendVerification.vue";
@@ -90,6 +92,18 @@ const routes = [
     path: "/courseselection",
     name: "CourseSelection",
     component: CourseSelection,
+    children: [
+      {
+        path: ":semester/:code",
+        component: BaseCourseSelectionDetailsWindow,
+        name: "baseCourseSelectionDetails",
+      },
+    ],
+  },
+  {
+    path: "/mycourses",
+    name: "myCourses",
+    component: ChosenCourses,
   },
   {
     path: "/coursesurvey",

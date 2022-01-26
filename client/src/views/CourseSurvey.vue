@@ -1,7 +1,32 @@
 <template>
   <div v-if="!pending">
+    <div v-if="this.hasTakenSurvey" class="no-course-wrapper">
+      <BaseHeading>
+        <h2 class="no-course-headline">
+          Danke für die Teilnahme an der Umfrage!
+        </h2></BaseHeading
+      >
+      <span class="no-course-text">
+        Mit der Teilnahme an der Umfrage machst du diese und zukünftige Belegphasen
+        besser! Wenn du deine Kurswahl noch einmal änderst, kannst du auch die
+        Umfrage erneut machen.
+      </span>
+    </div>
+    <div
+      v-else-if="stage.currentStage !== 'COURSE-SELECTION'"
+      class="no-course-wrapper"
+    >
+      <BaseHeading>
+        <h2 class="no-course-headline">
+          Aktuell ist keine Belegungsphase.
+        </h2></BaseHeading
+      >
+      <span class="no-course-text">
+        Die nächste Belegphase startet {{ time("courseSelection", true) }}.
+      </span>
+    </div>
     <form
-      v-if="
+      v-else-if="
         courseSelection != null &&
         courseSelection.semesterPlans != null &&
         courseSelection.semesterPlans[0].bookedCourses.length > 0
@@ -9,7 +34,7 @@
       name="form"
       @submit.prevent="updateCourses"
     >
-      <BaseHeading><h1>Wieso hast du den Kurs gewaehlt?</h1></BaseHeading>
+      <BaseHeading><h1>Wieso hast du den Kurs gewählt?</h1></BaseHeading>
       <div
         v-for="(course, index) in courseSelection.semesterPlans[0]
           .bookedCourses"
@@ -28,12 +53,12 @@
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
                 <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[0].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[course.code].reasons"
+                  type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[0].value"
-                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[0].key + index">{{
                   surveys[0].name
@@ -41,12 +66,12 @@
               </div>
               <div class="survey-radio right">
                 <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[1].key + index"
-                  v-model="test[index]"
-                  type="radio"
-                  :name="'survey' + index"
+                  v-model="courseReasons[course.code].reasons"
+                  type="checkbox"
+                  :name="'checkbox' + index"
                   :value="surveys[1].value"
-                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[1].key + index">{{
                   surveys[1].name
@@ -56,12 +81,12 @@
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
                 <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[2].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[course.code].reasons"
+                  type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[2].value"
-                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[2].key + index">{{
                   surveys[2].name
@@ -70,12 +95,12 @@
 
               <div class="survey-radio right">
                 <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[3].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[course.code].reasons"
+                  type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[3].value"
-                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[3].key + index">{{
                   surveys[3].name
@@ -85,12 +110,12 @@
             <div class="survey-column-wrapper">
               <div class="survey-radio left">
                 <input
+                  v-if="courseReasons[course.code]"
                   :id="surveys[4].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-model="courseReasons[course.code].reasons"
+                  type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[4].value"
-                  @change="getChecked($event, index)"
                 />
                 <label :for="surveys[4].key + index">{{
                   surveys[4].name
@@ -99,22 +124,23 @@
 
               <div class="survey-radio right">
                 <input
-                  :id="surveys[5].key + index"
-                  v-model="test[index]"
-                  type="radio"
+                  v-if="courseReasons[course.code]"
+                  @change="toggleTextBox($event, course.code, index)"
+                  :id="surveys[4].key + index"
+                  type="checkbox"
                   :name="'survey' + index"
-                  @change="getChecked($event, index)"
+                  :value="surveys[5].value"
                 />
                 <label :for="surveys[5].key + index">{{
                   surveys[5].name
                 }}</label>
                 <input
-                  v-model="test[index]"
+                  v-if="courseReasons[course.code]"
+                  v-model="courseReasons[course.code].other"
+                  :disabled="!textEnabled[index]"
                   class="input-text"
                   type="text"
                   name=""
-                  :disabled="!isEnabledArray[index]"
-                  @change="getTextFieldValue($event, surveys[5].key + index)"
                 />
               </div>
             </div>
@@ -123,64 +149,91 @@
       </div>
       <div class="button-wrapper">
         <button class="survey-button" type="submit">Submit</button>
-        <p class="survey-time">Umfrageschluss: dd/mm/yyyy</p>
+        <p class="survey-time">
+          Umfrageschluss {{ time("evaluation", true) }}.
+        </p>
       </div>
     </form>
-    <p v-else>komm wieder wenn du kurse gewaehlt hast</p>
+    <div v-else class="no-course-wrapper">
+      <BaseHeading>
+        <h2 class="no-course-headline">
+          Noch keine Kurse gewählt.
+        </h2></BaseHeading
+      >
+      <span class="no-course-text">
+        Bitte wähle zuerst welche unter „Kursbelegung“.
+      </span>
+    </div>
   </div>
 </template>
 
-<!--
-Frage an Backend guys
-
-
-option 2
-{
-course1: informatik
-survey1: relevant für Berufslaufbahn
-course2: mathematik
-survey2: zeitlich bedingt
-}
-..
-..
--->
+export default { },
 
 <script>
-import { mapState } from "vuex";
+import { mapState, useStore, mapGetters } from "vuex";
+import { computed } from "vue";
+import moment from "moment";
 import BaseHeading from "../components/BaseHeading.vue";
 export default {
+  setup() {
+    const store = useStore();
+    return {
+      stage: computed(() => store.state.stage),
+    };
+  },
   components: { BaseHeading },
   computed: {
     ...mapState("courseselection", ["courseSelection"]),
     ...mapState("user", ["user"]),
+    ...mapGetters({
+      hasTakenSurvey: "courseselection/getSurveyState",
+    }),
+    time() {
+      return (stage, withPrefix) => {
+        const deadline = new Date(this.stage.nextDates[stage].date);
+        const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
+        return gap.locale("de").humanize(withPrefix);
+      };
+    },
   },
   async mounted() {
     this.pending = true;
+    this.courseReasons = {};
+    console.log("mounted ist called");
+    console.log(this.courseReasons);
+    await this.$store.dispatch("stage/fetchStage");
     await this.$store
       .dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       })
-      .then((test) => {
-        console.log(test);
+      .then(() => {
+        console.log("did user take survey");
+        console.log(this.hasTakenSurvey);
+        if (this.courseSelection) {
+          if (this.courseSelection.semesterPlans) {
+            if (this.courseSelection.semesterPlans[0]) {
+              if (this.courseSelection.semesterPlans[0].bookedCourses) {
+                this.courseSelection.semesterPlans[0].bookedCourses.forEach(
+                  (course) => {
+                    this.courseReasons[course.code] = {
+                      reasons: [],
+                      other: "",
+                    };
+                  }
+                );
+              }
+            }
+          }
+        }
         this.pending = false;
       })
       .catch((e) => {
         console.log(e);
       });
-
-    //console.log(this.courseSelection);
   },
   data() {
-    const defaultCourses = [
-      { key: "B1", name: "Informatik 1" },
-      { key: "B2", name: "Computersysteme2" },
-      { key: "B3", name: "Propädeutikum und Medientheorie" },
-      { key: "B4", name: "Mathematik 1" },
-      { key: "B5", name: "GWP" },
-      { key: "B6", name: "Fremdsprache" },
-    ];
     /*
-      reasonsForSelecton: { 
+      reasonsForSelecton: {
         teacher: Number,
         time: Number,
         interest: Number,
@@ -189,59 +242,46 @@ export default {
       },
     */
     return {
-      pending: false,
-      courses: defaultCourses,
-      test: [],
+      pending: true,
+      surveyTaken: false,
+      courseReasons: {},
+      textEnabled: [],
       surveys: [
-        { key: "lb", name: "Lehrer bedingt", value: "teacher" },
-        { key: "zb", name: "zeitlich bedingt", value: "time" },
+        { key: "lb", name: "Der/Die Dozent/in lehrt gut", value: "teacher" },
+        { key: "zb", name: "Aufgrund des Zeitslots", value: "time" },
         {
           key: "ki",
-          name: "Kurs ist interessant",
+          name: "Die Thematik spricht mich an",
           value: "interest",
         },
         {
           key: "rb",
-          name: "relevant für Berufslaufbahn",
+          name: "Vertiefendes Wissen für Karriere",
           value: "careerRelevant",
         },
-        { key: "ke", name: "Kurs ist einfach", value: "easy" },
+        {
+          key: "ke",
+          name: "Die Thematik ist leicht verständlich",
+          value: "easy",
+        },
         { key: "so", name: "sonstiges", value: "" },
       ],
       // array of the enabled status for the text input field
-      isEnabledArray: Array.apply(false, Array(defaultCourses.length)),
     };
   },
   methods: {
-    /*
-     * function to check if the sonstiges input field is checked or not
-     * and set the isEnabledValue of its certain index of the courses
-     */
-    getChecked: function (event, index) {
-      if (event.target.id.includes("so")) {
-        this.isEnabledArray[index] = true;
-      } else {
-        this.isEnabledArray[index] = false;
-      }
-      // console.log(event.target.id, index, this.isEnabledArray);
-    },
-    //Get value of the user input
-    getTextFieldValue: function (event, id) {
-      // console.log(event);
-      document.getElementById(id).value = event.target.value;
+    toggleTextBox(event, courseCode, index) {
+      this.textEnabled[index] =
+        this.textEnabled[index] == undefined ? true : !this.textEnabled[index];
+      this.courseReasons[courseCode].other = "";
     },
     async updateCourses() {
-      let mappedCourses = [];
-      this.test.forEach((element, index) => {
-        mappedCourses.push({
-          code: this.courseSelection.semesterPlans[0].bookedCourses[index].code,
-          selectionReason: element,
-        });
-      });
-      console.log(mappedCourses);
-      await this.$store.dispatch("modalcourse/updateSelectionReasons", {
-        mappedCourses,
-      });
+      await this.$store.dispatch(
+        "courseselection/updateCourseSelectionReasons",
+        {
+          courseReasons: this.courseReasons,
+        }
+      );
     },
   },
 };
@@ -249,7 +289,7 @@ export default {
 
 <style>
 .survey-time {
-  font-size: xx-small;
+  font-size: x-small;
   text-align: right;
 }
 
@@ -316,19 +356,36 @@ export default {
   font-family: Arial;
   color: #ffffff;
   font-size: 20px;
-  background: #000000;
+  background: #76b900;
   padding: 5px 80px;
   text-decoration: none;
   border: 0;
 }
 
 .survey-button:hover {
-  background: #292c2e;
+  background: #8ddf00;
   text-decoration: none;
   cursor: pointer;
 }
 
 .input-text {
   margin-left: 10px;
+}
+
+.no-course-wrapper {
+  width: 700px;
+  border-radius: 20px;
+  color: black;
+  text-align: center;
+  padding: 10px 10px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  background: #ffffff;
+  border: 5px solid #7eb726;
+  box-sizing: border-box;
+  box-shadow: 6px 6px 18px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
 }
 </style>
