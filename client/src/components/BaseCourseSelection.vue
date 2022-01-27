@@ -145,16 +145,19 @@ export default {
     if(!this.isEmptyCourse){
       this.addPriority();
     }
-    
+
     this.scrollToEnd();
 
     var count=0;
     var emptyCourses=[];
+    var pass=false;
     for (let i = this.bookedCourses.length-1; i >=0; i--) {
+      pass=false;
       if(this.bookedCourses[i].ects==0){
         count++
+        pass=true;
       }
-      if(count>1) emptyCourses.push(this.bookedCourses[i]);
+      if(count>1 && pass) emptyCourses.push(this.bookedCourses[i]);
     }
     if(count>1){
       for (let i = 0; i < emptyCourses.length; i++) {
