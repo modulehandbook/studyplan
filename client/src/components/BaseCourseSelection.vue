@@ -142,6 +142,10 @@ export default {
     console.log("test");
     this.scrollToEnd();
     this.isEditable = false;
+    if(this.bookedCourses.length==0) {
+      this.addPriority();
+      this.addPriority();
+    }
   },
   updated() {
     this.scrollToEnd();
