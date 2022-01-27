@@ -308,9 +308,8 @@ module.exports = {
         res
           .status(200)
           .send(
-            "A verification email has been sent to " +
-              res.locals.user.email +
-              "."
+            "E-Mail mit Verifikationslink gesendet an: " +
+              res.locals.user.email
           );
       }
     });

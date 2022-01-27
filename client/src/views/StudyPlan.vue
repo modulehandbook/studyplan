@@ -30,8 +30,8 @@
                 <p>
                   Du kannst ganz einfach per Drag & Drop die Kurse zwischen den
                   Semestern hin- und herziehen. Mit Klick auf einen Kurs kommst
-                  du zur Detailansicht. Du kannst einen Kurse als "belegt" und
-                  "bestanden" makieren. Manche Kurse müssen durch andere Kurse
+                  du zur Detailansicht. Du kannst einen Kurs als "belegt" und
+                  "bestanden" markieren. Manche Kurse müssen durch andere Kurse
                   bestanden werden – du kannst dann nur dort "belegt" oder
                   "bestanden" angeben.
                 </p>

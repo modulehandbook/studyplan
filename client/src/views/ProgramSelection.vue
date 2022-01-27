@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Bitte mach zuerst ein paar Angaben zu deinem Studium</h1>
+    <h1>Bitte mache zuerst ein paar Angaben zu deinem Studium</h1>
     <h2 id="warning">Achtung: Bitte tätige alle Angaben wahrheitsgemäß!</h2>
     <h3 id="warnigDescription">
       Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
@@ -65,7 +65,7 @@
             @blur="v$.startOfStudy.$touch()"
           >
             <option
-              v-for="semester in $store.state.semester.semesters"
+              v-for="semester in semestersNotInFuture"
               :key="semester.id"
               :value="semester"
             >
@@ -85,7 +85,7 @@
         oder Leistungssportler bist, kannst du bevorzugt Belegen.
         <a
           href="https://www.htw-berlin.de/studium/studienorganisation/kursbelegung/sonderregelungen/"
-          >Weiter Infos.</a
+          >Weitere Infos</a
         >
       </p>
       <div class="select-boxes">
@@ -126,7 +126,7 @@
         />
         <div id="acceptLabel">
           <label for="accept"
-            >Ich versicher, dass alle Angaben wahrheitsgemäß sind. <br />
+            >Ich versichere, dass alle Angaben wahrheitsgemäß sind. <br />
             Ich bin mir bewusst, dass falsche Angaben zur Nichtberücksichtigung
             meiner Belegung führen.</label
           >
@@ -189,6 +189,11 @@ export default {
   },
   computed: {
     ...mapState("studyplan", ["studyPlan"]),
+    semestersNotInFuture: function() {
+      return this.$store.state.semester.semesters.filter(function (oneSemester){
+          return parseInt(oneSemester.name.substring(4, 6)) <= new Date().getFullYear() - 2000;
+      })
+    }
   },
 
   async created() {
