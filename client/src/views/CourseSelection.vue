@@ -74,9 +74,6 @@ export default {
   },
 
   async mounted() {
-    if(this.courseSelection == null){
-      this.addCourseSelection();
-    }
     if (!this.$store.state.user.user.startOfStudy) {
       this.$router.push("/select-program");
     } else {
@@ -90,6 +87,9 @@ export default {
       console.log(this.modalCourses);
     }
     this.pending = false;
+    if(this.courseSelection == null){
+      this.addCourseSelection();
+    }
     console.log(this.currSemester);
   },
   methods: {
