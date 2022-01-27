@@ -51,7 +51,7 @@
           Zurücksetzen
         </button>
         <button
-          :disabled="isEmptyCourse || !isEditable"
+          :disabled="!isEditable"
           class="save"
           @click="isEditable = false"
         >
