@@ -97,13 +97,9 @@
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
 import { mapGetters } from "vuex";
 
 export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
   data() {
     return {
       isEditable: false,
@@ -133,7 +129,6 @@ export default {
     },
   },
   async mounted() {
-    console.log("test");
     this.scrollToEnd();
     this.isEditable = false;
     if(this.bookedCourses.length==0) {
@@ -164,18 +159,16 @@ export default {
       this.$store.dispatch("courseselection/deleteCoursePriority", {
         priority: emptyCourses[i].priority,
       });
-      var updateAmount = this.maxCourses;
-      if (updateAmount > this.bookedCourses.length) updateAmount = this.bookedCourses.length;
-      this.$store.dispatch("courseselection/updateMaxCourses", {
-        maxCourses: updateAmount,
-      });
+      this.updateMaxCourses(this.maxCourses);
       }
     }
   },
   methods: {
     updateMaxCourses(amount) {
       let updateAmount = amount;
-      if (amount < 0) updateAmount = 0;
+      if (amount < 1) updateAmount = 1;
+      if (amount > this.bookedCourses.length-1 && (this.bookedCourses.length>1))
+        updateAmount = this.bookedCourses.length-1;
       if (amount > this.bookedCourses.length)
         updateAmount = this.bookedCourses.length;
       this.$store.dispatch("courseselection/updateMaxCourses", {

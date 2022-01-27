@@ -84,13 +84,11 @@ export default {
         userId: this.user.id || this.user._id,
       });
       await this.$store.dispatch("modalcourse/fetchCourses");
-      console.log(this.modalCourses);
     }
     this.pending = false;
     if(this.courseSelection == null){
       this.addCourseSelection();
     }
-    console.log(this.currSemester);
   },
   methods: {
     addCourseSelection() {
