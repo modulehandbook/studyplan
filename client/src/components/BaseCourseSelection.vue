@@ -40,12 +40,6 @@
         />
       </div>
       <div>
-        <div>
-          <button @click="addPriority" class="button" :disabled="!isEditable">
-            <font-awesome-icon :icon="['fas', 'plus-circle']" size="2x" />
-          </button>
-          <p style="margin-top: 0.5rem">Prio hinzufügen</p>
-        </div>
         <button class="edit" @click="isEditable = true" :disabled="isEditable">
           Ändern
         </button>
@@ -148,6 +142,9 @@ export default {
     }
   },
   updated() {
+    if(!this.isEmptyCourse){
+      this.addPriority();
+    }
     this.scrollToEnd();
   },
   methods: {
@@ -272,18 +269,6 @@ $htwGruen: #76b900;
   margin-bottom: 30px;
   margin-top: 0;
 }
-.button {
-  text-decoration: none;
-  background: white;
-  border: none;
-  padding: 0px;
-  margin-top: 0.5rem;
-  border-radius: 5rem;
-}
-.button:hover {
-  //background-color: #4CAF50; /* Green */
-  color: rgb(56, 55, 55);
-}
 .prioritiesBox {
   background-color: #b3b3b3;
   color: white;
@@ -313,7 +298,7 @@ $htwGruen: #76b900;
     padding: 1rem;
   }
   .reset {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
     margin-bottom: 0.5rem;
     margin-right: 2rem;
     margin-left: 1rem;
@@ -331,7 +316,7 @@ $htwGruen: #76b900;
       0 17px 50px 0 rgba(0, 0, 0, 0.19);
   }
   .save {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
     margin-bottom: 0.5rem;
     margin-left: 1.5rem;
     // padding-top: 0.5rem;
@@ -349,7 +334,7 @@ $htwGruen: #76b900;
       0 17px 50px 0 rgba(0, 0, 0, 0.19);
   }
   .edit {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
     margin-bottom: 1rem;
     padding: 0.5rem;
     border: none;
