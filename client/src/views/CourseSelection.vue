@@ -1,6 +1,6 @@
 <template>
   <div v-if="!pending">
-    <div v-if="stage.currentStage === 'COURSE-SELECTION'">
+    <div v-if="(stage.debugStage === 'none' && stage.currentStage === 'COURSE-SELECTION') || stage.debugStage === 'COURSE-SELECTION'">
       <BaseHeading>
         <h1>Kursbelegung</h1>
       </BaseHeading>

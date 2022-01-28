@@ -6,6 +6,7 @@ export const namespaced = true;
 export const state = {
   nextDates: [],
   currentStage: {},
+  debugStage: "none",
   pending: false,
 };
 export const mutations = {

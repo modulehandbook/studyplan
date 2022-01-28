@@ -15,8 +15,11 @@
     </div>
     <div
       v-else-if="
-        stage.currentStage === 'EVALUATION' ||
-        stage.currentStage === 'COURSE-RESULT'
+        (stage.debugStage === 'none' &&
+        (stage.currentStage === 'EVALUATION' ||
+        stage.currentStage === 'COURSE-RESULT')) ||
+        (stage.debugStage === 'EVALUATION' ||
+        stage.debugStage === 'COURSE-RESULT')
       "
     >
       <div v-if="stage.currentStage === 'EVALUATION'">
