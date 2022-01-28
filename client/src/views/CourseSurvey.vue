@@ -7,9 +7,9 @@
         </h2></BaseHeading
       >
       <span class="no-course-text">
-        Mit der Teilnahme an der Umfrage machst du diese und zukünftige Belegphasen
-        besser! Wenn du deine Kurswahl noch einmal änderst, kannst du auch die
-        Umfrage erneut machen.
+        Mit der Teilnahme an der Umfrage machst du zukünftige Belegphasen
+        besser! Wenn du deine Kurswahl nochmal änderst kannst du auch die
+        Umfrage neu machen.
       </span>
     </div>
     <div
@@ -44,14 +44,13 @@
         <input :name="'course' + index" :value="course.name" hidden />
         <div class="survey-left-content">
           <div class="block">
-            <p>{{ course.key }}</p>
-            <p>{{ course.name }}</p>
+            <p>{{ course.code }} <br />{{ course.name }}</p>
           </div>
         </div>
         <div class="survey-right-content">
           <div class="survey-form">
             <div class="survey-column-wrapper">
-              <div class="survey-radio left">
+              <div class="survey-checkbox left">
                 <input
                   v-if="courseReasons[course.code]"
                   :id="surveys[0].key + index"
@@ -64,7 +63,7 @@
                   surveys[0].name
                 }}</label>
               </div>
-              <div class="survey-radio right">
+              <div class="survey-checkbox right">
                 <input
                   v-if="courseReasons[course.code]"
                   :id="surveys[1].key + index"
@@ -77,9 +76,8 @@
                   surveys[1].name
                 }}</label>
               </div>
-            </div>
-            <div class="survey-column-wrapper">
-              <div class="survey-radio left">
+
+              <div class="survey-checkbox left">
                 <input
                   v-if="courseReasons[course.code]"
                   :id="surveys[2].key + index"
@@ -93,7 +91,7 @@
                 }}</label>
               </div>
 
-              <div class="survey-radio right">
+              <div class="survey-checkbox right">
                 <input
                   v-if="courseReasons[course.code]"
                   :id="surveys[3].key + index"
@@ -106,9 +104,7 @@
                   surveys[3].name
                 }}</label>
               </div>
-            </div>
-            <div class="survey-column-wrapper">
-              <div class="survey-radio left">
+              <div class="survey-checkbox left">
                 <input
                   v-if="courseReasons[course.code]"
                   :id="surveys[4].key + index"
@@ -122,7 +118,7 @@
                 }}</label>
               </div>
 
-              <div class="survey-radio right">
+              <div class="survey-checkbox right">
                 <input
                   v-if="courseReasons[course.code]"
                   @change="toggleTextBox($event, course.code, index)"
@@ -148,7 +144,9 @@
         </div>
       </div>
       <div class="button-wrapper">
-        <button class="survey-button" type="submit">Submit</button>
+        <button class="survey-button" type="submit">
+          Ausgewählte Antworten senden
+        </button>
         <p class="survey-time">
           Umfrageschluss {{ time("evaluation", true) }}.
         </p>
@@ -261,7 +259,7 @@ export default {
         },
         {
           key: "ke",
-          name: "Die Thematik ist leicht verständlich",
+          name: "Die Thematik ist trivial",
           value: "easy",
         },
         { key: "so", name: "sonstiges", value: "" },
@@ -319,8 +317,13 @@ export default {
   background: #c4c4c4;
   color: black;
   text-align: center;
-  padding: 10px 10px;
+  padding: 10px 20px;
   margin: 40px auto;
+  min-height: 104px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .survey-form {
@@ -329,23 +332,21 @@ export default {
 }
 
 .survey-column-wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
   text-align: left;
+  min-width: 720px;
 }
 
 .survey-column-wrapper div {
   padding: 20px 40px;
 }
-.survey-radio label {
+.survey-checkbox label {
   padding-left: 20px;
 }
 
-.survey-radio.right {
-  min-width: 280px;
-}
-
-.survey-radio.left {
-  min-width: 200px;
+.survey-checkbox {
+  flex: 1 1 0px;
 }
 
 .survey-button {
@@ -355,9 +356,9 @@ export default {
   border-radius: 10px;
   font-family: Arial;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 1rem;
   background: #76b900;
-  padding: 5px 80px;
+  padding: 5px 20px;
   text-decoration: none;
   border: 0;
 }

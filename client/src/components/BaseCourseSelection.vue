@@ -40,12 +40,6 @@
         />
       </div>
       <div>
-        <div>
-          <button @click="addPriority" class="button" :disabled="!isEditable">
-            <font-awesome-icon :icon="['fas', 'plus-circle']" size="2x" />
-          </button>
-          <p style="margin-top: 0.5rem">Prio hinzufügen</p>
-        </div>
         <button class="edit" @click="isEditable = true" :disabled="isEditable">
           Ändern
         </button>
@@ -57,7 +51,7 @@
           Zurücksetzen
         </button>
         <button
-          :disabled="isEmptyCourse || !isEditable"
+          :disabled="!isEditable"
           class="save"
           @click="isEditable = false"
         >
@@ -103,13 +97,9 @@
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
 import { mapGetters } from "vuex";
 
 export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
   data() {
     return {
       isEditable: false,
@@ -139,17 +129,46 @@ export default {
     },
   },
   async mounted() {
-    console.log("test");
     this.scrollToEnd();
     this.isEditable = false;
+    if(this.bookedCourses.length==0) {
+      this.addPriority();
+      this.addPriority();
+    }
   },
   updated() {
+    if(!this.isEmptyCourse){
+      this.addPriority();
+    }
+
     this.scrollToEnd();
+
+    var count=0;
+    var emptyCourses=[];
+    var pass=false;
+    for (let i = this.bookedCourses.length-1; i >=0; i--) {
+      pass=false;
+      if(this.bookedCourses[i].ects==0){
+        count++
+        pass=true;
+      }
+      if(count>1 && pass) emptyCourses.push(this.bookedCourses[i]);
+    }
+    if(count>1){
+      for (let i = 0; i < emptyCourses.length; i++) {
+      this.$store.dispatch("courseselection/deleteCoursePriority", {
+        priority: emptyCourses[i].priority,
+      });
+      this.updateMaxCourses(this.maxCourses);
+      }
+    }
   },
   methods: {
     updateMaxCourses(amount) {
       let updateAmount = amount;
-      if (amount < 0) updateAmount = 0;
+      if (amount < 1) updateAmount = 1;
+      if (amount > this.bookedCourses.length-1 && (this.bookedCourses.length>1))
+        updateAmount = this.bookedCourses.length-1;
       if (amount > this.bookedCourses.length)
         updateAmount = this.bookedCourses.length;
       this.$store.dispatch("courseselection/updateMaxCourses", {
@@ -268,18 +287,6 @@ $htwGruen: #76b900;
   margin-bottom: 30px;
   margin-top: 0;
 }
-.button {
-  text-decoration: none;
-  background: white;
-  border: none;
-  padding: 0px;
-  margin-top: 0.5rem;
-  border-radius: 5rem;
-}
-.button:hover {
-  //background-color: #4CAF50; /* Green */
-  color: rgb(56, 55, 55);
-}
 .prioritiesBox {
   background-color: #b3b3b3;
   color: white;
@@ -309,7 +316,7 @@ $htwGruen: #76b900;
     padding: 1rem;
   }
   .reset {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
     margin-bottom: 0.5rem;
     margin-right: 2rem;
     margin-left: 1rem;
@@ -327,7 +334,7 @@ $htwGruen: #76b900;
       0 17px 50px 0 rgba(0, 0, 0, 0.19);
   }
   .save {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
     margin-bottom: 0.5rem;
     margin-left: 1.5rem;
     // padding-top: 0.5rem;
@@ -345,7 +352,7 @@ $htwGruen: #76b900;
       0 17px 50px 0 rgba(0, 0, 0, 0.19);
   }
   .edit {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
     margin-bottom: 1rem;
     padding: 0.5rem;
     border: none;

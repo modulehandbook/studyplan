@@ -17,12 +17,12 @@
       </div>
       <router-view></router-view>
       <!-- <div>Verbleibende Zeit: {{ time("evaluation",false) }}</div> -->
-      <div v-if="courseSelection == null">
+      <!-- <div v-if="courseSelection == null">
         <button @click="addCourseSelection">
           <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
         </button>
         <p>Kurswahl hinzufuegen</p>
-      </div>
+      </div> -->
     </div>
     <div v-else class="wrong-stage-wrapper">
       <BaseHeading>
@@ -84,10 +84,11 @@ export default {
         userId: this.user.id || this.user._id,
       });
       await this.$store.dispatch("modalcourse/fetchCourses");
-      console.log(this.modalCourses);
     }
     this.pending = false;
-    console.log(this.currSemester);
+    if(this.courseSelection == null){
+      this.addCourseSelection();
+    }
   },
   methods: {
     addCourseSelection() {
