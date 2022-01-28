@@ -43,7 +43,7 @@ describe("reset password", () => {
         })
         .expect(401)
         .then((res) => {
-          assert(res.text, "Invalid Password!");
+          assert(res.text, "Falsches Passwort!");
           done();
         });
     });
@@ -76,7 +76,7 @@ describe("reset password", () => {
         })
         .expect(400)
         .then((res) => {
-          assert(res.text, "Kein Benutzer mit dieser Mailadresse gefunden");
+          assert(res.text, "Kein Benutzer mit dieser E-Mail-Adresse gefunden.");
           done();
         });
     });
@@ -90,7 +90,7 @@ describe("reset password", () => {
         .then((res) => {
           assert(
             res.text,
-            "Dein Account wurde noch nicht bestätigt. Checke deine Mails oder fordere eine neue Mail an."
+            "Dein Account wurde noch nicht verifiziert. Checke deine E-Mails oder fordere eine neue E-Mail an."
           );
           done();
         });

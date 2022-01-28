@@ -40,7 +40,7 @@ describe("login", () => {
       })
       .expect(401)
       .then((res) => {
-        assert(res.text, "Invalid Password!");
+        assert(res.text, "Falsches Passwort!");
         done();
       });
   });
@@ -68,7 +68,7 @@ describe("login", () => {
       .then((res) => {
         assert(
           res.text,
-          "Dein Account wurde noch nicht bestätigt. Checke deine Mails"
+          "Dein Account wurde noch nicht verifiziert. Checke deine E-Mails oder fordere eine neue E-Mail an."
         );
         done();
       });
