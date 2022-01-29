@@ -112,6 +112,7 @@ export default {
     return {
       isEditable: false,
       showInfo: false,
+      new: false,
     };
   },
   computed: {
@@ -145,11 +146,13 @@ export default {
     if (this.bookedCourses.length == 0) {
       this.addPriority();
       this.addPriority();
+      this.new=true;
     }
   },
   updated() {
     if (!this.isEmptyCourse && this.isEditable) {
       this.addPriority();
+      this.new=false;
     }
 
     this.scrollToEnd();
