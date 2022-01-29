@@ -23,7 +23,7 @@
           </div>
         </div>
         <div>
-          <label for="email">Email</label>
+          <label for="email">E-Mail (Matrikelnummer@htw-berlin.de)</label>
           <input
             v-model="email"
             type="email"
