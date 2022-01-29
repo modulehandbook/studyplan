@@ -146,13 +146,13 @@ export default {
     if (this.bookedCourses.length == 0) {
       this.addPriority();
       this.addPriority();
-      this.new=true;
+      this.new = true;
     }
   },
   updated() {
     if (!this.isEmptyCourse && this.isEditable) {
       this.addPriority();
-      this.new=false;
+      this.new = false;
     }
 
     this.scrollToEnd();
@@ -160,20 +160,22 @@ export default {
     var count = 0;
     var emptyCourses = [];
     var pass = false;
-    for (let i = this.bookedCourses.length - 1; i >= 0; i--) {
-      pass = false;
-      if (this.bookedCourses[i].ects == 0) {
-        count++;
-        pass = true;
+    if (!this.new) {
+      for (let i = this.bookedCourses.length - 1; i >= 0; i--) {
+        pass = false;
+        if (this.bookedCourses[i].ects == 0) {
+          count++;
+          pass = true;
+        }
+        if (count > 1 && pass) emptyCourses.push(this.bookedCourses[i]);
       }
-      if (count > 1 && pass) emptyCourses.push(this.bookedCourses[i]);
-    }
-    if (count > 1) {
-      for (let i = 0; i < emptyCourses.length; i++) {
-        this.$store.dispatch("courseselection/deleteCoursePriority", {
-          priority: emptyCourses[i].priority,
-        });
-        this.updateMaxCourses(this.maxCourses);
+      if (count > 1) {
+        for (let i = 0; i < emptyCourses.length; i++) {
+          this.$store.dispatch("courseselection/deleteCoursePriority", {
+            priority: emptyCourses[i].priority,
+          });
+          this.updateMaxCourses(this.maxCourses);
+        }
       }
     }
   },
