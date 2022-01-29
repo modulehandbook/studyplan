@@ -145,6 +145,11 @@ export default {
       this.addPriority();
       this.new = true;
     }
+    if(!this.new && this.bookedCourses[this.bookedCourses.length-1].ects==0){
+      this.$store.dispatch("courseselection/deleteCoursePriority", {
+            priority: this.bookedCourses[this.bookedCourses.length-1].priority,
+          });
+    }
   },
   updated() {
     if (!this.isEmptyCourse && this.isEditable) {
