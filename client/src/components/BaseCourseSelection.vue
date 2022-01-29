@@ -13,12 +13,20 @@
       <div class="addPriorities">
         <h3>Kursauswahl</h3>
         <div class="maxCourse">
-          <p class="hMax">max. Kurse</p>
-          <button class="minus" :disabled="!isEditable" @click="updateMaxCourses(maxCourses - 1)">
+          <p class="hMax">Anzahl der gewünschten belegten kurse</p>
+          <button
+            class="minus"
+            :disabled="!isEditable"
+            @click="updateMaxCourses(maxCourses - 1)"
+          >
             -
           </button>
           <p class="maxCourseContent">{{ maxCourses }}</p>
-          <button class="plus" :disabled="!isEditable" @click="updateMaxCourses(maxCourses + 1)">
+          <button
+            class="plus"
+            :disabled="!isEditable"
+            @click="updateMaxCourses(maxCourses + 1)"
+          >
             +
           </button>
         </div>
@@ -43,6 +51,9 @@
         <button class="edit" @click="isEditable = true" :disabled="isEditable">
           Ändern
         </button>
+        <!-- <button class="edit" @click="addPriority" :disabled="!isEditable">
+          Add Priority
+        </button> -->
         <button
           @click="resetCourseSelection"
           class="reset"
@@ -50,11 +61,7 @@
         >
           Zurücksetzen
         </button>
-        <button
-          :disabled="!isEditable"
-          class="save"
-          @click="isEditable = false"
-        >
+        <button :disabled="!isEditable" class="save" @click="saveCourses">
           Speichern
         </button>
       </div>
@@ -63,10 +70,11 @@
       Mehr Informationen
     </button>
     <transition name="fade" appear>
-      <div :class="{
-        overlay: showInfo,
-      }">
-      </div>
+      <div
+        :class="{
+          overlay: showInfo,
+        }"
+      ></div>
     </transition>
     <transition name="slide" appear>
       <div class="info" v-if="showInfo">
@@ -107,8 +115,8 @@ export default {
     };
   },
   computed: {
-      ...mapGetters({
-      isEmptyCourse: "courseselection/isEmptyCourse"
+    ...mapGetters({
+      isEmptyCourse: "courseselection/isEmptyCourse",
     }),
   },
   props: {
@@ -131,35 +139,38 @@ export default {
   async mounted() {
     this.scrollToEnd();
     this.isEditable = false;
-    if(this.bookedCourses.length==0) {
+    if (this.bookedCourses[this.bookedCourses.length - 1].code === "") {
+      this.bookedCourses.splice(this.bookedCourses.length - 1, 1);
+    }
+    if (this.bookedCourses.length == 0 && this.isEditable) {
       this.addPriority();
       this.addPriority();
     }
   },
   updated() {
-    if(!this.isEmptyCourse){
+    if (!this.isEmptyCourse && this.isEditable) {
       this.addPriority();
     }
 
     this.scrollToEnd();
 
-    var count=0;
-    var emptyCourses=[];
-    var pass=false;
-    for (let i = this.bookedCourses.length-1; i >=0; i--) {
-      pass=false;
-      if(this.bookedCourses[i].ects==0){
-        count++
-        pass=true;
+    var count = 0;
+    var emptyCourses = [];
+    var pass = false;
+    for (let i = this.bookedCourses.length - 1; i >= 0; i--) {
+      pass = false;
+      if (this.bookedCourses[i].ects == 0) {
+        count++;
+        pass = true;
       }
-      if(count>1 && pass) emptyCourses.push(this.bookedCourses[i]);
+      if (count > 1 && pass) emptyCourses.push(this.bookedCourses[i]);
     }
-    if(count>1){
+    if (count > 1) {
       for (let i = 0; i < emptyCourses.length; i++) {
-      this.$store.dispatch("courseselection/deleteCoursePriority", {
-        priority: emptyCourses[i].priority,
-      });
-      this.updateMaxCourses(this.maxCourses);
+        this.$store.dispatch("courseselection/deleteCoursePriority", {
+          priority: emptyCourses[i].priority,
+        });
+        this.updateMaxCourses(this.maxCourses);
       }
     }
   },
@@ -167,8 +178,11 @@ export default {
     updateMaxCourses(amount) {
       let updateAmount = amount;
       if (amount < 1) updateAmount = 1;
-      if (amount > this.bookedCourses.length-1 && (this.bookedCourses.length>1))
-        updateAmount = this.bookedCourses.length-1;
+      if (
+        amount > this.bookedCourses.length - 1 &&
+        this.bookedCourses.length > 1
+      )
+        updateAmount = this.bookedCourses.length - 1;
       if (amount > this.bookedCourses.length)
         updateAmount = this.bookedCourses.length;
       this.$store.dispatch("courseselection/updateMaxCourses", {
@@ -182,6 +196,15 @@ export default {
     },
     addPriority() {
       this.$store.dispatch("courseselection/addCoursePriority");
+    },
+    saveCourses() {
+      this.isEditable = false;
+
+      this.$store.dispatch("courseselection/deleteCoursePriority", {
+        priority: this.bookedCourses[this.bookedCourses.length - 1].priority,
+      });
+
+      this.bookedCourses.splice(this.bookedCourses.length - 1, 1);
     },
     resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority2");
