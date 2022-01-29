@@ -141,14 +141,14 @@ module.exports = {
         if (!passwordIsValid) {
           return res.status(401).send({
             accessToken: null,
-            message: "Invalid Password!",
+            message: "Falsches Passwort!",
           });
         }
         if (!user.isVerified) {
           return res.status(401).send({
             type: "not-verified",
             message:
-              "Dein Account wurde noch nicht bestätigt. Checke deine Mails",
+            "Dein Account wurde noch nicht verifiziert. Checke deine E-Mails oder fordere eine neue E-Mail an.",
           });
         }
         var token = jwt.sign({ id: user.id }, secret, {
@@ -174,7 +174,7 @@ module.exports = {
       if (!user)
         return res
           .status(400)
-          .send({ message: "Kein Benutzer mit dieser Mailadresse gefunden" });
+          .send({ message: "Kein Benutzer mit dieser E-Mail-Adresse gefunden."});
       if (user.isVerified)
         return res.status(400).send({
           message: "Der Account wurde schon bestätigt. Bitte logge dich ein",
@@ -204,12 +204,12 @@ module.exports = {
       if (!user)
         return res
           .status(400)
-          .send({ message: "Kein Benutzer mit dieser Mailadresse gefunden" });
+          .send({ message: "Kein Benutzer mit dieser E-Mail-Adresse gefunden."});
       if (!user.isVerified) {
         return res.status(401).send({
           type: "not-verified",
           message:
-            "Dein Account wurde noch nicht bestätigt. Checke deine Mails oder fordere eine neue Mail an.",
+          "Dein Account wurde noch nicht verifiziert. Checke deine E-Mails oder fordere eine neue E-Mail an.",
         });
       }
       //create a new password, save it to the user, and send it to the user in an email

@@ -180,7 +180,7 @@ describe("registration, confirmation", () => {
       .send({ email: "randomEmail" })
       .expect(400)
       .then((res) => {
-        assert(res.text, "Kein Benutzer mit dieser Mailadresse gefunden");
+        assert(res.text, "Kein Benutzer mit dieser E-Mail-Adresse gefunden.");
         done();
       })
       .catch((e) => done(e));

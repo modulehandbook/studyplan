@@ -13,7 +13,7 @@
       </span>
     </div>
     <div
-      v-else-if="stage.currentStage !== 'COURSE-SELECTION'"
+      v-else-if="(stage.debugStage === 'none' && stage.currentStage !== 'COURSE-SELECTION') || (stage.debugStage !== 'COURSE-SELECTION' && stage.debugStage !== 'none')"
       class="no-course-wrapper"
     >
       <BaseHeading>

@@ -20,24 +20,22 @@ export default {
   props: {
     buttonTextAccept: {
       type: String,
-      default: "Accept",
+      default: "Akzeptieren",
     },
     buttonTextDeny: {
       type: String,
-      default: "Deny",
+      default: "Ablehnen",
     },
     message: {
       type: String,
       default:
-        "We use Cookies to personalise content and ads, to provide social \
-                media features and to analyse our traffic. We also share information about \
-                your use of our site with out social media, advertising and analytics partners \
-                who may combine it with other information you’ve provided to them or they’ve \
-                collected from your use of their services.",
+        "Wir benutzen Cookies um personalisierte Daten von Dir zu speichern. Diese Informationen werden auf unserem Server \
+        und lokal bei Dir gespeichert. Wir geben Deine Informationen nicht an Dritte weiter, sondern nutzen Sie nur um Dein \
+        Nutzererlebnis zu verbessern.",
     },
     position: {
       type: String,
-      default: "bottom",
+      default: "top",
     },
   },
   data() {
@@ -51,21 +49,21 @@ export default {
     },
   },
   created() {
-    if (!this.getGDPR() === true) {
+    if (!this.getDSGVO() === true) {
       this.isOpen = true;
     }
   },
   methods: {
-    getGDPR() {
-      return localStorage.getItem("GDPR:accepted", true);
+    getDSGVO() {
+      return localStorage.getItem("DSGVO:accepted", true);
     },
     accept() {
       this.isOpen = false;
-      localStorage.setItem("GDPR:accepted", true);
+      localStorage.setItem("DSGVO:accepted", true);
     },
     deny() {
       this.isOpen = false;
-      localStorage.setItem("GDPR:accepted", false);
+      localStorage.setItem("DSGVO:accepted", false);
     },
   },
 };
