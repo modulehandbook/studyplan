@@ -211,8 +211,6 @@ export default {
       this.$store.dispatch("courseselection/updateMaxCourses", {
         maxCourses: 1,
       });
-      this.addPriority();
-      this.addPriority();
     },
   },
 };
