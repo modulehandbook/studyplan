@@ -204,7 +204,8 @@ export default {
       .dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       })
-      .then(() => {
+      .then(async () => {
+        await this.$store.dispatch("courseselection/deleteEmptyCoursePriorities");
         console.log("did user take survey");
         console.log(this.hasTakenSurvey);
         if (this.courseSelection) {

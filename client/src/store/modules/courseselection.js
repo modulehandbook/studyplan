@@ -289,7 +289,7 @@ export const actions = {
   async deleteEmptyCoursePriorities({dispatch, state}){
     const newBookedCoures = state.courseSelection.semesterPlans[0].bookedCourses
     .filter((course) => course.ects > 0)
-    .map((course, index) => ({name: course.name, ects: course.ects, code: course.ects, isRepeater: course.isRepeater, priority: index+1}));
+    .map((course, index) => ({name: course.name, ects: course.ects, code: course.code, isRepeater: course.isRepeater, priority: index+1}));
     state.courseSelection.semesterPlans[0].bookedCourses = newBookedCoures;
     await dispatch("updateCourseSelection");
   },
