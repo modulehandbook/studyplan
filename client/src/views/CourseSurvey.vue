@@ -197,8 +197,8 @@ export default {
   async mounted() {
     this.pending = true;
     this.courseReasons = {};
-    console.log("mounted ist called");
-    console.log(this.courseReasons);
+    //console.log("mounted ist called");
+    //console.log(this.courseReasons);
     await this.$store.dispatch("stage/fetchStage");
     await this.$store
       .dispatch("courseselection/fetchCourseSelection", {
@@ -206,8 +206,8 @@ export default {
       })
       .then(async () => {
         await this.$store.dispatch("courseselection/deleteEmptyCoursePriorities");
-        console.log("did user take survey");
-        console.log(this.hasTakenSurvey);
+        //console.log("did user take survey");
+        //console.log(this.hasTakenSurvey);
         if (this.courseSelection) {
           if (this.courseSelection.semesterPlans) {
             if (this.courseSelection.semesterPlans[0]) {
