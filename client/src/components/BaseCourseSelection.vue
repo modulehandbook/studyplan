@@ -208,6 +208,11 @@ export default {
     },
     resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority2");
+      this.$store.dispatch("courseselection/updateMaxCourses", {
+        maxCourses: 1,
+      });
+      this.addPriority();
+      this.addPriority();
     },
   },
 };
