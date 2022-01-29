@@ -286,6 +286,13 @@ export const actions = {
     await dispatch("updateCourseSelection");
     //state.courseSelection.semesterPlans[0].bookedCourses = [];
   },
+  async deleteEmptyCoursePriorities({dispatch, state}){
+    const newBookedCoures = state.courseSelection.semesterPlans[0].bookedCourses
+    .filter((course) => course.ects > 0)
+    .map((course, index) => ({name: course.name, ects: course.ects, code: course.ects, isRepeater: course.isRepeater, priority: index+1}));
+    state.courseSelection.semesterPlans[0].bookedCourses = newBookedCoures;
+    await dispatch("updateCourseSelection");
+  },
   async deleteCoursePriority({ dispatch }, { priority }) {
     const bookedCourses = state.courseSelection.semesterPlans[0].bookedCourses;
     for (let i = priority; i < bookedCourses.length; i++) {
