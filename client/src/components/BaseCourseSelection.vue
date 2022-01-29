@@ -142,7 +142,7 @@ export default {
     if (this.bookedCourses[this.bookedCourses.length - 1].code === "") {
       this.bookedCourses.splice(this.bookedCourses.length - 1, 1);
     }
-    if (this.bookedCourses.length == 0 && this.isEditable) {
+    if (this.bookedCourses.length == 0) {
       this.addPriority();
       this.addPriority();
     }
