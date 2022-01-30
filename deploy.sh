@@ -38,6 +38,9 @@ if [ "$1" = "prepare" ]; then # mode = prepare
   rm -fr ../"$tmp_vue";
   mkdir ../"$tmp_vue";
   cp -r dist/* ../"$tmp_vue";
+
+  # copy favicon
+  cp  ../public/favicon.ico ../"$tmp_vue";
   
   #move node files 
   cd ..; 
