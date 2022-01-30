@@ -5,7 +5,7 @@ const User = require("../model/user"),
   jwt = require("jsonwebtoken"),
   bcrypt = require("bcryptjs"),
   nodemailer = require("nodemailer"),
-  { gmailTransporter } = require("../services/oauthService");
+  { gmailTransporter } = require("../services/nodemailerService");
 
 let secret = Math.random().toString(36).slice(-8);
 // let secret = "some-secret";
