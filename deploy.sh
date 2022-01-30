@@ -86,7 +86,7 @@ elif [ "$1" = "deploy" ]; then # mode = deploy
   cat "log.txt"
 
   echo "reload env variables..."
-  ssh local@studyplan.f4.htw-berlin.de 'cd /var/www/api && pm2 reload ecosystem.config.js' > log.txt || { cat "log.txt"; exit 1; }
+  ssh local@studyplan.f4.htw-berlin.de 'cd /var/www/api && pm2 reload ecosystem.config.js --update-env && pm2 save' > log.txt || { cat "log.txt"; exit 1; }
   cat "log.txt"
 
   echo "restart pm2..."
