@@ -23,7 +23,7 @@ export const mutations = {
 export const actions = {
   async fetchCourseSelections({ commit }) {
     try {
-      console.log("fetching studyplans");
+      //console.log("fetching studyplans");
       commit("SET_PENDING", true);
       const response = await CourseSelectionService.fetchCourseSelections();
       const courseSelections = response.data;
@@ -52,7 +52,7 @@ export const actions = {
           userId
         );
         const courseSelection = response.data;
-        console.log(courseSelection);
+        //console.log(courseSelection);
         //console.log(state.courseSelection);
         commit("SET_COURSESELECTION", courseSelection);
         //console.log(state.courseSelection);
@@ -72,8 +72,8 @@ export const actions = {
     { state, commit, rootState, dispatch },
     { userId }
   ) {
-    console.log("test");
-    console.log(rootState);
+    //console.log("test");
+    //console.log(rootState);
 
     try {
       commit("SET_PENDING", true);
@@ -93,7 +93,7 @@ export const actions = {
         },
       ];
       await dispatch("resetCoursePriority2", {});
-      console.log(state.courseSelection);
+      //console.log(state.courseSelection);
       const userResponse = await CourseSelectionService.saveToUser(
         state.courseSelection,
         userId
@@ -191,7 +191,7 @@ export const actions = {
       {},
       { root: true }
     );
-    console.log(officialCoursesInSemester);
+    //console.log(officialCoursesInSemester);
     let unbookedCoursesHelpArray = [];
     for (let course in officialCoursesInSemester[0]) {
       const courseCodes = [];
@@ -209,8 +209,8 @@ export const actions = {
         bookedCourses: [],
       },
     ];
-    console.log("filled courses");
-    console.log(state.courseSelection);
+    //console.log("filled courses");
+    //console.log(state.courseSelection);
     //  state.CourseSelection.semesterPlans[0] = helperArrayForSemesterPlans;
     //rootGetters["semester/getSemesters"],
     //  helperArrayForSemesterPlans,
@@ -228,7 +228,7 @@ export const actions = {
       state.courseSelection.semesterPlans[0].unbookedCourses;
     const bookedCourses = state.courseSelection.semesterPlans[0].bookedCourses;
     state.courseSelection.testNumber = 1;
-    console.log({ fromCoursePriority, toCoursePriority });
+    //console.log({ fromCoursePriority, toCoursePriority });
 
     // if(toCoursePriority < 99) return;
     var courseToMove = undefined;
@@ -252,7 +252,7 @@ export const actions = {
     } else {
       unbookedCourses.splice(toCourseIndex, 0, courseToMove);
       if (fromCoursePriority > 0) {
-        console.log("from course prio:" + fromCoursePriority);
+        //console.log("from course prio:" + fromCoursePriority);
         bookedCourses[fromCoursePriority - 1] = {
           code: "",
           name: "",
@@ -261,12 +261,12 @@ export const actions = {
         };
       }
     }
-    console.table(state.courseSelection.semesterPlans[0].bookedCourses);
+    //console.table(state.courseSelection.semesterPlans[0].bookedCourses);
     await dispatch("updateCourseSelection");
   },
   async updateMaxCourses({dispatch}, {maxCourses}){
     state.courseSelection.semesterPlans[0].maxCourses = maxCourses;
-    console.log(state.courseSelection.semesterPlans[0].maxCourses);
+    //console.log(state.courseSelection.semesterPlans[0].maxCourses);
     await dispatch("updateCourseSelection");
   },
   async updateIsRepeater({dispatch}, {index, isRepeater}){
@@ -285,6 +285,13 @@ export const actions = {
     });
     await dispatch("updateCourseSelection");
     //state.courseSelection.semesterPlans[0].bookedCourses = [];
+  },
+  async deleteEmptyCoursePriorities({dispatch, state}){
+    const newBookedCoures = state.courseSelection.semesterPlans[0].bookedCourses
+    .filter((course) => course.ects > 0)
+    .map((course, index) => ({name: course.name, ects: course.ects, code: course.code, isRepeater: course.isRepeater, priority: index+1}));
+    state.courseSelection.semesterPlans[0].bookedCourses = newBookedCoures;
+    await dispatch("updateCourseSelection");
   },
   async deleteCoursePriority({ dispatch }, { priority }) {
     const bookedCourses = state.courseSelection.semesterPlans[0].bookedCourses;
@@ -382,7 +389,7 @@ export const actions = {
       },
     ];
     state.courseSelection.semesterPlans[0].bookedCourses = [];
-    console.log(state.courseSelection);
+    //console.log(state.courseSelection);
     await dispatch("updateCourseSelection");
   },
 };

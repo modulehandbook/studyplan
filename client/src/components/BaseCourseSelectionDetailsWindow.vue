@@ -51,10 +51,7 @@ export default {
       code: this.$route.params.code,
       semester: this.semester ? this.semester.name : undefined,
     });
-    console.log(this.modalCourse);
     this.pending = false;
-    console.log(this.$route.params.code);
-    console.log(this.semester);
   },
   async beforeUnmount() {
     document.documentElement.style.overflow = "auto";

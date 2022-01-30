@@ -1,6 +1,6 @@
 <template>
   <div v-if="!pending">
-    <div v-if="stage.currentStage === 'COURSE-SELECTION'">
+    <div v-if="(stage.debugStage === 'none' && stage.currentStage === 'COURSE-SELECTION') || stage.debugStage === 'COURSE-SELECTION'">
       <BaseHeading>
         <h1>Kursbelegung</h1>
       </BaseHeading>
@@ -17,12 +17,12 @@
       </div>
       <router-view></router-view>
       <!-- <div>Verbleibende Zeit: {{ time("evaluation",false) }}</div> -->
-      <div v-if="courseSelection == null">
+      <!-- <div v-if="courseSelection == null">
         <button @click="addCourseSelection">
           <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />
         </button>
         <p>Kurswahl hinzufuegen</p>
-      </div>
+      </div> -->
     </div>
     <div v-else class="wrong-stage-wrapper">
       <BaseHeading>
@@ -84,10 +84,11 @@ export default {
         userId: this.user.id || this.user._id,
       });
       await this.$store.dispatch("modalcourse/fetchCourses");
-      console.log(this.modalCourses);
     }
     this.pending = false;
-    console.log(this.currSemester);
+    if(this.courseSelection == null){
+      this.addCourseSelection();
+    }
   },
   methods: {
     addCourseSelection() {

@@ -32,8 +32,8 @@ export const actions = {
       );
 
       commit("SET_MODALCOURSE", foundModalCourse);
-      console.log("found the following course:");
-      console.log(state.modalCourse);
+      //console.log("found the following course:");
+     // console.log(state.modalCourse);
     } finally {
       commit("SET_PENDING", false);
     }
@@ -44,7 +44,7 @@ export const actions = {
       await ModalCourseService.fetchModalCourses()
         .then((response) => {
           commit("SET_MODALCOURSES", response.data);
-          console.log(state.modalCourses);
+          //console.log(state.modalCourses);
         })
         .catch(async (error) => {
           const notification = {
@@ -57,17 +57,18 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  /*
   async assignUsers({ commit, rootGetters, getters }) {
     try {
       commit("SET_PENDING", true);
       const semester = rootGetters["semester/getCurrentSemester"];
-      const test = getters.getCoursesBySemester(semester);
-      console.log(test);
+      //const test = getters.getCoursesBySemester(semester);
+      //console.log(test);
       //if(semester != undefined) return;
       const response = await ModalCourseService.updateModalCourses(semester);
       const modalCourses = response.data;
-      console.log("the following courses from the databese could be found:");
-      console.log(modalCourses);
+     // console.log("the following courses from the databese could be found:");
+      //console.log(modalCourses);
       //commit("SET_MODALCOURSES", modalCourses);
     } catch (error) {
       const notification = {
@@ -81,20 +82,21 @@ export const actions = {
       commit("SET_PENDING", false);
     }
   },
+  */
   async removeUserfromCourses({commit, rootGetters, dispatch}, {coursesToRemoveUserFrom, user}){
     try{
       commit("SET_PENDING", true);
       const semester = rootGetters["semester/getCurrentSemester"];
       coursesToRemoveUserFrom.forEach(async (courseToRemoveFrom) => {
-        const response = await ModalCourseService.removeUserFromCourse(user, semester, courseToRemoveFrom.code);
+        await ModalCourseService.removeUserFromCourse(user, semester, courseToRemoveFrom.code);
        // const index = state.modalCourses.findIndex((course) => course._id === response.data._id);
        // console.log(index);
        // if(index != -1)state.modalCourses.splice(index, 1, response.data);
-       console.log("response:")
-       console.log(response.data);
+       //console.log("response:")
+       //console.log(response.data);
        await dispatch("fetchCourses");
       });
-      console.log(state.modalCourses);
+      //console.log(state.modalCourses);
     } catch (error) {
       const notification = {
         type: "error",

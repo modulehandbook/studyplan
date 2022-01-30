@@ -174,7 +174,8 @@ export default {
         priority: this.coursePriority,
       });
       var updateAmount = this.maxCourses;
-      if (updateAmount > this.bookedCourses.length) updateAmount = this.bookedCourses.length;
+      if (updateAmount > this.bookedCourses.length-1&& updateAmount>0) updateAmount = this.bookedCourses.length-1;
+      if (this.bookedCourses.length==1 || this.bookedCourses.length==0) updateAmount = 1;
       this.$store.dispatch("courseselection/updateMaxCourses", {
         maxCourses: updateAmount,
       });
@@ -192,7 +193,6 @@ export default {
     },
     async courseRepeaterChanged(event){
       const isRepeater = event.target.value
-      console.log(isRepeater);
       this.$store.dispatch("courseselection/updateIsRepeater", {index: this.index, isRepeater: isRepeater});
     },
     moveCourse(e, toCourseIndex) {
