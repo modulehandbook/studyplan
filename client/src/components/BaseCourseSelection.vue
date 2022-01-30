@@ -13,7 +13,7 @@
       <div class="addPriorities">
         <h3>Kursauswahl</h3>
         <div class="maxCourse">
-          <p class="hMax">Anzahl der gewünschten belegten kurse</p>
+          <p class="hMax">Anzahl der gewünschten Kurse</p>
           <button
             class="minus"
             :disabled="!isEditable"
