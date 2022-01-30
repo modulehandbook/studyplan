@@ -51,9 +51,6 @@
         <button class="edit" @click="isEditable = true" :disabled="isEditable">
           Ändern
         </button>
-        <!-- <button class="edit" @click="addPriority" :disabled="!isEditable">
-          Add Priority
-        </button> -->
         <button
           @click="resetCourseSelection"
           class="reset"
@@ -93,10 +90,7 @@
         <p>
           Bitte tätige alle Angaben wahrheitsgemäß! Diese werden nach der
           Belegungsphase auf Richtigkeit überprüft. Falsche Angaben führen zur
-          Abmeldung aller Kurse. <br />
-          <br />
-          Zudem sollten alle Felder ausgefüllt oder entfernt werden, um
-          Änderungen speichern zu können.
+          Abmeldung aller Kurse.
         </p>
         <button class="infoButton" @click="showInfo = false">Schließen</button>
       </div>
