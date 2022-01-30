@@ -130,8 +130,8 @@ export default {
       .dispatch("courseselection/fetchCourseSelection", {
         userId: this.user.id || this.user._id,
       })
-      .then((test) => {
-        console.log(test);
+      .then(() => {
+        //console.log(test);
         this.pending = false;
       })
       .catch((e) => {
@@ -152,7 +152,7 @@ export default {
     marked: function () {
       var getBox = document.getElementById("markCourse");
       if (getBox.checked) {
-        console.log("checked");
+        //console.log("checked");
       }
     },
     async removeChosenCourses() {
