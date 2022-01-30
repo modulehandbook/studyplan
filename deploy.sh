@@ -40,7 +40,7 @@ if [ "$1" = "prepare" ]; then # mode = prepare
   cp -r dist/* ../"$tmp_vue";
 
   # copy favicon
-  cp  ../public/favicon.ico ../"$tmp_vue";
+  cp  ../public/favicon.* ../"$tmp_vue";
   
   #move node files 
   cd ..; 
