@@ -7,8 +7,8 @@ if (process.env.TEST_PROD == "true" || process.env.NODE_ENV != "production") {
   secrets = require(process.env.SECRET_PATH);
 }
 
-const user = secrets.OAUTH_USER;
-const userPassword = secrets.OAUTH_PASSWORD;
+const user = secrets.GMAIL_USER;
+const userPassword = secrets.GMAIL_PASSWORD;
 
 if (process.env.NODE_ENV == "production") {
   const gmailTransporter = nodemailer.createTransport({
