@@ -148,7 +148,7 @@ module.exports = {
           return res.status(401).send({
             type: "not-verified",
             message:
-            "Dein Account wurde noch nicht verifiziert. Checke deine E-Mails oder fordere eine neue E-Mail an.",
+            "Dein Account wurde noch nicht verifiziert. Überprüfe deine E-Mails oder fordere eine neue E-Mail an.",
           });
         }
         var token = jwt.sign({ id: user.id }, secret, {
@@ -209,7 +209,7 @@ module.exports = {
         return res.status(401).send({
           type: "not-verified",
           message:
-          "Dein Account wurde noch nicht verifiziert. Checke deine E-Mails oder fordere eine neue E-Mail an.",
+          "Dein Account wurde noch nicht verifiziert. Überprüfe deine E-Mails oder fordere eine neue E-Mail an.",
         });
       }
       //create a new password, save it to the user, and send it to the user in an email

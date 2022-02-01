@@ -13,12 +13,20 @@
       <div class="addPriorities">
         <h3>Kursauswahl</h3>
         <div class="maxCourse">
-          <p class="hMax">max. Kurse</p>
-          <button class="minus" :disabled="!isEditable" @click="updateMaxCourses(maxCourses - 1)">
+          <p class="hMax">Anzahl der gewünschten Kurse</p>
+          <button
+            class="minus"
+            :disabled="!isEditable"
+            @click="updateMaxCourses(maxCourses - 1)"
+          >
             -
           </button>
           <p class="maxCourseContent">{{ maxCourses }}</p>
-          <button class="plus" :disabled="!isEditable" @click="updateMaxCourses(maxCourses + 1)">
+          <button
+            class="plus"
+            :disabled="!isEditable"
+            @click="updateMaxCourses(maxCourses + 1)"
+          >
             +
           </button>
         </div>
@@ -50,11 +58,7 @@
         >
           Zurücksetzen
         </button>
-        <button
-          :disabled="!isEditable"
-          class="save"
-          @click="isEditable = false"
-        >
+        <button :disabled="!isEditable" class="save" @click="saveCourses">
           Speichern
         </button>
       </div>
@@ -63,10 +67,11 @@
       Mehr Informationen
     </button>
     <transition name="fade" appear>
-      <div :class="{
-        overlay: showInfo,
-      }">
-      </div>
+      <div
+        :class="{
+          overlay: showInfo,
+        }"
+      ></div>
     </transition>
     <transition name="slide" appear>
       <div class="info" v-if="showInfo">
@@ -85,10 +90,7 @@
         <p>
           Bitte tätige alle Angaben wahrheitsgemäß! Diese werden nach der
           Belegungsphase auf Richtigkeit überprüft. Falsche Angaben führen zur
-          Abmeldung aller Kurse. <br />
-          <br />
-          Zudem sollten alle Felder ausgefüllt oder entfernt werden, um
-          Änderungen speichern zu können.
+          Abmeldung aller Kurse.
         </p>
         <button class="infoButton" @click="showInfo = false">Schließen</button>
       </div>
@@ -104,11 +106,12 @@ export default {
     return {
       isEditable: false,
       showInfo: false,
+      new: false,
     };
   },
   computed: {
-      ...mapGetters({
-      isEmptyCourse: "courseselection/isEmptyCourse"
+    ...mapGetters({
+      isEmptyCourse: "courseselection/isEmptyCourse",
     }),
   },
   props: {
@@ -131,35 +134,44 @@ export default {
   async mounted() {
     this.scrollToEnd();
     this.isEditable = false;
-    if(this.bookedCourses.length==0) {
+    if (this.bookedCourses.length == 0) {
       this.addPriority();
       this.addPriority();
+      this.new = true;
+    }
+    if(!this.new && this.bookedCourses[this.bookedCourses.length-1].ects==0){
+      this.$store.dispatch("courseselection/deleteCoursePriority", {
+            priority: this.bookedCourses[this.bookedCourses.length-1].priority,
+          });
     }
   },
   updated() {
-    if(!this.isEmptyCourse){
+    if (!this.isEmptyCourse && this.isEditable) {
       this.addPriority();
+      this.new = false;
     }
 
     this.scrollToEnd();
 
-    var count=0;
-    var emptyCourses=[];
-    var pass=false;
-    for (let i = this.bookedCourses.length-1; i >=0; i--) {
-      pass=false;
-      if(this.bookedCourses[i].ects==0){
-        count++
-        pass=true;
+    var count = 0;
+    var emptyCourses = [];
+    var pass = false;
+    if (!this.new) {
+      for (let i = this.bookedCourses.length - 1; i >= 0; i--) {
+        pass = false;
+        if (this.bookedCourses[i].ects == 0) {
+          count++;
+          pass = true;
+        }
+        if (count > 1 && pass) emptyCourses.push(this.bookedCourses[i]);
       }
-      if(count>1 && pass) emptyCourses.push(this.bookedCourses[i]);
-    }
-    if(count>1){
-      for (let i = 0; i < emptyCourses.length; i++) {
-      this.$store.dispatch("courseselection/deleteCoursePriority", {
-        priority: emptyCourses[i].priority,
-      });
-      this.updateMaxCourses(this.maxCourses);
+      if (count > 1) {
+        for (let i = 0; i < emptyCourses.length; i++) {
+          this.$store.dispatch("courseselection/deleteCoursePriority", {
+            priority: emptyCourses[i].priority,
+          });
+          this.updateMaxCourses(this.maxCourses);
+        }
       }
     }
   },
@@ -167,8 +179,11 @@ export default {
     updateMaxCourses(amount) {
       let updateAmount = amount;
       if (amount < 1) updateAmount = 1;
-      if (amount > this.bookedCourses.length-1 && (this.bookedCourses.length>1))
-        updateAmount = this.bookedCourses.length-1;
+      if (
+        amount > this.bookedCourses.length - 1 &&
+        this.bookedCourses.length > 1
+      )
+        updateAmount = this.bookedCourses.length - 1;
       if (amount > this.bookedCourses.length)
         updateAmount = this.bookedCourses.length;
       this.$store.dispatch("courseselection/updateMaxCourses", {
@@ -183,8 +198,20 @@ export default {
     addPriority() {
       this.$store.dispatch("courseselection/addCoursePriority");
     },
+    saveCourses() {
+      this.isEditable = false;
+
+      this.$store.dispatch("courseselection/deleteCoursePriority", {
+        priority: this.bookedCourses[this.bookedCourses.length - 1].priority,
+      });
+
+      this.bookedCourses.splice(this.bookedCourses.length - 1, 1);
+    },
     resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority2");
+      this.$store.dispatch("courseselection/updateMaxCourses", {
+        maxCourses: 1,
+      });
     },
   },
 };
