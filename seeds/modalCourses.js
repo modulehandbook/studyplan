@@ -72,10 +72,10 @@ const modalCourseData = [
       currentTopic: undefined,
       examType: "Software-Übung und Klausur (90 Minuten)",
       SWS: 4,
-      professor: undefined, //TODO
-      room: undefined, //TODO
+      professor: "T. Lenz",
+      room: undefined, //is not specified at this point
     },
-    availablePlaces: undefined, //TODO
+    availablePlaces: 22,
   },
   {
     name: "Game Technology & Interactive Systems",
@@ -89,10 +89,10 @@ const modalCourseData = [
       currentTopic: "", //DODO
       examType: "Software-Übung und Klausur (90 Minuten)",
       SWS: 4,
-      professor: undefined, //TODO
-      room: undefined, //TODO
+      professor: "M. Zier",
+      room: undefined, //is not specified at this point
     },
-    availablePlaces: undefined, //TODO
+    availablePlaces: 22,
   },
   {
     name: "Bild- und Videokompression",
@@ -122,10 +122,10 @@ const modalCourseData = [
       examType:
         "Programmieraufgaben mit Rücksprache (Prüfungsvoraussetzung) und Klausur (90 Min.)",
       SWS: 4,
-      professor: undefined, //TODO
+      professor: "K. Jung",
       room: undefined, //TODO
     },
-    availablePlaces: undefined, //TODO
+    availablePlaces: 44,
   },
   {
     name: "Visual Computing",
@@ -139,10 +139,10 @@ const modalCourseData = [
       currentTopic: "", //DODO
       examType: "Programmierübungen mit Rücksprache und Klausur (90 min.",
       SWS: 4,
-      professor: undefined, //TODO
-      room: undefined, //TODO
+      professor: "K. Barthel",
+      room: undefined, //is not specified at this point
     },
-    availablePlaces: undefined, //TODO
+    availablePlaces: 22,
   },
   {
     name: "Verteilte Systeme",
@@ -172,10 +172,10 @@ const modalCourseData = [
       currentTopic: undefined,
       examType: "Programmierübungen mit Rücksprache und Klausur (90 min.)",
       SWS: 4,
-      professor: undefined, //TODO
-      room: undefined, //TODO
+      professor: "S. Baumeister",
+      room: undefined, //is not specified at this point
     },
-    availablePlaces: undefined, //TODO
+    availablePlaces: 22,
   },
   {
     name: "Web Technology",
@@ -189,9 +189,9 @@ const modalCourseData = [
       currentTopic: "", //DODO
       examType: "Klausur (90 min.)",
       SWS: 4,
-      professor: undefined, //TODO
-      room: undefined, //TODO
+      professor: "B. Kleinen",
+      room: undefined, //is not specified at this point
     },
-    availablePlaces: undefined, //TODO
+    availablePlaces: 22,
   },
 ];

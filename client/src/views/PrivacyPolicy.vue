@@ -12,7 +12,7 @@
           >Prof. Dr. Barne Kleinen</a
         >
         geleitet wird.<br />
-        Nähere Informationen zum Datenschutz entnehmen Sie bitte hier:
+        Nähere Informationen zum Datenschutz kannst du hier entnehmen:
         <a
           href="https://lsf.htw-berlin.de/qisserver/rds?state=template&template=about"
           target="blank"

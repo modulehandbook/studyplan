@@ -16,7 +16,7 @@
         />
       </div>
       <router-view></router-view>
-      <!-- <div>Verbleibende Zeit: {{ time("evaluation",false) }}</div> -->
+      <div>Verbleibende Zeit: {{ time("evaluation",false) }}</div>
       <!-- <div v-if="courseSelection == null">
         <button @click="addCourseSelection">
           <font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" />

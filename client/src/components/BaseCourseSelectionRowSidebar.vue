@@ -1,6 +1,11 @@
 <template>
   <div>
-    <p>{{ priority }}. Priorit&auml;t</p>
+    <p v-if="isFilled">{{ priority }}. Priorit&auml;t</p>
+    <p v-if="!isFilled">
+    {{ priority }}. Priorit&auml;t 
+    <br>   
+    Kurs reinziehen
+    </p>
   </div>
 </template>
 
@@ -15,9 +20,12 @@ export default {
       type: Boolean,
       required: true,
     },
+    isFilled: {
+      type: Boolean,
+      required: true,
+    },
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
 

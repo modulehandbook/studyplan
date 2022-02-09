@@ -68,7 +68,7 @@ describe("login", () => {
       .then((res) => {
         assert(
           res.text,
-          "Dein Account wurde noch nicht verifiziert. Checke deine E-Mails oder fordere eine neue E-Mail an."
+          "Dein Account wurde noch nicht verifiziert. Überprüfe deine E-Mails oder fordere eine neue E-Mail an."
         );
         done();
       });
