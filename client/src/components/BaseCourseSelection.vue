@@ -205,6 +205,7 @@ export default {
       });
 
       this.bookedCourses.splice(this.bookedCourses.length - 1, 1);
+      this.$router.push("/coursesurvey");
     },
     resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority2");
