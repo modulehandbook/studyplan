@@ -9,6 +9,21 @@
     <BaseFooter />
   </div>
 </template>
+<script>
+
+
+export default({
+  setup() {
+    document.title = 'StudyPlan';
+    //const favicon = document.getElementById("favicon");      
+    //favicon.href = "https://www.google.com/favicon.ico";
+  },
+  mounted(){
+    const favicon = document.getElementById("favicon");
+    console.log(favicon);
+  },
+})
+</script>
 
 <style lang="scss">
 html,

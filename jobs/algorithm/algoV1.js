@@ -83,7 +83,7 @@ const assignOpenWishesToSolution = (data, openCourseWishes, solution) => {
     for (const [, studentList] of Object.entries(course)) {
       //sort the studentlist
       const sortedStudents = studentList
-        .sort(() => 0.5 - Math.random())
+        .sort(() => 0.5 - Math.random()) //shuffle
         .sort((student1, student2) => student1.priority - student2.priority);
 
       //calac how may places remain

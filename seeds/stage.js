@@ -27,18 +27,13 @@ async function seedStage() {
   const sem = await Semester.findOne({ name: "SoSe22" });
 
   let result = await Stage.create({
-    //TODO
+    //Date and time in UTC
     currentStage: "COURSE-SELECTION", //"IDLE", "COURSE-SELECTION", "EVALUATION", "COURSE-RESULT"
     nextDates: {
       idle: [{ date: "2023-01-15" }],
       courseSelection: [{ date: "2023-01-16" }],
-      evaluation: [
-        { date: "2023-01-17" },
-        { date: "2023-01-16" },
-        { date: "2023-01-15" },
-        { date: "2023-01-14" },
-      ],
-      courseResult: [{ date: "2023-01-18" }],
+      evaluation: [{ date: "2022-02-09T11:10:00Z" }],
+      courseResult: [{ date: "2023-02-09T09:55:00Z" }],
     },
     currentSemester: sem._id,
   });

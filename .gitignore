@@ -7,6 +7,9 @@ log.txt
 tmp-node
 tmp-vue
 
+#algorithm data files
+jobs/*.json
+
 # local env files
 .env
 .env.local

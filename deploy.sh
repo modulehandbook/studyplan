@@ -38,6 +38,9 @@ if [ "$1" = "prepare" ]; then # mode = prepare
   rm -fr ../"$tmp_vue";
   mkdir ../"$tmp_vue";
   cp -r dist/* ../"$tmp_vue";
+
+  # copy favicon
+  cp  ../public/favicon.* ../"$tmp_vue";
   
   #move node files 
   cd ..; 
@@ -86,7 +89,7 @@ elif [ "$1" = "deploy" ]; then # mode = deploy
   cat "log.txt"
 
   echo "reload env variables..."
-  ssh local@studyplan.f4.htw-berlin.de 'cd /var/www/api && pm2 reload ecosystem.config.js' > log.txt || { cat "log.txt"; exit 1; }
+  ssh local@studyplan.f4.htw-berlin.de 'cd /var/www/api && pm2 reload ecosystem.config.js --update-env && pm2 save' > log.txt || { cat "log.txt"; exit 1; }
   cat "log.txt"
 
   echo "restart pm2..."

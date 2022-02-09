@@ -110,9 +110,11 @@ module.exports = {
           if (err) {
             return res.status(500).send({ msg: err.message });
           }
-          res.status(200).send(
-            "The account has been verified. Please log in: http://studyplan.f4.htw-berlin.de/login" //TODO change to https
-          );
+          res
+            .status(200)
+            .send(
+              "The account has been verified. Please log in: https://studyplan.f4.htw-berlin.de/login"
+            );
         });
       });
     });
@@ -172,9 +174,9 @@ module.exports = {
   resendVerificationEmail: (req, res, next) => {
     User.findOne({ email: req.body.email }, function (err, user) {
       if (!user)
-        return res
-          .status(400)
-          .send({ message: "Kein Benutzer mit dieser E-Mail-Adresse gefunden."});
+        return res.status(400).send({
+          message: "Kein Benutzer mit dieser E-Mail-Adresse gefunden.",
+        });
       if (user.isVerified)
         return res.status(400).send({
           message: "Der Account wurde schon bestätigt. Bitte logge dich ein",
@@ -202,9 +204,9 @@ module.exports = {
   resetPassword: (req, res, next) => {
     User.findOne({ email: req.body.email }, function (err, user) {
       if (!user)
-        return res
-          .status(400)
-          .send({ message: "Kein Benutzer mit dieser E-Mail-Adresse gefunden."});
+        return res.status(400).send({
+          message: "Kein Benutzer mit dieser E-Mail-Adresse gefunden.",
+        });
       if (!user.isVerified) {
         return res.status(401).send({
           type: "not-verified",
@@ -293,9 +295,9 @@ module.exports = {
       subject: "Account Verification Token",
       text:
         "Hello,\n\n" +
-        "Please verify your account by clicking the link: \nhttp://" +
+        "Please verify your account by clicking the link: \nhttps://" +
         req.headers.host +
-        "/users/confirmation/" +
+        "/api/users/confirmation/" +
         res.locals.token.token,
     };
     transporter.sendMail(mailOptions, function (err, info) {
@@ -308,8 +310,7 @@ module.exports = {
         res
           .status(200)
           .send(
-            "E-Mail mit Verifikationslink gesendet an: " +
-              res.locals.user.email
+            "E-Mail mit Verifikationslink gesendet an: " + res.locals.user.email
           );
       }
     });
