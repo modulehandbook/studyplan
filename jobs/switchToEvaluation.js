@@ -45,7 +45,6 @@ const { writeFileSync } = require("fs");
     return crypto.createHash("md5").update(string).digest("hex");
   }
 
-
   for (const user of data.users) {
     user.user = hash(user.email);
     delete user.email;

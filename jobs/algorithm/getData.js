@@ -98,6 +98,9 @@ module.exports.getData = async () => {
       newCousre.semesterInProgram = course.semesterInProgram;
       data.courses[course.code] = newCousre;
     });
+
+  limitAvaiblePlaces(data);
+
   return data;
   /*
   data {
@@ -127,6 +130,19 @@ module.exports.getData = async () => {
      currentSemester: "SoSe22"
   };
   */
+};
+
+const limitAvaiblePlaces = (data) => {
+  const courseWishes = data.users.reduce(
+    (x, y) => x.maxCourses + y.maxCourses,
+    0
+  );
+
+  for (const key in Object.keys(data.courses)) {
+    data.courses[key].availablePlaces = Math.ceil(
+      data.courses[key].availablePlaces * (courseWishes / 200.0)
+    );
+  }
 };
 
 const calcSemesterDiff = function (from, to, semesters) {
