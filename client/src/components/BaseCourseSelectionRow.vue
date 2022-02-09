@@ -43,28 +43,6 @@
     >
     <form name="form" v-if="course.code != ''" 
      @submit.prevent="updateCourses">
-      <!-- <label label for="wiederholer">Wiederholer</label>
-      <label for="wiederholer">Wiederholer</label>
-        <select
-          v-model="wiederholer"
-          name="wiederholer"
-          :class="{ error: v$.wiederholer.$error}"
-          @blur="v$.wiederholer.$touch()"
-          :disabled="!isEditable"
-        >
-          <option
-            v-for="option in this.wiederholerOptions"
-            :key="option.name"
-            :value="option.value"
-          >
-            {{ option.name }}
-          </option>
-        </select>
-        <div v-if="v$.wiederholer.$error">
-          <p class="error-message">
-            Gib an, ob du Wiederholer bist.
-          </p>
-        </div> -->
         <div :class="{ error: v$.wiederholer.$error}">
         <label label for="yes"> Wiederholer:      Ja</label>
         <input  

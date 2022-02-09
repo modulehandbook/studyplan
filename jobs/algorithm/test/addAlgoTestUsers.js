@@ -127,7 +127,7 @@ const pickCourses = (
 
   for (const [index, course] of Object.entries(picked)) {
     course.isRepeater = Math.random() < config.repeater;
-    course.priority = index;
+    course.priority = Number(index)  +1;
   }
   return [picked, avaibleCourses];
 };

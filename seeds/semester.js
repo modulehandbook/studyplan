@@ -23,11 +23,10 @@ mongoose
 async function seedSemester() {
   await Semester.deleteMany({});
 
-  let semesterData = [];
-  let i = 10;
-  for (i; i <= 55; i++) {
-    semesterData.push({ name: `SoSe${i}` });
-    semesterData.push({ name: `WiSe${i}/${i + 1}` });
+  let semesterData = [100];
+  for (let i = 0; i < 50; i++) {
+    semesterData[i*2] = { name: `SoSe${i+10}` };
+    semesterData[i*2+1] = { name: `WiSe${i+10}/${i+11}` };
   }
 
   let result = await Promise.all(
