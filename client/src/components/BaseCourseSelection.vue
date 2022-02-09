@@ -86,11 +86,10 @@
         <p>Per Drag &amp; Drop kannst du deine gewünschten Kurse hinzufügen.</p>
         <br />
         <br />
-        <h2>Achtung!</h2>
         <p>
-          Bitte tätige alle Angaben wahrheitsgemäß! Diese werden nach der
-          Belegungsphase auf Richtigkeit überprüft. Falsche Angaben führen zur
-          Abmeldung aller Kurse.
+          Wir bitten darum alle Angaben wahrheitsgemäß anzugeben, damit die Daten ein realistisches Bild abgeben.
+          <br>
+          Zudem enthalten die angegebenen Bachelor Wahlpflicht-Kurse die aktuellen Daten für das SoSe22. 
         </p>
         <button class="infoButton" @click="showInfo = false">Schließen</button>
       </div>
