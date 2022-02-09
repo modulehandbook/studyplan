@@ -2,9 +2,8 @@ const Stage = require("../model/stage");
 const { parentPort } = require("worker_threads");
 const mongoose = require("mongoose");
 const { getData } = require("./algorithm/getData");
-const { updateDB } = require("./algorithm/updateDB");
 const { algo } = require("./algorithm/algoV1");
-const { saveSurveyResults } = require("./saveSurveyResults");
+const { writeFileSync } = require("fs");
 (async () => {
   const mongo = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
   await mongoose.connect(mongo, { useNewUrlParser: true }).catch((err) => {
@@ -30,8 +29,13 @@ const { saveSurveyResults } = require("./saveSurveyResults");
     });
 
   const data = await getData();
-  await updateDB(algo(data), data.currentSemester);
-  await saveSurveyResults();
+  const solution = algo(data);
+  const solutionToJSON = JSON.stringify(solution, null, 2);
+  const courseWishesToJSON = JSON.stringify(data, null, 2);
+
+  writeFileSync("solution.json", solutionToJSON);
+  writeFileSync("courseWishes.json", courseWishesToJSON);
+
 
   if (parentPort) parentPort.postMessage("done");
   else process.exit(0);

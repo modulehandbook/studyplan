@@ -1,5 +1,7 @@
 const Stage = require("../model/stage");
 const { parentPort } = require("worker_threads");
+const { updateDB } = require("./algorithm/updateDB");
+const { saveSurveyResults } = require("./saveSurveyResults");
 const mongoose = require("mongoose");
 (async () => {
   const mongo = process.env.MONGODB_URI || "mongodb://mongo-db:27017/studyplan";
@@ -24,6 +26,13 @@ const mongoose = require("mongoose");
     .catch((err) => {
       console.log(err);
     });
+
+  const solution = require("solution.json");
+  const data = require("courseWishes.json");
+
+  await updateDB(solution, data.currentSemester);
+  await saveSurveyResults();
+
   if (parentPort) parentPort.postMessage("done");
   else process.exit(0);
 })();
