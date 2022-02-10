@@ -139,9 +139,14 @@ const limitAvaiblePlaces = (data) => {
     0
   );
 
+  const origAvaiblePlaces = Object.values(data.courses).reduce(
+    (x, y) => x.availablePlaces + y.availablePlaces,
+    0
+  );
+
   for (const key in Object.keys(data.courses)) {
     data.courses[key].availablePlaces = Math.ceil(
-      data.courses[key].availablePlaces * (courseWishes / 200.0)
+      data.courses[key].availablePlaces * (courseWishes / origAvaiblePlaces)
     );
   }
 };
