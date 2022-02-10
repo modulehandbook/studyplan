@@ -128,15 +128,24 @@ const modalCourseData = [
     availablePlaces: 44,
   },
   {
-    name: "Visual Computing",
+    name: "Visual Computing: Mashine Learning",
     code: "VCAT1",
     info: {
       CTS: 5,
       language: "Deutsch",
-      contents: [], //TODO
-      learningOutcomes: [], //TODO
-      recommendedRequirements: [], //TODO
-      currentTopic: "", //DODO
+      contents: [
+        "Einführung in Machine Learning",
+        "Interpolationsverfahren",
+        "Evolutionsstrategie",
+        "Wiederholung Lineare Algebra",
+        "Lineare Regression",
+        "Logistische Regression",
+        "Neuronale Netzwerke",
+        "Klassifikation",
+      ],
+      learningOutcomes: [],
+      recommendedRequirements: [],
+      currentTopic: "Machine Learning",
       examType: "Programmierübungen mit Rücksprache und Klausur (90 min.",
       SWS: 4,
       professor: "K. Barthel",
