@@ -134,19 +134,17 @@ module.exports.getData = async () => {
 };
 
 const limitAvaiblePlaces = (data) => {
-  const courseWishes = data.users.reduce(
-    (x, y) => x.maxCourses + y.maxCourses,
+  const courseWishes = data.users.reduce((x, y) => x + y.maxCourses, 0);
+
+  const origAvailablePlaces = Object.values(data.courses).reduce(
+    (x, y) => x + y.availablePlaces,
     0
   );
 
-  const origAvaiblePlaces = Object.values(data.courses).reduce(
-    (x, y) => x.availablePlaces + y.availablePlaces,
-    0
-  );
-
-  for (const key in Object.keys(data.courses)) {
+  for (const key of Object.keys(data.courses)) {
     data.courses[key].availablePlaces = Math.ceil(
-      data.courses[key].availablePlaces * (courseWishes / origAvaiblePlaces)
+      data.courses[key].availablePlaces *
+        Math.max(0.1, courseWishes / origAvailablePlaces)
     );
   }
 };

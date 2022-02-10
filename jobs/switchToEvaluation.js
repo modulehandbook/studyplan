@@ -34,8 +34,8 @@ const { writeFileSync } = require("fs");
   const solutionToJSON = JSON.stringify(solution, null, 2);
   const courseWishesToJSON = JSON.stringify(data, null, 2);
 
-  writeFileSync("./solution.json", solutionToJSON);
-  writeFileSync("./courseWishes.json", courseWishesToJSON);
+  writeFileSync("./jobs/solution.json", solutionToJSON);
+  writeFileSync("./jobs/courseWishes.json", courseWishesToJSON);
 
   const public = {};
   public.courseWishes = [];
@@ -62,8 +62,14 @@ const { writeFileSync } = require("fs");
       public.solution[courseCode].push(user);
     }
   }
+
+  public.availablePlaces = {};
+  for (const [key, value] of Object.entries(data.courses)) {
+    public.availablePlaces[key] = value.availablePlaces;
+  }
+
   const publicToJSON = JSON.stringify(public, null, 2);
-  writeFileSync("./publicData.json", publicToJSON);
+  writeFileSync("./jobs/publicData.json", publicToJSON);
 
   if (parentPort) parentPort.postMessage("done");
   else process.exit(0);
