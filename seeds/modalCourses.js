@@ -143,7 +143,7 @@ const modalCourseData = [
         "Neuronale Netzwerke",
         "Klassifikation",
       ],
-      learningOutcomes: [],
+      learningOutcomes: ["---"],
       recommendedRequirements: [],
       currentTopic: "Machine Learning",
       examType: "Programmierübungen mit Rücksprache und Klausur (90 min.",
