@@ -125,9 +125,7 @@
         />
         <div id="acceptLabel">
           <label for="accept"
-            >Ich versichere, dass alle Angaben wahrheitsgemäß sind. <br />
-            Ich bin mir bewusst, dass falsche Angaben zur Nichtberücksichtigung
-            meiner Belegung führen.</label
+            >Ich habe verstanden, dass ich die Angaben nach dem bestätigen nicht nochmal Bearbeiten kann.</label
           >
         </div>
       </div>
