@@ -99,6 +99,7 @@ module.exports.getData = async () => {
       data.courses[course.code] = newCousre;
     });
 
+  //only for showtime //TODO remove after showtime
   limitAvaiblePlaces(data);
 
   return data;
