@@ -67,11 +67,11 @@ module.exports.getData = async () => {
       newUser.email = user.email;
       newUser.isPreferred = user.isPreferred;
       newUser.program = user.studyPlan.program.code;
-      newUser.semester = calcSemesterDiff(
-        user.startOfStudy.name,
-        data.currentSemester,
-        semesters
-      );
+      if(user.startOfStudy.name == "WiSe19/20" || user.startOfStudy.name == "SoSe20"){
+      newUser.semester = 5
+      }else{
+      newUser.semester = 1
+      }
       const semPlan = user.courseSelection.semesterPlans.find((plan) => {
         if (plan.semester == undefined) return false;
         return plan.semester.name == data.currentSemester;
@@ -83,8 +83,12 @@ module.exports.getData = async () => {
           priority: course.priority,
           isRepeater: course.isRepeater,
         };
-      });
+      }).filter((course) => course.code != '');
+      if(semPlan.maxCourses == undefined){
+      newUser.maxCourses = 0;
+      }else{
       newUser.maxCourses = semPlan.maxCourses;
+      }
       data.users.push(newUser);
     });
 
@@ -98,6 +102,11 @@ module.exports.getData = async () => {
       newCousre.semesterInProgram = course.semesterInProgram;
       data.courses[course.code] = newCousre;
     });
+
+	console.log(data.users)
+  //only for showtime //TODO remove after showtime
+  limitAvaiblePlaces(data);
+
   return data;
   /*
   data {
@@ -127,6 +136,24 @@ module.exports.getData = async () => {
      currentSemester: "SoSe22"
   };
   */
+};
+
+const limitAvaiblePlaces = (data) => {
+  const courseWishes = data.users.reduce((x, y) => {
+	  if(y.maxCourses == undefined){ return x}
+	  else{ return x + y.maxCourses}
+  }, 0);
+
+  const origAvailablePlaces = Object.values(data.courses).reduce(
+    (x, y) => x + y.availablePlaces,
+    0
+  );
+  for (const key of Object.keys(data.courses)) {
+    data.courses[key].availablePlaces = Math.ceil(
+      data.courses[key].availablePlaces *
+        Math.max(0.1, courseWishes / origAvailablePlaces)
+    );
+  }
 };
 
 const calcSemesterDiff = function (from, to, semesters) {

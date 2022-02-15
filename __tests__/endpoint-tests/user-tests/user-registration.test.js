@@ -1,6 +1,6 @@
 const request = require("supertest");
-const db = require("../../config/dbHandler.js");
-const email = require("../../config/emailHandler.js");
+const db = require("../../helper/dbHandler.js");
+const email = require("../../helper/emailHandler.js");
 const assert = require("assert");
 
 beforeAll(async () => await db.reset());

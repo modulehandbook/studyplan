@@ -1,4 +1,3 @@
-
 /*
   data {
     users: [{
@@ -69,10 +68,11 @@ module.exports.algo = (data) => {
     iterations++;
   }
 
+  //commented-out only for showtime; TODO: remove after showtime
   //remove priority from solution
-  for (const [courseCode, students] of Object.entries(solution)) {
-    solution[courseCode] = students.map((student) => student.email);
-  }
+  //for (const [courseCode, students] of Object.entries(solution)) {
+  //  solution[courseCode] = students.map((student) => student.email);
+  //}
   return solution;
 };
 

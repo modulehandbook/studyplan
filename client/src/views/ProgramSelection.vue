@@ -1,11 +1,10 @@
 <template>
   <div>
     <h1>Bitte mache zuerst ein paar Angaben zu deinem Studium</h1>
-    <h2 id="warning">Achtung: Bitte tätige alle Angaben wahrheitsgemäß!</h2>
     <h3 id="warnigDescription">
-      Diese werden nach der Belegungsphase auf Richtigkeit überprüft. Falsche
-      Angaben führen zur Abmeldung aller Kurse.
+      Hierbei handelt es sich um einen Testlauf. Dennoch bitten wir um wahrheitsgemäße Angaben und realistische Entscheidungen.
     </h3>
+    <h3 id="warning">Achtung: Nach dem Speichern können die Login-Daten nicht mehr bearbeitet werden. <br>Bei Veränderungen wende dich bitte an den Kontakt unter Hilfe.</h3>
     <div class="line"></div>
     <form name="form" @submit.prevent="saveProgramAndStartOfStudy">
       <h3>Was studierst du?</h3>
@@ -126,9 +125,7 @@
         />
         <div id="acceptLabel">
           <label for="accept"
-            >Ich versichere, dass alle Angaben wahrheitsgemäß sind. <br />
-            Ich bin mir bewusst, dass falsche Angaben zur Nichtberücksichtigung
-            meiner Belegung führen.</label
+            >Ich habe verstanden, dass ich die Angaben nach dem bestätigen nicht nochmal Bearbeiten kann.</label
           >
         </div>
       </div>
@@ -278,7 +275,8 @@ $errorRed: #f8153d;
 
 #warning {
   color: orangered;
-  font-size: 25px;
+  font-size: 20px;
+  margin-top: 0px;
   font-weight: bold;
 }
 

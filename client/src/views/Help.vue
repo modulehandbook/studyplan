@@ -10,7 +10,7 @@
             Willkommen bei Studyplan!
           </p>
           <p class="text-content">
-            Studyplan ist eine Webanwendung, die eine Gerechtere und
+            Studyplan ist eine Webanwendung, die eine gerechtere und
             effizientere Belegung für IMI-Studenten anbietet durch:
           </p>
           <ul class="text-content">
