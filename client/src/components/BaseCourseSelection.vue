@@ -127,7 +127,7 @@ export default {
     },
     maxCourses: {
       type: Number,
-      default: 0,
+      default: 1,
     },
   },
   async mounted() {
