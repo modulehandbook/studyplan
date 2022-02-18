@@ -83,14 +83,7 @@ sudo npm run logs vue-app
         
         For example: ```sudo npm run seed -- --no-warning semester```
 
-### Lint and format code
-
-#### run this command either in ```client/``` or in ```root``` to lint and format the vue-app / node-server code: 
-```bash
-npm run lint
-```
-
-#### Or to lint and format both run:
+### run this command either to lint and format the vue-app / node-server code: 
 ```bash
 npm run lint-all
 ```
@@ -99,55 +92,16 @@ npm run lint-all
 ```bash
 npm run test
 ```
-
-### Test the algorithm (warnig: this will nuke the database)
-```bash
-npm run testAlgo
-```
-
 ### Clean reset the enviroment
 #### If you have, for example, problems with not installed node packages run this command to completely rebuild the docker images:
 ```bash
 npm run clean-docker-packages
 ```
 
-#### If you want to completely reinstall the node packages on your local machine run this command either in ```client/``` or in ```root``` to clean the vue-app-packages / node-server-packages:
-```bash
-npm run clean-packages
-```
-
-#### Or to clean both run:
+#### If you want to completely reinstall the node packages on your local machine run this command to clean the vue-app-packages / node-server-packages:
 ```bash
 npm run clean-packages-all
 ```
 
-## Deploy to HTW-Server
-
-### Prerequisite
-
-* Be inside the HTW network (or VPN)
-
-* Configured SSH connection to the server.
-
-### Deploy
-
-To deploy vue-app and node-server to the production-server, do the following:
-
-1. Clean your git working tree and commit any changes (check with git status) (main-branch will be deployed)
-
-2. run ```./deploy prepare``` (use ```--no-cache``` to rebuild the node modules)
-
-3. check the ```tmp-vue``` and ```tmp-node``` (thats the files, that will be deployed) (in ```.filesToDeploy``` is difined, which backend files will be deployed)
-
-4. run ```./deploy deploy```
-
-### Enviroment Variables
-
-- Non-secret variables are stored inside ```ecosystem.config.js```
-
-* Secret variables are stored in a file, which path ist defined as env-variable in ```ecosytem.config.js``` (```SECRET_PATH```).  
-In ```secrets.js``` should be all variables defined, that are listed in ```secrets.js.example```.
-
-## Additional information
-* You may want not always prefix the docker commands with ```sudo```, so look [here](https://docs.docker.com/engine/install/linux-postinstall/).
-* In ```docker-dev-db``` the local database is stored. To reset remove the directory.
+## More information
+You can find more detailed information on the github wiki page.
