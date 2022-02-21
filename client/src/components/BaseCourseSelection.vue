@@ -1,10 +1,10 @@
 <template>
   <div class="courseSelection">
     <BaseCourseSelectionColumn
-      :course-priority="0"
+      :coursePriority="0"
       :courses="courses"
-      :other-courses="bookedCourses"
-      :is-unbooked-courses="true"
+      :otherCourses="bookedCourses"
+      :isUnbookedCourses="true"
       :isEditable="isEditable"
       :semester="semester"
       class="allCourses"
@@ -37,10 +37,10 @@
           v-for="(course, index) in bookedCourses"
           :bookedCourses="bookedCourses"
           :key="course"
-          :course-priority="course.priority"
+          :coursePriority="course.priority"
           :courses="[course]"
-          :other-courses="courses"
-          :is-unbooked-courses="false"
+          :otherCourses="courses"
+          :isUnbookedCourses="false"
           :semester="semester"
           :isEditable="isEditable"
           :index="index"

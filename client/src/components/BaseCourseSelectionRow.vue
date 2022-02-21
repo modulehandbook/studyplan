@@ -2,6 +2,7 @@
   <div @drop.stop="moveCourse($event, 0)" @dragover.prevent @dragenter.prevent>
     <div class="gridContainer">
       <BaseCourseSelectionRowSidebar
+        :isUnbookedCourses="false"
         :priority="coursePriority"
         class="gridItem1"
       />
