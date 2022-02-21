@@ -15,16 +15,16 @@
         <div class="maxCourse">
           <p class="hMax">Anzahl der gewünschten Kurse</p>
           <button
-            class="minus"
-            :disabled="!isEditable"
+            class="minus counterBtn"
+            v-if="isEditable"
             @click="updateMaxCourses(maxCourses - 1)"
           >
-            -
+            −
           </button>
           <p class="maxCourseContent">{{ maxCourses }}</p>
           <button
-            class="plus"
-            :disabled="!isEditable"
+            class="plus counterBtn"
+            v-if="isEditable"
             @click="updateMaxCourses(maxCourses + 1)"
           >
             +
@@ -48,17 +48,17 @@
         />
       </div>
       <div>
-        <button class="edit" @click="isEditable = true" :disabled="isEditable">
+        <button class="edit" @click="isEditable = true" v-show="!isEditable">
           Ändern
         </button>
         <button
           @click="resetCourseSelection"
           class="reset"
-          :disabled="!isEditable"
+          v-if="isEditable"
         >
           Zurücksetzen
         </button>
-        <button :disabled="!isEditable" class="save" @click="saveCourses">
+        <button v-if="isEditable" class="save" @click="saveCourses">
           Speichern
         </button>
       </div>
@@ -81,10 +81,11 @@
           belegt wurde. Weitere Informationen findest du auf der Hilfe Seite.
         </p>
         <br />
-        <br />
         <h2>Funktion</h2>
-        <p>Per Drag &amp; Drop kannst du deine gewünschten Kurse hinzufügen.</p>
-        <br />
+        <p>Gib zuerst an, wie viele der gelisteten Kurse du dir überhaupt für das Semester vorenehmen möchtest.
+          Per Drag &amp; Drop kannst du dann deine gewünschten Kurse nach Priorität hinzufügen.
+          Es ist sinnvoll, mehr Kurse zu priorisieren als du am Ende haben möchtest, weil es vorkommen kann, dass Kurse ausgebucht werden.
+        </p>
         <br />
         <p>
           Wir bitten darum alle Angaben wahrheitsgemäß anzugeben, damit die Daten ein realistisches Bild abgeben.
@@ -221,6 +222,10 @@ export default {
 $htwGruen: #76b900;
 .maxCourse {
   display: grid;
+  justify-content: center;
+  justify-items: center;
+  align-content: space-evenly;
+  align-items: center;
 }
 .hMax {
   grid-row: 1;
@@ -231,19 +236,13 @@ $htwGruen: #76b900;
   margin-top: 0;
 }
 .plus {
-  text-align: left;
   grid-column: 3;
   grid-row: 2;
-  border: none;
-  background-color: #b3b3b3;
   font-size: x-large;
 }
 .minus {
-  text-align: right;
   grid-column: 1;
   grid-row: 2;
-  border: none;
-  background-color: #b3b3b3;
   font-size: x-large;
 }
 .maxCourseContent {
@@ -342,11 +341,28 @@ $htwGruen: #76b900;
     border-width: 0.125rem;
     padding: 1rem;
   }
+  .counterBtn {
+    max-width: fit-content;
+    margin-top: 0.2rem;
+    margin-bottom: 0.5rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  .counterBtn:hover:enabled {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  }
   .reset {
+    float: left;
     margin-top: 0.8rem;
     margin-bottom: 0.5rem;
-    margin-right: 2rem;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     // padding-top: 0.5rem;
     // padding-bottom: 0.5rem;
     padding: 0.5rem;
@@ -361,11 +377,11 @@ $htwGruen: #76b900;
       0 17px 50px 0 rgba(0, 0, 0, 0.19);
   }
   .save {
+    float: right;
     margin-top: 0.8rem;
     margin-bottom: 0.5rem;
     margin-left: 1.5rem;
-    // padding-top: 0.5rem;
-    // padding-bottom: 0.5rem;
+    margin-right: 0.5rem;
     padding: 0.5rem;
     border: none;
     border-radius: 0.25rem;
@@ -379,8 +395,10 @@ $htwGruen: #76b900;
       0 17px 50px 0 rgba(0, 0, 0, 0.19);
   }
   .edit {
+    float: right;
     margin-top: 0.8rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
     padding: 0.5rem;
     border: none;
     border-radius: 0.25rem;

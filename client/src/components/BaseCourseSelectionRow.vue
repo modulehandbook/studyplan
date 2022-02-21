@@ -45,7 +45,6 @@
      @submit.prevent="updateCourses">
         <div :class="{ error: v$.wiederholer.$error}">
         Wiederholer:
-        <label label for="yes" v-if="course.isRepeater || isEditable">Ja</label>
         <input  
           @change="courseRepeaterChanged($event)"     
           @blur="v$.wiederholer.$touch()"
@@ -53,11 +52,12 @@
                 type="radio"
                 v-if="isEditable"
                 v-model="course.isRepeater"
-                :id="'ja'+index"
+                :id="'yes'+index"
                 :name="'test'+index"
                 :value="true"
               />
-        <label label for="no" v-if="!course.isRepeater || isEditable">Nein</label>
+        <label label :for="'yes'+index" v-if="course.isRepeater || isEditable">Ja</label>
+        &#8239;
         <input
                 @blur="v$.wiederholer.$touch()"
                 @change="courseRepeaterChanged($event)" 
@@ -65,10 +65,11 @@
                 type="radio"
                 v-if="isEditable"
                 v-model="course.isRepeater"
-                :id="'nein'+index"
+                :id="'no'+index"
                 :name="'test'+index"
                 :value="false"
               />
+        <label label :for="'no'+index" v-if="!course.isRepeater || isEditable">Nein</label>
         </div>
       </form>
     </div>
