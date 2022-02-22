@@ -82,8 +82,9 @@
         </p>
         <br />
         <h2>Funktion</h2>
-        <p>Gib zuerst an, wie viele der gelisteten Kurse du dir überhaupt für das Semester vorenehmen möchtest.
+        <p>
           Per Drag &amp; Drop kannst du dann deine gewünschten Kurse nach Priorität hinzufügen.
+          Gib dann auch an, wie viele der gelisteten Kurse du dir überhaupt für das Semester vorenehmen möchtest.
           Es ist sinnvoll, mehr Kurse zu priorisieren als du am Ende haben möchtest, weil es vorkommen kann, dass Kurse ausgebucht werden.
         </p>
         <br />
