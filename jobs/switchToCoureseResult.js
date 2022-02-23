@@ -27,8 +27,8 @@ const mongoose = require("mongoose");
       console.log(err);
     });
 
-  const solution = require("./jobs/solution.json");
-  const data = require("./jobs/courseWishes.json");
+  const solution = require("./solution.json");
+  const data = require("./courseWishes.json");
 
   await updateDB(solution, data.currentSemester);
   await saveSurveyResults();

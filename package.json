@@ -17,7 +17,8 @@
     "testAlgo": "sudo docker exec node-server node jobs/algorithm/test/test.js",
     "init-seed": "sudo seeds/seed.sh semester stage modalCourses testAndAdmin",
     "init-seed-no-warning": "sudo seeds/seed.sh --no-warning semester stage modalCourses testAndAdmin",
-    "seed": "sudo seeds/seed.sh"
+    "seed": "sudo seeds/seed.sh",
+    "start-prod-test": "sudo docker-compose -f docker-compose.yml -f docker-compose.prod-test.yml up -d"
   },
   "author": "Julia Zamaitat, Project-Team (see README)",
   "license": "ISC",

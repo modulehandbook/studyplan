@@ -2,11 +2,10 @@
   <div @drop.stop="moveCourse($event, 0)" @dragover.prevent @dragenter.prevent>
     <div class="gridContainer">
       <BaseCourseSelectionRowSidebar
-        :priority="coursePriority"
         :is-unbooked-courses="isUnbookedCourses"
+        :priority="coursePriority"
         class="gridItem1"
       />
-
       <div
         :class="{
           'gridItem2': course.code != '',
@@ -18,22 +17,23 @@
         @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
         @drop.stop="moveCourse($event, $courseIndex)"
       >
-      <router-link
-        v-if="course.code != ''"
-        class="courseContentContainer"
-        :to="{
-          name:'baseCourseSelectionDetails',
-          params: {
-            code: course.code,
-            semester: semester.name,
-          },
-        }"
-        draggable="false"
-      >
-        <div>
-          <p>{{ course.code }} {{ course.name }}</p>
-        </div>
+        <router-link
+          v-if="course.code != ''"
+          class="courseContentContainer"
+          :to="{
+            name:'baseCourseSelectionDetails',
+            params: {
+              code: course.code,
+              semester: semester.name,
+            },
+          }"
+          draggable="false"
+        >
+          <div>
+            <p :class="{ notEditable : !isEditable }">{{ course.code }} {{ course.name }}</p>
+          </div>
         </router-link>
+        <small v-else>Kurs reinziehen</small>
       </div>
     </div>
     <br />
@@ -44,32 +44,36 @@
     <form name="form" v-if="course.code != ''" 
      @submit.prevent="updateCourses">
         <div :class="{ error: v$.wiederholer.$error}">
-        <label label for="yes"> Wiederholer:      Ja</label>
+        Wiederholer:
         <input  
           @change="courseRepeaterChanged($event)"     
           @blur="v$.wiederholer.$touch()"
           :disabled="!isEditable"
                 type="radio"
+                v-if="isEditable"
                 v-model="course.isRepeater"
-                :id="'ja'+index"
+                :id="'yes'+index"
                 :name="'test'+index"
                 :value="true"
               />
-        <label label for="no">Nein</label>
+        <label label :for="'yes'+index" v-if="course.isRepeater || isEditable">Ja</label>
+        &#8239;
         <input
                 @blur="v$.wiederholer.$touch()"
                 @change="courseRepeaterChanged($event)" 
                 :disabled="!isEditable"
                 type="radio"
+                v-if="isEditable"
                 v-model="course.isRepeater"
-                :id="'nein'+index"
+                :id="'no'+index"
                 :name="'test'+index"
                 :value="false"
               />
+        <label label :for="'no'+index" v-if="!course.isRepeater || isEditable">Nein</label>
         </div>
       </form>
     </div>
-    <button @click="deleteCoursePriority()" :class="{ prioButtonDisable: !isEditable, prioButton: isEditable}" :disabled="!isEditable" >
+    <button @click="deleteCoursePriority()" :class="{ prioButtonDisable: !isEditable, prioButton: isEditable}" :disabled="!isEditable" v-if="courses[0].code != '' && isEditable">
       Prio löschen
     </button>
   </div>
@@ -201,6 +205,9 @@ $belegtBackground: rgba(253, 177, 62, 0.55);
 a {
   text-decoration: none;
   color: inherit;
+}
+.notEditable {
+  opacity: 0.5;
 }
 .gridContainer {
   display: inline-grid;
