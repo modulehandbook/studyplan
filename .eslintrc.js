@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   env: {
     node: true,
-    es2021: true,
+    es2020: true,
   },
   extends: ["eslint:recommended", "prettier"],
   plugins: ["prettier", "jest"],
@@ -20,7 +20,7 @@ module.exports = {
       ],
       env: {
         jest: true,
-        es2021: true,
+        es2020: true,
       },
       extends: ["plugin:jest/recommended"],
       rules: {
