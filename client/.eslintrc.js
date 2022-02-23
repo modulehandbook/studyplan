@@ -5,13 +5,13 @@ module.exports = {
   },
   parser: "vue-eslint-parser",
   parserOptions: {
-    ecmaVersion: 2020,
     "sourceType": "module",
+    "ecmaVersion": 2020,
   },
   extends: [
-    "eslint:recommended",
-    "plugin:vue/vue3-recommended",
-    "@vue/prettier",
+    // "eslint:recommended",
+    // "plugin:vue/vue3-recommended",
+    // "@vue/prettier",
     "prettier",
   ],
   plugins: ["prettier"],

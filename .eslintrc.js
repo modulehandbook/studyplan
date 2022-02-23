@@ -4,8 +4,17 @@ module.exports = {
     node: true,
     es2020: true,
   },
-  extends: ["eslint:recommended", "prettier"],
+  parser: "vue-eslint-parser",
+  extends: [
+    // "eslint:recommended",
+    "prettier"
+  ],
   plugins: ["prettier", "jest"],
+  parserOptions: {
+    "sourceType": "module",
+    "ecmaVersion": 2020,
+    
+  },
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
