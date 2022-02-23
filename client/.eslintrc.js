@@ -9,9 +9,7 @@ module.exports = {
     "ecmaVersion": 2020,
   },
   extends: [
-    // "eslint:recommended",
-    // "plugin:vue/vue3-recommended",
-    // "@vue/prettier",
+    "plugin:vue/vue3-recommended",
     "prettier",
   ],
   plugins: ["prettier"],

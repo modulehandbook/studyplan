@@ -6,14 +6,13 @@ module.exports = {
   },
   parser: "vue-eslint-parser",
   extends: [
-    // "eslint:recommended",
+    "plugin:vue/vue3-recommended",
     "prettier"
   ],
   plugins: ["prettier", "jest"],
   parserOptions: {
     "sourceType": "module",
     "ecmaVersion": 2020,
-    
   },
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
