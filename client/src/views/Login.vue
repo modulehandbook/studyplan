@@ -142,7 +142,6 @@ export default {
               },
               (error) => {
                 // this.loading = false;
-                console.log(error)
                 this.message =
                   (error.response &&
                     error.response.data &&
