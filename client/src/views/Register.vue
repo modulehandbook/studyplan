@@ -177,6 +177,7 @@ export default {
               this.successful = true;
             },
             (error) => {
+              console.log(error)
               this.message =
                 (error.response &&
                   error.response.data &&
