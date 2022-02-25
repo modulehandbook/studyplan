@@ -121,9 +121,10 @@ module.exports = {
   },
 
   login: (req, res) => {
-    User.findOne({
-      username: req.body.username,
-    })
+    User.findOne({$or: [
+      { email: req.body.username },
+      { username: req.body.username }
+    ]})
       .populate("studyPlan")
       .populate("startOfStudy")
       .then((user, err) => {
