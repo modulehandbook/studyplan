@@ -87,6 +87,42 @@
             @click="toggleMobileNavMenu"
             >Plan nach Studienordnung</router-link
           >
+
+          <router-link
+            class="link"
+            v-if="currentUser.isAdmin ||
+              stage.currentStage === 'COURSE-RESULT' ||
+              stage.currentStage === 'EVALUATION'
+            "
+            to="/mycourses"
+            @click="toggleMobileNavMenu"
+          >
+            Meine Kurse
+          </router-link>
+            
+          <router-link
+            class="link"
+            v-if="currentUser.isAdmin || stage.currentStage === 'COURSE-SELECTION'"
+            to="/courseselection"
+            @click="toggleMobileNavMenu"
+            >Kursbelegung</router-link
+          >
+          <router-link
+            class="link"
+            v-if="currentUser.isAdmin || stage.currentStage === 'COURSE-SELECTION'"
+            to="/coursesurvey"
+            @click="toggleMobileNavMenu"
+            >Umfrage</router-link
+          >
+          <router-link
+            v-if="currentUser.isAdmin"
+            class="link"
+            to="/modalcourse"
+            @click="toggleMobileNavMenu"
+          >
+            Admin
+          </router-link>
+
           <router-link class="link" to="/hilfe" @click="toggleMobileNavMenu">
             Hilfe</router-link
           >
@@ -229,7 +265,7 @@ $htwGruen: #76b900;
       .link {
         color: white !important;
         text-decoration: none;
-        margin: 30px;
+        margin: 15px;
         font-size: 25px;
       }
     }
