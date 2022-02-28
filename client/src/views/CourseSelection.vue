@@ -68,7 +68,7 @@ export default {
       return (stage, withPrefix) => {
         const deadline = new Date(this.stage.nextDates[stage].date);
         const gap = moment.duration(moment(deadline).diff(moment(Date.now())));
-        return gap.locale("de").humanize(withPrefix);
+        return gap.locale("de").humanize() + "\n" + deadline + "\n" + gap.locale("de").asMinutes();
       };
     },
   },

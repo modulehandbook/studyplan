@@ -1,101 +1,113 @@
 <template>
-  <div class="courseSelection">
-    <BaseCourseSelectionColumn
-      :course-priority="0"
-      :courses="courses"
-      :other-courses="bookedCourses"
-      :is-unbooked-courses="true"
-      :isEditable="isEditable"
-      :semester="semester"
-      class="allCourses"
-    />
-    <div class="prioritiesBox">
-      <div class="addPriorities">
-        <h3>Kursauswahl</h3>
-        <div class="maxCourse">
-          <p class="hMax">Anzahl der gewünschten Kurse</p>
-          <button
-            class="minus counterBtn"
-            v-if="isEditable"
-            @click="updateMaxCourses(maxCourses - 1)"
-          >
-            −
+<div :class="{ touch: isTouchDevice }">
+  <button class="infoButton" @click="showInfo = true">
+      Anleitung und Informationen
+  </button>
+  <div>
+    <div class="courseSelection">
+      <BaseCourseSelectionColumn
+        :course-priority="0"
+        :courses="courses"
+        :other-courses="bookedCourses"
+        :is-unbooked-courses="true"
+        :isEditable="isEditable"
+        :semester="semester"
+        :tappedPrio="tappedPrio"
+        id="allCourses"
+        @click="resetTappedPrio"
+      />
+      <div id="prioritiesBox">
+        <div class="addPriorities">
+          <h3>Kursauswahl</h3>
+        </div>
+        <div class="scroll">
+          <BaseCourseSelectionRow
+            class="priorities"
+            :id="'asd'+bookedCourses.length"
+            v-for="(course, index) in bookedCourses"
+            :bookedCourses="bookedCourses"
+            :key="course"
+            :course-priority="course.priority"
+            :courses="[course]"
+            :other-courses="courses"
+            :is-unbooked-courses="false"
+            :semester="semester"
+            :isEditable="isEditable"
+            :index="index"
+            :maxCourses="maxCourses"
+            :isTouchDevice="isTouchDevice"
+            @click="isTouchDevice && isEditable ? prioTapHandler(course.priority) : null"
+            v-bind:data-index="index"
+          />
+        </div>
+        <div class="maxCourse addPriorities">
+            <p class="hMax">Anzahl der gewünschten Kurse</p>
+            <button
+              id="minus"
+              class="counterBtn"
+              v-if="isEditable"
+              @click="updateMaxCourses(maxCourses - 1)"
+            >
+              −
+            </button>
+            <p class="maxCourseContent">{{ maxCourses }}</p>
+            <button
+              id="plus"
+              class="counterBtn tooltip"
+              v-if="isEditable"
+              @click="updateMaxCourses(maxCourses + 1)"
+            ><span class="tooltiptext">Füge zuerst weitere Kurse hinzu</span>
+              +
+            </button>
+          </div>
+        <div>
+          <button class="edit" @click="isEditable = true" v-show="!isEditable">
+            Ändern
           </button>
-          <p class="maxCourseContent">{{ maxCourses }}</p>
           <button
-            class="plus counterBtn"
+            @click="resetCourseSelection"
+            class="reset"
             v-if="isEditable"
-            @click="updateMaxCourses(maxCourses + 1)"
           >
-            +
+            Zurücksetzen
+          </button>
+          <button v-if="isEditable" class="save" @click="saveCourses">
+            Speichern
           </button>
         </div>
       </div>
-      <div class="scroll">
-        <BaseCourseSelectionRow
-          class="priorities"
-          v-for="(course, index) in bookedCourses"
-          :bookedCourses="bookedCourses"
-          :key="course"
-          :course-priority="course.priority"
-          :courses="[course]"
-          :other-courses="courses"
-          :is-unbooked-courses="false"
-          :semester="semester"
-          :isEditable="isEditable"
-          :index="index"
-          :maxCourses="maxCourses"
-        />
       </div>
-      <div>
-        <button class="edit" @click="isEditable = true" v-show="!isEditable">
-          Ändern
-        </button>
-        <button
-          @click="resetCourseSelection"
-          class="reset"
-          v-if="isEditable"
-        >
-          Zurücksetzen
-        </button>
-        <button v-if="isEditable" class="save" @click="saveCourses">
-          Speichern
-        </button>
-      </div>
+      <transition name="fade" appear>
+        <div
+          :class="{
+            overlay: showInfo,
+          }"
+        ></div>
+      </transition>
+      <transition name="slide" appear>
+        <div class="info" v-if="showInfo">
+          <h2>Funktion</h2>
+          <p>
+            Lege zuerst für dich die Priorität der Kurse fest.
+            Gib dann auch an, wie viele der hinzugefügten Kurse du dir überhaupt für das Semester vorenehmen möchtest.
+            Es ist sinnvoll, mehr Kurse zu priorisieren als du am Ende haben möchtest, weil es vorkommen kann, dass beliebte Kurse ausgebucht werden.
+          </p>
+          <br />
+          <h2>Wiederholer</h2>
+          <p>
+            Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal
+            belegt wurde. Weitere Informationen findest du auf der Hilfe Seite.
+          </p>
+          <br />
+          <p>
+            Wir bitten darum alle Angaben wahrheitsgemäß anzugeben, damit die Daten ein realistisches Bild abgeben.
+            <br>
+            Zudem enthalten die angegebenen Bachelor Wahlpflicht-Kurse die aktuellen Daten für das SoSe22.
+          </p>
+          <button class="infoButton" @click="showInfo = false">Schließen</button>
+        </div>
+      </transition>
     </div>
-    <button class="infoButton" @click="showInfo = true">
-      Mehr Informationen
-    </button>
-    <transition name="fade" appear>
-      <div
-        :class="{
-          overlay: showInfo,
-        }"
-      ></div>
-    </transition>
-    <transition name="slide" appear>
-      <div class="info" v-if="showInfo">
-        <h2>Wiederholer</h2>
-        <p>
-          Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal
-          belegt wurde. Weitere Informationen findest du auf der Hilfe Seite.
-        </p>
-        <br />
-        <h2>Funktion</h2>
-        <p>
-          Per Drag &amp; Drop kannst du dann deine gewünschten Kurse nach Priorität hinzufügen.
-          Gib dann auch an, wie viele der gelisteten Kurse du dir überhaupt für das Semester vorenehmen möchtest.
-          Es ist sinnvoll, mehr Kurse zu priorisieren als du am Ende haben möchtest, weil es vorkommen kann, dass Kurse ausgebucht werden.
-        </p>
-        <br />
-        <p>
-          Wir bitten darum alle Angaben wahrheitsgemäß anzugeben, damit die Daten ein realistisches Bild abgeben.
-          <br>
-          Zudem enthalten die angegebenen Bachelor Wahlpflicht-Kurse die aktuellen Daten für das SoSe22. 
-        </p>
-        <button class="infoButton" @click="showInfo = false">Schließen</button>
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -105,6 +117,8 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      isTouchDevice: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia("(max-width: 700px)").matches,
+      tappedPrio: 0,
       isEditable: false,
       showInfo: false,
       new: false,
@@ -136,8 +150,6 @@ export default {
     this.scrollToEnd();
     this.isEditable = false;
     if (this.bookedCourses.length == 0) {
-      this.addPriority();
-      this.addPriority();
       this.new = true;
     }
     if(!this.new && this.bookedCourses[this.bookedCourses.length-1].ects==0){
@@ -178,15 +190,24 @@ export default {
   },
   methods: {
     updateMaxCourses(amount) {
+      const showTooltip = () => {
+        const plusTooltipClassList = document.getElementById("plus").firstChild.classList;
+        plusTooltipClassList.add("active");
+        setTimeout(() => plusTooltipClassList.remove("active"), 2500);
+      }
       let updateAmount = amount;
       if (amount < 1) updateAmount = 1;
       if (
         amount > this.bookedCourses.length - 1 &&
         this.bookedCourses.length > 1
-      )
+      ) {
         updateAmount = this.bookedCourses.length - 1;
-      if (amount > this.bookedCourses.length)
+        showTooltip();
+      }
+      if (amount > this.bookedCourses.length) {
         updateAmount = this.bookedCourses.length;
+        showTooltip();
+      }
       this.$store.dispatch("courseselection/updateMaxCourses", {
         maxCourses: updateAmount,
       });
@@ -195,6 +216,16 @@ export default {
       var container = document.querySelector(".scroll");
       var scrollHeight = container.scrollHeight;
       container.scrollTop = scrollHeight;
+    },
+    scrollTo(element) {
+      window.scroll({
+        behavior: "smooth",
+        top: element.offsetTop
+      });
+    },
+    prioTapHandler(prio) {
+      this.tappedPrio = prio;
+      this.scrollTo(document.getElementById("allCourses"));
     },
     addPriority() {
       this.$store.dispatch("courseselection/addCoursePriority");
@@ -215,6 +246,9 @@ export default {
         maxCourses: 1,
       });
     },
+    resetTappedPrio() {
+      this.tappedPrio = 0;
+    }
   },
 };
 </script>
@@ -222,6 +256,7 @@ export default {
 <style lang="scss" scoped>
 $htwGruen: #76b900;
 .maxCourse {
+  padding: 0.85rem 0.75rem 0.75rem;
   display: grid;
   justify-content: center;
   justify-items: center;
@@ -236,12 +271,12 @@ $htwGruen: #76b900;
   margin-bottom: 0;
   margin-top: 0;
 }
-.plus {
+#plus {
   grid-column: 3;
   grid-row: 2;
   font-size: x-large;
 }
-.minus {
+#minus {
   grid-column: 1;
   grid-row: 2;
   font-size: x-large;
@@ -254,7 +289,7 @@ $htwGruen: #76b900;
 }
 .infoButton {
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
   margin-right: 2rem;
   margin-left: 2rem;
   padding: 0.5rem;
@@ -297,9 +332,6 @@ $htwGruen: #76b900;
   opacity: 0;
 }
 
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
 .instruction {
   margin-bottom: 1.5rem;
   margin-left: 3rem;
@@ -314,34 +346,38 @@ $htwGruen: #76b900;
   margin-bottom: 30px;
   margin-top: 0;
 }
-.prioritiesBox {
-  background-color: #b3b3b3;
+#prioritiesBox {
+  background-color: #b9b9b9;
   color: white;
   grid-column-start: 2;
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 2;
-  flex: auto;
-  //padding-bottom: 0.5rem;
   min-width: 25rem;
   border-radius: 0.5rem;
-  margin: 0.75rem;
+  margin: 0 0.75rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    > *:not(:last-child) {
+      border-bottom: 5px solid white;
+    }
 
   .addPriorities {
     border-bottom-style: solid;
     border-color: white;
-    border-width: 0.125rem;
     padding-left: 1rem;
     padding-right: 1rem;
   }
 
   .priorities {
+    padding: 1rem;
+  }
+
+  .priorities:not(:last-child) {
     border-bottom-style: solid;
     border-color: white;
     border-width: 0.125rem;
-    padding: 1rem;
   }
+
   .counterBtn {
     max-width: fit-content;
     margin-top: 0.2rem;
@@ -414,28 +450,29 @@ $htwGruen: #76b900;
   }
 }
 
-.allCourses {
+#allCourses {
   grid-column-start: 1;
   grid-column-end: 1;
   grid-row-start: 1;
   grid-row-end: 5;
-  flex: auto;
   min-width: 20rem;
   margin: 0.75rem;
 }
 .courseSelection {
-  // display: inline-grid;
-  // align-items: stretch;
-  display: inline-grid;
+  display: flex;
+  align-items:flex-start;
+  justify-content: space-evenly;
   padding: 2rem;
   padding-top: 0rem;
-  justify-content: start;
-  align-items: left;
 }
 
 .scroll {
+  background-color: #a7a7a7;
   max-height: 30rem;
   overflow-y: auto;
+}
+.scroll:empty {
+  display: none 
 }
 
 .overlay {
@@ -458,4 +495,73 @@ $htwGruen: #76b900;
 .fade-leave-to {
   opacity: 0;
 }
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  background-color: #555;
+  color: #fff;
+  font-size: initial;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: -1;
+  bottom: 125%;
+  left: 50%;
+  width: 9rem;
+  margin-left: calc(-4.5rem - 3px);
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip .tooltiptext {
+  &.active {
+    opacity: 1;
+    z-index: 100;
+  }
+}
+
+
+//Touch device rules
+.touch {
+  .courseSelection {
+    flex-direction: column-reverse;
+    padding: 0;
+  }
+
+  .info {
+    max-width: 80vw;
+    max-height: 90vh;
+    overflow: scroll;
+  }
+
+  #prioritiesBox {
+    min-width: initial;
+    margin: 0 auto;
+  }
+
+  .priorities {
+    padding-left: 0;
+    padding-right: 0; 
+  }
+
+  .scroll {
+    max-height: initial;
+  }
+}
+
 </style>

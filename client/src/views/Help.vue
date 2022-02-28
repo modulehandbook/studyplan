@@ -145,9 +145,9 @@ $htwGruen: #76b900;
 .questions {
   &-question {
     margin-bottom: 60px;
-    text-align: justify;
-    padding-right: 180px;
-    padding-left: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 90vw;
 
     &--text {
       font-weight: 700;
@@ -159,6 +159,13 @@ $htwGruen: #76b900;
       color: $htwGruen;
       font-size: 18px;
     }
+  }
+
+  ul {
+    text-align: left;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 </style>

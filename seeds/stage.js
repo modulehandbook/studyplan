@@ -30,10 +30,10 @@ async function seedStage() {
     //Date and time in UTC means berlin-time -1h
     currentStage: "COURSE-SELECTION", //"IDLE", "COURSE-SELECTION", "EVALUATION", "COURSE-RESULT"
     nextDates: {
-      idle: [{ date: "2023-01-15" }],
-      courseSelection: [{ date: "2023-01-16" }],
-      evaluation: [{ date: "2022-02-09T13:30:00Z" }],
-      courseResult: [{ date: "2023-02-09T13:50:00Z" }],
+      idle: [{ date: "2022-01-15" }],
+      courseSelection: [{ date: "2022-02-16" }],
+      evaluation: [{ date: "2022-02-24T13:08:00Z" }],
+      courseResult: [{ date: "2022-03-29T18:50:00Z" }],
     },
     currentSemester: sem._id,
   });
