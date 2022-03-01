@@ -78,12 +78,13 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
+    justify-content: flex-start;
     &--visible {
       display: none;
     }
 
     .course {
-      margin: 20px 25px 20px 0;
+      margin: 20px;
       display: flex;
       align-items: center;
       min-height: 87px;

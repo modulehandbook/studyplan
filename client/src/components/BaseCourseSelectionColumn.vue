@@ -3,6 +3,8 @@
     <h3>Internationaler Studiengang Medieninformatik</h3>
     <div
       class="courses"
+      :class="{ shake : $parent.tappedPrio > 0 }"
+      :style="{ 'animation-delay' : Math.random()+'s' } "
       v-for="(course, $courseIndex) in courses"
       :key="$courseIndex"
       :draggable="isEditable"
@@ -20,9 +22,9 @@
         }"
         draggable="false"
       >
-      <div>
-        <p>{{ course.code }}<br />{{ course.name }}</p>
-      </div>
+        <div v-on="isEditable && $parent.tappedPrio > 0 ? { click: (e) => tapHandler(e, $courseIndex, $parent.tappedPrio) } : {}">
+          <p>{{ course.code }}<br />{{ course.name }}</p>
+        </div>
       </router-link>
     </div>
   </div>
@@ -90,6 +92,25 @@ export default {
         toCoursePriority,
       });
     },
+    tapHandler(e, courseIndex, tappedPrio) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const fromCourseIndex = courseIndex,
+        toCourseIndex = 0,
+        fromCoursePriority = 0,
+        toCoursePriority = tappedPrio;
+
+      this.$store.dispatch("courseselection/moveCourse", {
+        fromCourseIndex,
+        toCourseIndex,
+        fromCoursePriority,
+        toCoursePriority,
+      });
+
+      this.$parent.tappedPrio = 0;
+      this.$parent.scrollTo(document.getElementById("prioritiesBox"));
+    }
   },
 };
 </script>
@@ -112,7 +133,6 @@ a {
   border-color: #7c7c7c;
   color: black;
   text-align: center;
-  padding: 0.5rem 0.5rem;
   margin-bottom: 1rem;
 }
 .courses:hover {
@@ -124,9 +144,34 @@ a {
   border-radius: 14px;
   width: 100%;
   display: flex;
-  justify-content: center;
+  align-content: stretch;
   align-items: center;
   transition: 0.2s;
+
+  * {
+    flex-grow: 1;
+  }
+}
+
+.touch {
+  .shake {
+    animation-name: shake;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+  }
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -1px) rotate(-1deg); }
+    20% { transform: translate(-1px, 0px) rotate(1deg); }
+    30% { transform: translate(1px, 1px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 1px) rotate(-1deg); }
+    60% { transform: translate(-1px, 1px) rotate(0deg); }
+    70% { transform: translate(1px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 1px) rotate(0deg); }
+    100% { transform: translate(1px, -1px) rotate(-1deg); }
+  }
 }
 </style>
 

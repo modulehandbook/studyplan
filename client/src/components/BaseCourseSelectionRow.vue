@@ -16,6 +16,7 @@
         :draggable="isEditable"
         @dragstart="pickupCourse($event, $courseIndex, coursePriority)"
         @drop.stop="moveCourse($event, $courseIndex)"
+        
       >
         <router-link
           v-if="course.code != ''"
@@ -27,13 +28,19 @@
               semester: semester.name,
             },
           }"
-          draggable="false"
+          @click.stop=""
+          @click.prevent=""
         >
           <div>
             <p :class="{ notEditable : !isEditable }">{{ course.code }} {{ course.name }}</p>
           </div>
         </router-link>
-        <small v-else>Kurs reinziehen</small>
+        <p v-else-if="isEditable">
+          <b>
+            <small v-if="isTouchDevice">Tippe, um Kurs zu wählen</small>
+            <small v-else>Kurs reinziehen</small>
+          </b>
+        </p>
       </div>
     </div>
     <br />
@@ -43,7 +50,7 @@
     >
     <form name="form" v-if="course.code != ''" 
      @submit.prevent="updateCourses">
-        <div :class="{ error: v$.wiederholer.$error}">
+        <div :class="{ error: v$.wiederholer.$error}" @click.stop="">
         Wiederholer:
         <input  
           @change="courseRepeaterChanged($event)"     
@@ -68,12 +75,13 @@
                 :id="'no'+index"
                 :name="'test'+index"
                 :value="false"
+
               />
         <label label :for="'no'+index" v-if="!course.isRepeater || isEditable">Nein</label>
         </div>
       </form>
     </div>
-    <button @click="deleteCoursePriority()" :class="{ prioButtonDisable: !isEditable, prioButton: isEditable}" :disabled="!isEditable" v-if="courses[0].code != '' && isEditable">
+    <button @click.stop="deleteCoursePriority()" :class="{ prioButtonDisable: !isEditable, prioButton: isEditable}" :disabled="!isEditable" v-if="courses[0].code != '' && isEditable">
       Prio löschen
     </button>
   </div>
@@ -142,6 +150,10 @@ export default {
       type: Number,
       default: 0,
     },
+    isTouchDevice : {
+      type: Boolean,
+      required: true
+    }
   },
 
   computed: {
@@ -206,6 +218,9 @@ a {
   text-decoration: none;
   color: inherit;
 }
+button {
+  cursor: pointer;
+}
 .notEditable {
   opacity: 0.5;
 }
@@ -218,7 +233,6 @@ a {
 .gridItem1 {
   grid-column-start: 1;
   grid-column-end: 1;
-  padding-top:0.5rem;
   width: 10rem;
 }
 
@@ -250,6 +264,7 @@ a {
   place-content: center;
   background: none;
   border:none;
+  margin-top: 0.5rem;
 }
 .prioButtonDisable{
   text-decoration: underline;
@@ -275,5 +290,15 @@ a {
   justify-content: center;
   align-items: center;
   transition: 0.2s;
+}
+
+.touch {
+  .gridContainer {
+    justify-content: space-around;
+  }
+
+  .gridItem1 {
+    width: initial;
+  }
 }
 </style>
