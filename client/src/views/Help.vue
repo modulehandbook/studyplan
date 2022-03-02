@@ -66,7 +66,7 @@
             Wie funktioniert die Kursbelegungs Priorität?
           </p>
           <p class="text-content">
-            Durch Drag and Drop können die Studenten Ihre Modul-Favoriten in
+            Die Studenten können ihre Modul-Favoriten in
             Prioritäten einordnen. Die erste Priorität spiegelt hier das für den
             Studenten wichtigste Modul wider. Sie ist in Phase 1 unverbindlich
             aber bestimmt neben der Rangstufe die Zulassung in Phase 2. Sollte
@@ -145,9 +145,9 @@ $htwGruen: #76b900;
 .questions {
   &-question {
     margin-bottom: 60px;
-    text-align: justify;
-    padding-right: 180px;
-    padding-left: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 90vw;
 
     &--text {
       font-weight: 700;
@@ -159,6 +159,13 @@ $htwGruen: #76b900;
       color: $htwGruen;
       font-size: 18px;
     }
+  }
+
+  ul {
+    text-align: left;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 </style>

@@ -190,7 +190,7 @@ $htwGruen: #76b900;
 
 .navigation {
   &-container {
-    width: 100%;
+    max-width: 85vw;
     display: flex;
     align-items: baseline;
 

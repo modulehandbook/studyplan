@@ -181,6 +181,9 @@ h2 {
 }
 
 h2 {
+  max-width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
   font-weight: normal;
   font-size: 20px;
 }

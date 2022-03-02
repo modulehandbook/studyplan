@@ -200,7 +200,7 @@ export default {
   cursor: pointer;
 }
 .wrong-stage-wrapper {
-  width: 700px;
+  max-width: 90vw;
   border-radius: 20px;
   color: black;
   text-align: center;
@@ -208,7 +208,7 @@ export default {
   margin: 40px auto;
   display: flex;
   flex-direction: column;
-  height: 200px;
+  height: fit-content;
   background: #ffffff;
   border: 5px solid #7eb726;
   box-sizing: border-box;
@@ -216,7 +216,7 @@ export default {
   border-radius: 10px;
 }
 .info-wrapper {
-  width: 700px;
+  max-width: 90vw;
   border-radius: 20px;
   color: black;
   text-align: center;
@@ -224,7 +224,7 @@ export default {
   margin: 10px auto;
   display: flex;
   flex-direction: column;
-  height: 150px;
+  height: fit-content;
   background: #ffffff;
   border: 5px solid #7eb726;
   box-sizing: border-box;

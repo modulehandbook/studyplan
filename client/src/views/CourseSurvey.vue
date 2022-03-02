@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!pending">
+  <div v-if="!pending" :class="{ touch : isTouchDevice }">
     <div v-if="this.hasTakenSurvey" class="no-course-wrapper">
       <BaseHeading>
         <h2 class="no-course-headline">
@@ -122,7 +122,7 @@
                 <input
                   v-if="courseReasons[course.code]"
                   @change="toggleTextBox($event, course.code, index)"
-                  :id="surveys[4].key + index"
+                  :id="surveys[5].key + index"
                   type="checkbox"
                   :name="'survey' + index"
                   :value="surveys[5].value"
@@ -241,6 +241,7 @@ export default {
       },
     */
     return {
+      isTouchDevice: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia("(max-width: 700px)").matches,
       pending: true,
       surveyTaken: false,
       courseReasons: {},
@@ -263,7 +264,7 @@ export default {
           name: "Die Thematik ist trivial",
           value: "easy",
         },
-        { key: "so", name: "sonstiges", value: "" },
+        { key: "so", name: "Sonstiges", value: "" },
       ],
       // array of the enabled status for the text input field
     };
@@ -286,7 +287,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .survey-time {
   font-size: x-small;
   text-align: right;
@@ -343,7 +344,7 @@ export default {
   padding: 20px 40px;
 }
 .survey-checkbox label {
-  padding-left: 20px;
+  margin-left: 10px;
 }
 
 .survey-checkbox {
@@ -389,5 +390,23 @@ export default {
   box-sizing: border-box;
   box-shadow: 6px 6px 18px 1px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+}
+
+.touch {
+  padding: 1rem;
+
+  .survey-wrapper {
+    flex-direction: column;
+
+    .survey-column-wrapper {
+      display: block;
+      min-width: unset;
+
+      .input-text {
+        width: 90%;
+        margin-left: 30px;
+      }
+    }
+  }
 }
 </style>
