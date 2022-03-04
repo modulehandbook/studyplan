@@ -7,8 +7,7 @@ COPY . .
 
 # build stage
 FROM develop-stage as build-stage
-RUN unset NODE_OPTIONS
-RUN npm run build
+RUN unset NODE_OPTIONS && export NODE_OPTIONS=--openssl-legacy-provider && npm run build
 
 # production stage
 FROM nginx:stable-alpine as production-stage
