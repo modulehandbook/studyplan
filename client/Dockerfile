@@ -7,6 +7,7 @@ COPY . .
 
 # build stage
 FROM develop-stage as build-stage
+RUN unset NODE_OPTIONS
 RUN npm run build
 
 # production stage
