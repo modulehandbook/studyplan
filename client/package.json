@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service --openssl-legacy-provider serve",
-    "build": "vue-cli-service --openssl-legacy-provider build",
+    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && serve",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "lint-all": "npm run lint && cd .. && npm run lint",
