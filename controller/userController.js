@@ -112,8 +112,20 @@ module.exports = {
           }
           res
             .status(200)
+            .set('Content-Type', 'text/html')
             .send(
-              "The account has been verified. Please log in: https://studyplan.f4.htw-berlin.de/login"
+              `
+              <!DOCTYPE html>
+              <html>
+                 <head>
+                    <title>Weiterleitung</title>
+                    <meta http-equiv="refresh" content="3; url=https://studyplan.f4.htw-berlin.de/login" />
+                 </head>
+                 <body>
+                    <p>Dein Konto wurde verifiziert. Du kannst dich nun <a href="https://studyplan.f4.htw-berlin.de/login">einloggen</a>...</p>
+                 </body>
+              </html>
+              `
             );
         });
       });
