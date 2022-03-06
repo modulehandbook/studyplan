@@ -72,7 +72,7 @@
             Zurücksetzen
           </button>
           <button v-if="isEditable" class="save" @click="saveCourses">
-            Speichern
+            Weiter
           </button>
         </div>
       </div>
@@ -357,6 +357,7 @@ button {
   grid-row-start: 1;
   grid-row-end: 2;
   min-width: 25rem;
+  height: fit-content;
   border-radius: 0.5rem;
   margin: 0 0.75rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);

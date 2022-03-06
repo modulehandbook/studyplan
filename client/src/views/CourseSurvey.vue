@@ -384,7 +384,6 @@ export default {
   margin: 40px auto;
   display: flex;
   flex-direction: column;
-  height: 200px;
   background: #ffffff;
   border: 5px solid #7eb726;
   box-sizing: border-box;
@@ -393,7 +392,7 @@ export default {
 }
 
 .touch {
-  padding: 1rem;
+  margin: 1rem;
 
   .survey-wrapper {
     flex-direction: column;
