@@ -376,7 +376,7 @@ export default {
 }
 
 .no-course-wrapper {
-  width: 700px;
+  max-width: 90vw;
   border-radius: 20px;
   color: black;
   text-align: center;
