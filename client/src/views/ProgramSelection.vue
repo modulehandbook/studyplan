@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="root">
     <h1>Bitte mache zuerst ein paar Angaben zu deinem Studium</h1>
     <h3 id="warnigDescription">
       Hierbei handelt es sich um einen Testlauf. Dennoch bitten wir um wahrheitsgemäße Angaben und realistische Entscheidungen.
@@ -113,9 +113,9 @@
         </div>
       </div>
       <div class="line"></div>
-      <div id="accept">
+      <div id="acceptWrapper">
         <input
-          id="acceptCheck"
+          id="accept"
           v-model="accept"
           type="checkbox"
           name="accept"
@@ -125,7 +125,7 @@
         />
         <div id="acceptLabel">
           <label for="accept"
-            >Ich habe verstanden, dass ich die Angaben nach dem bestätigen nicht nochmal Bearbeiten kann.</label
+            >Ich habe verstanden, dass ich die Angaben nach dem Bestätigen nicht nochmal bearbeiten kann.</label
           >
         </div>
       </div>
@@ -245,6 +245,11 @@ export default {
 $htwGruen: #76b900;
 $errorRed: #f8153d;
 
+#root {
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
 .line {
   border-top: 3px solid;
   margin: 0 auto;
@@ -256,14 +261,14 @@ $errorRed: #f8153d;
   margin-top: 40px;
 }
 
-#accept {
+#acceptWrapper {
   display: flex;
   margin-left: auto;
   justify-content: center;
   align-items: center;
 }
 
-#acceptCheck {
+#accept {
   transform: scale(1.5);
   margin-right: 20px;
 }
@@ -350,7 +355,7 @@ input[type="submit"] {
   .select {
     margin: 20px;
     width: 500px;
-    max-width: 80%;
+    max-width: 80vw;
     height: 50px;
     font-size: 17px;
     border: 3px solid $htwGruen;
@@ -367,6 +372,24 @@ input[type="submit"] {
 
   option {
     margin: 10px;
+  }
+}
+
+select:empty {
+  border-width: 1px !important;
+  pointer-events: none;
+  background: 
+    linear-gradient(0.25turn, transparent, #eee, transparent),
+    linear-gradient(#ddd, #ddd);
+  background-repeat: no-repeat;
+  background-size: 100% 100%, 100% 100%; 
+  background-position: -80vw 0, 0 0; 
+  animation: loading 1s infinite;
+
+  @keyframes loading {  
+    to {
+      background-position: 80vw 0, 0 0;
+    }
   }
 }
 
