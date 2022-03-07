@@ -125,7 +125,7 @@
         />
         <div id="acceptLabel">
           <label for="accept"
-            >Ich habe verstanden, dass ich die Angaben nach dem bestätigen nicht nochmal Bearbeiten kann.</label
+            >Ich habe verstanden, dass ich die Angaben nach dem Bestätigen nicht nochmal bearbeiten kann.</label
           >
         </div>
       </div>
