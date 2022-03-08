@@ -109,7 +109,7 @@ export default {
       });
 
       this.$parent.tappedPrio = 0;
-      this.$parent.scrollTo(document.getElementById("prioritiesBox"));
+      setTimeout(() => this.$parent.scrollToBottomOf(document.getElementById("prioritiesBox")), 300);
     }
   },
 };

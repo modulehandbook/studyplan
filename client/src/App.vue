@@ -26,12 +26,14 @@ export default({
 </script>
 
 <style lang="scss">
+html {
+  overflow-x: hidden;
+}
 html,
 body {
   max-height: 100vh;
   max-width: 100vw;
   margin: -0px !important;
-  overflow-x: hidden;
 }
 #app {
   font-family: Roboto, Helvetica, Arial, sans-serif;
