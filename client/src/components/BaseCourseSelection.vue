@@ -223,6 +223,13 @@ export default {
         top: element.offsetTop
       });
     },
+    scrollToBottomOf(element) {
+      let bottom = element.getBoundingClientRect().bottom;
+      window.scrollBy({
+        behavior: "smooth",
+        top: element.getBoundingClientRect().bottom-document.body.clientHeight
+      });
+    },
     prioTapHandler(prio) {
       this.tappedPrio = prio;
       this.scrollTo(document.getElementById("allCourses"));

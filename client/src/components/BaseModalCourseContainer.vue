@@ -78,7 +78,7 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
     &--visible {
       display: none;
     }
