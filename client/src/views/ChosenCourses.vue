@@ -52,7 +52,7 @@
                 <br />
               </div>
             </div>
-            
+
             <!--vorläufig deaktiviert-->
             <div v-if="this.user && false" class="courses-block courses-block--approved">
               <h2>Zugelassene Kurse:</h2>
@@ -246,6 +246,7 @@ export default {
     margin: auto;
     display: flex;
     flex-flow: wrap;
+    justify-content: center;
 
     @media (max-width: 768px) {
       flex-flow: column;
