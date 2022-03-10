@@ -128,7 +128,7 @@ const modalCourseData = [
     availablePlaces: 44,
   },
   {
-    name: "Visual Computing: Mashine Learning",
+    name: "Visual Computing: Machine Learning",
     code: "VCAT1",
     info: {
       CTS: 5,
