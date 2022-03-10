@@ -53,7 +53,8 @@
               </div>
             </div>
 
-            <div v-if="this.user" class="courses-block courses-block--approved">
+            <!--vorläufig deaktiviert-->
+            <div v-if="this.user && false" class="courses-block courses-block--approved">
               <h2>Zugelassene Kurse:</h2>
               <div
                 v-for="(course, index) in this.assignedCourses(
@@ -245,6 +246,7 @@ export default {
     margin: auto;
     display: flex;
     flex-flow: wrap;
+    justify-content: center;
 
     @media (max-width: 768px) {
       flex-flow: column;
