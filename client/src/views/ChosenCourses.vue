@@ -52,8 +52,9 @@
                 <br />
               </div>
             </div>
-
-            <div v-if="this.user" class="courses-block courses-block--approved">
+            
+            <!--vorläufig deaktiviert-->
+            <div v-if="this.user && false" class="courses-block courses-block--approved">
               <h2>Zugelassene Kurse:</h2>
               <div
                 v-for="(course, index) in this.assignedCourses(
