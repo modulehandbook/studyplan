@@ -1,9 +1,9 @@
 <template>
   <div id="root">
     <h1>Bitte mache zuerst ein paar Angaben zu deinem Studium</h1>
-    <h3 id="warnigDescription">
+    <!-- <h3 id="warnigDescription">
       Hierbei handelt es sich um einen Testlauf. Dennoch bitten wir um wahrheitsgemäße Angaben und realistische Entscheidungen.
-    </h3>
+    </h3> -->
     <h3 id="warning">Achtung: Nach dem Speichern können die Login-Daten nicht mehr bearbeitet werden. <br>Bei Veränderungen wende dich bitte an den Kontakt unter Hilfe.</h3>
     <div class="line"></div>
     <form name="form" @submit.prevent="saveProgramAndStartOfStudy">
