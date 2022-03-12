@@ -28,12 +28,12 @@ async function seedStage() {
 
   let result = await Stage.create({
     //Date and time in UTC means berlin-time -1h
-    currentStage: "COURSE-SELECTION", //"IDLE", "COURSE-SELECTION", "EVALUATION", "COURSE-RESULT"
+    currentStage: "IDLE", //"IDLE", "COURSE-SELECTION", "EVALUATION", "COURSE-RESULT"
     nextDates: {
-      idle: [{ date: "2023-01-15" }],
-      courseSelection: [{ date: "2023-01-16" }],
-      evaluation: [{ date: "2022-02-09T13:30:00Z" }],
-      courseResult: [{ date: "2023-02-09T13:50:00Z" }],
+      idle: [{ date: "2022-01-01" }],
+      courseSelection: [{ date: "2022-03-14" }],
+      evaluation: [{ date: "2022-04-15" }],
+      courseResult: [{ date: "2022-04-22T14:00:00Z" }],
     },
     currentSemester: sem._id,
   });
