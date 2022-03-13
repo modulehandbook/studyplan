@@ -1,7 +1,7 @@
 <template>
 <div :class="{ touch: isTouchDevice }">
   <button class="infoButton" @click="showInfo = true">
-      Anleitung und Informationen
+      Anleitung und wichtige Hinweise
   </button>
   <div>
     <div class="courseSelection">
@@ -86,23 +86,32 @@
       </transition>
       <transition name="slide" appear>
         <div class="info" v-if="showInfo">
-          <h2>Funktion</h2>
-          <p>
-            Lege zuerst die Priorität der Kurse in deiner gewünschten Reihenfolge fest.
-            Gib dann an, wie viele der hinzugefügten Kurse du dir überhaupt für das Semester vorenehmen möchtest.
-            Es ist sinnvoll, mehr Kurse zu priorisieren als du am Ende haben möchtest, weil es vorkommen kann, dass beliebte Kurse ausgebucht werden.
-          </p>
+          <h2>Anleitung</h2>
+          <ol>
+            <li>Im LSF meldest du dich wie gewohnt für alle Wahlpflichtkurse an, die du dir vorstellen kannst im kommenden Semester zu belegen.</li>
+            <li>Hier im Formular legst du fest, welche dieser angemeldeten Kurse dir am wichtigsten sind und wie viele dieser Kurse du dir überhaupt für das Semester vorenehmen möchtest. <br>Deine Änderungen werden automatisch gespeichert.</li>
+          </ol>
+          Die Kursbelegung über den Studyplan gilt aktuell nur für Wahlpflichtkurse aus dem IMI-Bachelor-Studiengang.
           <br />
-          <h2>Wiederholer</h2>
+          <h2>Hilfestellung zum Formular</h2>
           <p>
-            Man gilt als Wiederholer, wenn der ausgewählte Kurs mindestens einmal
-            belegt wurde. Weitere Informationen findest du auf der Hilfe Seite.
+            Es ist sinnvoll, mehr Prioritäten festzulegen als die Anzahl gewünschter Kurse, weil es vorkommen kann, dass beliebte Kurse ausgebucht werden.
           </p>
-          <br />
+          <h4>&quot;Wiederholer&quot;</h4>
           <p>
-            Wir bitten darum alle Angaben wahrheitsgemäß anzugeben, damit die Daten ein realistisches Bild abgeben.
-            <br>
-            Zudem enthalten die angegebenen Bachelor Wahlpflicht-Kurse die aktuellen Daten für das SoSe22.
+            Man gilt als Wiederholer, wenn der ausgewählte Kurs zuvor mindestens einmal
+            belegt wurde. Weitere Informationen findest du auf der Hilfe-Seite.
+          </p>
+          <h4>&quot;Anzahl der gewünschten Kurse&quot;</h4>
+          <p>
+            Du hast sicherheitshalber viele Kurse angemeldet und priorisierst, und damit deine Präferenzen bekundet. Aber das heißt nicht unbedingt, dass du gleich alle belegen willst. Mit dieser Zahl legst du die Obergrenze an priorisierten Kursen fest.
+          </p>
+          <br>
+          <p>
+            <small>
+              Wir bitten darum, alle Angaben wahrheitsgemäß zu machen, damit die Daten ein realistisches Bild abgeben.
+              Zudem enthalten die angegebenen Bachelor Wahlpflicht-Kurse die aktuellen Daten für das SoSe22.
+            </small>
           </p>
           <button class="infoButton" @click="showInfo = false">Schließen</button>
         </div>
@@ -113,8 +122,10 @@
 
 <script>
 import { mapGetters } from "vuex";
+import Login from '../views/Login.vue';
 
 export default {
+  components: { Login },
   data() {
     return {
       isTouchDevice: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia("(max-width: 700px)").matches,
@@ -143,7 +154,7 @@ export default {
     },
     maxCourses: {
       type: Number,
-      default: 1,
+      default: 0,
     },
   },
   async mounted() {
@@ -196,10 +207,10 @@ export default {
         setTimeout(() => plusTooltipClassList.remove("active"), 2500);
       }
       let updateAmount = amount;
-      if (amount < 1) updateAmount = 1;
+      if (amount < 0) updateAmount = 0;
       if (
         amount > this.bookedCourses.length - 1 &&
-        this.bookedCourses.length > 1
+        this.bookedCourses.length > 0
       ) {
         updateAmount = this.bookedCourses.length - 1;
         showTooltip();
@@ -250,7 +261,7 @@ export default {
     resetCourseSelection() {
       this.$store.dispatch("courseselection/resetCoursePriority2");
       this.$store.dispatch("courseselection/updateMaxCourses", {
-        maxCourses: 1,
+        maxCourses: 0,
       });
     },
     resetTappedPrio() {
@@ -262,6 +273,15 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
+h4 {
+  margin-bottom: 0;
+}
+h4+p, h2+p {
+  margin-top: 0.5em;
+}
+li {
+  text-align: left;
+}
 .maxCourse {
   padding: 0.85rem 0.75rem 0.75rem;
   display: grid;
@@ -293,6 +313,7 @@ $htwGruen: #76b900;
   grid-row: 2;
   padding-left: 0;
   padding-right: 0;
+  font-weight: bold;
 }
 button {
   cursor: pointer;
@@ -320,10 +341,11 @@ button {
   transform: translate(-50%, -50%);
   z-index: 99;
   width: 100%;
-  max-width: 30rem;
+  max-width: 60rem;
+  max-height: 80vh;
   transition: max-height 0.3s ease-in-out;
   border: 1px solid #c1c1c1;
-  overflow: hidden;
+  overflow-y: scroll;
   border-width: 0.25rem;
   border-color: #76b900;
   background-color: #fff;
@@ -553,8 +575,6 @@ button {
 
   .info {
     max-width: 80vw;
-    max-height: 90vh;
-    overflow: scroll;
   }
 
   #prioritiesBox {
