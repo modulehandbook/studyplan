@@ -28,7 +28,7 @@ async function seedStage() {
 
   let result = await Stage.create({
     //Date and time in UTC means berlin-time -1h
-    currentStage: "IDLE", //"IDLE", "COURSE-SELECTION", "EVALUATION", "COURSE-RESULT"
+    currentStage: "COURSE-SELECTION", //"IDLE", "COURSE-SELECTION", "EVALUATION", "COURSE-RESULT"
     nextDates: {
       idle: [{ date: "2022-01-01" }],
       courseSelection: [{ date: "2022-03-13T23:00:00Z" }],
