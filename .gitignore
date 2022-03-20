@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 dist
+f4dump
 
 #tmp deployment files
 log.txt
