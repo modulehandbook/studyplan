@@ -5,7 +5,7 @@
         <div v-if="currentUser">
           <div v-if="currentUser.startOfStudy" class="navigation-left">
             <router-link class="link" to="/my-studyplan"
-              >Mein Studienplan</router-link
+              >Mein Studienplan<sup><small>BETA</small></sup></router-link
             >
 
             <router-link class="link" to="/example-studyplan"
@@ -78,7 +78,7 @@
             class="link"
             to="/my-studyplan"
             @click="toggleMobileNavMenu"
-            >Mein Studienplan</router-link
+            >Mein Studienplan <sup><small>BETA</small></sup></router-link
           >
 
           <router-link
@@ -187,6 +187,10 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
+
+sup {
+  font-weight: 100;
+}
 
 .navigation {
   &-container {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BaseHeading><h1>Mein Studienplan</h1></BaseHeading>
+    <BaseHeading><h1>Mein Studienplan <sup><small>BETA</small></sup></h1></BaseHeading>
     <pulse-loader :loading="pending" :color="color"></pulse-loader>
 
     <BaseStudyPlan
@@ -189,6 +189,13 @@ export default {
 
 <style lang="scss" scoped>
 $htwGruen: #76b900;
+
+sup {
+  font-weight: 100;
+}
+small {
+  font-size: 0.7em;
+}
 
 p {
   font-weight: 700;
