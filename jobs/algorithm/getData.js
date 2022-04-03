@@ -59,8 +59,8 @@ module.exports.getData = async () => {
 
   data.users = [];
   users
-    .filter((user) => user.courseSelection !== undefined)
-    .filter((user) => user.courseSelection.semesterPlans !== undefined)
+    .filter((user) => user.courseSelection !== undefined && user.courseSelection !== null)
+    .filter((user) => user.courseSelection.semesterPlans !== undefined && user.courseSelection.semesterPlans !== null)
     .filter((user) => user.courseSelection.semesterPlans.length !== 0)
     .forEach((user) => {
       const newUser = {};
