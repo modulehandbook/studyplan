@@ -28,7 +28,7 @@
           <p><b>Hinweis:</b> Die Kursbelegungs-Phase ist beendet.</p>
           <p>
             Aktuell werden die Kurse verteilt.<br />
-            In Kürze kannst du hier sehen, für welche Kurse du zugelassen
+            In Kürze kannst du im <a href="https://lsf.htw-berlin.de/">LSF</a> sehen, für welche Kurse du zugelassen
             wurdest.
           </p>
         </div>
